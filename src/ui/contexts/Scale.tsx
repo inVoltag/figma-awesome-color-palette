@@ -785,7 +785,7 @@ export default class Scale extends React.Component<ScaleProps, ScaleStates> {
                           {
                             pluginMessage: {
                               type: 'OPEN_IN_BROWSER',
-                              url: 'https://uicp.link/v',
+                              url: 'https://uicp.link/how-to-adjust',
                             },
                           },
                           '*'

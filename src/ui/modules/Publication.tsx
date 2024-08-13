@@ -267,7 +267,7 @@ export default class Publication extends React.Component<
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
                   {
-                    feature: 'UNPUBLISH_PALETTE',
+                    feature: 'PUBLISH_PALETTE',
                   }
                 )
               })

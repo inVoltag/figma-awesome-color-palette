@@ -31,8 +31,9 @@ export const signIn = async () => {
               type: 'OPEN_IN_BROWSER',
               url: `${authUrl}/?passkey=${result.passkey}`,
             },
+            pluginId: '1063959496693642315',
           },
-          '*'
+          'https://www.figma.com'
         )
         const poll = setInterval(async () => {
           fetch(workerUrl, {
@@ -66,8 +67,9 @@ export const signIn = async () => {
                         },
                       ],
                     },
+                    pluginId: '1063959496693642315',
                   },
-                  '*'
+                  'https://www.figma.com'
                 )
                 checkConnectionStatus(result.access_token, result.refresh_token)
                   .then(() => {

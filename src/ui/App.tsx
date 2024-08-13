@@ -240,8 +240,9 @@ class App extends React.Component<Record<string, never>, AppStates> {
                   },
                 ],
               },
+              pluginId: '1063959496693642315',
             },
-            '*'
+            'https://www.figma.com'
           )
         },
       }
@@ -794,8 +795,9 @@ class App extends React.Component<Record<string, never>, AppStates> {
             },
           ],
         },
+        pluginId: '1063959496693642315',
       },
-      '*'
+      'https://www.figma.com'
     )
     parent.postMessage(
       {

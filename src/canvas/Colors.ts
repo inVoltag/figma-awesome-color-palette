@@ -179,6 +179,9 @@ export default class Colors {
       newLabB *= -1
     }
 
+    if (Number.isNaN(newLabA)) newLabA = 0
+    if (Number.isNaN(newLabB)) newLabB = 0
+
     const newColor = chroma
       .oklab(
         lightness / 100,

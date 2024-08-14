@@ -288,6 +288,7 @@ export default class ColorItem extends React.Component<ColorItemProps, States> {
                       locals[this.props.lang].global.description.placeholder
                     }
                     feature="UPDATE_DESCRIPTION"
+                    isGrowing={true}
                     onFocus={this.props.onCancellationSelection}
                     onBlur={this.props.onChangeColors}
                     onConfirm={this.props.onChangeColors}

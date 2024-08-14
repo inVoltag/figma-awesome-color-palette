@@ -53,7 +53,7 @@ export default class Knob extends React.Component<KnobProps, States> {
           })
       },
       Escape: () => {
-        ;(e.target as HTMLElement).blur()
+        (e.target as HTMLElement).blur()
         this.setState({ isStopInputOpen: false })
       },
       Backspace: () => {
@@ -110,6 +110,7 @@ export default class Knob extends React.Component<KnobProps, States> {
               step="0.1"
               feature="TYPE_STOP_VALUE"
               isAutoFocus={true}
+              isFlex={true}
               onFocus={() =>
                 this.setState({
                   stopInputValue: this.props.value,

@@ -226,6 +226,7 @@ export default class ThemeItem extends React.Component<
                       locals[this.props.lang].global.description.placeholder
                     }
                     feature="UPDATE_DESCRIPTION"
+                    isGrowing={true}
                     onFocus={this.props.onCancellationSelection}
                     onBlur={this.props.onChangeThemes}
                     onConfirm={this.props.onChangeThemes}

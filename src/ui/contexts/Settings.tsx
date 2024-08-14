@@ -442,6 +442,7 @@ export default class Settings extends React.Component<SettingsProps> {
                 this.props.planStatus
               )}
               feature="UPDATE_DESCRIPTION"
+              isGrowing={true}
               onFocus={
                 isBlocked('SETTINGS_PALETTE_DESCRIPTION', this.props.planStatus)
                   ? () => null

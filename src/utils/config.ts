@@ -372,6 +372,15 @@ export const features: Array<Feature> = [
     service: ['EDIT'],
   },
   {
+    name: 'COLORS_CHROMA_SHIFTING',
+    description: 'Source color chroma shifting number',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    service: ['EDIT'],
+  },
+  {
     name: 'COLORS_DESCRIPTION',
     description: 'Source color description of the purpose',
     isActive: true,

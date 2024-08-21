@@ -68,6 +68,7 @@ export default class Colors {
     sourceColor: [number, number, number],
     lightness: number,
     hueShifting: number,
+    chromaShifting: number,
     algorithmVersion: string
   ) => {
     const lch = chroma(sourceColor).lch(),
@@ -75,8 +76,10 @@ export default class Colors {
         .lch(
           lightness,
           algorithmVersion === 'v2'
-            ? Math.sin((lightness / 100) * Math.PI) * lch[1]
-            : lch[1],
+            ? Math.sin((lightness / 100) * Math.PI) *
+                lch[1] *
+                (chromaShifting / 100)
+            : lch[1] * (chromaShifting / 100),
           lch[2] + hueShifting < 0
             ? 0
             : lch[2] + hueShifting > 360
@@ -92,6 +95,7 @@ export default class Colors {
     sourceColor: [number, number, number],
     lightness: number,
     hueShifting: number,
+    chromaShifting: number,
     algorithmVersion: string
   ) => {
     const oklch = chroma(sourceColor).oklch(),
@@ -99,8 +103,10 @@ export default class Colors {
         .oklch(
           lightness / 100,
           algorithmVersion === 'v2'
-            ? Math.sin((lightness / 100) * Math.PI) * oklch[1]
-            : oklch[1],
+            ? Math.sin((lightness / 100) * Math.PI) *
+                oklch[1] *
+                (chromaShifting / 100)
+            : oklch[1] * (chromaShifting / 100),
           oklch[2] + hueShifting < 0
             ? 0
             : oklch[2] + hueShifting > 360
@@ -116,11 +122,12 @@ export default class Colors {
     sourceColor: [number, number, number],
     lightness: number,
     hueShifting: number,
+    chromaShifting: number,
     algorithmVersion: string
   ) => {
     const labA = chroma(sourceColor).get('lab.a'),
       labB = chroma(sourceColor).get('lab.b'),
-      chr = Math.sqrt(labA ** 2 + labB ** 2)
+      chr = Math.sqrt(labA ** 2 + labB ** 2) * (chromaShifting / 100)
     let h = Math.atan(labB / labA) + hueShifting * (Math.PI / 180)
 
     if (h > Math.PI) h = Math.PI
@@ -157,11 +164,12 @@ export default class Colors {
     sourceColor: [number, number, number],
     lightness: number,
     hueShifting: number,
+    chromaShifting: number,
     algorithmVersion: string
   ) => {
     const labA = chroma(sourceColor).get('oklab.a'),
       labB = chroma(sourceColor).get('oklab.b'),
-      chr = Math.sqrt(labA ** 2 + labB ** 2)
+      chr = Math.sqrt(labA ** 2 + labB ** 2) * (chromaShifting / 100)
     let h = Math.atan(labB / labA) + hueShifting * (Math.PI / 180)
 
     if (h > Math.PI) h = Math.PI
@@ -201,6 +209,7 @@ export default class Colors {
     sourceColor: [number, number, number],
     lightness: number,
     hueShifting: number,
+    chromaShifting: number,
     algorithmVersion: string
   ) => {
     const hsl = chroma(sourceColor).hsl(),
@@ -212,8 +221,10 @@ export default class Colors {
               ? 360
               : hsl[0] + hueShifting,
           algorithmVersion === 'v2'
-            ? Math.sin((lightness / 100) * Math.PI) * hsl[1]
-            : hsl[1],
+            ? Math.sin((lightness / 100) * Math.PI) *
+                hsl[1] *
+                (chromaShifting / 100)
+            : hsl[1] * (chromaShifting / 100),
           lightness / 100
         )
         .rgb()
@@ -225,6 +236,7 @@ export default class Colors {
     sourceColor: [number, number, number],
     lightness: number,
     hueShifting: number,
+    chromaShifting: number,
     algorithmVersion: string
   ) => {
     const hsluv = new Hsluv()
@@ -238,8 +250,10 @@ export default class Colors {
     hsluv.hsluv_l = lightness
     hsluv.hsluv_s =
       algorithmVersion === 'v2'
-        ? Math.sin((lightness / 100) * Math.PI) * hsluv.hsluv_s
-        : hsluv.hsluv_s
+        ? Math.sin((lightness / 100) * Math.PI) *
+          hsluv.hsluv_s *
+          (chromaShifting / 100)
+        : hsluv.hsluv_s * (chromaShifting / 100)
     hsluv.hsluv_h =
       hsluv.hsluv_h + hueShifting < 0
         ? 0
@@ -451,6 +465,7 @@ export default class Colors {
                 sourceColor,
                 lightness,
                 color.hueShifting,
+                color.chromaShifting,
                 this.parent.algorithmVersion
               )
             else if (this.parent.colorSpace === 'OKLCH')
@@ -458,6 +473,7 @@ export default class Colors {
                 sourceColor,
                 lightness,
                 color.hueShifting,
+                color.chromaShifting,
                 this.parent.algorithmVersion
               )
             else if (this.parent.colorSpace === 'LAB')
@@ -465,6 +481,7 @@ export default class Colors {
                 sourceColor,
                 lightness,
                 color.hueShifting,
+                color.chromaShifting,
                 this.parent.algorithmVersion
               )
             else if (this.parent.colorSpace === 'OKLAB')
@@ -472,6 +489,7 @@ export default class Colors {
                 sourceColor,
                 lightness,
                 color.hueShifting,
+                color.chromaShifting,
                 this.parent.algorithmVersion
               )
             else if (this.parent.colorSpace === 'HSL')
@@ -479,6 +497,7 @@ export default class Colors {
                 sourceColor,
                 lightness,
                 color.hueShifting,
+                color.chromaShifting,
                 this.parent.algorithmVersion
               )
             else if (this.parent.colorSpace === 'HSLUV')
@@ -486,6 +505,7 @@ export default class Colors {
                 sourceColor,
                 lightness,
                 color.hueShifting,
+                color.chromaShifting,
                 this.parent.algorithmVersion
               )
 
@@ -645,6 +665,7 @@ export default class Colors {
               sourceColor,
               lightness,
               color.hueShifting,
+              color.chromaShifting,
               this.parent.algorithmVersion
             )
           else if (this.parent.colorSpace === 'OKLCH')
@@ -652,6 +673,7 @@ export default class Colors {
               sourceColor,
               lightness,
               color.hueShifting,
+              color.chromaShifting,
               this.parent.algorithmVersion
             )
           else if (this.parent.colorSpace === 'LAB')
@@ -659,6 +681,7 @@ export default class Colors {
               sourceColor,
               lightness,
               color.hueShifting,
+              color.chromaShifting,
               this.parent.algorithmVersion
             )
           else if (this.parent.colorSpace === 'OKLAB')
@@ -666,6 +689,7 @@ export default class Colors {
               sourceColor,
               lightness,
               color.hueShifting,
+              color.chromaShifting,
               this.parent.algorithmVersion
             )
           else if (this.parent.colorSpace === 'HSL')
@@ -673,6 +697,7 @@ export default class Colors {
               sourceColor,
               lightness,
               color.hueShifting,
+              color.chromaShifting,
               this.parent.algorithmVersion
             )
           else if (this.parent.colorSpace === 'HSLUV')
@@ -680,6 +705,7 @@ export default class Colors {
               sourceColor,
               lightness,
               color.hueShifting,
+              color.chromaShifting,
               this.parent.algorithmVersion
             )
 

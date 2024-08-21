@@ -125,6 +125,7 @@ export default class Colors extends React.Component<ColorsProps, ColorsStates> {
         id: uid(),
         oklch: false,
         hueShifting: 0,
+        chromaShifting: 100,
       })
 
       this.props.onChangeColors({
@@ -332,6 +333,28 @@ export default class Colors extends React.Component<ColorsProps, ColorsStates> {
       )
     }
 
+    const setChromaShifting = () => {
+      this.colorsMessage.data = this.props.colors.map((item) => {
+        if (item.id === id) item.chromaShifting = parseFloat(currentElement.value)
+        return item
+      })
+
+      this.props.onChangeColors({
+        colors: this.colorsMessage.data,
+        onGoingStep: 'colors changed',
+      })
+
+      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+      trackSourceColorsManagementEvent(
+        this.props.figmaUserId,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'SHIFT_CHROMA',
+        }
+      )
+    }
+
     const updateColorDescription = () => {
       this.colorsMessage.data = this.props.colors.map((item) => {
         if (item.id === id) item.description = currentElement.value
@@ -385,6 +408,7 @@ export default class Colors extends React.Component<ColorsProps, ColorsStates> {
       UPDATE_CHROMA: () => updateChromaProp(),
       UPDATE_HUE: () => updateHueProp(),
       SHIFT_HUE: () => setHueShifting(),
+      SHIFT_CHROMA: () => setChromaShifting(),
       UPDATE_DESCRIPTION: () => updateColorDescription(),
       REMOVE_COLOR: () => removeColor(),
       NULL: () => null,
@@ -526,7 +550,8 @@ export default class Colors extends React.Component<ColorsProps, ColorsStates> {
                     ).hex() as HexModel
                   }
                   oklch={color.oklch}
-                  shift={color.hueShifting}
+                  hueShifting={color.hueShifting}
+                  chromaShifting={color.chromaShifting}
                   description={color.description}
                   uuid={color.id}
                   selected={

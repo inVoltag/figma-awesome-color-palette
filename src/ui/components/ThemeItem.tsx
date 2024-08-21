@@ -169,6 +169,7 @@ export default class ThemeItem extends React.Component<
                   shouldFill={false}
                 >
                   <Input
+                    id="palette-background-color"
                     type="COLOR"
                     value={this.props.paletteBackground}
                     feature="UPDATE_PALETTE_BACKGROUND"

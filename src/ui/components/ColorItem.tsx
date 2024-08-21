@@ -12,7 +12,8 @@ interface ColorItemProps {
   name: string
   hex: HexModel
   oklch: boolean
-  shift: number
+  hueShifting: number
+  chromaShifting: number
   description: string
   uuid: string
   index: number
@@ -251,16 +252,44 @@ export default class ColorItem extends React.Component<ColorItemProps, States> {
             >
               <div className="list__item__param">
                 <FormItem
-                  id="color-description"
+                  id="hue-shifting"
                   label={locals[this.props.lang].colors.hueShifting.label}
                 >
                   <Input
+                    id="hue-shifting"
                     type="NUMBER"
-                    icon={{ type: 'PICTO', value: 'arrow-left-right' }}
-                    value={this.props.shift.toString()}
+                    icon={{ type: 'LETTER', value: 'H' }}
+                    value={this.props.hueShifting.toString()}
                     min="-360"
                     max="360"
                     feature="SHIFT_HUE"
+                    onFocus={this.props.onCancellationSelection}
+                    onBlur={this.props.onChangeColors}
+                    onConfirm={this.props.onChangeColors}
+                  />
+                </FormItem>
+              </div>
+            </Feature>
+            <Feature
+              isActive={
+                features.find(
+                  (feature) => feature.name === 'COLORS_CHROMA_SHIFTING'
+                )?.isActive
+              }
+            >
+              <div className="list__item__param">
+                <FormItem
+                  id="chroma-shifting"
+                  label={locals[this.props.lang].colors.chromaShifting.label}
+                >
+                  <Input
+                    id="chroma-shifting"
+                    type="NUMBER"
+                    icon={{ type: 'LETTER', value: 'C' }}
+                    value={this.props.chromaShifting.toString()}
+                    min="0"
+                    max="200"
+                    feature="SHIFT_CHROMA"
                     onFocus={this.props.onCancellationSelection}
                     onBlur={this.props.onChangeColors}
                     onConfirm={this.props.onChangeColors}

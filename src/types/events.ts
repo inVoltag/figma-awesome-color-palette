@@ -55,6 +55,7 @@ export interface SourceColorEvent {
     | 'UPDATE_HEX'
     | 'UPDATE_LCH'
     | 'SHIFT_HUE'
+    | 'SHIFT_CHROMA'
     | 'DESCRIBE_COLOR'
 }
 

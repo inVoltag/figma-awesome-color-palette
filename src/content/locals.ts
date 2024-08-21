@@ -198,6 +198,9 @@ export const locals: { [key: string]: any } = {
       hueShifting: {
         label: 'Shift hue',
       },
+      chromaShifting: {
+        label: 'Shift chroma',
+      },
     },
     themes: {
       title: 'Color themes',

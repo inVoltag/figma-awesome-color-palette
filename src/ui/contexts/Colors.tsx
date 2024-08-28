@@ -335,7 +335,8 @@ export default class Colors extends React.Component<ColorsProps, ColorsStates> {
 
     const setChromaShifting = () => {
       this.colorsMessage.data = this.props.colors.map((item) => {
-        if (item.id === id) item.chromaShifting = parseFloat(currentElement.value)
+        if (item.id === id)
+          item.chromaShifting = parseFloat(currentElement.value)
         return item
       })
 

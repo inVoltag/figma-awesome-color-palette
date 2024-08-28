@@ -1,9 +1,15 @@
-import { Bar, Button, ConsentConfiguration, Icon, Input, Menu, Message } from '@a_ng_d/figmug-ui';
-import React from 'react';
+import {
+  Bar,
+  Button,
+  ConsentConfiguration,
+  Icon,
+  Input,
+  Menu,
+  Message,
+} from '@a_ng_d/figmug-ui'
+import React from 'react'
 
-
-
-import { signIn, supabase } from '../../bridges/publication/authentication';
+import { signIn, supabase } from '../../bridges/publication/authentication'
 import sharePalette from '../../bridges/publication/sharePalette'
 import unpublishPalette from '../../bridges/publication/unpublishPalette'
 import { locals } from '../../content/locals'

@@ -75,4 +75,6 @@ export interface ExternalPalettes {
   themes: Array<ThemeConfiguration>
   creator_avatar: string
   creator_full_name: string
+  creator_id: string
+  is_shared: boolean
 }

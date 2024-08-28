@@ -45,7 +45,9 @@ export const locals: { [key: string]: any } = {
       titleSignIn: 'Publish or Synchronize palette',
       message:
         'Publish your palette as a single source of truth and reuse it in other Figma documents (like a component instance). You can also distribute your palettes by sharing them with the community.',
-      selectToShare: 'Share with the community',
+      share: 'Share with the community',
+      unshare: 'Remove from the community',
+      statusShared: 'Shared',
       statusLocalChanges: 'Local changes',
       statusUptoDate: 'No change',
       statusUnpublished: 'Unpublished',
@@ -460,6 +462,8 @@ export const locals: { [key: string]: any } = {
       synchronization: '✓ The palette has been synchronized',
       detachment: '✓ The palette has been detached',
       report: '✓ Thanks for your report',
+      share: '✓ The palette has been shared with the community',
+      unshare: '✓ The palette is no longer shared with community',
     },
     info: {
       createdLocalStyle: 'local color style created',
@@ -471,7 +475,7 @@ export const locals: { [key: string]: any } = {
       variableMode: 'variable mode',
       variableModes: 'variable modes',
       signOut: '☻ See you later',
-      noResult: 'No palette match your search',
+      noResult: 'No palette matches your search',
     },
     warning: {
       tooManyThemesToCreateModes:
@@ -501,6 +505,8 @@ export const locals: { [key: string]: any } = {
       publication: '✕ The palette cannot be published',
       nonPublication: '✕ The palette cannot be unpublished',
       synchronization: '✕ The palette has not been synchronized',
+      share: '✕ The palette has not been shared with the community',
+      unshare: '✕ The palette has not been removed from the community',
       fetchPalette: 'The palettes cannot be loaded',
       addToFile: '✕ The palette cannot be added',
       noInternetConnection:

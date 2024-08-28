@@ -1,11 +1,19 @@
-import { ConsentConfiguration } from '@a_ng_d/figmug-ui';
-import mixpanel from 'mixpanel-figma';
+import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
+import mixpanel from 'mixpanel-figma'
 
-
-
-import { ColorThemeEvent, EditorEvent, ExportEvent, ImportEvent, PublicationEvent, ScaleEvent, SettingEvent, SourceColorEvent, TrialEvent } from '../types/events';
-import { userConsentVersion } from './config';
-
+import {
+  ActionEvent,
+  ColorThemeEvent,
+  EditorEvent,
+  ExportEvent,
+  ImportEvent,
+  PublicationEvent,
+  ScaleEvent,
+  SettingEvent,
+  SourceColorEvent,
+  TrialEvent,
+} from '../types/events'
+import { userConsentVersion } from './config'
 
 const eventsRecurringProperties = {
   Env: process.env.NODE_ENV === 'development' ? 'Dev' : 'Prod',
@@ -171,7 +179,7 @@ export const trackExportEvent = (
 export const trackActionEvent = (
   id: string,
   consent: boolean,
-  options: ExportEvent
+  options: ActionEvent
 ) => {
   if (!consent) return
   mixpanel.identify(id)

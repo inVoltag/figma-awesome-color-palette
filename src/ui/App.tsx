@@ -40,7 +40,6 @@ import {
   trackEditorEvent,
   trackExportEvent,
   trackPurchaseEvent,
-  trackRunningEvent,
   trackTrialEnablementEvent,
   trackUserConsentEvent,
 } from '../utils/eventsTracker'
@@ -259,11 +258,6 @@ class App extends React.Component<Record<string, never>, AppStates> {
           this.setState({
             figmaUserId: e.data.pluginMessage.id,
           })
-          trackRunningEvent(
-            e.data.pluginMessage.id,
-            this.state.userConsent.find((consent) => consent.id === 'mixpanel')
-              ?.isConsented ?? false
-          )
         }
 
         const checkUserConsent = () =>

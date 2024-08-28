@@ -1,32 +1,21 @@
-import {
-  Bar,
-  Button,
-  ConsentConfiguration,
-  Icon,
-  Input,
-  Menu,
-  Message,
-} from '@a_ng_d/figmug-ui'
-import React from 'react'
+import { Bar, Button, ConsentConfiguration, Icon, Input, Menu, Message } from '@a_ng_d/figmug-ui';
+import React from 'react';
 
-import { signIn, supabase } from '../../bridges/publication/authentication'
-import unpublishPalette from '../../bridges/publication/unpublishPalette'
-import { locals } from '../../content/locals'
-import { Context, Language, PlanStatus } from '../../types/app'
-import {
-  ColorConfiguration,
-  MetaConfiguration,
-  PaletteConfiguration,
-  SourceColorConfiguration,
-  ThemeConfiguration,
-} from '../../types/configurations'
-import { ExternalPalettes } from '../../types/data'
-import { FetchStatus } from '../../types/management'
-import { ActionsList } from '../../types/models'
-import { UserSession } from '../../types/user'
-import { pageSize, palettesDbTableName } from '../../utils/config'
-import { trackPublicationEvent } from '../../utils/eventsTracker'
-import PaletteItem from '../components/PaletteItem'
+
+
+import { signIn, supabase } from '../../bridges/publication/authentication';
+import unpublishPalette from '../../bridges/publication/unpublishPalette';
+import { locals } from '../../content/locals';
+import { Context, Language, PlanStatus } from '../../types/app';
+import { ColorConfiguration, MetaConfiguration, PaletteConfiguration, SourceColorConfiguration, ThemeConfiguration } from '../../types/configurations';
+import { ExternalPalettes } from '../../types/data';
+import { FetchStatus } from '../../types/management';
+import { ActionsList } from '../../types/models';
+import { UserSession } from '../../types/user';
+import { pageSize, palettesDbTableName } from '../../utils/config';
+import { trackPublicationEvent } from '../../utils/eventsTracker';
+import PaletteItem from '../components/PaletteItem';
+
 
 interface MyPalettesProps {
   context: Context
@@ -497,7 +486,7 @@ export default class MyPalettes extends React.Component<
               isLoading={this.state.isSignInActionLoading}
               action={async () => {
                 this.setState({ isSignInActionLoading: true })
-                signIn()
+                signIn(this.props.figmaUserId)
                   .finally(() => {
                     this.setState({ isSignInActionLoading: false })
                   })

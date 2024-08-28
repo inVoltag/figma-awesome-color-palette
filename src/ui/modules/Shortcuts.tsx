@@ -239,7 +239,7 @@ export default class Shortcuts extends React.Component<
                           children: [],
                           action: async () => {
                             this.setState({ isUserMenuLoading: true })
-                            signIn()
+                            signIn(this.props.figmaUserId)
                               .then(() => {
                                 trackSignInEvent(
                                   this.props.figmaUserId,

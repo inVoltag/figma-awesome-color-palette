@@ -353,7 +353,7 @@ export default class PriorityContainer extends React.Component<
                   : 'DEFAULT',
                 action: async () => {
                   this.setState({ isPrimaryActionLoading: true })
-                  signIn()
+                  signIn(this.props.figmaUserId)
                     .then(() => {
                       trackSignInEvent(
                         this.props.figmaUserId,

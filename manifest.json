@@ -30,11 +30,15 @@
       "https://tally.so",
       "https://corsproxy.io",
       "https://zclweepgvqkrelyfwhma.supabase.co",
-      "https://hook.eu1.make.com",
+      "https://oauth.yelbolt.workers.dev",
       "https://www.colourlovers.com",
       "https://*.mixpanel.com",
       "https://asset.brandfetch.io",
       "https://*.sentry.io"
+    ],
+    "devAllowedDomains": [
+      "http://localhost:3000",
+      "http://localhost:8787"
     ]
   },
   "parameters": [

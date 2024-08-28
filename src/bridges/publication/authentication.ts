@@ -11,13 +11,15 @@ export const supabase = createClient(
   process.env.REACT_APP_SUPABASE_PUBLIC_ANON_KEY ?? ''
 )
 
-export const signIn = async () => {
+export const signIn = async (disinctId: string) => {
   return new Promise((resolve, reject) => {
     fetch(workerUrl, {
+      method: 'GET',
       cache: 'no-cache',
       credentials: 'omit',
       headers: {
         type: 'GET_PASSKEY',
+        'distinct-id': disinctId,
       },
     })
       .then((response) => {
@@ -37,10 +39,12 @@ export const signIn = async () => {
         )
         const poll = setInterval(async () => {
           fetch(workerUrl, {
+            method: 'GET',
             cache: 'no-cache',
             credentials: 'omit',
             headers: {
               type: 'GET_TOKENS',
+              'distinct-id': disinctId,
               passkey: result.passkey,
             },
           })
@@ -59,11 +63,11 @@ export const signIn = async () => {
                       items: [
                         {
                           key: 'supabase_access_token',
-                          value: result.access_token,
+                          value: result.tokens.access_token,
                         },
                         {
                           key: 'supabase_refresh_token',
-                          value: result.refresh_token,
+                          value: result.tokens.refresh_token,
                         },
                       ],
                     },

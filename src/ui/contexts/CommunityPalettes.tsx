@@ -397,6 +397,8 @@ export default class CommunityPalettes extends React.Component<
                       locals[this.props.lang].palettes.lazyLoad.search
                     }
                     value={this.props.searchQuery}
+                    isClearable
+                    isFramed={false}
                     onChange={(e) => {
                       this.props.onChangeSearchQuery(
                         (e.target as HTMLInputElement).value
@@ -407,6 +409,18 @@ export default class CommunityPalettes extends React.Component<
                       this.callUICPAgent(
                         1,
                         (e.target as HTMLInputElement).value
+                      )
+                    }}
+                    onCleared={(e) => {
+                      this.props.onChangeSearchQuery(
+                        e
+                      )
+                      this.props.onChangeStatus('LOADING')
+                      this.props.onChangeCurrentPage(1)
+                      this.props.onLoadPalettesList([])
+                      this.callUICPAgent(
+                        1,
+                        e
                       )
                     }}
                   />

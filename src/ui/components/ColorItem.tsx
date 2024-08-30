@@ -259,7 +259,8 @@ export default class ColorItem extends React.Component<ColorItemProps, States> {
                     id="hue-shifting"
                     type="NUMBER"
                     icon={{ type: 'LETTER', value: 'H' }}
-                    value={this.props.hueShifting.toString()}
+                    unit="°"
+                    value={this.props.hueShifting.toString() ?? '0'}
                     min="-360"
                     max="360"
                     feature="SHIFT_HUE"
@@ -286,7 +287,8 @@ export default class ColorItem extends React.Component<ColorItemProps, States> {
                     id="chroma-shifting"
                     type="NUMBER"
                     icon={{ type: 'LETTER', value: 'C' }}
-                    value={this.props.chromaShifting.toString()}
+                    unit="%"
+                    value={this.props.chromaShifting.toString() ?? '100'}
                     min="0"
                     max="200"
                     feature="SHIFT_CHROMA"

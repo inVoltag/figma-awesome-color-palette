@@ -335,7 +335,6 @@ export default class Overview extends React.Component<
             <FormItem
               id="coolors-palette-url"
               helper={this.state.coolorsUrl.helper}
-              shouldFill={false}
             >
               <Input
                 type="TEXT"
@@ -420,7 +419,6 @@ export default class Overview extends React.Component<
             <FormItem
               id="realtime-colors-url"
               helper={this.state.realtimeColorsUrl.helper}
-              shouldFill={false}
             >
               <Input
                 type="TEXT"

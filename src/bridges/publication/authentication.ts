@@ -75,7 +75,10 @@ export const signIn = async (disinctId: string) => {
                   },
                   'https://www.figma.com'
                 )
-                checkConnectionStatus(result.access_token, result.refresh_token)
+                checkConnectionStatus(
+                  result.tokens.access_token,
+                  result.tokens.refresh_token
+                )
                   .then(() => {
                     clearInterval(poll)
                     resolve(result)

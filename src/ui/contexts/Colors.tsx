@@ -312,8 +312,15 @@ export default class Colors extends React.Component<ColorsProps, ColorsStates> {
     }
 
     const setHueShifting = () => {
+      const max = parseFloat(currentElement.max),
+        min = parseFloat(currentElement.min)
+      let value = parseFloat(currentElement.value)
+
+      if (value >= max) value = max
+      if (value <= min) value = min
+
       this.colorsMessage.data = this.props.colors.map((item) => {
-        if (item.id === id) item.hueShifting = parseFloat(currentElement.value)
+        if (item.id === id) item.hueShifting = value
         return item
       })
 
@@ -334,9 +341,15 @@ export default class Colors extends React.Component<ColorsProps, ColorsStates> {
     }
 
     const setChromaShifting = () => {
+      const max = parseFloat(currentElement.max),
+        min = parseFloat(currentElement.min)
+      let value = parseFloat(currentElement.value)
+
+      if (value >= max) value = max
+      if (value <= min) value = min
+
       this.colorsMessage.data = this.props.colors.map((item) => {
-        if (item.id === id)
-          item.chromaShifting = parseFloat(currentElement.value)
+        if (item.id === id) item.chromaShifting = value
         return item
       })
 

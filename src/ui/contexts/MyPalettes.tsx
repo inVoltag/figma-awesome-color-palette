@@ -127,6 +127,7 @@ export default class MyPalettes extends React.Component<
           'palette_id, screenshot, name, preset, colors, themes, creator_avatar, creator_full_name, creator_id, is_shared'
         )
         .eq('creator_id', this.props.userSession.userId)
+        .order('published_at', { ascending: false })
         .range(pageSize * (currentPage - 1), pageSize * currentPage - 1))
     } else {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
@@ -136,6 +137,7 @@ export default class MyPalettes extends React.Component<
           'palette_id, screenshot, name, preset, colors, themes, creator_avatar, creator_full_name, creator_id, is_shared'
         )
         .eq('creator_id', this.props.userSession.userId)
+        .order('published_at', { ascending: false })
         .range(pageSize * (currentPage - 1), pageSize * currentPage - 1)
         .ilike('name', `%${searchQuery}%`))
     }

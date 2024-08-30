@@ -112,6 +112,7 @@ export default class CommunityPalettes extends React.Component<
           'palette_id, screenshot, name, preset, colors, themes, creator_avatar, creator_full_name, is_shared'
         )
         .eq('is_shared', true)
+        .order('published_at', { ascending: false })
         .range(pageSize * (currentPage - 1), pageSize * currentPage - 1))
     } else {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
@@ -121,6 +122,7 @@ export default class CommunityPalettes extends React.Component<
           'palette_id, screenshot, name, preset, colors, themes, creator_avatar, creator_full_name, is_shared'
         )
         .eq('is_shared', true)
+        .order('published_at', { ascending: false })
         .range(pageSize * (currentPage - 1), pageSize * currentPage - 1)
         .ilike('name', `%${searchQuery}%`))
     }

@@ -111,29 +111,37 @@ export const signIn = async (disinctId: string) => {
 }
 
 export const signOut = async () => {
-  const { error } = await supabase.auth.signOut({
-    scope: 'others',
-  })
-
-  if (!error) {
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: 'DELETE_ITEMS',
-          items: ['supabase_access_token', 'supabase_refresh_token'],
-        },
+  parent.postMessage(
+    {
+      pluginMessage: {
+        type: 'OPEN_IN_BROWSER',
+        url: `${authUrl}/?action=sign_out`,
       },
-      '*'
-    )
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: 'SIGN_OUT',
-        },
+      pluginId: '1063959496693642315',
+    },
+    'https://www.figma.com'
+  )
+  parent.postMessage(
+    {
+      pluginMessage: {
+        type: 'DELETE_ITEMS',
+        items: ['supabase_access_token'],
       },
-      '*'
-    )
+    },
+    '*'
+  )
+  parent.postMessage(
+    {
+      pluginMessage: {
+        type: 'SIGN_OUT',
+      },
+    },
+    '*'
+  )
 
-    return
-  } else throw error
+  setTimeout(async () => {
+    await supabase.auth.signOut({
+      scope: 'local',
+    })
+  }, 2000)
 }

@@ -9,6 +9,8 @@ export interface SourceColorConfiguration {
   source: 'CANVAS' | 'REMOTE' | ThirdParty
   id: string
   isRemovable: boolean
+  hueShifting?: number
+  chromaShifting?: number
 }
 
 export interface PaletteConfiguration {

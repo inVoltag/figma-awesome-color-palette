@@ -202,6 +202,8 @@ export default class MyPalettes extends React.Component<
                       rgb: color.rgb,
                       source: 'REMOTE',
                       id: color.id,
+                      hueShifting: color.hueShifting,
+                      chromaShifting: color.chromaShifting,
                     }
                   }
                 ) as Array<SourceColorConfiguration>,

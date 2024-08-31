@@ -15,7 +15,7 @@ import React from 'react'
 import { uid } from 'uid'
 
 import { locals } from '../../content/locals'
-import { Language } from '../../types/app'
+import { FilterOptions, Language } from '../../types/app'
 import { SourceColorConfiguration } from '../../types/configurations'
 import { ColourLovers } from '../../types/data'
 import { FetchStatus, ThirdParty } from '../../types/management'
@@ -25,6 +25,7 @@ import PaletteItem from '../components/PaletteItem'
 
 interface ExploreProps {
   colourLoversPaletteList: Array<ColourLovers>
+  activeFilters: Array<FilterOptions>
   userConsent: Array<ConsentConfiguration>
   lang: Language
   figmaUserId: string
@@ -37,22 +38,13 @@ interface ExploreProps {
     palettes: Array<ColourLovers>,
     shouldBeEmpty: boolean
   ) => void
+  onChangeFilters: (filters: Array<FilterOptions>) => void
 }
-
-type FilterOptions =
-  | 'ANY'
-  | 'YELLOW'
-  | 'ORANGE'
-  | 'RED'
-  | 'GREEN'
-  | 'VIOLET'
-  | 'BLUE'
 
 interface ExploreStates {
   colourLoversPalettesListStatus: FetchStatus
   currentPage: number
   isLoadMoreActionLoading: boolean
-  activeFilters: Array<FilterOptions>
 }
 
 export default class Explore extends React.Component<
@@ -76,7 +68,6 @@ export default class Explore extends React.Component<
         colourLoversPalettesListStatus: 'LOADING',
         currentPage: 1,
         isLoadMoreActionLoading: false,
-        activeFilters: ['ANY'],
       })
   }
 
@@ -102,7 +93,7 @@ export default class Explore extends React.Component<
       return
     }
 
-    if (this.state.activeFilters !== prevState.activeFilters) {
+    if (this.props.activeFilters !== prevProps.activeFilters) {
       this.setState({
         currentPage: 1,
         colourLoversPalettesListStatus: 'LOADING',
@@ -119,7 +110,7 @@ export default class Explore extends React.Component<
         encodeURIComponent(
           `https://www.colourlovers.com/api/palettes?format=json&numResults=${pageSize}&resultOffset=${
             this.state.currentPage - 1
-          }&hueOption=${this.state.activeFilters
+          }&hueOption=${this.props.activeFilters
             .filter((filter) => filter !== 'ANY')
             .map((filter) => filter.toLowerCase())
             .join(',')}`
@@ -172,22 +163,15 @@ export default class Explore extends React.Component<
   }
 
   onAddFilter = (value: FilterOptions) => {
-    if (value === 'ANY' || this.state.activeFilters.length === 0)
-      this.setState({
-        activeFilters: this.state.activeFilters.filter(
-          (filter) => filter === 'ANY'
-        ),
-      })
-    else if (this.state.activeFilters.includes(value))
-      this.setState({
-        activeFilters: this.state.activeFilters.filter(
-          (filter) => filter !== value
-        ),
-      })
-    else
-      this.setState({
-        activeFilters: this.state.activeFilters.concat(value),
-      })
+    if (value === 'ANY' || this.props.activeFilters.length === 0)
+      this.props.onChangeFilters(
+        this.props.activeFilters.filter((filter) => filter === 'ANY')
+      )
+    else if (this.props.activeFilters.includes(value))
+      this.props.onChangeFilters(
+        this.props.activeFilters.filter((filter) => filter !== value)
+      )
+    else this.props.onChangeFilters(this.props.activeFilters.concat(value))
   }
 
   // Templates
@@ -341,12 +325,12 @@ export default class Explore extends React.Component<
                     id="explore__filters"
                     options={this.setFilters()}
                     selected={
-                      this.state.activeFilters.includes('ANY') &&
-                      this.state.activeFilters.length > 1
-                        ? this.state.activeFilters
+                      this.props.activeFilters.includes('ANY') &&
+                      this.props.activeFilters.length > 1
+                        ? this.props.activeFilters
                             .filter((filter) => filter !== 'ANY')
                             .join(', ')
-                        : this.state.activeFilters.join(', ')
+                        : this.props.activeFilters.join(', ')
                     }
                     isDisabled={
                       this.state.colourLoversPalettesListStatus === 'LOADING' ||

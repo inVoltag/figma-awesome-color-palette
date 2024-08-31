@@ -24,6 +24,15 @@ export type Context =
   | 'EXPORT'
   | 'SETTINGS'
 
+export type FilterOptions =
+  | 'ANY'
+  | 'YELLOW'
+  | 'ORANGE'
+  | 'RED'
+  | 'GREEN'
+  | 'VIOLET'
+  | 'BLUE'
+
 export type EditorType = 'figma' | 'figjam' | 'dev'
 
 export type PlanStatus = 'UNPAID' | 'PAID' | 'NOT_SUPPORTED'

@@ -1,7 +1,12 @@
 import { Bar, ConsentConfiguration, Tabs } from '@a_ng_d/figmug-ui'
 import React from 'react'
 
-import { EditorType, Language, PlanStatus } from '../../types/app'
+import {
+  EditorType,
+  FilterOptions,
+  Language,
+  PlanStatus,
+} from '../../types/app'
 import { SourceColorConfiguration } from '../../types/configurations'
 import { ColourLovers } from '../../types/data'
 import { ContextItem, ThirdParty } from '../../types/management'
@@ -27,6 +32,7 @@ interface SourceProps {
 interface SourceStates {
   context: string | undefined
   colourLoversPaletteList: Array<ColourLovers>
+  activeFilters: Array<FilterOptions>
 }
 
 export default class Source extends React.Component<SourceProps, SourceStates> {
@@ -38,6 +44,7 @@ export default class Source extends React.Component<SourceProps, SourceStates> {
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
       colourLoversPaletteList: [],
+      activeFilters: ['ANY'],
     }
   }
 
@@ -67,6 +74,7 @@ export default class Source extends React.Component<SourceProps, SourceStates> {
         fragment = (
           <Explore
             {...this.props}
+            activeFilters={this.state.activeFilters}
             colourLoversPaletteList={this.state.colourLoversPaletteList}
             onChangeContexts={() =>
               this.setState({ context: 'SOURCE_OVERVIEW' })
@@ -78,6 +86,7 @@ export default class Source extends React.Component<SourceProps, SourceStates> {
                   : [],
               })
             }
+            onChangeFilters={(e) => this.setState({ activeFilters: e })}
           />
         )
         break

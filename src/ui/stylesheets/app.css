@@ -222,3 +222,22 @@ div.about__links {
     padding-bottom: var(--size-xxxsmall) !important;
   }
 }
+
+/* Preview */
+.preview {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.preview__row {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.preview__cell {
+  flex: 1;
+  overflow: hidden;
+  height: var(--size-xxxsmall);
+}

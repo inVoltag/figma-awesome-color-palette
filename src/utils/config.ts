@@ -837,6 +837,15 @@ export const features: Array<Feature> = [
     service: ['CREATE', 'EDIT'],
   },
   {
+    name: 'PREVIEW',
+    description: 'Take a quick glance at the palette',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'DIVISION',
+    service: ['CREATE'],
+  },
+  {
     name: 'SHORTCUTS',
     description: 'Quick useful links',
     isActive: true,

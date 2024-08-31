@@ -10,8 +10,11 @@ import {
 import { SourceColorConfiguration } from '../../types/configurations'
 import { ColourLovers } from '../../types/data'
 import { ContextItem, ThirdParty } from '../../types/management'
+import features from '../../utils/config'
 import { setContexts } from '../../utils/setContexts'
+import Feature from '../components/Feature'
 import Actions from '../modules/Actions'
+import Preview from '../modules/Preview'
 import Explore from './Explore'
 import Overview from './Overview'
 
@@ -116,6 +119,13 @@ export default class Source extends React.Component<SourceProps, SourceStates> {
               : () => null
           }
         />
+        <Feature
+          isActive={
+            features.find((feature) => feature.name === 'PREVIEW')?.isActive
+          }
+        >
+          <Preview sourceColors={this.props.sourceColors} />
+        </Feature>
       </>
     )
   }

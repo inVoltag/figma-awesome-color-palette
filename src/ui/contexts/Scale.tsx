@@ -33,6 +33,7 @@ import Feature from '../components/Feature'
 import Slider from '../components/Slider'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
+import Preview from '../modules/Preview'
 
 interface ScaleProps {
   sourceColors?: Array<SourceColorConfiguration>
@@ -817,6 +818,13 @@ export default class Scale extends React.Component<ScaleProps, ScaleStates> {
           {...this.props}
           context="CREATE"
         />
+        <Feature
+          isActive={
+            features.find((feature) => feature.name === 'PREVIEW')?.isActive
+          }
+        >
+          <Preview sourceColors={this.props.sourceColors} />
+        </Feature>
       </div>
     )
   }

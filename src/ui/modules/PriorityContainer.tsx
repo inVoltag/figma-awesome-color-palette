@@ -291,24 +291,8 @@ export default class PriorityContainer extends React.Component<
         }
       >
         <Highlight
-          lang={this.props.lang}
-          onCloseHighlight={() => {
-            parent.postMessage(
-              {
-                pluginMessage: {
-                  type: 'SET_ITEMS',
-                  items: [
-                    {
-                      key: 'highlight_version',
-                      value: this.props.highlight.version,
-                    },
-                  ],
-                },
-              },
-              '*'
-            )
-            this.props.onClose()
-          }}
+          {...this.props}
+          onCloseHighlight={this.props.onClose}
         />
       </Feature>
     )

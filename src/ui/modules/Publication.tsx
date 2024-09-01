@@ -779,12 +779,12 @@ export default class Publication extends React.Component<
       },
       WAITING: {
         primary: {
-          label: locals[this.props.lang].publication.waiting,
+          label: locals[this.props.lang].pending.primaryAction,
           state: 'DISABLED',
           action: () => null,
         },
         secondary: {
-          label: locals[this.props.lang].publication.waiting,
+          label: locals[this.props.lang].pending.secondaryAction,
           state: 'DISABLED',
           action: () => null,
         },

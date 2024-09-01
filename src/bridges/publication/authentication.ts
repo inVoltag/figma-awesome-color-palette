@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 
 import { lang, locals } from '../../content/locals'
-import { authUrl, databaseUrl, workerUrl } from '../../utils/config'
+import { authUrl, authWorkerUrl, databaseUrl } from '../../utils/config'
 import checkConnectionStatus from '../checks/checkConnectionStatus'
 
 let isAuthenticated = false
@@ -13,7 +13,7 @@ export const supabase = createClient(
 
 export const signIn = async (disinctId: string) => {
   return new Promise((resolve, reject) => {
-    fetch(workerUrl, {
+    fetch(authWorkerUrl, {
       method: 'GET',
       cache: 'no-cache',
       credentials: 'omit',
@@ -38,7 +38,7 @@ export const signIn = async (disinctId: string) => {
           'https://www.figma.com'
         )
         const poll = setInterval(async () => {
-          fetch(workerUrl, {
+          fetch(authWorkerUrl, {
             method: 'GET',
             cache: 'no-cache',
             credentials: 'omit',

@@ -5,10 +5,14 @@ export const oldTrialTime = 48
 export const releaseNotesVersion = '4.0.0'
 
 export const pageSize = 20
-export const workerUrl =
+export const authWorkerUrl =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:8787'
-    : (process.env.REACT_APP_WORKER_URL as string)
+    : (process.env.REACT_APP_AUTH_WORKER_URL as string)
+export const announcementsWorkerUrl =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:8787'
+    : (process.env.REACT_APP_ANNOUNCEMENTS_WORKER_URL as string)
 export const databaseUrl = process.env.REACT_APP_SUPABASE_URL as string
 export const authUrl =
   process.env.NODE_ENV === 'development'

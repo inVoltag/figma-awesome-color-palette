@@ -12,14 +12,13 @@ import {
 import React from 'react'
 
 import { locals } from '../../content/locals'
-import { EditorType, Language, PlanStatus } from '../../types/app'
+import { Easing, EditorType, Language, PlanStatus } from '../../types/app'
 import {
   NamingConventionConfiguration,
   PresetConfiguration,
   ScaleConfiguration,
   SourceColorConfiguration,
 } from '../../types/configurations'
-import { Easing } from '../../types/management'
 import { ScaleMessage } from '../../types/messages'
 import { ActionsList, DispatchProcess } from '../../types/models'
 import { Identity } from '../../types/user'

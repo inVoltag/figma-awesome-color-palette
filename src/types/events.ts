@@ -1,9 +1,8 @@
-import { EditorType } from './app'
+import { Easing, EditorType } from './app'
 import {
   ColorSpaceConfiguration,
   NamingConventionConfiguration,
 } from './configurations'
-import { Easing } from './management'
 
 export interface EditorEvent {
   editor: EditorType

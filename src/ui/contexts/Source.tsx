@@ -2,14 +2,15 @@ import { Bar, ConsentConfiguration, Tabs } from '@a_ng_d/figmug-ui'
 import React from 'react'
 
 import {
+  ContextItem,
   EditorType,
   FilterOptions,
   Language,
   PlanStatus,
+  ThirdParty,
 } from '../../types/app'
 import { SourceColorConfiguration } from '../../types/configurations'
 import { ColourLovers } from '../../types/data'
-import { ContextItem, ThirdParty } from '../../types/management'
 import features from '../../utils/config'
 import { setContexts } from '../../utils/setContexts'
 import Feature from '../components/Feature'

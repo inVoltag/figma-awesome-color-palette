@@ -2,7 +2,6 @@ import { Feature } from '../types/app'
 
 export const trialTime = 72
 export const oldTrialTime = 48
-export const releaseNotesVersion = '4.0.0'
 
 export const pageSize = 20
 export const authWorkerUrl =

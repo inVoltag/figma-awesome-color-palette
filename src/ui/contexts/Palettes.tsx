@@ -1,9 +1,8 @@
 import { Bar, ConsentConfiguration, HexModel, Tabs } from '@a_ng_d/figmug-ui'
 import React from 'react'
 
-import { Language, PlanStatus } from '../../types/app'
+import { ContextItem, FetchStatus, Language, PlanStatus } from '../../types/app'
 import { ExternalPalettes } from '../../types/data'
-import { ContextItem, FetchStatus } from '../../types/management'
 import { UserSession } from '../../types/user'
 import { setContexts } from '../../utils/setContexts'
 import CommunityPalettes from './CommunityPalettes'

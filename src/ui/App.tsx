@@ -13,6 +13,7 @@ import {
   HighlightDigest,
   Language,
   PlanStatus,
+  PriorityContext,
   Service,
   TrialStatus,
 } from '../types/app'
@@ -33,7 +34,6 @@ import {
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '../types/configurations'
-import { PriorityContext } from '../types/management'
 import { ActionsList, TextColorsThemeHexModel } from '../types/models'
 import { UserSession } from '../types/user'
 import features, {

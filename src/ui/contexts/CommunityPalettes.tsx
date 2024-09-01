@@ -10,7 +10,7 @@ import React from 'react'
 
 import { supabase } from '../../bridges/publication/authentication'
 import { locals } from '../../content/locals'
-import { Context, Language, PlanStatus } from '../../types/app'
+import { Context, FetchStatus, Language, PlanStatus } from '../../types/app'
 import {
   ColorConfiguration,
   MetaConfiguration,
@@ -19,7 +19,6 @@ import {
   ThemeConfiguration,
 } from '../../types/configurations'
 import { ExternalPalettes } from '../../types/data'
-import { FetchStatus } from '../../types/management'
 import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
 import { pageSize, palettesDbTableName } from '../../utils/config'
@@ -412,16 +411,11 @@ export default class CommunityPalettes extends React.Component<
                       )
                     }}
                     onCleared={(e) => {
-                      this.props.onChangeSearchQuery(
-                        e
-                      )
+                      this.props.onChangeSearchQuery(e)
                       this.props.onChangeStatus('LOADING')
                       this.props.onChangeCurrentPage(1)
                       this.props.onLoadPalettesList([])
-                      this.callUICPAgent(
-                        1,
-                        e
-                      )
+                      this.callUICPAgent(1, e)
                     }}
                   />
                 }

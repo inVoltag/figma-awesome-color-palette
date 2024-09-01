@@ -1,6 +1,6 @@
 import { HexModel } from '@a_ng_d/figmug-ui'
 
-import { ThirdParty } from './management'
+import { ThirdParty } from './app'
 import { RgbModel, TextColorsThemeHexModel } from './models'
 
 export interface SourceColorConfiguration {

@@ -54,3 +54,8 @@ export type FetchStatus =
   | 'COMPLETE'
   | 'SIGN_IN_FIRST'
   | 'NO_RESULT'
+
+export type HighlightStatus =
+  | 'NO_HIGHLIGHT'
+  | 'DISPLAY_HIGHLIGHT_NOTIFICATION'
+  | 'DISPLAY_HIGHLIGHT_DIALOG'

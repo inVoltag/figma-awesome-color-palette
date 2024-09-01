@@ -1,23 +1,24 @@
-import * as Sentry from '@sentry/browser'
-import {
-  ConsentConfiguration,
-  Dialog,
-  FormItem,
-  Input,
-  texts,
-} from '@a_ng_d/figmug-ui'
-import React from 'react'
+import * as Sentry from '@sentry/browser';
+import { ConsentConfiguration, Dialog, FormItem, Input, texts } from '@a_ng_d/figmug-ui';
+import React from 'react';
 
-import { signIn } from '../../bridges/publication/authentication'
-import cp from '../../content/images/choose_plan.webp'
-import pp from '../../content/images/pro_plan.webp'
-import p from '../../content/images/publication.webp'
-import t from '../../content/images/trial.webp'
-import { locals } from '../../content/locals'
-import { Language, PlanStatus, TrialStatus } from '../../types/app'
+
+
+import { signIn } from '../../bridges/publication/authentication';
+import cp from '../../content/images/choose_plan.webp';
+import pp from '../../content/images/pro_plan.webp';
+import p from '../../content/images/publication.webp';
+import t from '../../content/images/trial.webp';
+import { locals } from '../../content/locals';
+import {
+  HighlightDigest,
+  Language,
+  PlanStatus,
+  TrialStatus,
+} from '../../types/app'
 import { PriorityContext } from '../../types/management'
 import { UserSession } from '../../types/user'
-import features, { releaseNotesVersion } from '../../utils/config'
+import features from '../../utils/config'
 import { trackSignInEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
@@ -32,6 +33,7 @@ interface PriorityContainerProps {
   planStatus: PlanStatus
   trialStatus: TrialStatus
   userSession: UserSession
+  highlight: HighlightDigest
   lang: Language
   figmaUserId: string
   onChangePublication: React.Dispatch<Partial<AppStates>>
@@ -297,8 +299,8 @@ export default class PriorityContainer extends React.Component<
                   type: 'SET_ITEMS',
                   items: [
                     {
-                      key: `${releaseNotesVersion}_isRead`,
-                      value: true,
+                      key: 'highlight_version',
+                      value: this.props.highlight.version,
                     },
                   ],
                 },

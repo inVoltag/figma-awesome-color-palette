@@ -1,3 +1,5 @@
+import { HighlightStatus } from './management'
+
 export interface Feature {
   name: string
   description: string
@@ -44,4 +46,9 @@ export type Language = 'en-US'
 export interface windowSize {
   w: number
   h: number
+}
+
+export interface HighlightDigest {
+  version: string
+  status: HighlightStatus
 }

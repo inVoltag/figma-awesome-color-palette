@@ -40,7 +40,8 @@
     ],
     "devAllowedDomains": [
       "http://localhost:3000",
-      "http://localhost:8787"
+      "http://localhost:8787",
+      "http://localhost:8888"
     ]
   },
   "parameters": [

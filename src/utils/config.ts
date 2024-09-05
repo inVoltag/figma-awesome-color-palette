@@ -1,4 +1,5 @@
-import { Feature } from '../types/app'
+import { Feature } from '../types/app';
+
 
 export const trialTime = 48
 export const oldTrialTime = 72
@@ -375,7 +376,7 @@ export const features: Array<Feature> = [
     name: 'COLORS_HUE_SHIFTING',
     description: 'Source color hue shifting number',
     isActive: true,
-    isPro: true,
+    isPro: false,
     isNew: false,
     type: 'ACTION',
     service: ['EDIT'],
@@ -384,7 +385,7 @@ export const features: Array<Feature> = [
     name: 'COLORS_CHROMA_SHIFTING',
     description: 'Source color chroma shifting number',
     isActive: true,
-    isPro: true,
+    isPro: false,
     isNew: false,
     type: 'ACTION',
     service: ['EDIT'],

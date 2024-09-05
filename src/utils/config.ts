@@ -1,7 +1,7 @@
 import { Feature } from '../types/app'
 
-export const trialTime = 72
-export const oldTrialTime = 48
+export const trialTime = 48
+export const oldTrialTime = 72
 
 export const pageSize = 20
 export const authWorkerUrl =
@@ -26,7 +26,7 @@ export const palettesStorageName =
     : 'palette.screenshots'
 
 export const userConsentVersion = '2024.01'
-export const trialVersion = '2024.02'
+export const trialVersion = '2024.03'
 
 export const features: Array<Feature> = [
   {

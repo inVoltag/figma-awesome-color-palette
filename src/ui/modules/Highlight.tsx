@@ -60,10 +60,7 @@ export default class Highlight extends React.Component<
       return (
         <Dialog
           title={locals[this.props.lang].pending.announcements}
-          actions={{
-            primary: undefined,
-            secondary: undefined,
-          }}
+          actions={{}}
           onClose={this.props.onCloseHighlight}
         >
           <div className="onboarding__callout--centered">
@@ -78,10 +75,7 @@ export default class Highlight extends React.Component<
       return (
         <Dialog
           title={locals[this.props.lang].error.generic}
-          actions={{
-            primary: undefined,
-            secondary: undefined,
-          }}
+          actions={{}}
           onClose={this.props.onCloseHighlight}
         >
           <div className="onboarding__callout--centered">
@@ -99,6 +93,10 @@ export default class Highlight extends React.Component<
             this.state.announcements[this.state.position].properties.Titre
               .title[0].plain_text
           }
+          tag={
+            this.state.announcements[this.state.position].properties.Type.select
+              .name
+          }
           actions={{
             primary: {
               label:
@@ -107,15 +105,19 @@ export default class Highlight extends React.Component<
                   : locals[this.props.lang].highlight.cta.gotIt,
               action: (e) => this.goNextSlide(e),
             },
-            secondary: {
-              label: locals[this.props.lang].highlight.cta.learnMore,
-              action: () =>
-                window.open(
-                  this.state.announcements[this.state.position].properties.URL
-                    .url,
-                  '_blank'
-                ),
-            },
+            secondary: (() => {
+              if (this.state.announcements[this.state.position].properties.URL.url !== null)
+                return {
+                  label: locals[this.props.lang].highlight.cta.learnMore,
+                  action: () =>
+                    window.open(
+                      this.state.announcements[this.state.position].properties.URL
+                        .url,
+                      '_blank'
+                    )
+                };
+              else return undefined
+            })()
           }}
           indicator={
             this.state.announcements.length > 1

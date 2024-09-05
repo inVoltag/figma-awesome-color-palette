@@ -106,18 +106,21 @@ export default class Highlight extends React.Component<
               action: (e) => this.goNextSlide(e),
             },
             secondary: (() => {
-              if (this.state.announcements[this.state.position].properties.URL.url !== null)
+              if (
+                this.state.announcements[this.state.position].properties.URL
+                  .url !== null
+              )
                 return {
                   label: locals[this.props.lang].highlight.cta.learnMore,
                   action: () =>
                     window.open(
-                      this.state.announcements[this.state.position].properties.URL
-                        .url,
+                      this.state.announcements[this.state.position].properties
+                        .URL.url,
                       '_blank'
-                    )
-                };
+                    ),
+                }
               else return undefined
-            })()
+            })(),
           }}
           indicator={
             this.state.announcements.length > 1

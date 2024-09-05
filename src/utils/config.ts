@@ -384,7 +384,7 @@ export const features: Array<Feature> = [
   {
     name: 'COLORS_CHROMA_SHIFTING',
     description: 'Source color chroma shifting number',
-    isActive: false,
+    isActive: true,
     isPro: true,
     isNew: false,
     type: 'ACTION',

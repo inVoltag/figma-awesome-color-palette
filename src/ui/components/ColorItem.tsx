@@ -4,8 +4,9 @@ import chroma from 'chroma-js'
 import React from 'react'
 
 import { locals } from '../../content/locals'
-import { Language } from '../../types/app'
+import { Language, PlanStatus } from '../../types/app'
 import features from '../../utils/config'
+import isBlocked from '../../utils/isBlocked'
 import Feature from './Feature'
 
 interface ColorItemProps {
@@ -20,6 +21,7 @@ interface ColorItemProps {
   selected: boolean
   guideAbove: boolean
   guideBelow: boolean
+  planStatus: PlanStatus
   lang: Language
   onChangeColors: React.KeyboardEventHandler<
     HTMLInputElement | HTMLTextAreaElement
@@ -254,11 +256,10 @@ export default class ColorItem extends React.Component<ColorItemProps, States> {
                 <FormItem
                   id="hue-shifting"
                   label={locals[this.props.lang].colors.hueShifting.label}
-                  isBlocked={
-                    features.find(
-                      (feature) => feature.name === 'COLORS_CHROMA_SHIFTING'
-                    )?.isPro
-                  }
+                  isBlocked={isBlocked(
+                    'COLORS_CHROMA_SHIFTING',
+                    this.props.planStatus
+                  )}
                 >
                   <Input
                     id="hue-shifting"
@@ -269,11 +270,10 @@ export default class ColorItem extends React.Component<ColorItemProps, States> {
                     min="-360"
                     max="360"
                     feature="SHIFT_HUE"
-                    isBlocked={
-                      features.find(
-                        (feature) => feature.name === 'COLORS_CHROMA_SHIFTING'
-                      )?.isPro
-                    }
+                    isBlocked={isBlocked(
+                      'COLORS_CHROMA_SHIFTING',
+                      this.props.planStatus
+                    )}
                     onFocus={this.props.onCancellationSelection}
                     onBlur={this.props.onChangeColors}
                     onConfirm={this.props.onChangeColors}
@@ -292,11 +292,10 @@ export default class ColorItem extends React.Component<ColorItemProps, States> {
                 <FormItem
                   id="chroma-shifting"
                   label={locals[this.props.lang].colors.chromaShifting.label}
-                  isBlocked={
-                    features.find(
-                      (feature) => feature.name === 'COLORS_CHROMA_SHIFTING'
-                    )?.isPro
-                  }
+                  isBlocked={isBlocked(
+                    'COLORS_CHROMA_SHIFTING',
+                    this.props.planStatus
+                  )}
                 >
                   <Input
                     id="chroma-shifting"
@@ -307,11 +306,10 @@ export default class ColorItem extends React.Component<ColorItemProps, States> {
                     min="0"
                     max="200"
                     feature="SHIFT_CHROMA"
-                    isBlocked={
-                      features.find(
-                        (feature) => feature.name === 'COLORS_CHROMA_SHIFTING'
-                      )?.isPro
-                    }
+                    isBlocked={isBlocked(
+                      'COLORS_CHROMA_SHIFTING',
+                      this.props.planStatus
+                    )}
                     onFocus={this.props.onCancellationSelection}
                     onBlur={this.props.onChangeColors}
                     onConfirm={this.props.onChangeColors}

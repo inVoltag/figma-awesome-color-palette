@@ -573,6 +573,7 @@ export default class Colors extends React.Component<ColorsProps, ColorsStates> {
                   chromaShifting={color.chromaShifting}
                   description={color.description}
                   uuid={color.id}
+                  planStatus={this.props.planStatus}
                   selected={
                     this.state.selectedElement.id === color.id ? true : false
                   }

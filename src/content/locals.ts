@@ -1,3 +1,5 @@
+import { trialTime } from '../utils/config'
+
 export const lang = 'en-US'
 
 const glossary: {
@@ -392,16 +394,14 @@ export const locals: { [key: string]: any } = {
         title: 'Welcome to UI Color Palette Pro!',
         message:
           'This upgrade will unlock a range of tools that enable you to convert your color palette into a color system. We hope you will enjoy the benefits.',
-        trial:
-          'This upgrade will unlock a range of tools that enable you to convert your color palette into a color system. We hope you will enjoy the benefits for the next 72 hours.',
+        trial: `This upgrade will unlock a range of tools that enable you to convert your color palette into a color system. We hope you will enjoy the benefits for the next ${trialTime} hours.`,
         cta: "Let's build",
       },
       trial: {
-        title:
-          'Would you like to upgrade to the Pro plan within the next 72 hours?',
+        title: `Would you like to upgrade to the Pro plan within the next ${trialTime} hours?`,
         message:
           'Explore the potential of synchronizing your color palette with variables, exporting it as design tokens, app resources, or for Tokens Studio and simulating a vision impairment.',
-        cta: 'Enable the 72-hour trial',
+        cta: `Enable the ${trialTime}-hour trial`,
         option: 'Purchase',
       },
     },

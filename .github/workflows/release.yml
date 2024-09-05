@@ -20,18 +20,17 @@ jobs:
 
     - name: Set tag and release name
       id: set_vars
-      env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
         if [[ "${{ github.event_name }}" == "push" ]]; then
           echo "TAG_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
           echo "RELEASE_NAME=UI Color Palette ${GITHUB_REF_NAME}" >> $GITHUB_ENV
         else
-          echo "TAG_NAME=${{ github.event.pull_request.milestone }}" >> $GITHUB_ENV
-          echo "RELEASE_NAME=UI Color Palette ${{ github.event.pull_request.milestone }} • ${{ github.event.pull_request.title}}" >> $GITHUB_ENV
+          echo "TAG_NAME=${{ github.event.pull_request.milestone.title }}" >> $GITHUB_ENV
+          echo "RELEASE_NAME=UI Color Palette ${{ github.event.pull_request.milestone.title }} • ${{ github.event.pull_request.title }}" >> $GITHUB_ENV
         fi
 
     - name: Create release
+      id: create_release
       uses: actions/create-release@v1
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}

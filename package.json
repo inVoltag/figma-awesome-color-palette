@@ -59,7 +59,7 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
-    "@a_ng_d/figmug-ui": "^0.81.0",
+    "@a_ng_d/figmug-ui": "^0.83.0",
     "@a-ng-d/figmug.modules.do-camel-case": "^0.0.4",
     "@a-ng-d/figmug.modules.do-kebab-case": "^0.0.4",
     "@a-ng-d/figmug.modules.do-map": "^0.0.3",

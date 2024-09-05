@@ -15,10 +15,14 @@ import React from 'react'
 import { uid } from 'uid'
 
 import { locals } from '../../content/locals'
-import { FilterOptions, Language } from '../../types/app'
+import {
+  FetchStatus,
+  FilterOptions,
+  Language,
+  ThirdParty,
+} from '../../types/app'
 import { SourceColorConfiguration } from '../../types/configurations'
 import { ColourLovers } from '../../types/data'
-import { FetchStatus, ThirdParty } from '../../types/management'
 import { pageSize } from '../../utils/config'
 import { trackImportEvent } from '../../utils/eventsTracker'
 import PaletteItem from '../components/PaletteItem'

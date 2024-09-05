@@ -3,7 +3,7 @@ import chroma from 'chroma-js'
 import React from 'react'
 import { uid } from 'uid'
 
-import { Language, PlanStatus } from '../../types/app'
+import { ContextItem, Language, PlanStatus, ThirdParty } from '../../types/app'
 import {
   ColorSpaceConfiguration,
   NamingConventionConfiguration,
@@ -13,7 +13,6 @@ import {
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '../../types/configurations'
-import { ContextItem, ThirdParty } from '../../types/management'
 import { TextColorsThemeHexModel } from '../../types/models'
 import { UserSession } from '../../types/user'
 import doLightnessScale from '../../utils/doLightnessScale'

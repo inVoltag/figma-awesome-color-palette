@@ -1,8 +1,8 @@
 import { doMap } from '@a-ng-d/figmug.modules.do-map'
 import React from 'react'
 
+import { Easing } from '../../types/app'
 import { ScaleConfiguration } from '../../types/configurations'
-import { Easing } from '../../types/management'
 import doLightnessScale from '../../utils/doLightnessScale'
 import { palette } from '../../utils/palettePackage'
 import addStop from './../handlers/addStop'

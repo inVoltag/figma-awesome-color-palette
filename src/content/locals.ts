@@ -52,14 +52,13 @@ export const locals: { [key: string]: any } = {
       statusUptoDate: 'No change',
       statusUnpublished: 'Unpublished',
       statusRemoteChanges: 'Remote changes',
-      statusWaiting: 'Waiting…',
+      statusWaiting: 'Pending…',
       statusNotFound: 'Not found',
       publish: 'Publish…',
       unpublish: 'Unpublish',
       synchronize: 'Synchronize…',
       revert: 'Revert',
       detach: 'Detach',
-      waiting: 'Waiting…',
       signIn: 'Sign in to publish',
     },
     relaunch: {
@@ -456,6 +455,11 @@ export const locals: { [key: string]: any } = {
           'A top analytics platform for tracking and understanding user interactions',
       },
     },
+    pending: {
+      announcements: 'Pending announcements…',
+      primaryAction: '………',
+      secondaryAction: '………',
+    },
     success: {
       publication: '✓ The palette has been published',
       nonPublication: '✓ The palette has been unpublished',
@@ -511,6 +515,7 @@ export const locals: { [key: string]: any } = {
       addToFile: '✕ The palette cannot be added',
       noInternetConnection:
         '✕ The connection with the remote palette is unlinked',
+      announcements: 'The announcements cannot be loaded',
     },
   },
 }

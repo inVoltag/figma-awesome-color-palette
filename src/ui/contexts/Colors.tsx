@@ -10,9 +10,14 @@ import React from 'react'
 import { uid } from 'uid'
 
 import { locals } from '../../content/locals'
-import { EditorType, Language, PlanStatus } from '../../types/app'
+import {
+  EditorType,
+  HoveredColor,
+  Language,
+  PlanStatus,
+  SelectedColor,
+} from '../../types/app'
 import { ColorConfiguration } from '../../types/configurations'
-import { HoveredColor, SelectedColor } from '../../types/management'
 import { ColorsMessage } from '../../types/messages'
 import { ActionsList, DispatchProcess } from '../../types/models'
 import { Identity } from '../../types/user'

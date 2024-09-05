@@ -6,7 +6,7 @@ import JSZip from 'jszip'
 import React from 'react'
 
 import { locals } from '../../content/locals'
-import { EditorType, Language, PlanStatus } from '../../types/app'
+import { ContextItem, EditorType, Language, PlanStatus } from '../../types/app'
 import {
   AlgorithmVersionConfiguration,
   ColorConfiguration,
@@ -18,7 +18,6 @@ import {
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '../../types/configurations'
-import { ContextItem } from '../../types/management'
 import { ThemesMessage } from '../../types/messages'
 import { TextColorsThemeHexModel } from '../../types/models'
 import { Identity } from '../../types/user'

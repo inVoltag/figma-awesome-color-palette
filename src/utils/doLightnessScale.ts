@@ -1,7 +1,7 @@
 import { doMap } from '@a-ng-d/figmug.modules.do-map'
 
+import { Easing } from '../types/app'
 import { ScaleConfiguration } from '../types/configurations'
-import { Easing } from '../types/management'
 
 const doLightnessScale = (
   stops: Array<number>,

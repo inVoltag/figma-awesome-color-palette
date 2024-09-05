@@ -31,14 +31,17 @@
       "https://corsproxy.io",
       "https://zclweepgvqkrelyfwhma.supabase.co",
       "https://oauth.yelbolt.workers.dev",
+      "https://announcements.yelbolt.workers.dev",
       "https://www.colourlovers.com",
       "https://*.mixpanel.com",
       "https://asset.brandfetch.io",
-      "https://*.sentry.io"
+      "https://*.sentry.io",
+      "https://*.amazonaws.com"
     ],
     "devAllowedDomains": [
       "http://localhost:3000",
-      "http://localhost:8787"
+      "http://localhost:8787",
+      "http://localhost:8888"
     ]
   },
   "parameters": [

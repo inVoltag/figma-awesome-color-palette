@@ -37,19 +37,16 @@ export const presets: Array<PresetConfiguration> = [
     id: 'ANT',
   },
   {
-    name: 'ADS Foundations, 50-500 (Atlassian)',
-    scale: [50, 75, 100, 200, 300, 400, 500],
+    name: 'ADS Foundations, 100-1000 (Atlassian)',
+    scale: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000],
     min: 24,
     max: 96,
     isDistributed: true,
     id: 'ADS',
   },
   {
-    name: 'ADS Foundations, Neutral 50-500 (Atlassian)',
-    scale: [
-      0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500, 600, 700,
-      800, 900,
-    ],
+    name: 'ADS Foundations, Neutral 0-1100 (Atlassian)',
+    scale: [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100],
     min: 8,
     max: 100,
     isDistributed: true,

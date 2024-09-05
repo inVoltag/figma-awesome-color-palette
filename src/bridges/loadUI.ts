@@ -44,9 +44,8 @@ const loadUI = async () => {
     themeColors: true,
   })
 
-  checkUserConsent()
-    .then(() => checkEditorType())
-    .then(() => checkHighlightStatus())
+  checkUserConsent().then(() => checkEditorType())
+
   processSelection()
 
   await checkPlanStatus()
@@ -81,6 +80,7 @@ const loadUI = async () => {
         figma.ui.resize(windowSize.w, windowSize.h)
       },
       CHECK_USER_CONSENT: () => checkUserConsent(),
+      CHECK_HIGHLIGHT_STATUS: () => checkHighlightStatus(msg.version),
       CREATE_PALETTE: () => createPalette(msg),
       UPDATE_SCALE: () => updateScale(msg),
       UPDATE_VIEW: () => updateView(msg),

@@ -1,6 +1,6 @@
 import { HexModel } from '@a_ng_d/figmug-ui'
 
-import { ThirdParty } from './management'
+import { ThirdParty } from './app'
 import { RgbModel, TextColorsThemeHexModel } from './models'
 
 export interface SourceColorConfiguration {
@@ -9,6 +9,8 @@ export interface SourceColorConfiguration {
   source: 'CANVAS' | 'REMOTE' | ThirdParty
   id: string
   isRemovable: boolean
+  hueShifting?: number
+  chromaShifting?: number
 }
 
 export interface PaletteConfiguration {
@@ -60,6 +62,7 @@ export interface ColorConfiguration {
   }
   oklch: boolean
   hueShifting: number
+  chromaShifting: number
   id: string
 }
 

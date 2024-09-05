@@ -1,3 +1,5 @@
+import { trialTime } from '../utils/config'
+
 export const lang = 'en-US'
 
 const glossary: {
@@ -18,8 +20,7 @@ const glossary: {
 export const locals: { [key: string]: any } = {
   'en-US': {
     name: 'UI Color Palette',
-    tagline:
-      'Create accessible color palettes for UI with consistent lightness and contrast',
+    tagline: 'Create, Manage, Deploy & Publish WCAG-compliant color palettes.',
     url: 'www.ui-color-palette.com',
     global: {
       description: {
@@ -46,19 +47,20 @@ export const locals: { [key: string]: any } = {
       titleSignIn: 'Publish or Synchronize palette',
       message:
         'Publish your palette as a single source of truth and reuse it in other Figma documents (like a component instance). You can also distribute your palettes by sharing them with the community.',
-      selectToShare: 'Share with the community',
+      share: 'Share with the community',
+      unshare: 'Remove from the community',
+      statusShared: 'Shared',
       statusLocalChanges: 'Local changes',
       statusUptoDate: 'No change',
       statusUnpublished: 'Unpublished',
       statusRemoteChanges: 'Remote changes',
-      statusWaiting: 'Waiting…',
+      statusWaiting: 'Pending…',
       statusNotFound: 'Not found',
       publish: 'Publish…',
       unpublish: 'Unpublish',
       synchronize: 'Synchronize…',
       revert: 'Revert',
       detach: 'Detach',
-      waiting: 'Waiting…',
       signIn: 'Sign in to publish',
     },
     relaunch: {
@@ -198,6 +200,9 @@ export const locals: { [key: string]: any } = {
       },
       hueShifting: {
         label: 'Shift hue',
+      },
+      chromaShifting: {
+        label: 'Shift chroma',
       },
     },
     themes: {
@@ -389,16 +394,14 @@ export const locals: { [key: string]: any } = {
         title: 'Welcome to UI Color Palette Pro!',
         message:
           'This upgrade will unlock a range of tools that enable you to convert your color palette into a color system. We hope you will enjoy the benefits.',
-        trial:
-          'This upgrade will unlock a range of tools that enable you to convert your color palette into a color system. We hope you will enjoy the benefits for the next 72 hours.',
+        trial: `This upgrade will unlock a range of tools that enable you to convert your color palette into a color system. We hope you will enjoy the benefits for the next ${trialTime} hours.`,
         cta: "Let's build",
       },
       trial: {
-        title:
-          'Would you like to upgrade to the Pro plan within the next 72 hours?',
+        title: `Would you like to upgrade to the Pro plan within the next ${trialTime} hours?`,
         message:
           'Explore the potential of synchronizing your color palette with variables, exporting it as design tokens, app resources, or for Tokens Studio and simulating a vision impairment.',
-        cta: 'Enable the 72-hour trial',
+        cta: `Enable the ${trialTime}-hour trial`,
         option: 'Purchase',
       },
     },
@@ -452,12 +455,19 @@ export const locals: { [key: string]: any } = {
           'A top analytics platform for tracking and understanding user interactions',
       },
     },
+    pending: {
+      announcements: 'Pending announcements…',
+      primaryAction: '………',
+      secondaryAction: '………',
+    },
     success: {
       publication: '✓ The palette has been published',
       nonPublication: '✓ The palette has been unpublished',
       synchronization: '✓ The palette has been synchronized',
       detachment: '✓ The palette has been detached',
       report: '✓ Thanks for your report',
+      share: '✓ The palette has been shared with the community',
+      unshare: '✓ The palette is no longer shared with community',
     },
     info: {
       createdLocalStyle: 'local color style created',
@@ -469,7 +479,7 @@ export const locals: { [key: string]: any } = {
       variableMode: 'variable mode',
       variableModes: 'variable modes',
       signOut: '☻ See you later',
-      noResult: 'No palette match your search',
+      noResult: 'No palette matches your search',
     },
     warning: {
       tooManyThemesToCreateModes:
@@ -499,10 +509,13 @@ export const locals: { [key: string]: any } = {
       publication: '✕ The palette cannot be published',
       nonPublication: '✕ The palette cannot be unpublished',
       synchronization: '✕ The palette has not been synchronized',
+      share: '✕ The palette has not been shared with the community',
+      unshare: '✕ The palette has not been removed from the community',
       fetchPalette: 'The palettes cannot be loaded',
       addToFile: '✕ The palette cannot be added',
       noInternetConnection:
         '✕ The connection with the remote palette is unlinked',
+      announcements: 'The announcements cannot be loaded',
     },
   },
 }

@@ -169,7 +169,8 @@ export default class Palette {
         rgb: sourceColor.rgb,
         id: uid(),
         oklch: false,
-        hueShifting: 0,
+        hueShifting: sourceColor.hueShifting ?? 0,
+        chromaShifting: sourceColor.chromaShifting ?? 100,
       })
     )
 

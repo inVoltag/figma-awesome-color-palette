@@ -10,8 +10,10 @@ import { supabase } from '../bridges/publication/authentication'
 import { locals } from '../content/locals'
 import {
   EditorType,
+  HighlightDigest,
   Language,
   PlanStatus,
+  PriorityContext,
   Service,
   TrialStatus,
 } from '../types/app'
@@ -32,15 +34,17 @@ import {
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '../types/configurations'
-import { PriorityContext } from '../types/management'
 import { ActionsList, TextColorsThemeHexModel } from '../types/models'
 import { UserSession } from '../types/user'
-import features, { trialTime, userConsentVersion } from '../utils/config'
+import features, {
+  announcementsWorkerUrl,
+  trialTime,
+  userConsentVersion,
+} from '../utils/config'
 import {
   trackEditorEvent,
   trackExportEvent,
   trackPurchaseEvent,
-  trackRunningEvent,
   trackTrialEnablementEvent,
   trackUserConsentEvent,
 } from '../utils/eventsTracker'
@@ -87,6 +91,7 @@ export interface AppStates {
   lang: Language
   figmaUserId: string
   mustUserConsent: boolean
+  highlight: HighlightDigest
   isLoaded: boolean
   onGoingStep: string
 }
@@ -181,13 +186,39 @@ class App extends React.Component<Record<string, never>, AppStates> {
       userConsent: userConsent,
       figmaUserId: '',
       mustUserConsent: true,
+      highlight: {
+        version: '',
+        status: 'NO_HIGHLIGHT',
+      },
       isLoaded: false,
       onGoingStep: '',
     }
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     setTimeout(() => this.setState({ isLoaded: true }), 1000)
+    fetch(
+      `${announcementsWorkerUrl}/?action=get_version&database_id=${process.env.REACT_APP_NOTION_ANNOUNCEMENTS_ID}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'CHECK_HIGHLIGHT_STATUS',
+              version: data.version,
+            },
+          },
+          '*'
+        )
+        this.setState({
+          highlight: {
+            version: data.version,
+            status: 'NO_HIGHLIGHT',
+          },
+        })
+      })
+      .catch((error) => console.error(error))
     supabase.auth.onAuthStateChange((event, session) => {
       const actions: ActionsList = {
         SIGNED_IN: () => {
@@ -240,8 +271,9 @@ class App extends React.Component<Record<string, never>, AppStates> {
                   },
                 ],
               },
+              pluginId: '1063959496693642315',
             },
-            '*'
+            'https://www.figma.com'
           )
         },
       }
@@ -258,11 +290,6 @@ class App extends React.Component<Record<string, never>, AppStates> {
           this.setState({
             figmaUserId: e.data.pluginMessage.id,
           })
-          trackRunningEvent(
-            e.data.pluginMessage.id,
-            this.state.userConsent.find((consent) => consent.id === 'mixpanel')
-              ?.isConsented ?? false
-          )
         }
 
         const checkUserConsent = () =>
@@ -288,13 +315,18 @@ class App extends React.Component<Record<string, never>, AppStates> {
           )
         }
 
-        const checkHighlightStatus = () =>
+        const handleHighlight = () => {
           this.setState({
             priorityContainerContext:
-              e.data.pluginMessage.data === 'READ_RELEASE_NOTE'
+              e.data.pluginMessage.data !== 'DISPLAY_HIGHLIGHT_DIALOG'
                 ? 'EMPTY'
                 : 'HIGHLIGHT',
+            highlight: {
+              version: this.state.highlight.version,
+              status: e.data.pluginMessage.data,
+            },
           })
+        }
 
         const checkPlanStatus = () =>
           this.setState({
@@ -742,7 +774,7 @@ class App extends React.Component<Record<string, never>, AppStates> {
           CHECK_USER_AUTHENTICATION: () => checkUserAuthentication(),
           CHECK_USER_CONSENT: () => checkUserConsent(),
           CHECK_EDITOR_TYPE: () => checkEditorType(),
-          CHECK_HIGHLIGHT_STATUS: () => checkHighlightStatus(),
+          PUSH_HIGHLIGHT_STATUS: () => handleHighlight(),
           CHECK_PLAN_STATUS: () => checkPlanStatus(),
           EMPTY_SELECTION: () => updateWhileEmptySelection(),
           COLOR_SELECTED: () => updateWhileColorSelected(),
@@ -794,8 +826,9 @@ class App extends React.Component<Record<string, never>, AppStates> {
             },
           ],
         },
+        pluginId: '1063959496693642315',
       },
-      '*'
+      'https://www.figma.com'
     )
     parent.postMessage(
       {
@@ -875,7 +908,13 @@ class App extends React.Component<Record<string, never>, AppStates> {
                 this.setState({ ...this.state, ...e })
               }
               onClose={() =>
-                this.setState({ priorityContainerContext: 'EMPTY' })
+                this.setState({
+                  priorityContainerContext: 'EMPTY',
+                  highlight: {
+                    version: this.state.highlight.version,
+                    status: 'NO_HIGHLIGHT',
+                  },
+                })
               }
             />
           </Feature>

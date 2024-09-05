@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 
 import { lang, locals } from '../../content/locals'
-import { authUrl, databaseUrl, workerUrl } from '../../utils/config'
+import { authUrl, authWorkerUrl, databaseUrl } from '../../utils/config'
 import checkConnectionStatus from '../checks/checkConnectionStatus'
 
 let isAuthenticated = false
@@ -11,13 +11,15 @@ export const supabase = createClient(
   process.env.REACT_APP_SUPABASE_PUBLIC_ANON_KEY ?? ''
 )
 
-export const signIn = async () => {
+export const signIn = async (disinctId: string) => {
   return new Promise((resolve, reject) => {
-    fetch(workerUrl, {
+    fetch(authWorkerUrl, {
+      method: 'GET',
       cache: 'no-cache',
       credentials: 'omit',
       headers: {
         type: 'GET_PASSKEY',
+        'distinct-id': disinctId,
       },
     })
       .then((response) => {
@@ -31,15 +33,18 @@ export const signIn = async () => {
               type: 'OPEN_IN_BROWSER',
               url: `${authUrl}/?passkey=${result.passkey}`,
             },
+            pluginId: '1063959496693642315',
           },
-          '*'
+          'https://www.figma.com'
         )
         const poll = setInterval(async () => {
-          fetch(workerUrl, {
+          fetch(authWorkerUrl, {
+            method: 'GET',
             cache: 'no-cache',
             credentials: 'omit',
             headers: {
               type: 'GET_TOKENS',
+              'distinct-id': disinctId,
               passkey: result.passkey,
             },
           })
@@ -58,18 +63,22 @@ export const signIn = async () => {
                       items: [
                         {
                           key: 'supabase_access_token',
-                          value: result.access_token,
+                          value: result.tokens.access_token,
                         },
                         {
                           key: 'supabase_refresh_token',
-                          value: result.refresh_token,
+                          value: result.tokens.refresh_token,
                         },
                       ],
                     },
+                    pluginId: '1063959496693642315',
                   },
-                  '*'
+                  'https://www.figma.com'
                 )
-                checkConnectionStatus(result.access_token, result.refresh_token)
+                checkConnectionStatus(
+                  result.tokens.access_token,
+                  result.tokens.refresh_token
+                )
                   .then(() => {
                     clearInterval(poll)
                     resolve(result)
@@ -102,29 +111,37 @@ export const signIn = async () => {
 }
 
 export const signOut = async () => {
-  const { error } = await supabase.auth.signOut({
-    scope: 'others',
-  })
-
-  if (!error) {
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: 'DELETE_ITEMS',
-          items: ['supabase_access_token', 'supabase_refresh_token'],
-        },
+  parent.postMessage(
+    {
+      pluginMessage: {
+        type: 'OPEN_IN_BROWSER',
+        url: `${authUrl}/?action=sign_out`,
       },
-      '*'
-    )
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: 'SIGN_OUT',
-        },
+      pluginId: '1063959496693642315',
+    },
+    'https://www.figma.com'
+  )
+  parent.postMessage(
+    {
+      pluginMessage: {
+        type: 'DELETE_ITEMS',
+        items: ['supabase_access_token'],
       },
-      '*'
-    )
+    },
+    '*'
+  )
+  parent.postMessage(
+    {
+      pluginMessage: {
+        type: 'SIGN_OUT',
+      },
+    },
+    '*'
+  )
 
-    return
-  } else throw error
+  setTimeout(async () => {
+    await supabase.auth.signOut({
+      scope: 'local',
+    })
+  }, 2000)
 }

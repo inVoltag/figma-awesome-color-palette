@@ -70,6 +70,14 @@ const setPaletteMigration = async (palette: BaseNode) => {
     if (!Object.prototype.hasOwnProperty.call(colorsObject[0], 'hueShifting'))
       palette.setPluginData('colors', setData(colorsObject, 'hueShifting', 0))
 
+    if (
+      !Object.prototype.hasOwnProperty.call(colorsObject[0], 'chromaShifting')
+    )
+      palette.setPluginData(
+        'colors',
+        setData(colorsObject, 'chromaShifting', 100)
+      )
+
     if (!Object.prototype.hasOwnProperty.call(colorsObject[0], 'description'))
       palette.setPluginData('colors', setData(colorsObject, 'description', ''))
 

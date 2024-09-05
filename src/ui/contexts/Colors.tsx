@@ -10,9 +10,14 @@ import React from 'react'
 import { uid } from 'uid'
 
 import { locals } from '../../content/locals'
-import { EditorType, Language, PlanStatus } from '../../types/app'
+import {
+  EditorType,
+  HoveredColor,
+  Language,
+  PlanStatus,
+  SelectedColor,
+} from '../../types/app'
 import { ColorConfiguration } from '../../types/configurations'
-import { HoveredColor, SelectedColor } from '../../types/management'
 import { ColorsMessage } from '../../types/messages'
 import { ActionsList, DispatchProcess } from '../../types/models'
 import { Identity } from '../../types/user'
@@ -125,6 +130,7 @@ export default class Colors extends React.Component<ColorsProps, ColorsStates> {
         id: uid(),
         oklch: false,
         hueShifting: 0,
+        chromaShifting: 100,
       })
 
       this.props.onChangeColors({
@@ -311,8 +317,15 @@ export default class Colors extends React.Component<ColorsProps, ColorsStates> {
     }
 
     const setHueShifting = () => {
+      const max = parseFloat(currentElement.max),
+        min = parseFloat(currentElement.min)
+      let value = parseFloat(currentElement.value)
+
+      if (value >= max) value = max
+      if (value <= min) value = min
+
       this.colorsMessage.data = this.props.colors.map((item) => {
-        if (item.id === id) item.hueShifting = parseFloat(currentElement.value)
+        if (item.id === id) item.hueShifting = value
         return item
       })
 
@@ -328,6 +341,35 @@ export default class Colors extends React.Component<ColorsProps, ColorsStates> {
           ?.isConsented ?? false,
         {
           feature: 'SHIFT_HUE',
+        }
+      )
+    }
+
+    const setChromaShifting = () => {
+      const max = parseFloat(currentElement.max),
+        min = parseFloat(currentElement.min)
+      let value = parseFloat(currentElement.value)
+
+      if (value >= max) value = max
+      if (value <= min) value = min
+
+      this.colorsMessage.data = this.props.colors.map((item) => {
+        if (item.id === id) item.chromaShifting = value
+        return item
+      })
+
+      this.props.onChangeColors({
+        colors: this.colorsMessage.data,
+        onGoingStep: 'colors changed',
+      })
+
+      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+      trackSourceColorsManagementEvent(
+        this.props.figmaUserId,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'SHIFT_CHROMA',
         }
       )
     }
@@ -385,6 +427,7 @@ export default class Colors extends React.Component<ColorsProps, ColorsStates> {
       UPDATE_CHROMA: () => updateChromaProp(),
       UPDATE_HUE: () => updateHueProp(),
       SHIFT_HUE: () => setHueShifting(),
+      SHIFT_CHROMA: () => setChromaShifting(),
       UPDATE_DESCRIPTION: () => updateColorDescription(),
       REMOVE_COLOR: () => removeColor(),
       NULL: () => null,
@@ -526,7 +569,8 @@ export default class Colors extends React.Component<ColorsProps, ColorsStates> {
                     ).hex() as HexModel
                   }
                   oklch={color.oklch}
-                  shift={color.hueShifting}
+                  hueShifting={color.hueShifting}
+                  chromaShifting={color.chromaShifting}
                   description={color.description}
                   uuid={color.id}
                   selected={

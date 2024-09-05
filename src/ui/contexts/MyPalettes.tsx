@@ -10,9 +10,10 @@ import {
 import React from 'react'
 
 import { signIn, supabase } from '../../bridges/publication/authentication'
+import sharePalette from '../../bridges/publication/sharePalette'
 import unpublishPalette from '../../bridges/publication/unpublishPalette'
 import { locals } from '../../content/locals'
-import { Context, Language, PlanStatus } from '../../types/app'
+import { Context, FetchStatus, Language, PlanStatus } from '../../types/app'
 import {
   ColorConfiguration,
   MetaConfiguration,
@@ -21,7 +22,6 @@ import {
   ThemeConfiguration,
 } from '../../types/configurations'
 import { ExternalPalettes } from '../../types/data'
-import { FetchStatus } from '../../types/management'
 import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
 import { pageSize, palettesDbTableName } from '../../utils/config'
@@ -123,18 +123,20 @@ export default class MyPalettes extends React.Component<
       ;({ data, error } = await supabase
         .from(palettesDbTableName)
         .select(
-          'palette_id, screenshot, name, preset, colors, themes, creator_avatar, creator_full_name, creator_id'
+          'palette_id, screenshot, name, preset, colors, themes, creator_avatar, creator_full_name, creator_id, is_shared'
         )
         .eq('creator_id', this.props.userSession.userId)
+        .order('published_at', { ascending: false })
         .range(pageSize * (currentPage - 1), pageSize * currentPage - 1))
     } else {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
       ;({ data, error } = await supabase
         .from(palettesDbTableName)
         .select(
-          'palette_id, screenshot, name, preset, colors, themes, creator_avatar, creator_full_name, creator_id'
+          'palette_id, screenshot, name, preset, colors, themes, creator_avatar, creator_full_name, creator_id, is_shared'
         )
         .eq('creator_id', this.props.userSession.userId)
+        .order('published_at', { ascending: false })
         .range(pageSize * (currentPage - 1), pageSize * currentPage - 1)
         .ilike('name', `%${searchQuery}%`))
     }
@@ -199,6 +201,8 @@ export default class MyPalettes extends React.Component<
                       rgb: color.rgb,
                       source: 'REMOTE',
                       id: color.id,
+                      hueShifting: color.hueShifting,
+                      chromaShifting: color.chromaShifting,
                     }
                   }
                 ) as Array<SourceColorConfiguration>,
@@ -343,6 +347,14 @@ export default class MyPalettes extends React.Component<
                 palette.colors ?? [],
                 palette.themes ?? []
               )}
+              indicator={
+                palette.is_shared
+                  ? {
+                      status: 'ACTIVE',
+                      label: locals[this.props.lang].publication.statusShared,
+                    }
+                  : undefined
+              }
               action={() => null}
             >
               <Menu
@@ -421,8 +433,84 @@ export default class MyPalettes extends React.Component<
                               pluginMessage: {
                                 type: 'SEND_MESSAGE',
                                 message:
-                                  locals[this.props.lang].warning
-                                    .nonPublication,
+                                  locals[this.props.lang].error.nonPublication,
+                              },
+                            },
+                            '*'
+                          )
+                        })
+                    },
+                  },
+                  {
+                    label: palette.is_shared
+                      ? locals[this.props.lang].publication.unshare
+                      : locals[this.props.lang].publication.share,
+                    value: null,
+                    feature: null,
+                    position: 0,
+                    type: 'OPTION',
+                    isActive: true,
+                    isBlocked: false,
+                    isNew: false,
+                    children: [],
+                    action: async () => {
+                      this.setState({
+                        isContextActionLoading:
+                          this.state.isContextActionLoading.map((loading, i) =>
+                            i === index ? true : loading
+                          ),
+                      })
+                      sharePalette(palette.palette_id, !palette.is_shared)
+                        .then(() => {
+                          parent.postMessage(
+                            {
+                              pluginMessage: {
+                                type: 'SEND_MESSAGE',
+                                message: !palette.is_shared
+                                  ? locals[this.props.lang].success.share
+                                  : locals[this.props.lang].success.unshare,
+                              },
+                            },
+                            '*'
+                          )
+
+                          const currentPalettesList =
+                            this.props.palettesList.map((pal) =>
+                              pal.palette_id === palette.palette_id
+                                ? {
+                                    ...pal,
+                                    is_shared: !pal.is_shared,
+                                  }
+                                : pal
+                            )
+                          this.props.onLoadPalettesList(currentPalettesList)
+
+                          trackPublicationEvent(
+                            this.props.figmaUserId,
+                            this.props.userConsent.find(
+                              (consent) => consent.id === 'mixpanel'
+                            )?.isConsented ?? false,
+                            {
+                              feature: 'SHARE_PALETTE',
+                            }
+                          )
+                        })
+                        .finally(() => {
+                          this.setState({
+                            isContextActionLoading:
+                              this.state.isContextActionLoading.map(
+                                (loading, i) => (i === index ? false : loading)
+                              ),
+                          })
+                        })
+                        .catch(() => {
+                          parent.postMessage(
+                            {
+                              pluginMessage: {
+                                type: 'SEND_MESSAGE',
+                                message: !palette.is_shared
+                                  ? locals[this.props.lang].error.share
+                                  : locals[this.props.lang].error.unshare,
                               },
                             },
                             '*'
@@ -497,7 +585,7 @@ export default class MyPalettes extends React.Component<
               isLoading={this.state.isSignInActionLoading}
               action={async () => {
                 this.setState({ isSignInActionLoading: true })
-                signIn()
+                signIn(this.props.figmaUserId)
                   .finally(() => {
                     this.setState({ isSignInActionLoading: false })
                   })
@@ -539,6 +627,8 @@ export default class MyPalettes extends React.Component<
                       locals[this.props.lang].palettes.lazyLoad.search
                     }
                     value={this.props.searchQuery}
+                    isClearable
+                    isFramed={false}
                     onChange={(e) => {
                       this.props.onChangeSearchQuery(
                         (e.target as HTMLInputElement).value
@@ -550,6 +640,13 @@ export default class MyPalettes extends React.Component<
                         1,
                         (e.target as HTMLInputElement).value
                       )
+                    }}
+                    onCleared={(e) => {
+                      this.props.onChangeSearchQuery(e)
+                      this.props.onChangeStatus('LOADING')
+                      this.props.onChangeCurrentPage(1)
+                      this.props.onLoadPalettesList([])
+                      this.callUICPAgent(1, e)
                     }}
                   />
                 }

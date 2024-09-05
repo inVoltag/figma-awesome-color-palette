@@ -3,7 +3,7 @@ import chroma from 'chroma-js'
 import React from 'react'
 import { uid } from 'uid'
 
-import { Language, PlanStatus } from '../../types/app'
+import { ContextItem, Language, PlanStatus, ThirdParty } from '../../types/app'
 import {
   ColorSpaceConfiguration,
   NamingConventionConfiguration,
@@ -13,10 +13,10 @@ import {
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '../../types/configurations'
-import { ContextItem, ThirdParty } from '../../types/management'
 import { TextColorsThemeHexModel } from '../../types/models'
 import { UserSession } from '../../types/user'
 import doLightnessScale from '../../utils/doLightnessScale'
+import { trackActionEvent } from '../../utils/eventsTracker'
 import { palette } from '../../utils/palettePackage'
 import { setContexts } from '../../utils/setContexts'
 import type { AppStates } from '../App'
@@ -94,7 +94,7 @@ export default class CreatePalette extends React.Component<
     })
 
   // Direct actions
-  onCreatePalette = () =>
+  onCreatePalette = () => {
     parent.postMessage(
       {
         pluginMessage: {
@@ -110,6 +110,15 @@ export default class CreatePalette extends React.Component<
       },
       '*'
     )
+    trackActionEvent(
+      this.props.figmaUserId,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'CREATE_PALETTE',
+      }
+    )
+  }
 
   onConfigureExternalSourceColors = (name: string, colors: Array<HexModel>) => {
     palette.name = name

@@ -12,9 +12,8 @@ import React from 'react'
 import { uid } from 'uid'
 
 import { locals } from '../../content/locals'
-import { Language, PlanStatus } from '../../types/app'
+import { ImportUrl, Language, PlanStatus, ThirdParty } from '../../types/app'
 import { SourceColorConfiguration } from '../../types/configurations'
-import { ImportUrl, ThirdParty } from '../../types/management'
 import features from '../../utils/config'
 import { trackImportEvent } from '../../utils/eventsTracker'
 import isBlocked from '../../utils/isBlocked'
@@ -335,7 +334,6 @@ export default class Overview extends React.Component<
             <FormItem
               id="coolors-palette-url"
               helper={this.state.coolorsUrl.helper}
-              shouldFill={false}
             >
               <Input
                 type="TEXT"
@@ -420,7 +418,6 @@ export default class Overview extends React.Component<
             <FormItem
               id="realtime-colors-url"
               helper={this.state.realtimeColorsUrl.helper}
-              shouldFill={false}
             >
               <Input
                 type="TEXT"

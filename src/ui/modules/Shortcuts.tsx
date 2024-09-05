@@ -11,7 +11,13 @@ import React from 'react'
 
 import { signIn, signOut } from '../../bridges/publication/authentication'
 import { locals } from '../../content/locals'
-import { EditorType, Language, PlanStatus, TrialStatus } from '../../types/app'
+import {
+  EditorType,
+  HighlightDigest,
+  Language,
+  PlanStatus,
+  TrialStatus,
+} from '../../types/app'
 import { UserSession } from '../../types/user'
 import features from '../../utils/config'
 import { trackSignInEvent, trackSignOutEvent } from '../../utils/eventsTracker'
@@ -25,6 +31,7 @@ interface ShortcutsProps {
   trialRemainingTime: number
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
+  highlight: HighlightDigest
   lang: Language
   figmaUserId: string
   onReOpenFeedback: () => void
@@ -239,7 +246,7 @@ export default class Shortcuts extends React.Component<
                           children: [],
                           action: async () => {
                             this.setState({ isUserMenuLoading: true })
-                            signIn()
+                            signIn(this.props.figmaUserId)
                               .then(() => {
                                 trackSignInEvent(
                                   this.props.figmaUserId,
@@ -309,9 +316,10 @@ export default class Shortcuts extends React.Component<
                         this.props.planStatus
                       ),
                       isNew:
-                        features.find(
-                          (feature) => feature.name === 'SHORTCUTS_HIGHLIGHT'
-                        )?.isNew ?? true,
+                        this.props.highlight.status ===
+                        'DISPLAY_HIGHLIGHT_NOTIFICATION'
+                          ? true
+                          : false,
                       children: [],
                       action: () => this.props.onReOpenHighlight(),
                     },
@@ -508,6 +516,12 @@ export default class Shortcuts extends React.Component<
                     },
                   ]}
                   alignment="TOP_RIGHT"
+                  isNew={
+                    this.props.highlight.status ===
+                    'DISPLAY_HIGHLIGHT_NOTIFICATION'
+                      ? true
+                      : false
+                  }
                 />
               </div>
               {this.props.editorType !== 'dev' ? (

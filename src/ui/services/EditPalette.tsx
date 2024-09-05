@@ -6,7 +6,7 @@ import JSZip from 'jszip'
 import React from 'react'
 
 import { locals } from '../../content/locals'
-import { EditorType, Language, PlanStatus } from '../../types/app'
+import { ContextItem, EditorType, Language, PlanStatus } from '../../types/app'
 import {
   AlgorithmVersionConfiguration,
   ColorConfiguration,
@@ -18,12 +18,12 @@ import {
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '../../types/configurations'
-import { ContextItem } from '../../types/management'
 import { ThemesMessage } from '../../types/messages'
 import { TextColorsThemeHexModel } from '../../types/models'
 import { Identity } from '../../types/user'
 import features from '../../utils/config'
 import doLightnessScale from '../../utils/doLightnessScale'
+import { trackActionEvent } from '../../utils/eventsTracker'
 import isBlocked from '../../utils/isBlocked'
 import { palette } from '../../utils/palettePackage'
 import { setContexts } from '../../utils/setContexts'
@@ -170,6 +170,14 @@ export default class EditPalette extends React.Component<
         position: null,
       },
     })
+    trackActionEvent(
+      this.props.figmaUserId,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'SYNC_STYLES',
+      }
+    )
   }
 
   onSyncVariables = () => {
@@ -180,6 +188,14 @@ export default class EditPalette extends React.Component<
         position: null,
       },
     })
+    trackActionEvent(
+      this.props.figmaUserId,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'SYNC_VARIABLES',
+      }
+    )
   }
 
   onExport = () => {

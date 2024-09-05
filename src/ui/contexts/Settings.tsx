@@ -34,6 +34,7 @@ import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
+import Preview from '../modules/Preview'
 
 interface SettingsProps {
   context: string
@@ -442,6 +443,7 @@ export default class Settings extends React.Component<SettingsProps> {
                 this.props.planStatus
               )}
               feature="UPDATE_DESCRIPTION"
+              isGrowing={true}
               onFocus={
                 isBlocked('SETTINGS_PALETTE_DESCRIPTION', this.props.planStatus)
                   ? () => null
@@ -1199,10 +1201,19 @@ export default class Settings extends React.Component<SettingsProps> {
           <this.ContrastManagement />
         </div>
         {this.props.context === 'CREATE' ? (
-          <Actions
-            {...this.props}
-            context="CREATE"
-          />
+          <>
+            <Actions
+              {...this.props}
+              context="CREATE"
+            />
+            <Feature
+              isActive={
+                features.find((feature) => feature.name === 'PREVIEW')?.isActive
+              }
+            >
+              <Preview sourceColors={this.props.sourceColors} />
+            </Feature>
+          </>
         ) : (
           <Actions
             {...this.props}

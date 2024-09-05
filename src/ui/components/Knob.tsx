@@ -110,6 +110,7 @@ export default class Knob extends React.Component<KnobProps, States> {
               step="0.1"
               feature="TYPE_STOP_VALUE"
               isAutoFocus={true}
+              isFlex={true}
               onFocus={() =>
                 this.setState({
                   stopInputValue: this.props.value,

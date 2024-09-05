@@ -2,6 +2,7 @@ import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import mixpanel from 'mixpanel-figma'
 
 import {
+  ActionEvent,
   ColorThemeEvent,
   EditorEvent,
   ExportEvent,
@@ -50,13 +51,13 @@ export const trackEditorEvent = (
 export const trackSignInEvent = (id: string, consent: boolean) => {
   if (!consent) return
   mixpanel.identify(id)
-  mixpanel.track('Signed in', { ...eventsRecurringProperties })
+  mixpanel.track('Signed In', { ...eventsRecurringProperties })
 }
 
 export const trackSignOutEvent = (id: string, consent: boolean) => {
   if (!consent) return
   mixpanel.identify(id)
-  mixpanel.track('Signed out', { ...eventsRecurringProperties })
+  mixpanel.track('Signed Out', { ...eventsRecurringProperties })
 }
 
 export const trackTrialEnablementEvent = (
@@ -171,6 +172,19 @@ export const trackExportEvent = (
   mixpanel.track('Color Shades Exported', {
     Feature: options.feature,
     'Color Space': options.colorSpace ?? 'NC',
+    ...eventsRecurringProperties,
+  })
+}
+
+export const trackActionEvent = (
+  id: string,
+  consent: boolean,
+  options: ActionEvent
+) => {
+  if (!consent) return
+  mixpanel.identify(id)
+  mixpanel.track('Action Triggered', {
+    Feature: options.feature,
     ...eventsRecurringProperties,
   })
 }

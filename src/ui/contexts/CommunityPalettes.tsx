@@ -10,7 +10,7 @@ import React from 'react'
 
 import { supabase } from '../../bridges/publication/authentication'
 import { locals } from '../../content/locals'
-import { Context, Language, PlanStatus } from '../../types/app'
+import { Context, FetchStatus, Language, PlanStatus } from '../../types/app'
 import {
   ColorConfiguration,
   MetaConfiguration,
@@ -19,7 +19,6 @@ import {
   ThemeConfiguration,
 } from '../../types/configurations'
 import { ExternalPalettes } from '../../types/data'
-import { FetchStatus } from '../../types/management'
 import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
 import { pageSize, palettesDbTableName } from '../../utils/config'
@@ -112,6 +111,7 @@ export default class CommunityPalettes extends React.Component<
           'palette_id, screenshot, name, preset, colors, themes, creator_avatar, creator_full_name, is_shared'
         )
         .eq('is_shared', true)
+        .order('published_at', { ascending: false })
         .range(pageSize * (currentPage - 1), pageSize * currentPage - 1))
     } else {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
@@ -121,6 +121,7 @@ export default class CommunityPalettes extends React.Component<
           'palette_id, screenshot, name, preset, colors, themes, creator_avatar, creator_full_name, is_shared'
         )
         .eq('is_shared', true)
+        .order('published_at', { ascending: false })
         .range(pageSize * (currentPage - 1), pageSize * currentPage - 1)
         .ilike('name', `%${searchQuery}%`))
     }
@@ -395,6 +396,8 @@ export default class CommunityPalettes extends React.Component<
                       locals[this.props.lang].palettes.lazyLoad.search
                     }
                     value={this.props.searchQuery}
+                    isClearable
+                    isFramed={false}
                     onChange={(e) => {
                       this.props.onChangeSearchQuery(
                         (e.target as HTMLInputElement).value
@@ -406,6 +409,13 @@ export default class CommunityPalettes extends React.Component<
                         1,
                         (e.target as HTMLInputElement).value
                       )
+                    }}
+                    onCleared={(e) => {
+                      this.props.onChangeSearchQuery(e)
+                      this.props.onChangeStatus('LOADING')
+                      this.props.onChangeCurrentPage(1)
+                      this.props.onLoadPalettesList([])
+                      this.callUICPAgent(1, e)
                     }}
                   />
                 }

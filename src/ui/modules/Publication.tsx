@@ -267,7 +267,7 @@ export default class Publication extends React.Component<
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
                   {
-                    feature: 'UNPUBLISH_PALETTE',
+                    feature: 'PUBLISH_PALETTE',
                   }
                 )
               })
@@ -779,12 +779,12 @@ export default class Publication extends React.Component<
       },
       WAITING: {
         primary: {
-          label: locals[this.props.lang].publication.waiting,
+          label: locals[this.props.lang].pending.primaryAction,
           state: 'DISABLED',
           action: () => null,
         },
         secondary: {
-          label: locals[this.props.lang].publication.waiting,
+          label: locals[this.props.lang].pending.secondaryAction,
           state: 'DISABLED',
           action: () => null,
         },
@@ -799,13 +799,13 @@ export default class Publication extends React.Component<
   ): PublicationOption | undefined => {
     const actions: Record<string, PublicationOption | undefined> = {
       UNPUBLISHED: {
-        label: locals[this.props.lang].publication.selectToShare,
+        label: locals[this.props.lang].publication.share,
         state: this.state.isPaletteShared,
         action: () =>
           this.setState({ isPaletteShared: !this.state.isPaletteShared }),
       },
       CAN_BE_PUSHED: {
-        label: locals[this.props.lang].publication.selectToShare,
+        label: locals[this.props.lang].publication.share,
         state: this.state.isPaletteShared,
         action: () =>
           this.setState({ isPaletteShared: !this.state.isPaletteShared }),
@@ -813,7 +813,7 @@ export default class Publication extends React.Component<
       MUST_BE_PULLED: undefined,
       MAY_BE_PULLED: undefined,
       PUBLISHED: {
-        label: locals[this.props.lang].publication.selectToShare,
+        label: locals[this.props.lang].publication.share,
         state: this.state.isPaletteShared,
         action: () =>
           this.setState({ isPaletteShared: !this.state.isPaletteShared }),

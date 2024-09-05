@@ -14,10 +14,15 @@ import pp from '../../content/images/pro_plan.webp'
 import p from '../../content/images/publication.webp'
 import t from '../../content/images/trial.webp'
 import { locals } from '../../content/locals'
-import { Language, PlanStatus, TrialStatus } from '../../types/app'
-import { PriorityContext } from '../../types/management'
+import {
+  HighlightDigest,
+  Language,
+  PlanStatus,
+  PriorityContext,
+  TrialStatus,
+} from '../../types/app'
 import { UserSession } from '../../types/user'
-import features, { releaseNotesVersion } from '../../utils/config'
+import features from '../../utils/config'
 import { trackSignInEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
@@ -32,6 +37,7 @@ interface PriorityContainerProps {
   planStatus: PlanStatus
   trialStatus: TrialStatus
   userSession: UserSession
+  highlight: HighlightDigest
   lang: Language
   figmaUserId: string
   onChangePublication: React.Dispatch<Partial<AppStates>>
@@ -289,24 +295,8 @@ export default class PriorityContainer extends React.Component<
         }
       >
         <Highlight
-          lang={this.props.lang}
-          onCloseHighlight={() => {
-            parent.postMessage(
-              {
-                pluginMessage: {
-                  type: 'SET_ITEMS',
-                  items: [
-                    {
-                      key: `${releaseNotesVersion}_isRead`,
-                      value: true,
-                    },
-                  ],
-                },
-              },
-              '*'
-            )
-            this.props.onClose()
-          }}
+          {...this.props}
+          onCloseHighlight={this.props.onClose}
         />
       </Feature>
     )
@@ -353,7 +343,7 @@ export default class PriorityContainer extends React.Component<
                   : 'DEFAULT',
                 action: async () => {
                   this.setState({ isPrimaryActionLoading: true })
-                  signIn()
+                  signIn(this.props.figmaUserId)
                     .then(() => {
                       trackSignInEvent(
                         this.props.figmaUserId,
@@ -486,6 +476,7 @@ export default class PriorityContainer extends React.Component<
                     locals[this.props.lang].report.message.placeholder
                   }
                   value={this.state.userMessage}
+                  isGrowing
                   onChange={(e) =>
                     this.setState({ userMessage: e.target.value })
                   }

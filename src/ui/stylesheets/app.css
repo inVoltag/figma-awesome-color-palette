@@ -159,7 +159,7 @@ div.export-palette__preview {
 }
 
 div.export-palette__preview textarea {
-  height: 100%;
+  height: 100% !important;
   margin: 0;
 }
 
@@ -221,4 +221,23 @@ div.about__links {
     padding-top: var(--size-xxxsmall) !important;
     padding-bottom: var(--size-xxxsmall) !important;
   }
+}
+
+/* Preview */
+.preview {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.preview__row {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.preview__cell {
+  flex: 1;
+  overflow: hidden;
+  height: var(--size-xxxsmall);
 }

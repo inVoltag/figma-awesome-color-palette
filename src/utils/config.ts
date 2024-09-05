@@ -1,14 +1,23 @@
 import { Feature } from '../types/app';
 
 
-export const trialTime = 72
-export const oldTrialTime = 48
-export const releaseNotesVersion = '4.0.0'
+export const trialTime = 48
+export const oldTrialTime = 72
 
 export const pageSize = 20
-export const workerUrl = process.env.REACT_APP_WORKER_URL as string
+export const authWorkerUrl =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:8787'
+    : (process.env.REACT_APP_AUTH_WORKER_URL as string)
+export const announcementsWorkerUrl =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:8888'
+    : (process.env.REACT_APP_ANNOUNCEMENTS_WORKER_URL as string)
 export const databaseUrl = process.env.REACT_APP_SUPABASE_URL as string
-export const authUrl = process.env.REACT_APP_AUTH_URL as string
+export const authUrl =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3000'
+    : (process.env.REACT_APP_AUTH_URL as string)
 
 export const palettesDbTableName =
   process.env.NODE_ENV === 'development' ? 'sandbox.palettes' : 'palettes'
@@ -18,7 +27,7 @@ export const palettesStorageName =
     : 'palette.screenshots'
 
 export const userConsentVersion = '2024.01'
-export const trialVersion = '2024.02'
+export const trialVersion = '2024.03'
 
 export const features: Array<Feature> = [
   {
@@ -367,7 +376,16 @@ export const features: Array<Feature> = [
     name: 'COLORS_HUE_SHIFTING',
     description: 'Source color hue shifting number',
     isActive: true,
-    isPro: false,
+    isPro: true,
+    isNew: false,
+    type: 'ACTION',
+    service: ['EDIT'],
+  },
+  {
+    name: 'COLORS_CHROMA_SHIFTING',
+    description: 'Source color chroma shifting number',
+    isActive: false,
+    isPro: true,
     isNew: false,
     type: 'ACTION',
     service: ['EDIT'],
@@ -736,7 +754,7 @@ export const features: Array<Feature> = [
     name: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
     description: 'Protanomaly vision simulation mode',
     isActive: true,
-    isPro: false,
+    isPro: true,
     isNew: false,
     type: 'ACTION',
     service: ['CREATE', 'EDIT'],
@@ -745,7 +763,7 @@ export const features: Array<Feature> = [
     name: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
     description: 'Protanopia vision simulation mode',
     isActive: true,
-    isPro: false,
+    isPro: true,
     isNew: false,
     type: 'ACTION',
     service: ['CREATE', 'EDIT'],
@@ -821,6 +839,15 @@ export const features: Array<Feature> = [
     isNew: false,
     type: 'ACTION',
     service: ['CREATE', 'EDIT'],
+  },
+  {
+    name: 'PREVIEW',
+    description: 'Take a quick glance at the palette',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'DIVISION',
+    service: ['CREATE'],
   },
   {
     name: 'SHORTCUTS',

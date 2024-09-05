@@ -12,14 +12,13 @@ import {
 import React from 'react'
 
 import { locals } from '../../content/locals'
-import { EditorType, Language, PlanStatus } from '../../types/app'
+import { Easing, EditorType, Language, PlanStatus } from '../../types/app'
 import {
   NamingConventionConfiguration,
   PresetConfiguration,
   ScaleConfiguration,
   SourceColorConfiguration,
 } from '../../types/configurations'
-import { Easing } from '../../types/management'
 import { ScaleMessage } from '../../types/messages'
 import { ActionsList, DispatchProcess } from '../../types/models'
 import { Identity } from '../../types/user'
@@ -33,6 +32,7 @@ import Feature from '../components/Feature'
 import Slider from '../components/Slider'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
+import Preview from '../modules/Preview'
 
 interface ScaleProps {
   sourceColors?: Array<SourceColorConfiguration>
@@ -785,7 +785,7 @@ export default class Scale extends React.Component<ScaleProps, ScaleStates> {
                           {
                             pluginMessage: {
                               type: 'OPEN_IN_BROWSER',
-                              url: 'https://uicp.link/v',
+                              url: 'https://uicp.link/how-to-adjust',
                             },
                           },
                           '*'
@@ -817,6 +817,13 @@ export default class Scale extends React.Component<ScaleProps, ScaleStates> {
           {...this.props}
           context="CREATE"
         />
+        <Feature
+          isActive={
+            features.find((feature) => feature.name === 'PREVIEW')?.isActive
+          }
+        >
+          <Preview sourceColors={this.props.sourceColors} />
+        </Feature>
       </div>
     )
   }

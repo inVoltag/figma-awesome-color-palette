@@ -476,6 +476,7 @@ export default class PriorityContainer extends React.Component<
                     locals[this.props.lang].report.message.placeholder
                   }
                   value={this.state.userMessage}
+                  isGrowing
                   onChange={(e) =>
                     this.setState({ userMessage: e.target.value })
                   }

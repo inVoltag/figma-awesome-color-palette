@@ -254,6 +254,11 @@ export default class ColorItem extends React.Component<ColorItemProps, States> {
                 <FormItem
                   id="hue-shifting"
                   label={locals[this.props.lang].colors.hueShifting.label}
+                  isBlocked={
+                    features.find(
+                      (feature) => feature.name === 'COLORS_CHROMA_SHIFTING'
+                    )?.isPro
+                  }
                 >
                   <Input
                     id="hue-shifting"
@@ -264,6 +269,11 @@ export default class ColorItem extends React.Component<ColorItemProps, States> {
                     min="-360"
                     max="360"
                     feature="SHIFT_HUE"
+                    isBlocked={
+                      features.find(
+                        (feature) => feature.name === 'COLORS_CHROMA_SHIFTING'
+                      )?.isPro
+                    }
                     onFocus={this.props.onCancellationSelection}
                     onBlur={this.props.onChangeColors}
                     onConfirm={this.props.onChangeColors}
@@ -282,6 +292,11 @@ export default class ColorItem extends React.Component<ColorItemProps, States> {
                 <FormItem
                   id="chroma-shifting"
                   label={locals[this.props.lang].colors.chromaShifting.label}
+                  isBlocked={
+                    features.find(
+                      (feature) => feature.name === 'COLORS_CHROMA_SHIFTING'
+                    )?.isPro
+                  }
                 >
                   <Input
                     id="chroma-shifting"
@@ -292,6 +307,11 @@ export default class ColorItem extends React.Component<ColorItemProps, States> {
                     min="0"
                     max="200"
                     feature="SHIFT_CHROMA"
+                    isBlocked={
+                      features.find(
+                        (feature) => feature.name === 'COLORS_CHROMA_SHIFTING'
+                      )?.isPro
+                    }
                     onFocus={this.props.onCancellationSelection}
                     onBlur={this.props.onChangeColors}
                     onConfirm={this.props.onChangeColors}

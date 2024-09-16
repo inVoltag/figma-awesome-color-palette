@@ -86,7 +86,7 @@ export const locals: { [key: string]: any } = {
     palettes: {
       contexts: {
         self: 'My palettes',
-        community: 'From community',
+        community: 'From the community',
         explore: 'Explore',
         search: 'Search palettes',
       },
@@ -467,7 +467,7 @@ export const locals: { [key: string]: any } = {
       detachment: '✓ The palette has been detached',
       report: '✓ Thanks for your report',
       share: '✓ The palette has been shared with the community',
-      unshare: '✓ The palette is no longer shared with community',
+      unshare: '✓ The palette is no longer shared with the community',
     },
     info: {
       createdLocalStyle: 'local color style created',

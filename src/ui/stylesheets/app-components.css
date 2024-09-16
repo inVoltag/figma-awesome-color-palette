@@ -122,45 +122,6 @@ li .list__item__buttons--compact {
   grid-column: span 4 / 37;
 }
 
-/* Rich List */
-div.rich-list__title {
-  padding: var(--size-xxxsmall) var(--size-xsmall);
-}
-
-li.rich-list__item {
-  display: flex;
-  gap: 0 var(--size-xsmall);
-  padding: var(--size-xsmall) var(--size-xsmall);
-  border-bottom: 1px solid var(--figma-color-border-disabled);
-  align-items: center;
-}
-
-li.rich-list__item:last-child {
-  border-bottom: none;
-}
-
-li.rich-list__item--interactive:hover {
-  background-color: var(--figma-color-bg-hover);
-}
-
-li.rich-list__item--interactive:focus {
-  outline: 2px solid var(--figma-color-border-selected);
-  outline-offset: -2px;
-}
-
-li.rich-list__item .rich-list__item__asset {
-  width: 100px;
-  min-width: var(--size-xxxlarge);
-  height: var(--size-xxxlarge);
-}
-
-li.rich-list__item .rich-list__item__content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--size-xxsmall) 0;
-  flex: 1;
-}
-
 /* Callout */
 div.onboarding .label {
   width: auto;

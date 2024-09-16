@@ -1,4 +1,5 @@
 import {
+  ActionsItem,
   Bar,
   Button,
   ConsentConfiguration,
@@ -7,7 +8,6 @@ import {
   FormItem,
   Icon,
   Message,
-  layouts,
   texts,
 } from '@a_ng_d/figmug-ui'
 import chroma from 'chroma-js'
@@ -25,7 +25,6 @@ import { SourceColorConfiguration } from '../../types/configurations'
 import { ColourLovers } from '../../types/data'
 import { pageSize } from '../../utils/config'
 import { trackImportEvent } from '../../utils/eventsTracker'
-import PaletteItem from '../components/PaletteItem'
 
 interface ExploreProps {
   colourLoversPaletteList: Array<ColourLovers>
@@ -189,70 +188,70 @@ export default class Explore extends React.Component<
       fragment = (
         <>
           {this.props.colourLoversPaletteList.map((palette, index: number) => (
-            <PaletteItem
+            <ActionsItem
               id={palette.id?.toString() ?? ''}
               key={`source-colors-${index}`}
               src={palette.imageUrl?.replace('http', 'https')}
-              title={palette.title}
-              subtitle={`#${palette.rank}`}
-              info={`${palette.numVotes} votes, ${palette.numViews} views, ${palette.numComments} comments`}
+              name={palette.title}
+              description={`#${palette.rank}`}
+              subdescription={`${palette.numVotes} votes, ${palette.numViews} views, ${palette.numComments} comments`}
               user={{
                 avatar: undefined,
                 name: palette.userName ?? '',
               }}
-              action={() => null}
-            >
-              <div className={layouts['snackbar--tight']}>
-                <Button
-                  type="icon"
-                  icon="link-connected"
-                  action={() =>
-                    parent.postMessage(
-                      {
-                        pluginMessage: {
-                          type: 'OPEN_IN_BROWSER',
-                          url: palette.url?.replace('http', 'https'),
-                        },
-                      },
-                      '*'
-                    )
-                  }
-                />
-                <Button
-                  type="secondary"
-                  label={locals[this.props.lang].actions.addToSource}
-                  action={() => {
-                    this.props.onChangeContexts()
-                    this.props.onChangeColorsFromImport(
-                      palette.colors.map((color) => {
-                        const gl = chroma(color).gl()
-                        return {
-                          name: color,
-                          rgb: {
-                            r: gl[0],
-                            g: gl[1],
-                            b: gl[2],
+              actions={
+                <>
+                  <Button
+                    type="icon"
+                    icon="link-connected"
+                    action={() =>
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'OPEN_IN_BROWSER',
+                            url: palette.url?.replace('http', 'https'),
                           },
-                          id: uid(),
-                          source: 'COLOUR_LOVERS',
-                          isRemovable: true,
+                        },
+                        '*'
+                      )
+                    }
+                  />
+                  <Button
+                    type="secondary"
+                    label={locals[this.props.lang].actions.addToSource}
+                    action={() => {
+                      this.props.onChangeContexts()
+                      this.props.onChangeColorsFromImport(
+                        palette.colors.map((color) => {
+                          const gl = chroma(color).gl()
+                          return {
+                            name: color,
+                            rgb: {
+                              r: gl[0],
+                              g: gl[1],
+                              b: gl[2],
+                            },
+                            id: uid(),
+                            source: 'COLOUR_LOVERS',
+                            isRemovable: true,
+                          }
+                        }),
+                        'COLOUR_LOVERS'
+                      )
+                      trackImportEvent(
+                        this.props.figmaUserId,
+                        this.props.userConsent.find(
+                          (consent) => consent.id === 'mixpanel'
+                        )?.isConsented ?? false,
+                        {
+                          feature: 'IMPORT_COLOUR_LOVERS',
                         }
-                      }),
-                      'COLOUR_LOVERS'
-                    )
-                    trackImportEvent(
-                      this.props.figmaUserId,
-                      this.props.userConsent.find(
-                        (consent) => consent.id === 'mixpanel'
-                      )?.isConsented ?? false,
-                      {
-                        feature: 'IMPORT_COLOUR_LOVERS',
-                      }
-                    )
-                  }}
-                />
-              </div>
-            </PaletteItem>
+                      )
+                    }}
+                  />
+                </>
+              }
+            />
           ))}
           <div className="list-control">
             {this.state.colourLoversPalettesListStatus === 'LOADED' ? (

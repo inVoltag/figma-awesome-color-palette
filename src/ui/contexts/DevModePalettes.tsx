@@ -1,4 +1,4 @@
-import { Button, Message, texts } from '@a_ng_d/figmug-ui'
+import { ActionsItem, Button, Message, texts } from '@a_ng_d/figmug-ui'
 import React from 'react'
 
 import { locals } from '../../content/locals'
@@ -8,7 +8,6 @@ import {
   ExtractOfPaletteConfiguration,
   ThemeConfiguration,
 } from '../../types/configurations'
-import PaletteItem from '../components/PaletteItem'
 
 interface DevModePalettesProps {
   paletteLists: Array<ExtractOfPaletteConfiguration>
@@ -87,11 +86,11 @@ export default class DevModePalettes extends React.Component<DevModePalettesProp
           {locals[this.props.lang].palettes.devMode.title}
         </div>
         {this.props.paletteLists.map((palette, index) => (
-          <PaletteItem
+          <ActionsItem
             id={palette.id}
             key={`palette-${index}`}
             src={this.getImageSrc(palette.screenshot)}
-            title={
+            name={
               palette.name === '' ? locals[this.props.lang].name : palette.name
             }
             indicator={
@@ -102,16 +101,17 @@ export default class DevModePalettes extends React.Component<DevModePalettesProp
                   }
                 : undefined
             }
-            subtitle={palette.preset}
-            info={this.getPaletteMeta(palette.colors, palette.themes)}
-          >
-            <Button
-              type="icon"
-              icon="target"
-              label={locals[this.props.lang].actions.addToFile}
-              action={() => this.onSelectPalette(palette.id)}
-            />
-          </PaletteItem>
+            description={palette.preset}
+            subdescription={this.getPaletteMeta(palette.colors, palette.themes)}
+            actions={
+              <Button
+                type="icon"
+                icon="target"
+                label={locals[this.props.lang].actions.addToFile}
+                action={() => this.onSelectPalette(palette.id)}
+              />
+            }
+          />
         ))}
       </ul>
     )

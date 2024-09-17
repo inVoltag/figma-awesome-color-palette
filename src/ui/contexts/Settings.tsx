@@ -349,8 +349,8 @@ export default class Settings extends React.Component<SettingsProps> {
       UPDATE_COLOR_SPACE: () => updateColorSpace(),
       UPDATE_COLOR_BLIND_MODE: () => updatevisionSimulationMode(),
       UPDATE_ALGORITHM_VERSION: () => updateAlgorythmVersion(),
-      CHANGE_TEXT_LIGHT_COLOR: () => updateTextLightColor(),
-      CHANGE_TEXT_DARK_COLOR: () => updateTextDarkColor(),
+      UPDATE_TEXT_LIGHT_COLOR: () => updateTextLightColor(),
+      UPDATE_TEXT_DARK_COLOR: () => updateTextDarkColor(),
       NULL: () => null,
     }
 
@@ -475,7 +475,7 @@ export default class Settings extends React.Component<SettingsProps> {
       >
         <div className="settings__item">
           <FormItem
-            id="change-view"
+            id="update-view"
             label={locals[this.props.lang].settings.global.views.label}
           >
             <Dropdown
@@ -556,11 +556,11 @@ export default class Settings extends React.Component<SettingsProps> {
       >
         <div className="settings__item">
           <FormItem
-            id="change-color-space"
+            id="update-color-space"
             label={locals[this.props.lang].settings.color.colorSpace.label}
           >
             <Dropdown
-              id="color-spaces"
+              id="update-color-space"
               options={[
                 {
                   label: locals[this.props.lang].settings.color.colorSpace.lch,
@@ -714,13 +714,13 @@ export default class Settings extends React.Component<SettingsProps> {
       >
         <div className="settings__item">
           <FormItem
-            id="change-color-blind-mode"
+            id="update-color-blind-mode"
             label={
               locals[this.props.lang].settings.color.visionSimulationMode.label
             }
           >
             <Dropdown
-              id="color-blind-modes"
+              id="update-color-blind-mode"
               options={[
                 {
                   label:
@@ -1041,14 +1041,14 @@ export default class Settings extends React.Component<SettingsProps> {
               locals[this.props.lang].settings.contrast.textColors
                 .textLightColor
             }
-            id="change-text-light-color"
+            id="update-text-light-color"
             isBlocked={isBlocked(
               'SETTINGS_TEXT_COLORS_THEME',
               this.props.planStatus
             )}
           >
             <Input
-              id="change-text-light-color"
+              id="update-text-light-color"
               type="COLOR"
               value={this.props.textColorsTheme?.lightColor ?? '#FFFFFF'}
               isBlocked={isBlocked(
@@ -1064,7 +1064,7 @@ export default class Settings extends React.Component<SettingsProps> {
                   (feature) => feature.name === 'SETTINGS_TEXT_COLORS_THEME'
                 )?.isNew
               }
-              feature="CHANGE_TEXT_LIGHT_COLOR"
+              feature="UPDATE_TEXT_LIGHT_COLOR"
               onChange={
                 isBlocked('SETTINGS_TEXT_COLORS_THEME', this.props.planStatus)
                   ? () => null
@@ -1086,14 +1086,14 @@ export default class Settings extends React.Component<SettingsProps> {
             label={
               locals[this.props.lang].settings.contrast.textColors.textDarkColor
             }
-            id="change-text-dark-color"
+            id="update-text-dark-color"
             isBlocked={isBlocked(
               'SETTINGS_TEXT_COLORS_THEME',
               this.props.planStatus
             )}
           >
             <Input
-              id="change-text-dark-color"
+              id="update-text-dark-color"
               type="COLOR"
               value={this.props.textColorsTheme?.darkColor ?? '#OOOOOO'}
               isBlocked={isBlocked(

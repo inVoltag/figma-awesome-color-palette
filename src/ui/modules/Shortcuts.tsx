@@ -106,33 +106,33 @@ export default class Shortcuts extends React.Component<
                 <Feature
                   isActive={
                     features.find(
+                      (feature) => feature.name === 'SHORTCUTS_DOCUMENTATION'
+                    )?.isActive
+                  }
+                >
+                  <Button
+                    type="icon"
+                    icon="library"
+                    action={() =>
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'OPEN_IN_BROWSER',
+                            url: 'https://uicp.link/docs',
+                          },
+                        },
+                        '*'
+                      )
+                    }
+                  />
+                </Feature>
+                <Feature
+                  isActive={
+                    features.find(
                       (feature) => feature.name === 'SHORTCUTS_USER'
                     )?.isActive
                   }
                 >
-                  <Feature
-                    isActive={
-                      features.find(
-                        (feature) => feature.name === 'SHORTCUTS_DOCUMENTATION'
-                      )?.isActive
-                    }
-                  >
-                    <Button
-                      type="icon"
-                      icon="library"
-                      action={() =>
-                        parent.postMessage(
-                          {
-                            pluginMessage: {
-                              type: 'OPEN_IN_BROWSER',
-                              url: 'https://uicp.link/docs',
-                            },
-                          },
-                          '*'
-                        )
-                      }
-                    />
-                  </Feature>
                   {this.props.userSession.connectionStatus === 'CONNECTED' ? (
                     <Menu
                       id="user-menu"

@@ -362,18 +362,14 @@ export default class Settings extends React.Component<SettingsProps> {
     return (
       <Feature
         isActive={
-          features.find((feature) => feature.name === 'SETTINGS_PALETTE_NAME')
-            ?.isActive
+          features.find((feature) => feature.name === 'SETTINGS_NAME')?.isActive
         }
       >
         <div className="settings__item">
           <FormItem
             label={locals[this.props.lang].settings.global.name.label}
             id="update-palette-name"
-            isBlocked={isBlocked(
-              'SETTINGS_PALETTE_NAME',
-              this.props.planStatus
-            )}
+            isBlocked={isBlocked('SETTINGS_NAME', this.props.planStatus)}
           >
             <Input
               id="update-palette-name"
@@ -381,28 +377,25 @@ export default class Settings extends React.Component<SettingsProps> {
               placeholder={locals[this.props.lang].name}
               value={this.props.name !== '' ? this.props.name : ''}
               charactersLimit={64}
-              isBlocked={isBlocked(
-                'SETTINGS_PALETTE_NAME',
-                this.props.planStatus
-              )}
+              isBlocked={isBlocked('SETTINGS_NAME', this.props.planStatus)}
               feature="RENAME_PALETTE"
               onChange={
-                isBlocked('SETTINGS_PALETTE_NAME', this.props.planStatus)
+                isBlocked('SETTINGS_NAME', this.props.planStatus)
                   ? () => null
                   : this.settingsHandler
               }
               onFocus={
-                isBlocked('SETTINGS_PALETTE_NAME', this.props.planStatus)
+                isBlocked('SETTINGS_NAME', this.props.planStatus)
                   ? () => null
                   : this.settingsHandler
               }
               onBlur={
-                isBlocked('SETTINGS_PALETTE_NAME', this.props.planStatus)
+                isBlocked('SETTINGS_NAME', this.props.planStatus)
                   ? () => null
                   : this.settingsHandler
               }
               onConfirm={
-                isBlocked('SETTINGS_PALETTE_NAME', this.props.planStatus)
+                isBlocked('SETTINGS_NAME', this.props.planStatus)
                   ? () => null
                   : this.settingsHandler
               }
@@ -417,19 +410,15 @@ export default class Settings extends React.Component<SettingsProps> {
     return (
       <Feature
         isActive={
-          features.find(
-            (feature) => feature.name === 'SETTINGS_PALETTE_DESCRIPTION'
-          )?.isActive
+          features.find((feature) => feature.name === 'SETTINGS_DESCRIPTION')
+            ?.isActive
         }
       >
         <div className="settings__item">
           <FormItem
             label={locals[this.props.lang].settings.global.description.label}
             id="update-palette-description"
-            isBlocked={isBlocked(
-              'SETTINGS_PALETTE_DESCRIPTION',
-              this.props.planStatus
-            )}
+            isBlocked={isBlocked('SETTINGS_DESCRIPTION', this.props.planStatus)}
           >
             <Input
               id="update-palette-description"
@@ -439,23 +428,23 @@ export default class Settings extends React.Component<SettingsProps> {
               }
               value={this.props.description}
               isBlocked={isBlocked(
-                'SETTINGS_PALETTE_DESCRIPTION',
+                'SETTINGS_DESCRIPTION',
                 this.props.planStatus
               )}
               feature="UPDATE_DESCRIPTION"
               isGrowing={true}
               onFocus={
-                isBlocked('SETTINGS_PALETTE_DESCRIPTION', this.props.planStatus)
+                isBlocked('SETTINGS_DESCRIPTION', this.props.planStatus)
                   ? () => null
                   : this.settingsHandler
               }
               onBlur={
-                isBlocked('SETTINGS_PALETTE_DESCRIPTION', this.props.planStatus)
+                isBlocked('SETTINGS_DESCRIPTION', this.props.planStatus)
                   ? () => null
                   : this.settingsHandler
               }
               onConfirm={
-                isBlocked('SETTINGS_PALETTE_DESCRIPTION', this.props.planStatus)
+                isBlocked('SETTINGS_DESCRIPTION', this.props.planStatus)
                   ? () => null
                   : this.settingsHandler
               }
@@ -1109,7 +1098,7 @@ export default class Settings extends React.Component<SettingsProps> {
                   (feature) => feature.name === 'SETTINGS_TEXT_COLORS_THEME'
                 )?.isNew
               }
-              feature="CHANGE_TEXT_DARK_COLOR"
+              feature="UPDATE_TEXT_DARK_COLOR"
               onChange={
                 isBlocked('SETTINGS_TEXT_COLORS_THEME', this.props.planStatus)
                   ? () => null
@@ -1145,50 +1134,73 @@ export default class Settings extends React.Component<SettingsProps> {
 
   Global = () => {
     return (
-      <div className="settings__group">
-        <div className="section-controls">
-          <div className="section-controls__left-part">
-            <SectionTitle
-              label={locals[this.props.lang].settings.global.title}
-            />
+      <Feature
+        isActive={
+          features.find((feature) => feature.name === 'SETTINGS_GLOBAL')
+            ?.isActive
+        }
+      >
+        <div className="settings__group">
+          <div className="section-controls">
+            <div className="section-controls__left-part">
+              <SectionTitle
+                label={locals[this.props.lang].settings.global.title}
+              />
+            </div>
           </div>
+          <this.Name />
+          <this.Description />
+          <this.View />
         </div>
-        <this.Name />
-        <this.Description />
-        <this.View />
-      </div>
+      </Feature>
     )
   }
 
   ColorManagement = () => {
     return (
-      <div className="settings__group">
-        <div className="section-controls">
-          <div className="section-controls__left-part">
-            <SectionTitle
-              label={locals[this.props.lang].settings.color.title}
-            />
+      <Feature
+        isActive={
+          features.find(
+            (feature) => feature.name === 'SETTINGS_COLOR_MANAGEMENT'
+          )?.isActive
+        }
+      >
+        <div className="settings__group">
+          <div className="section-controls">
+            <div className="section-controls__left-part">
+              <SectionTitle
+                label={locals[this.props.lang].settings.color.title}
+              />
+            </div>
           </div>
+          <this.ColorSpace />
+          <this.VisionSimulationMode />
+          {this.props.context === 'LOCAL_STYLES' ? <this.NewAlgorithm /> : null}
         </div>
-        <this.ColorSpace />
-        <this.VisionSimulationMode />
-        {this.props.context === 'LOCAL_STYLES' ? <this.NewAlgorithm /> : null}
-      </div>
+      </Feature>
     )
   }
 
   ContrastManagement = () => {
     return (
-      <div className="settings__group">
-        <div className="section-controls">
-          <div className="section-controls__left-part">
-            <SectionTitle
-              label={locals[this.props.lang].settings.contrast.title}
-            />
+      <Feature
+        isActive={
+          features.find(
+            (feature) => feature.name === 'SETTINGS_CONTRAST_MANAGEMENT'
+          )?.isActive
+        }
+      >
+        <div className="settings__group">
+          <div className="section-controls">
+            <div className="section-controls__left-part">
+              <SectionTitle
+                label={locals[this.props.lang].settings.contrast.title}
+              />
+            </div>
           </div>
+          <this.TextColorsTheme />
         </div>
-        <this.TextColorsTheme />
-      </div>
+      </Feature>
     )
   }
 

@@ -1,32 +1,63 @@
-import * as Sentry from '@sentry/react';
-import { Consent, ConsentConfiguration } from '@a_ng_d/figmug-ui';
-import 'figma-plugin-ds/dist/figma-plugin-ds.css';
-import mixpanel from 'mixpanel-figma';
-import React from 'react';
-import { createRoot } from 'react-dom/client';
+import * as Sentry from '@sentry/react'
+import { Consent, ConsentConfiguration } from '@a_ng_d/figmug-ui'
+import 'figma-plugin-ds/dist/figma-plugin-ds.css'
+import mixpanel from 'mixpanel-figma'
+import React from 'react'
+import { createRoot } from 'react-dom/client'
 
-
-
-import checkConnectionStatus from '../bridges/checks/checkConnectionStatus';
-import { supabase } from '../bridges/publication/authentication';
-import { locals } from '../content/locals';
-import { EditorType, HighlightDigest, Language, PlanStatus, PriorityContext, Service, TrialStatus } from '../types/app';
-import { AlgorithmVersionConfiguration, ColorConfiguration, ColorSpaceConfiguration, CreatorConfiguration, DatesConfiguration, ExportConfiguration, ExtractOfPaletteConfiguration, NamingConventionConfiguration, PresetConfiguration, PublicationConfiguration, ScaleConfiguration, SourceColorConfiguration, ThemeConfiguration, ViewConfiguration, VisionSimulationModeConfiguration } from '../types/configurations';
-import { ActionsList, TextColorsThemeHexModel } from '../types/models';
-import { UserSession } from '../types/user';
-import features, { announcementsWorkerUrl, trialTime, userConsentVersion } from '../utils/config';
-import { trackEditorEvent, trackExportEvent, trackPurchaseEvent, trackTrialEnablementEvent, trackUserConsentEvent } from '../utils/eventsTracker';
-import { defaultPreset, palette, presets } from '../utils/palettePackage';
-import { userConsent } from '../utils/userConsent';
-import Feature from './components/Feature';
-import PriorityContainer from './modules/PriorityContainer';
-import Shortcuts from './modules/Shortcuts';
-import CreatePalette from './services/CreatePalette';
-import EditPalette from './services/EditPalette';
-import TransferPalette from './services/TransferPalette';
-import './stylesheets/app-components.css';
-import './stylesheets/app.css';
-
+import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
+import { supabase } from '../bridges/publication/authentication'
+import { locals } from '../content/locals'
+import {
+  EditorType,
+  HighlightDigest,
+  Language,
+  PlanStatus,
+  PriorityContext,
+  Service,
+  TrialStatus,
+} from '../types/app'
+import {
+  AlgorithmVersionConfiguration,
+  ColorConfiguration,
+  ColorSpaceConfiguration,
+  CreatorConfiguration,
+  DatesConfiguration,
+  ExportConfiguration,
+  ExtractOfPaletteConfiguration,
+  NamingConventionConfiguration,
+  PresetConfiguration,
+  PublicationConfiguration,
+  ScaleConfiguration,
+  SourceColorConfiguration,
+  ThemeConfiguration,
+  ViewConfiguration,
+  VisionSimulationModeConfiguration,
+} from '../types/configurations'
+import { ActionsList, TextColorsThemeHexModel } from '../types/models'
+import { UserSession } from '../types/user'
+import features, {
+  announcementsWorkerUrl,
+  trialTime,
+  userConsentVersion,
+} from '../utils/config'
+import {
+  trackEditorEvent,
+  trackExportEvent,
+  trackPurchaseEvent,
+  trackTrialEnablementEvent,
+  trackUserConsentEvent,
+} from '../utils/eventsTracker'
+import { defaultPreset, palette, presets } from '../utils/palettePackage'
+import { userConsent } from '../utils/userConsent'
+import Feature from './components/Feature'
+import PriorityContainer from './modules/PriorityContainer'
+import Shortcuts from './modules/Shortcuts'
+import CreatePalette from './services/CreatePalette'
+import EditPalette from './services/EditPalette'
+import TransferPalette from './services/TransferPalette'
+import './stylesheets/app-components.css'
+import './stylesheets/app.css'
 
 export interface AppStates {
   service: Service

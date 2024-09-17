@@ -79,8 +79,10 @@ const loadUI = async () => {
 
         figma.ui.resize(windowSize.w, windowSize.h)
       },
+      //
       CHECK_USER_CONSENT: () => checkUserConsent(),
       CHECK_HIGHLIGHT_STATUS: () => checkHighlightStatus(msg.version),
+      //
       CREATE_PALETTE: () => createPalette(msg),
       UPDATE_SCALE: () => updateScale(msg),
       UPDATE_VIEW: () => updateView(msg),
@@ -123,7 +125,9 @@ const loadUI = async () => {
         msg.export === 'CSV' ? exportCsv(palette) : null
       },
       UPDATE_SETTINGS: () => updateSettings(msg),
+      //
       OPEN_IN_BROWSER: () => figma.openExternal(msg.url),
+      //
       SEND_MESSAGE: () => figma.notify(msg.message),
       SET_ITEMS: () => {
         msg.items.forEach(
@@ -135,6 +139,7 @@ const loadUI = async () => {
         msg.items.forEach(
           async (item: string) => await figma.clientStorage.deleteAsync(item)
         ),
+      //
       SET_DATA: () =>
         msg.items.forEach((item: { key: string; value: string }) =>
           palette.setPluginData(item.key, item.value)
@@ -167,11 +172,13 @@ const loadUI = async () => {
         palette !== null ? scene.push(palette) : null
         figma.currentPage.selection = scene
       },
+      //
       GET_PRO_PLAN: async () => await getProPlan(),
       ENABLE_TRIAL: async () => {
         await enableTrial()
         await checkPlanStatus()
       },
+      //
       SIGN_OUT: () =>
         figma.ui.postMessage({
           type: 'SIGN_OUT',

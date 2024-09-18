@@ -486,7 +486,7 @@ export default class Themes extends React.Component<ThemesProps, ThemesStates> {
                       description={theme.description}
                       index={index}
                       paletteBackground={theme.paletteBackground}
-                      uuid={theme.id}
+                      id={theme.id}
                       selected={
                         this.state.selectedElement.id === theme.id
                           ? true

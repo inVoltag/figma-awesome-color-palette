@@ -284,7 +284,7 @@ export default class Overview extends React.Component<
                     )
                       .hex()
                       .toUpperCase()}
-                    uuid={sourceColor.id}
+                    id={sourceColor.id}
                     canBeRemoved={sourceColor.isRemovable}
                   />
                 )
@@ -372,7 +372,7 @@ export default class Overview extends React.Component<
                     )
                       .hex()
                       .toUpperCase()}
-                    uuid={sourceColor.id}
+                    id={sourceColor.id}
                   />
                 )
               })}
@@ -456,7 +456,7 @@ export default class Overview extends React.Component<
                     )
                       .hex()
                       .toUpperCase()}
-                    uuid={sourceColor.id}
+                    id={sourceColor.id}
                   />
                 )
               })}
@@ -504,7 +504,7 @@ export default class Overview extends React.Component<
                     )
                       .hex()
                       .toUpperCase()}
-                    uuid={sourceColor.id}
+                    id={sourceColor.id}
                   />
                 )
               })}

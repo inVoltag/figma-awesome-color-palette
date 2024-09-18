@@ -4,6 +4,7 @@ export const trialTime = 48
 export const oldTrialTime = 72
 
 export const pageSize = 20
+
 export const authWorkerUrl =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:8787'

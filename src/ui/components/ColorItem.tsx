@@ -16,7 +16,7 @@ interface ColorItemProps {
   hueShifting: number
   chromaShifting: number
   description: string
-  uuid: string
+  id: string
   index: number
   selected: boolean
   guideAbove: boolean
@@ -118,7 +118,7 @@ export default class ColorItem extends React.Component<ColorItemProps, States> {
     return (
       <li
         id={this.props.name.split(' ').join('-').toLowerCase()}
-        data-id={this.props.uuid}
+        data-id={this.props.id}
         data-color={this.props.name.split(' ').join('-').toLowerCase()}
         data-position={this.props.index}
         className={[

@@ -11,7 +11,7 @@ interface ThemeItemProps {
   name: string
   description: string
   paletteBackground: HexModel
-  uuid: string
+  id: string
   index: number
   selected: boolean
   guideAbove: boolean
@@ -115,7 +115,7 @@ export default class ThemeItem extends React.Component<
     return (
       <li
         id={this.props.name.split(' ').join('-').toLowerCase()}
-        data-id={this.props.uuid}
+        data-id={this.props.id}
         data-theme={this.props.name.split(' ').join('-').toLowerCase()}
         data-position={this.props.index}
         className={[

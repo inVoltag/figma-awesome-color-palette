@@ -1,13 +1,16 @@
-import { doMap } from '@a-ng-d/figmug.modules.do-map'
-import { Button, FormItem, HexModel, Input, InputsBar } from '@a_ng_d/figmug-ui'
-import chroma from 'chroma-js'
-import React from 'react'
+import { doMap } from '@a-ng-d/figmug.modules.do-map';
+import { Button, FormItem, HexModel, Input, InputsBar } from '@a_ng_d/figmug-ui';
+import chroma from 'chroma-js';
+import React from 'react';
 
-import { locals } from '../../content/locals'
-import { Language, PlanStatus } from '../../types/app'
-import features from '../../utils/config'
-import isBlocked from '../../utils/isBlocked'
-import Feature from './Feature'
+
+
+import { locals } from '../../content/locals';
+import { Language, PlanStatus } from '../../types/app';
+import features from '../../utils/config';
+import isBlocked from '../../utils/isBlocked';
+import Feature from './Feature';
+
 
 interface ColorItemProps {
   name: string
@@ -70,14 +73,14 @@ export default class ColorItem extends React.Component<ColorItemProps, States> {
     document.body.appendChild(clone)
     e.dataTransfer.setDragImage(clone as Element, 0, 0)
     e.dataTransfer.effectAllowed = 'move'
-    document.querySelector('#react-page')?.classList.add('dragged-ghost')
+    document.querySelector('#ui')?.classList.add('dragged-ghost')
   }
 
   onDragEnd = (e: React.DragEvent<HTMLLIElement>) => {
     this.setState({ isDragged: false })
     this.props.onDragChange('', false, false, 0)
     this.props.onDropOutside(e)
-    document.querySelector('#react-page')?.classList.remove('dragged-ghost')
+    document.querySelector('#ui')?.classList.remove('dragged-ghost')
     document.querySelector('#ghost')?.remove()
   }
 

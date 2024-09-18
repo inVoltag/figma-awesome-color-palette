@@ -388,6 +388,7 @@ export const locals: { [key: string]: any } = {
       free: 'Free plan',
       trial: 'Trial',
       trialEnded: 'Your trial has ended',
+      dev: 'Development',
     },
     proPlan: {
       welcome: {

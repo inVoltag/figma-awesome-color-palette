@@ -37,12 +37,14 @@ export default class About extends React.Component<AboutProps> {
                 >
                   <span>﹒</span>
                   <p className={`type ${texts.type}`}>
-                    {this.props.planStatus === 'UNPAID'
-                      ? locals[this.props.lang].plan.free
-                      : this.props.planStatus === 'PAID' &&
-                          this.props.trialStatus === 'PENDING'
-                        ? locals[this.props.lang].plan.trial
-                        : locals[this.props.lang].plan.pro}
+                    {process.env.NODE_ENV === 'development'
+                      ? locals[this.props.lang].plan.dev
+                      : this.props.planStatus === 'UNPAID'
+                        ? locals[this.props.lang].plan.free
+                        : this.props.planStatus === 'PAID' &&
+                            this.props.trialStatus === 'PENDING'
+                          ? locals[this.props.lang].plan.trial
+                          : locals[this.props.lang].plan.pro}
                   </p>
                 </Feature>
               </div>

@@ -574,8 +574,8 @@ export default class Shortcuts extends React.Component<
                       left in this trial
                     </div>
                   </div>
-                ) : this.props.trialStatus === 'EXPIRED' &&
-                  this.props.planStatus !== 'PAID' && (
+                ) : (this.props.trialStatus === 'EXPIRED' &&
+                  this.props.planStatus !== 'PAID') && (
                   <>
                     <div
                       className={`type ${texts.type} ${texts['type--secondary']} truncated`}

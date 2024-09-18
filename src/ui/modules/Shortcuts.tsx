@@ -524,12 +524,12 @@ export default class Shortcuts extends React.Component<
                   }
                 />
               </div>
-              {this.props.editorType !== 'dev' ? (
+              {this.props.editorType !== 'dev' && (
                 <div
                   className={`box-resizer-grip ${icons['icon--resize-grip']}`}
                   onMouseDown={this.onHold.bind(this)}
                 ></div>
-              ) : null}
+              )}
             </>
           }
           leftPart={
@@ -544,8 +544,8 @@ export default class Shortcuts extends React.Component<
                   .filter((n) => n)
                   .join(' ')}
               >
-                {this.props.planStatus === 'UNPAID' &&
-                this.props.trialStatus !== 'PENDING' ? (
+                {(this.props.planStatus === 'UNPAID' &&
+                this.props.trialStatus !== 'PENDING') && (
                   <Button
                     type="compact"
                     icon="lock-off"
@@ -556,7 +556,7 @@ export default class Shortcuts extends React.Component<
                     }
                     action={this.props.onGetProPlan}
                   />
-                ) : null}
+                )}
                 {this.props.trialStatus === 'PENDING' ? (
                   <div className={`label ${texts.label}`}>
                     <div className="type--bold">
@@ -575,7 +575,7 @@ export default class Shortcuts extends React.Component<
                     </div>
                   </div>
                 ) : this.props.trialStatus === 'EXPIRED' &&
-                  this.props.planStatus !== 'PAID' ? (
+                  this.props.planStatus !== 'PAID' && (
                   <>
                     <div
                       className={`type ${texts.type} ${texts['type--secondary']} truncated`}
@@ -593,7 +593,7 @@ export default class Shortcuts extends React.Component<
                       action={this.props.onReOpenTrialFeedback}
                     />
                   </>
-                ) : null}
+                )}
               </div>
             </Feature>
           }

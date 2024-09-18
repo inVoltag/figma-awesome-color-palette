@@ -205,7 +205,7 @@ export default class ThemeItem extends React.Component<
             />
           </div>
         </div>
-        {this.state.hasMoreOptions ? (
+        {this.state.hasMoreOptions && (
           <div className="list__item__secondary">
             <Feature
               isActive={
@@ -236,7 +236,7 @@ export default class ThemeItem extends React.Component<
               </div>
             </Feature>
           </div>
-        ) : null}
+        )}
       </li>
     )
   }

@@ -53,7 +53,7 @@ export default class Knob extends React.Component<KnobProps, States> {
           })
       },
       Escape: () => {
-        ;(e.target as HTMLElement).blur()
+        (e.target as HTMLElement).blur()
         this.setState({ isStopInputOpen: false })
       },
       Backspace: () => {
@@ -100,7 +100,7 @@ export default class Knob extends React.Component<KnobProps, States> {
         <div className={`type ${texts.type} type--inverse slider__tooltip`}>
           {this.transformStopValue(this.props.value)}
         </div>
-        {this.state.isStopInputOpen ? (
+        {this.state.isStopInputOpen && (
           <div className="slider__input">
             <Input
               type="NUMBER"
@@ -126,7 +126,7 @@ export default class Knob extends React.Component<KnobProps, States> {
               }}
             />
           </div>
-        ) : null}
+        )}
         <div className={`type ${texts.type} slider__label`}>
           {this.props.shortId}
         </div>

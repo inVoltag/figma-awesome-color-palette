@@ -677,7 +677,7 @@ export default class Settings extends React.Component<SettingsProps> {
               }
             />
           </FormItem>
-          {this.props.colorSpace === 'HSL' ? (
+          {this.props.colorSpace === 'HSL' && (
             <Message
               icon="warning"
               messages={[locals[this.props.lang].warning.hslColorSpace]}
@@ -686,7 +686,7 @@ export default class Settings extends React.Component<SettingsProps> {
                 this.props.planStatus
               )}
             />
-          ) : null}
+          )}
         </div>
       </Feature>
     )

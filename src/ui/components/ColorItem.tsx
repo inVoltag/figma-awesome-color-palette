@@ -246,7 +246,7 @@ export default class ColorItem extends React.Component<ColorItemProps, States> {
             />
           </div>
         </div>
-        {this.state.hasMoreOptions ? (
+        {this.state.hasMoreOptions && (
           <div className="list__item__secondary">
             <Feature
               isActive={
@@ -349,7 +349,7 @@ export default class ColorItem extends React.Component<ColorItemProps, States> {
               </div>
             </Feature>
           </div>
-        ) : null}
+        )}
       </li>
     )
   }

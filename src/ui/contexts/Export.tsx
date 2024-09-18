@@ -659,7 +659,7 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
                 parentClassName="controls"
                 alignment="RIGHT"
               />
-              {this.state.format === 'EXPORT_CSS' ? (
+              {this.state.format === 'EXPORT_CSS' && (
                 <Menu
                   icon="adjust"
                   id="select-color-space"
@@ -667,7 +667,7 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
                   selected={`${this.state.format}_${this.state.colorSpace.selected}`}
                   alignment="BOTTOM_RIGHT"
                 />
-              ) : null}
+              )}
             </div>
           </div>
           <div className="export-palette__preview">

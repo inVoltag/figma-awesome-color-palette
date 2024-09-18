@@ -578,7 +578,7 @@ export default class Scale extends React.Component<ScaleProps, ScaleStates> {
                 label={locals[this.props.lang].scale.tips.navNext}
                 shortcuts={[['⇥ Tab']]}
               />
-              {!this.props.hasPreset ? (
+              {!this.props.hasPreset && (
                 <>
                   <KeyboardShortcutItem
                     label={locals[this.props.lang].scale.tips.type}
@@ -596,10 +596,10 @@ export default class Scale extends React.Component<ScaleProps, ScaleStates> {
                     separator="or"
                   />
                 </>
-              ) : null}
+              )}
             </ul>
           </div>
-          {!this.props.hasPreset ? (
+          {!this.props.hasPreset && (
             <div className="control__block control__block--list">
               <div className="section-controls">
                 <div className="section-controls__left-part">
@@ -620,7 +620,7 @@ export default class Scale extends React.Component<ScaleProps, ScaleStates> {
                 />
               </ul>
             </div>
-          ) : null}
+          )}
         </div>
       </Dialog>
     )
@@ -675,7 +675,7 @@ export default class Scale extends React.Component<ScaleProps, ScaleStates> {
                     ?.isActive
                 }
               >
-                {this.props.preset.name === 'Custom' ? (
+                {this.props.preset.name === 'Custom' && (
                   <>
                     <Feature
                       isActive={
@@ -687,14 +687,14 @@ export default class Scale extends React.Component<ScaleProps, ScaleStates> {
                     >
                       <this.NamingConvention />
                     </Feature>
-                    {this.props.preset.scale.length > 2 ? (
+                    {this.props.preset.scale.length > 2 && (
                       <Button
                         type="icon"
                         icon="minus"
                         feature="REMOVE_STOP"
                         action={this.customHandler}
                       />
-                    ) : null}
+                    )}
                     <Button
                       type="icon"
                       icon="plus"
@@ -707,7 +707,7 @@ export default class Scale extends React.Component<ScaleProps, ScaleStates> {
                       }
                     />
                   </>
-                ) : null}
+                )}
               </Feature>
             </div>
           </div>

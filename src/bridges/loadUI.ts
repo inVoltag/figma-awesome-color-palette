@@ -109,20 +109,20 @@ const loadUI = async () => {
             throw error
           }),
       EXPORT_PALETTE: () => {
-        msg.export === 'TOKENS_GLOBAL' ? exportJson(palette) : null
+        msg.export === 'TOKENS_GLOBAL' && exportJson(palette)
         msg.export === 'TOKENS_AMZN_STYLE_DICTIONARY'
           ? exportJsonAmznStyleDictionary(palette)
           : null
         msg.export === 'TOKENS_TOKENS_STUDIO'
           ? exportJsonTokensStudio(palette)
           : null
-        msg.export === 'CSS' ? exportCss(palette, msg.colorSpace) : null
-        msg.export === 'TAILWIND' ? exportTailwind(palette) : null
-        msg.export === 'APPLE_SWIFTUI' ? exportSwiftUI(palette) : null
-        msg.export === 'APPLE_UIKIT' ? exportUIKit(palette) : null
-        msg.export === 'ANDROID_COMPOSE' ? exportKt(palette) : null
-        msg.export === 'ANDROID_XML' ? exportXml(palette) : null
-        msg.export === 'CSV' ? exportCsv(palette) : null
+        msg.export === 'CSS' && exportCss(palette, msg.colorSpace)
+        msg.export === 'TAILWIND' && exportTailwind(palette)
+        msg.export === 'APPLE_SWIFTUI' && exportSwiftUI(palette)
+        msg.export === 'APPLE_UIKIT' && exportUIKit(palette)
+        msg.export === 'ANDROID_COMPOSE' && exportKt(palette)
+        msg.export === 'ANDROID_XML' && exportXml(palette)
+        msg.export === 'CSV' && exportCsv(palette)
       },
       UPDATE_SETTINGS: () => updateSettings(msg),
       //
@@ -169,7 +169,7 @@ const loadUI = async () => {
             figma.notify(locals[lang].error.generic)
             throw error
           })
-        palette !== null ? scene.push(palette) : null
+        palette !== null && scene.push(palette)
         figma.currentPage.selection = scene
       },
       //

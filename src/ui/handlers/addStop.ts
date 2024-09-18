@@ -28,7 +28,7 @@ const addStop = (
   let newScale: Array<number> = []
 
   newScale = Object.values(scale)
-  newScale.length < 25 ? newScale.push(parseFloat(offset.toFixed(1))) : null
+  newScale.length < 25 && newScale.push(parseFloat(offset.toFixed(1)))
   newScale.sort((a, b) => b - a)
   newScale.forEach(
     (scale, index) =>

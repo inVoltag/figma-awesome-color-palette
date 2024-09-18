@@ -111,7 +111,7 @@ const createLocalVariables = async (palette: SceneNode) => {
                 try {
                   const modeId = collection.addMode(themeItem.name)
                   themeItem.id = modeId
-                  theme !== undefined ? (theme.modeId = modeId) : null
+                  theme !== undefined && (theme.modeId = modeId)
                   j++
                 } catch {
                   figma.notify(locals[lang].warning.tooManyThemesToCreateModes)

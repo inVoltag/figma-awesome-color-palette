@@ -1,14 +1,14 @@
 /* Box resizer grip */
 .box-resizer-grip {
   width: 20px;
-    height: 20px;
+  height: 20px;
   position: absolute;
   right: 0;
   bottom: 0;
   cursor: nwse-resize;
   display: flex;
-    justify-content: center;
-    align-items: center;
+  justify-content: center;
+  align-items: center;
   }
   
   .box-resizer-grip .icon-box {

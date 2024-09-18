@@ -526,9 +526,11 @@ export default class Shortcuts extends React.Component<
               </div>
               {this.props.editorType !== 'dev' && (
                 <div
-                  className={`box-resizer-grip ${icons['icon--resize-grip']}`}
+                  className={`box-resizer-grip`}
                   onMouseDown={this.onHold.bind(this)}
-                ></div>
+                >
+                  <div className={`${icons['icon--resize-grip']} icon-box`} />
+                </div>
               )}
             </>
           }

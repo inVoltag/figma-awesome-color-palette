@@ -1,12 +1,21 @@
 /* Box resizer grip */
 .box-resizer-grip {
-  width: var(--size-xsmall);
-  height: var(--size-xsmall);
+  width: 20px;
+    height: 20px;
   position: absolute;
   right: 0;
   bottom: 0;
   cursor: nwse-resize;
-  background: var(--figma-color-icon);
+  display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .box-resizer-grip .icon-box {
+    width: var(--size-xsmall);
+    height: var(--size-xsmall);
+    background: var(--figma-color-icon);
+    pointer-events: none;
 }
 
 /* List */

@@ -5,6 +5,9 @@ export const lang = 'en-US'
 const glossary: {
   [key: string]: string
 } = {
+  name: 'UI Color Palette',
+  tagline: 'Create, Manage, Deploy & Publish WCAG-compliant color palettes.',
+  url: 'www.ui-color-palette.com',
   colorSpace: 'Color space',
   lch: 'LCH',
   oklch: 'OKLCH',
@@ -19,27 +22,19 @@ const glossary: {
 
 export const locals: { [key: string]: any } = {
   'en-US': {
-    name: 'UI Color Palette',
-    tagline: 'Create, Manage, Deploy & Publish WCAG-compliant color palettes.',
-    url: 'www.ui-color-palette.com',
+    name: glossary.name,
+    tagline: glossary.tagline,
+    url: glossary.url,
     global: {
       description: {
         label: 'Description',
         placeholder: "What's it for?",
       },
     },
-    onboarding: {
-      selectColor:
-        'Select your source colors (solid colors only) on the Figma/FigJam canvas to create a UI Color Palette',
-      selectPalette: 'Select a UI Color Palette to edit',
-      selectPaletteinDevMode:
-        'Select a UI Color Palette on the Figma canvas to inspect and export',
-    },
     shortcuts: {
       feedback: 'Give feedback',
       trialFeedback: 'How was it?',
       news: "What's new",
-      about: 'About',
     },
     publication: {
       titlePublish: 'Publish palette',
@@ -65,12 +60,12 @@ export const locals: { [key: string]: any } = {
     },
     relaunch: {
       create: {
-        label: 'Create a UI Color Palette',
-        description: 'Scale the selected colors',
+        label: `Create a ${glossary.name}',
+        description: 'Scale the selected colors`,
       },
       edit: {
-        label: 'Edit a UI Color Palette',
-        description: 'Manage, publish, transfer shades',
+        label: `Edit a ${glossary.name}',
+        description: 'Manage, publish, transfer shades`,
       },
     },
     contexts: {
@@ -81,7 +76,6 @@ export const locals: { [key: string]: any } = {
       themes: 'Themes',
       export: 'Export',
       settings: 'Settings',
-      about: 'About',
     },
     palettes: {
       contexts: {
@@ -100,7 +94,7 @@ export const locals: { [key: string]: any } = {
         completeList: 'The palettes list is complete',
       },
       devMode: {
-        title: 'UI Color Palettes on the page',
+        title: `${glossary.name}s on the page`,
         readyForDev: 'Ready for development',
       },
     },
@@ -112,7 +106,7 @@ export const locals: { [key: string]: any } = {
       },
       canvas: {
         title: 'Selected colors',
-        tip: 'Select a frame or a shape (filled with color) on the Figma/FigJam canvas, then create a UI Color Palette.',
+        tip: `Select a frame or a shape (filled with color) on the Figma/FigJam canvas, then create a ${glossary.name}.`,
       },
       coolors: {
         title: 'Coolors',
@@ -334,7 +328,7 @@ export const locals: { [key: string]: any } = {
       cta: 'Submit your issue',
     },
     about: {
-      title: 'About UI Color Palette',
+      title: `About ${glossary.name}`,
       repository: 'Repository',
       getHelp: {
         title: 'Have help',
@@ -354,14 +348,14 @@ export const locals: { [key: string]: any } = {
       },
     },
     actions: {
-      createPalette: 'Create a UI Color Palette',
+      createPalette: `Create a ${glossary.name}`,
       run: 'Run',
       createLocalStyles: 'Sync with the local styles',
       createLocalVariables: 'Sync with the local variables',
       publishOrSyncPalette: 'Publish or Synchronize palette',
       publishPalette: 'Publish palette',
       syncPalette: 'Synchronize palette',
-      export: 'Export the UI Color Palette to',
+      export: `Export the ${glossary.name} to`,
       addToFile: 'Add to file',
       addToSource: 'Add to source',
       duplicate: 'Duplicate',
@@ -388,11 +382,11 @@ export const locals: { [key: string]: any } = {
       free: 'Free plan',
       trial: 'Trial',
       trialEnded: 'Your trial has ended',
-      dev: 'Development',
+      dev: 'Developer plan',
     },
     proPlan: {
       welcome: {
-        title: 'Welcome to UI Color Palette Pro!',
+        title: `Welcome to ${glossary.name} Pro!`,
         message:
           'This upgrade will unlock a range of tools that enable you to convert your color palette into a color system. We hope you will enjoy the benefits.',
         trial: `This upgrade will unlock a range of tools that enable you to convert your color palette into a color system. We hope you will enjoy the benefits for the next ${trialTime} hours.`,
@@ -412,8 +406,7 @@ export const locals: { [key: string]: any } = {
       welcomeMessage: 'Hello $[]',
       updateConsent: 'Manage your cookies',
       cookies: {
-        welcome:
-          'UI Color Palette uses cookies to understand how you use our plugin and to improve your experience.',
+        welcome: `${glossary.name} uses cookies to understand how you use our plugin and to improve your experience.`,
         vendors:
           'By accepting this, you agree to our use of cookies and other technologies for the purposes listed above.',
         privacyPolicy: 'Read our Privacy Policy',
@@ -492,17 +485,15 @@ export const locals: { [key: string]: any } = {
       unselectedColor:
         'Select a layer that is filled with at least one solid color',
       paletteNameRecommendation: '64 characters max is recommended',
-      noPaletteOnCurrrentPage:
-        'There is no UI Color Palette on the current page. You can ask a member with editing permissions to create.',
+      noPaletteOnCurrrentPage: `There is no ${glossary.name} on the current page. You can ask a member with editing permissions to create.`,
       noSelfPaletteOnRemote:
         'This is quite empty around here! Publish your palette to reuse it across multiple documents.',
       noCommunityPaletteOnRemote:
         'This is quite empty around here! Be the first to share your palette with other users!',
     },
     error: {
-      corruption:
-        '✕ Your UI Color Palette seems corrupted. Do not edit any layer within it.',
-      palettesPicking: '✕ UI Color Palettes cannot be picked for now',
+      corruption: `✕ Your ${glossary.name} seems corrupted. Do not edit any layer within it.`,
+      palettesPicking: '✕ The palettes cannot be picked for now',
       generic: '✕ Something went wrong',
       badResponse: '✕ The response is not valid',
       authentication: '✕ The authentication has failed',

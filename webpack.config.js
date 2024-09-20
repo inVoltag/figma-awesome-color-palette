@@ -23,7 +23,10 @@ module.exports = (env, argv) => ({
       { test: /\.css$/, use: ['style-loader', { loader: 'css-loader' }] },
 
       // Allows to use scss modules
-      {test: /\.s[ac]ss$/i, use: ["style-loader", "css-loader", "sass-loader",]},
+      {
+        test: /\.s[ac]ss$/i,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
 
       // Allows you to use "<%= require('./file.svg') %>" in your HTML code to get a data URI
       { test: /\.(png|jpg|gif|webp|svg)$/, loader: 'url-loader' },
@@ -39,7 +42,7 @@ module.exports = (env, argv) => ({
     filename: '[name].js',
     publicPath: '/',
     path: path.resolve(__dirname, 'dist'), // Compile into a folder called "dist",
-    clean: true
+    clean: true,
   },
 
   // Tells Webpack to generate "ui.html" and to inline "ui.ts" into it
@@ -50,9 +53,11 @@ module.exports = (env, argv) => ({
       inlineSource: '.(js)$',
       chunks: ['ui'],
       inject: 'body',
-      cache: false
+      cache: false,
     }),
     new HtmlWebpackInlineSourcePlugin(HtmlWebpackPlugin),
-    new Dotenv()
+    new Dotenv({
+      path: path.resolve(__dirname, '.env.local'),
+    }),
   ],
 })

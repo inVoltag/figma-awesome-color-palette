@@ -100,7 +100,7 @@ export default class Source extends React.Component<SourceProps, SourceStates> {
     return (
       <>
         <Bar
-          leftPart={
+          leftPartSlot={
             <Tabs
               tabs={this.contexts}
               active={this.state.context ?? ''}

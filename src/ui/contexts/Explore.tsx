@@ -199,7 +199,7 @@ export default class Explore extends React.Component<
                 avatar: undefined,
                 name: palette.userName ?? '',
               }}
-              actions={
+              actionsSlot={
                 <>
                   <Button
                     type="icon"
@@ -317,7 +317,7 @@ export default class Explore extends React.Component<
         <div className="controls__control">
           <div className="control__block control__block--no-padding">
             <Bar
-              leftPart={
+              leftPartSlot={
                 <FormItem
                   id="explore__filters"
                   label={

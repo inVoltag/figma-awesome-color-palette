@@ -78,7 +78,7 @@ export default class Palettes extends React.Component<
     return (
       <div className="controls__control">
         <Bar
-          leftPart={
+          leftPartSlot={
             <Tabs
               tabs={this.contexts}
               active={this.state.context ?? ''}

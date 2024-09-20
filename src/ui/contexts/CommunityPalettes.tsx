@@ -336,7 +336,7 @@ export default class CommunityPalettes extends React.Component<
                 avatar: palette.creator_avatar ?? '',
                 name: palette.creator_full_name ?? '',
               }}
-              actions={
+              actionsSlot={
                 <Button
                   type="secondary"
                   label={locals[this.props.lang].actions.addToFile}
@@ -385,7 +385,7 @@ export default class CommunityPalettes extends React.Component<
           {this.props.status !== 'SIGN_IN_FIRST' &&
             this.props.status !== 'EMPTY' && (
               <Bar
-                soloPart={
+                soloPartSlot={
                   <Input
                     type="TEXT"
                     icon={{

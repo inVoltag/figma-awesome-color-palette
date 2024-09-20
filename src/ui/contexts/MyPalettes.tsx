@@ -355,7 +355,7 @@ export default class MyPalettes extends React.Component<
                     }
                   : undefined
               }
-              actions={
+              actionsSlot={
                 <>
                   <Menu
                     id="publication-options"
@@ -622,7 +622,7 @@ export default class MyPalettes extends React.Component<
           {this.props.status !== 'SIGN_IN_FIRST' &&
             this.props.status !== 'EMPTY' && (
               <Bar
-                soloPart={
+                soloPartSlot={
                   <Input
                     type="TEXT"
                     icon={{

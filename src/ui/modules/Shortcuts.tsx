@@ -96,7 +96,7 @@ export default class Shortcuts extends React.Component<
     return (
       <>
         <Bar
-          rightPart={
+          rightPartSlot={
             <>
               <div
                 className={['shortcuts', layouts['snackbar--tight']]
@@ -534,7 +534,7 @@ export default class Shortcuts extends React.Component<
               )}
             </>
           }
-          leftPart={
+          leftPartSlot={
             <Feature
               isActive={
                 features.find((feature) => feature.name === 'GET_PRO_PLAN')

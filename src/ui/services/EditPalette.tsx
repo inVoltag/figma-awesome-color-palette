@@ -388,14 +388,14 @@ export default class EditPalette extends React.Component<
     return (
       <>
         <Bar
-          leftPart={
+          leftPartSlot={
             <Tabs
               tabs={this.contexts}
               active={this.state.context ?? ''}
               action={this.navHandler}
             />
           }
-          rightPart={
+          rightPartSlot={
             <Feature
               isActive={
                 features.find((feature) => feature.name === 'THEMES')?.isActive

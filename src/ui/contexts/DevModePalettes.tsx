@@ -103,7 +103,7 @@ export default class DevModePalettes extends React.Component<DevModePalettesProp
             }
             description={palette.preset}
             subdescription={this.getPaletteMeta(palette.colors, palette.themes)}
-            actions={
+            actionsSlot={
               <Button
                 type="icon"
                 icon="target"

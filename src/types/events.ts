@@ -57,6 +57,7 @@ export interface SourceColorEvent {
     | 'SHIFT_HUE'
     | 'SHIFT_CHROMA'
     | 'DESCRIBE_COLOR'
+    | 'REORDER_COLOR'
 }
 
 export interface ColorThemeEvent {
@@ -67,6 +68,7 @@ export interface ColorThemeEvent {
     | 'ADD_THEME_FROM_DROPDOWN'
     | 'UPDATE_BACKGROUND'
     | 'DESCRIBE_THEME'
+    | 'REORDER_THEME'
 }
 
 export interface ExportEvent {

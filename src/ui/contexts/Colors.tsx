@@ -367,7 +367,7 @@ export default class Colors extends React.Component<ColorsProps> {
   }
 
   // Direct actions
-  onRemoveColor = (colors: Array<ColorConfiguration>) => {
+  onChangeOrder = (colors: Array<ColorConfiguration>) => {
     this.colorsMessage.data = colors
 
     this.props.onChangeColors({
@@ -381,7 +381,7 @@ export default class Colors extends React.Component<ColorsProps> {
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
       {
-        feature: 'REMOVE_COLOR',
+        feature: 'REORDER_COLOR',
       }
     )
   }
@@ -620,7 +620,7 @@ export default class Colors extends React.Component<ColorsProps> {
                 </>
               ))}
               isScrollable={true}
-              onChangeSortableList={this.onRemoveColor}
+              onChangeSortableList={this.onChangeOrder}
             />
           )}
         </div>

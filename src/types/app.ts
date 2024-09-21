@@ -66,16 +66,6 @@ export interface HighlightDigest {
   status: HighlightStatus
 }
 
-export interface SelectedColor {
-  id: string | undefined
-  position: number
-}
-
-export interface HoveredColor extends SelectedColor {
-  hasGuideAbove: boolean
-  hasGuideBelow: boolean
-}
-
 export type PriorityContext =
   | 'EMPTY'
   | 'FEEDBACK'

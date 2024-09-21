@@ -3,42 +3,30 @@ name: Release for Figma
 on:
   push:
     branches:
-      - main
+      - ui-color-palette-*
+    tags:
+      - '*'
   pull_request:
     types:
       - opened
       - synchronize
+      - closed
 
 jobs:
   create-release:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
-
-    - name: Set tag and release name
-      id: set_vars
-      run: |
-        if [[ "${{ github.event_name }}" == "push" ]]; then
-          echo "TAG_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
-          echo "RELEASE_NAME=UI Color Palette ${GITHUB_REF_NAME}" >> $GITHUB_ENV
-        else
-          echo "TAG_NAME=${{ github.event.pull_request.milestone.title }}" >> $GITHUB_ENV
-          echo "RELEASE_NAME=UI Color Palette ${{ github.event.pull_request.milestone.title }} • ${{ github.event.pull_request.title }}" >> $GITHUB_ENV
-        fi
 
     - name: Create release
       id: create_release
       uses: actions/create-release@v1
-      env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
-        tag_name: ${{ env.TAG_NAME }}
-        release_name: ${{ env.RELEASE_NAME }}
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
         body: |
           ## What's Changed
-          [Friendly release note](https://ui-color-palette.canny.io/changelog/${{ github.ref }})・[Full Changelog](https://github.com/inVoltag/figma-ui-color-palette/commits/${{ github.ref }})
-        draft: false
-        prerelease: false
+          [Friendly release note](https://ui-color-palette.canny.io/changelog/${{ github.ref_name }})・[Full Changelog](https://github.com/inVoltag/figma-ui-color-palette/commits/${{ github.ref_name }})

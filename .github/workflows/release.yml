@@ -30,3 +30,4 @@ jobs:
         body: |
           ## What's Changed
           [Friendly release note](https://ui-color-palette.canny.io/changelog/${{ github.ref_name }})・[Full Changelog](https://github.com/inVoltag/figma-ui-color-palette/commits/${{ github.ref_name }})
+        token: ${{ secrets.GITHUB_TOKEN }}

@@ -79,7 +79,7 @@ export default class Themes extends React.Component<ThemesProps> {
 
     const addTheme = () => {
       const hasAlreadyNewUITheme = this.props.themes.filter((color) =>
-        color.name.includes('New UI Theme')
+        color.name.includes(locals[this.props.lang].themes.new)
       )
 
       this.themesMessage.data = this.props.themes.map((theme) => {
@@ -87,7 +87,7 @@ export default class Themes extends React.Component<ThemesProps> {
         return theme
       })
       this.themesMessage.data.push({
-        name: `New UI Theme ${hasAlreadyNewUITheme.length + 1}`,
+        name: `${locals[this.props.lang].themes.new} ${hasAlreadyNewUITheme.length + 1}`,
         description: '',
         scale: doLightnessScale(
           this.props.preset.scale,
@@ -230,14 +230,14 @@ export default class Themes extends React.Component<ThemesProps> {
   // Direct actions
   onAddTheme = () => {
     const hasAlreadyNewUITheme = this.props.themes.filter((color) =>
-      color.name.includes('New UI Theme')
+      color.name.includes(locals[this.props.lang].themes.new)
     )
     this.themesMessage.data = this.props.themes.map((theme) => {
       theme.isEnabled = false
       return theme
     })
     this.themesMessage.data.push({
-      name: `New UI Theme ${hasAlreadyNewUITheme.length + 1}`,
+      name: `${locals[this.props.lang].themes.new} ${hasAlreadyNewUITheme.length + 1}`,
       description: '',
       scale: doLightnessScale(
         this.props.preset.scale,

@@ -184,6 +184,7 @@ export const locals: { [key: string]: any } = {
     },
     colors: {
       title: 'Source colors',
+      new: 'New UI Color',
       callout: {
         message:
           'Create a source color to split it into multiple shades according to your lightness scale',
@@ -201,6 +202,7 @@ export const locals: { [key: string]: any } = {
     },
     themes: {
       title: 'Color themes',
+      new: 'New UI Theme',
       callout: {
         message:
           'Create color themes to manage multiple color palettes within one single (e.g. light and dark modes)',

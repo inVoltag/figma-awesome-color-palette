@@ -66,13 +66,13 @@ export default class Colors extends React.Component<ColorsProps> {
     this.colorsMessage.isEditedInRealTime = false
 
     const addColor = () => {
-      const hasAlreadyNewUIColor = this.colorsMessage.data.filter((color) =>
-        color.name.includes('New UI Color')
+      const hasAlreadyNewUIColor = this.props.colors.filter((color) =>
+        color.name.includes(locals[this.props.lang].colors.new)
       )
 
       this.colorsMessage.data = this.props.colors
       this.colorsMessage.data.push({
-        name: `New UI Color ${hasAlreadyNewUIColor.length + 1}`,
+        name: `${locals[this.props.lang].colors.new} ${hasAlreadyNewUIColor.length + 1}`,
         description: '',
         rgb: {
           r: 0.53,

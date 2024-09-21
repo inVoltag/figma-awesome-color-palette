@@ -538,7 +538,7 @@ export default class Colors extends React.Component<ColorsProps> {
                           type="NUMBER"
                           icon={{ type: 'LETTER', value: 'H' }}
                           unit="°"
-                          value={color.hueShifting.toString() ?? '0'}
+                          value={color.hueShifting !== undefined ? color.hueShifting.toString() : '100'}
                           min="-360"
                           max="360"
                           feature="SHIFT_HUE"
@@ -575,7 +575,7 @@ export default class Colors extends React.Component<ColorsProps> {
                           type="NUMBER"
                           icon={{ type: 'LETTER', value: 'C' }}
                           unit="%"
-                          value={color.chromaShifting.toString() ?? '100'}
+                          value={color.chromaShifting !== undefined ? color.chromaShifting.toString() : '100'}
                           min="0"
                           max="200"
                           feature="SHIFT_CHROMA"

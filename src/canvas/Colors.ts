@@ -464,48 +464,48 @@ export default class Colors {
               newColor = this.getShadeColorFromLch(
                 sourceColor,
                 lightness,
-                color.hueShifting,
-                color.chromaShifting,
+                color.hueShifting ?? 0,
+                color.chromaShifting ?? 100,
                 this.parent.algorithmVersion
               )
             else if (this.parent.colorSpace === 'OKLCH')
               newColor = this.getShadeColorFromOklch(
                 sourceColor,
                 lightness,
-                color.hueShifting,
-                color.chromaShifting,
+                color.hueShifting ?? 0,
+                color.chromaShifting ?? 100,
                 this.parent.algorithmVersion
               )
             else if (this.parent.colorSpace === 'LAB')
               newColor = this.getShadeColorFromLab(
                 sourceColor,
                 lightness,
-                color.hueShifting,
-                color.chromaShifting,
+                color.hueShifting ?? 0,
+                color.chromaShifting ?? 100,
                 this.parent.algorithmVersion
               )
             else if (this.parent.colorSpace === 'OKLAB')
               newColor = this.getShadeColorFromOklab(
                 sourceColor,
                 lightness,
-                color.hueShifting,
-                color.chromaShifting,
+                color.hueShifting ?? 0,
+                color.chromaShifting ?? 100,
                 this.parent.algorithmVersion
               )
             else if (this.parent.colorSpace === 'HSL')
               newColor = this.getShadeColorFromHsl(
                 sourceColor,
                 lightness,
-                color.hueShifting,
-                color.chromaShifting,
+                color.hueShifting ?? 0,
+                color.chromaShifting ?? 100,
                 this.parent.algorithmVersion
               )
             else if (this.parent.colorSpace === 'HSLUV')
               newColor = this.getShadeColorFromHsluv(
                 sourceColor,
                 lightness,
-                color.hueShifting,
-                color.chromaShifting,
+                color.hueShifting ?? 0,
+                color.chromaShifting ?? 100,
                 this.parent.algorithmVersion
               )
 
@@ -664,48 +664,48 @@ export default class Colors {
             newColor = this.getShadeColorFromLch(
               sourceColor,
               lightness,
-              color.hueShifting,
-              color.chromaShifting,
+              color.hueShifting ?? 0,
+              color.chromaShifting ?? 100,
               this.parent.algorithmVersion
             )
           else if (this.parent.colorSpace === 'OKLCH')
             newColor = this.getShadeColorFromOklch(
               sourceColor,
               lightness,
-              color.hueShifting,
-              color.chromaShifting,
+              color.hueShifting ?? 0,
+              color.chromaShifting ?? 100,
               this.parent.algorithmVersion
             )
           else if (this.parent.colorSpace === 'LAB')
             newColor = this.getShadeColorFromLab(
               sourceColor,
               lightness,
-              color.hueShifting,
-              color.chromaShifting,
+              color.hueShifting ?? 0,
+              color.chromaShifting ?? 100,
               this.parent.algorithmVersion
             )
           else if (this.parent.colorSpace === 'OKLAB')
             newColor = this.getShadeColorFromOklab(
               sourceColor,
               lightness,
-              color.hueShifting,
-              color.chromaShifting,
+              color.hueShifting ?? 0,
+              color.chromaShifting ?? 100,
               this.parent.algorithmVersion
             )
           else if (this.parent.colorSpace === 'HSL')
             newColor = this.getShadeColorFromHsl(
               sourceColor,
               lightness,
-              color.hueShifting,
-              color.chromaShifting,
+              color.hueShifting ?? 0,
+              color.chromaShifting ?? 100,
               this.parent.algorithmVersion
             )
           else if (this.parent.colorSpace === 'HSLUV')
             newColor = this.getShadeColorFromHsluv(
               sourceColor,
               lightness,
-              color.hueShifting,
-              color.chromaShifting,
+              color.hueShifting ?? 0,
+              color.chromaShifting ?? 100,
               this.parent.algorithmVersion
             )
 

@@ -1,15 +1,12 @@
 name: Release for Figma
 
 on:
-  push:
-    branches:
-      - ui-color-palette-*
-    tags:
-      - '*'
   pull_request:
     types:
       - synchronize
       - closed
+    branches:
+      - ui-color-palette-*
 
 jobs:
   create-release:
@@ -28,8 +25,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        tag_name: ${{ github.ref_name }}
+        release_name: Release ${{ github.ref_name }}
         body: |
           ## What's Changed
-          [Friendly release note](https://ui-color-palette.canny.io/changelog/${{ github.ref }})・[Full Changelog](https://github.com/inVoltag/figma-ui-color-palette/commits/${{ github.ref }})
+          [Friendly release note](https://ui-color-palette.canny.io/changelog/${{ github.ref_name }})・[Full Changelog](https://github.com/inVoltag/figma-ui-color-palette/commits/${{ github.ref_name }})

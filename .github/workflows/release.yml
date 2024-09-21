@@ -8,7 +8,6 @@ on:
       - '*'
   pull_request:
     types:
-      - opened
       - synchronize
       - closed
 
@@ -29,8 +28,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.event.ref }}
-        release_name: Release ${{ github.event.ref }}
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
         body: |
           ## What's Changed
-          [Friendly release note](https://ui-color-palette.canny.io/changelog/${{ github.ref_name }})・[Full Changelog](https://github.com/inVoltag/figma-ui-color-palette/commits/${{ github.ref_name }})
+          [Friendly release note](https://ui-color-palette.canny.io/changelog/${{ github.ref }})・[Full Changelog](https://github.com/inVoltag/figma-ui-color-palette/commits/${{ github.ref }})

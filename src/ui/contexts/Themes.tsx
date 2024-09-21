@@ -216,11 +216,45 @@ export default class Themes extends React.Component<ThemesProps> {
       }
     }
 
+    const removeTheme = () => {
+      this.themesMessage.data = this.props.themes.filter(
+        (item) => item.id !== id
+      )
+      if (this.themesMessage.data.length > 1)
+        this.themesMessage.data.filter(
+          (item) => item.type === 'custom theme'
+        )[0].isEnabled = true
+      else {
+        const result = this.themesMessage.data.find(
+          (item) => item.type === 'default theme'
+        )
+        if (result !== undefined) result.isEnabled = true
+      }
+
+      this.props.onChangeThemes({
+        scale:
+          this.themesMessage.data.find((theme) => theme.isEnabled)?.scale ?? {},
+        themes: this.themesMessage.data,
+        onGoingStep: 'themes changed',
+      })
+
+      parent.postMessage({ pluginMessage: this.themesMessage }, '*')
+      trackColorThemesManagementEvent(
+        this.props.figmaUserId,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'REMOVE_THEME',
+        }
+      )
+    }
+
     const actions: ActionsList = {
       ADD_THEME: () => addTheme(),
       RENAME_THEME: () => renameTheme(),
       UPDATE_PALETTE_BACKGROUND: () => updatePaletteBackgroundColor(),
       UPDATE_DESCRIPTION: () => updateThemeDescription(),
+      REMOVE_ITEM: () => removeTheme(),
       NULL: () => null,
     }
 
@@ -272,15 +306,7 @@ export default class Themes extends React.Component<ThemesProps> {
       (item) => item.type === 'default theme'
     )
 
-    if (themes.length === 0) {
-      defaultTheme[0].isEnabled = true
-      this.themesMessage.data = defaultTheme
-    } else if (themes.find((item) => item.isEnabled) === undefined) {
-      themes[0].isEnabled = true
-      this.themesMessage.data = defaultTheme.concat(themes)
-    } else {
-      this.themesMessage.data = defaultTheme.concat(themes)
-    }
+    this.themesMessage.data = defaultTheme.concat(themes)
 
     this.props.onChangeThemes({
       scale:
@@ -353,8 +379,8 @@ export default class Themes extends React.Component<ThemesProps> {
               </div>
             </div>
           ) : (
-            <SortableList
-              data={customThemes as Array<ThemeConfiguration>}
+            <SortableList<ThemeConfiguration>
+              data={customThemes}
               primarySlot={customThemes.map((theme) => {
                 return (
                   <>
@@ -440,6 +466,7 @@ export default class Themes extends React.Component<ThemesProps> {
               ))}
               isScrollable={true}
               onChangeSortableList={this.onChangeOrder}
+              onRemoveItem={this.themesHandler}
             />
           )}
         </div>

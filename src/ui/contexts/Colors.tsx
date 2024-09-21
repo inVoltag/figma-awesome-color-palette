@@ -350,6 +350,27 @@ export default class Colors extends React.Component<ColorsProps> {
       }
     }
 
+    const removeColor = () => {
+      this.colorsMessage.data = this.props.colors.filter(
+        (item) => item.id !== id
+      )
+
+      this.props.onChangeColors({
+        colors: this.colorsMessage.data,
+        onGoingStep: 'colors changed',
+      })
+
+      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+      trackSourceColorsManagementEvent(
+        this.props.figmaUserId,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'REMOVE_COLOR',
+        }
+      )
+    }
+
     const actions: ActionsList = {
       ADD_COLOR: () => addColor(),
       UPDATE_HEX: () => updateHexCode(),
@@ -360,6 +381,7 @@ export default class Colors extends React.Component<ColorsProps> {
       SHIFT_HUE: () => setHueShifting(),
       SHIFT_CHROMA: () => setChromaShifting(),
       UPDATE_DESCRIPTION: () => updateColorDescription(),
+      REMOVE_ITEM: () => removeColor(),
       NULL: () => null,
     }
 
@@ -423,8 +445,8 @@ export default class Colors extends React.Component<ColorsProps> {
               </div>
             </div>
           ) : (
-            <SortableList
-              data={this.props.colors as Array<ColorConfiguration>}
+            <SortableList<ColorConfiguration>
+              data={this.props.colors}
               primarySlot={this.props.colors.map((color) => {
                 const hex = chroma([
                     color.rgb.r * 255,
@@ -621,6 +643,7 @@ export default class Colors extends React.Component<ColorsProps> {
               ))}
               isScrollable={true}
               onChangeSortableList={this.onChangeOrder}
+              onRemoveItem={this.colorsHandler}
             />
           )}
         </div>

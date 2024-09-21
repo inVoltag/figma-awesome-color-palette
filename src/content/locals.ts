@@ -60,12 +60,12 @@ export const locals: { [key: string]: any } = {
     },
     relaunch: {
       create: {
-        label: `Create a ${glossary.name}',
-        description: 'Scale the selected colors`,
+        label: `Create a ${glossary.name}`,
+        description: 'Scale the selected colors',
       },
       edit: {
-        label: `Edit a ${glossary.name}',
-        description: 'Manage, publish, transfer shades`,
+        label: `Edit a ${glossary.name}`,
+        description: 'Manage, publish, transfer shades',
       },
     },
     contexts: {

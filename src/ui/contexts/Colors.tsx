@@ -1,31 +1,24 @@
-import {
-  Button,
-  ConsentConfiguration,
-  HexModel,
-  Message,
-  SectionTitle,
-} from '@a_ng_d/figmug-ui'
-import chroma from 'chroma-js'
-import React from 'react'
-import { uid } from 'uid'
+import { Button, ConsentConfiguration, FormItem, HexModel, Input, InputsBar, Message, SectionTitle, SortableList } from '@a_ng_d/figmug-ui';
+import chroma from 'chroma-js';
+import React from 'react';
+import { uid } from 'uid';
 
-import { locals } from '../../content/locals'
-import {
-  EditorType,
-  HoveredColor,
-  Language,
-  PlanStatus,
-  SelectedColor,
-} from '../../types/app'
-import { ColorConfiguration } from '../../types/configurations'
-import { ColorsMessage } from '../../types/messages'
-import { ActionsList, DispatchProcess } from '../../types/models'
-import { Identity } from '../../types/user'
-import { trackSourceColorsManagementEvent } from '../../utils/eventsTracker'
-import type { AppStates } from '../App'
-import ColorItem from '../components/ColorItem'
-import Actions from '../modules/Actions'
-import Dispatcher from '../modules/Dispatcher'
+
+
+import { locals } from '../../content/locals';
+import { EditorType, Language, PlanStatus } from '../../types/app';
+import { ColorConfiguration } from '../../types/configurations';
+import { ColorsMessage } from '../../types/messages';
+import { ActionsList, DispatchProcess } from '../../types/models';
+import { Identity } from '../../types/user';
+import features from '../../utils/config';
+import { trackSourceColorsManagementEvent } from '../../utils/eventsTracker';
+import isBlocked from '../../utils/isBlocked';
+import type { AppStates } from '../App';
+import Feature from '../components/Feature';
+import Actions from '../modules/Actions';
+import Dispatcher from '../modules/Dispatcher';
+
 
 interface ColorsProps {
   colors: Array<ColorConfiguration>
@@ -41,15 +34,9 @@ interface ColorsProps {
   onPublishPalette: () => void
 }
 
-interface ColorsStates {
-  selectedElement: SelectedColor
-  hoveredElement: HoveredColor
-}
-
-export default class Colors extends React.Component<ColorsProps, ColorsStates> {
+export default class Colors extends React.Component<ColorsProps> {
   colorsMessage: ColorsMessage
   dispatch: { [key: string]: DispatchProcess }
-  listRef: React.RefObject<HTMLUListElement>
 
   constructor(props: ColorsProps) {
     super(props)
@@ -64,48 +51,13 @@ export default class Colors extends React.Component<ColorsProps, ColorsStates> {
         500
       ) as DispatchProcess,
     }
-    this.state = {
-      selectedElement: {
-        id: undefined,
-        position: 0,
-      },
-      hoveredElement: {
-        id: undefined,
-        hasGuideAbove: false,
-        hasGuideBelow: false,
-        position: 0,
-      },
-    }
-    this.listRef = React.createRef()
-    this.handleClickOutside = this.handleClickOutside.bind(this)
-  }
-
-  // Lifecycle
-  componentDidMount = () =>
-    document.addEventListener('mousedown', this.handleClickOutside)
-
-  componentWillUnmount = () =>
-    document.removeEventListener('mousedown', this.handleClickOutside)
-
-  handleClickOutside = (e: Event) => {
-    if (this.listRef.current !== null)
-      if (
-        this.listRef &&
-        !this.listRef.current.contains(e.target as HTMLElement)
-      )
-        this.setState({
-          selectedElement: {
-            id: undefined,
-            position: 0,
-          },
-        })
   }
 
   // Handlers
   colorsHandler = (e: any) => {
     let id: string | null
     const element: HTMLElement | null = (e.target as HTMLElement).closest(
-        '.list__item'
+        '.draggable-item'
       ),
       currentElement: HTMLInputElement = e.currentTarget
 
@@ -398,27 +350,6 @@ export default class Colors extends React.Component<ColorsProps, ColorsStates> {
       }
     }
 
-    const removeColor = () => {
-      this.colorsMessage.data = this.props.colors.filter(
-        (item) => item.id !== id
-      )
-
-      this.props.onChangeColors({
-        colors: this.colorsMessage.data,
-        onGoingStep: 'colors changed',
-      })
-
-      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
-      trackSourceColorsManagementEvent(
-        this.props.figmaUserId,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'REMOVE_COLOR',
-        }
-      )
-    }
-
     const actions: ActionsList = {
       ADD_COLOR: () => addColor(),
       UPDATE_HEX: () => updateHexCode(),
@@ -429,90 +360,30 @@ export default class Colors extends React.Component<ColorsProps, ColorsStates> {
       SHIFT_HUE: () => setHueShifting(),
       SHIFT_CHROMA: () => setChromaShifting(),
       UPDATE_DESCRIPTION: () => updateColorDescription(),
-      REMOVE_COLOR: () => removeColor(),
       NULL: () => null,
     }
 
     return actions[currentElement.dataset.feature ?? 'NULL']?.()
   }
 
-  orderHandler = () => {
-    const source: SelectedColor = this.state.selectedElement,
-      target: HoveredColor = this.state.hoveredElement,
-      colors = this.props.colors.map((el) => el)
+  // Direct actions
+  onRemoveColor = (colors: Array<ColorConfiguration>) => {
+    this.colorsMessage.data = colors
 
-    let position: number
-
-    const colorsWithoutSource = colors.splice(source.position, 1)[0]
-
-    if (target.hasGuideAbove && target.position > source.position)
-      position = target.position - 1
-    else if (target.hasGuideBelow && target.position > source.position)
-      position = target.position
-    else if (target.hasGuideAbove && target.position < source.position)
-      position = target.position
-    else if (target.hasGuideBelow && target.position < source.position)
-      position = target.position + 1
-    else position = target.position
-
-    colors.splice(position, 0, colorsWithoutSource)
     this.props.onChangeColors({
-      colors: colors,
+      colors: this.colorsMessage.data,
       onGoingStep: 'colors changed',
     })
-    parent.postMessage(
+
+    parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+    trackSourceColorsManagementEvent(
+      this.props.figmaUserId,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
       {
-        pluginMessage: {
-          type: 'UPDATE_COLORS',
-          data: colors,
-          isEditedInRealTime: false,
-        },
-      },
-      '*'
+        feature: 'REMOVE_COLOR',
+      }
     )
-  }
-
-  selectionHandler: React.MouseEventHandler<HTMLLIElement> &
-    React.MouseEventHandler<Element> &
-    React.FocusEventHandler<HTMLInputElement> = (e) => {
-    const target = e.currentTarget as HTMLElement
-    if ((e.target as HTMLElement).dataset.feature !== undefined) return
-    this.setState({
-      selectedElement: {
-        id: target.dataset.id,
-        position: parseFloat(target.dataset.position ?? '0'),
-      },
-    })
-  }
-
-  dragHandler = (
-    id: string | undefined,
-    hasGuideAbove: boolean,
-    hasGuideBelow: boolean,
-    position: number
-  ) => {
-    this.setState({
-      hoveredElement: {
-        id: id,
-        hasGuideAbove: hasGuideAbove,
-        hasGuideBelow: hasGuideBelow,
-        position: position,
-      },
-    })
-  }
-
-  dropOutsideHandler = (e: React.DragEvent<HTMLLIElement>) => {
-    const target = e.target,
-      parent: ParentNode =
-        (target as HTMLElement).parentNode ?? (target as HTMLElement),
-      scrollY: number = (parent.parentNode?.parentNode as HTMLElement)
-        .scrollTop,
-      parentRefTop: number = (parent as HTMLElement).offsetTop,
-      parentRefBottom: number =
-        parentRefTop + (parent as HTMLElement).clientHeight
-
-    if (e.pageY + scrollY < parentRefTop) this.orderHandler()
-    else if (e.pageY + scrollY > parentRefBottom) this.orderHandler()
   }
 
   // Render
@@ -552,51 +423,205 @@ export default class Colors extends React.Component<ColorsProps, ColorsStates> {
               </div>
             </div>
           ) : (
-            <ul
-              className="list"
-              ref={this.listRef}
-            >
-              {this.props.colors.map((color, index) => (
-                <ColorItem
-                  key={color.id}
-                  name={color.name}
-                  index={index}
-                  hex={
-                    chroma(
-                      color.rgb.r * 255,
-                      color.rgb.g * 255,
-                      color.rgb.b * 255
-                    ).hex() as HexModel
-                  }
-                  oklch={color.oklch}
-                  hueShifting={color.hueShifting}
-                  chromaShifting={color.chromaShifting}
-                  description={color.description}
-                  id={color.id}
-                  planStatus={this.props.planStatus}
-                  selected={
-                    this.state.selectedElement.id === color.id ? true : false
-                  }
-                  guideAbove={
-                    this.state.hoveredElement.id === color.id
-                      ? this.state.hoveredElement.hasGuideAbove
-                      : false
-                  }
-                  guideBelow={
-                    this.state.hoveredElement.id === color.id
-                      ? this.state.hoveredElement.hasGuideBelow
-                      : false
-                  }
-                  lang={this.props.lang}
-                  onChangeColors={(e) => this.colorsHandler(e)}
-                  onChangeSelection={this.selectionHandler}
-                  onCancellationSelection={this.selectionHandler}
-                  onDragChange={this.dragHandler}
-                  onDropOutside={(e) => this.dropOutsideHandler(e)}
-                  onChangeOrder={this.orderHandler}
-                />
+            <SortableList
+              data={this.props.colors as Array<ColorConfiguration>}
+              primarySlot={this.props.colors.map((color) => {
+                const hex = chroma([
+                    color.rgb.r * 255,
+                    color.rgb.g * 255,
+                    color.rgb.b * 255,
+                  ]).hex(),
+                  lch = chroma([
+                    color.rgb.r * 255,
+                    color.rgb.g * 255,
+                    color.rgb.b * 255,
+                  ]).lch()
+
+                return (
+                  <>
+                    <Feature
+                      isActive={
+                        features.find(
+                          (feature) => feature.name === 'COLORS_NAME'
+                        )?.isActive
+                      }
+                    >
+                      <div className="list__item__param--compact">
+                        <Input
+                          type="TEXT"
+                          value={color.name}
+                          charactersLimit={24}
+                          feature="RENAME_COLOR"
+                          onBlur={this.colorsHandler}
+                          onConfirm={this.colorsHandler}
+                        />
+                      </div>
+                    </Feature>
+                    <Feature
+                      isActive={
+                        features.find(
+                          (feature) => feature.name === 'COLORS_PARAMS'
+                        )?.isActive
+                      }
+                    >
+                      <>
+                        <div className="list__item__param--compact">
+                          <Input
+                            type="COLOR"
+                            value={hex}
+                            feature="UPDATE_HEX"
+                            onChange={this.colorsHandler}
+                            onBlur={this.colorsHandler}
+                          />
+                        </div>
+                        <InputsBar
+                          label={locals[this.props.lang].colors.lch.label}
+                          customClassName="list__item__param"
+                        >
+                          <Input
+                            type="NUMBER"
+                            value={lch[0].toFixed(0)}
+                            min="0"
+                            max="100"
+                            feature="UPDATE_LIGHTNESS"
+                            onBlur={this.colorsHandler}
+                            onConfirm={this.colorsHandler}
+                          />
+                          <Input
+                            type="NUMBER"
+                            value={lch[1].toFixed(0)}
+                            min="0"
+                            max="100"
+                            feature="UPDATE_CHROMA"
+                            onBlur={this.colorsHandler}
+                            onConfirm={this.colorsHandler}
+                          />
+                          <Input
+                            type="NUMBER"
+                            value={
+                              lch[2].toFixed(0) === 'NaN'
+                                ? '0'
+                                : lch[2].toFixed(0)
+                            }
+                            min="0"
+                            max="360"
+                            feature="UPDATE_HUE"
+                            onBlur={this.colorsHandler}
+                            onConfirm={this.colorsHandler}
+                          />
+                        </InputsBar>
+                      </>
+                    </Feature>
+                  </>
+                )
+              })}
+              secondarySlot={this.props.colors.map((color) => (
+                <>
+                  <Feature
+                    isActive={
+                      features.find(
+                        (feature) => feature.name === 'COLORS_HUE_SHIFTING'
+                      )?.isActive
+                    }
+                  >
+                    <div className="list__item__param">
+                      <FormItem
+                        id="hue-shifting"
+                        label={locals[this.props.lang].colors.hueShifting.label}
+                        isBlocked={isBlocked(
+                          'COLORS_CHROMA_SHIFTING',
+                          this.props.planStatus
+                        )}
+                      >
+                        <Input
+                          id="hue-shifting"
+                          type="NUMBER"
+                          icon={{ type: 'LETTER', value: 'H' }}
+                          unit="°"
+                          value={color.hueShifting.toString() ?? '0'}
+                          min="-360"
+                          max="360"
+                          feature="SHIFT_HUE"
+                          isBlocked={isBlocked(
+                            'COLORS_CHROMA_SHIFTING',
+                            this.props.planStatus
+                          )}
+                          onBlur={this.colorsHandler}
+                          onConfirm={this.colorsHandler}
+                        />
+                      </FormItem>
+                    </div>
+                  </Feature>
+                  <Feature
+                    isActive={
+                      features.find(
+                        (feature) => feature.name === 'COLORS_CHROMA_SHIFTING'
+                      )?.isActive
+                    }
+                  >
+                    <div className="list__item__param">
+                      <FormItem
+                        id="chroma-shifting"
+                        label={
+                          locals[this.props.lang].colors.chromaShifting.label
+                        }
+                        isBlocked={isBlocked(
+                          'COLORS_CHROMA_SHIFTING',
+                          this.props.planStatus
+                        )}
+                      >
+                        <Input
+                          id="chroma-shifting"
+                          type="NUMBER"
+                          icon={{ type: 'LETTER', value: 'C' }}
+                          unit="%"
+                          value={color.chromaShifting.toString() ?? '100'}
+                          min="0"
+                          max="200"
+                          feature="SHIFT_CHROMA"
+                          isBlocked={isBlocked(
+                            'COLORS_CHROMA_SHIFTING',
+                            this.props.planStatus
+                          )}
+                          onBlur={this.colorsHandler}
+                          onConfirm={this.colorsHandler}
+                        />
+                      </FormItem>
+                    </div>
+                  </Feature>
+                  <Feature
+                    isActive={
+                      features.find(
+                        (feature) => feature.name === 'COLORS_DESCRIPTION'
+                      )?.isActive
+                    }
+                  >
+                    <div className="list__item__param">
+                      <FormItem
+                        id="color-description"
+                        label={locals[this.props.lang].global.description.label}
+                      >
+                        <Input
+                          id="color-description"
+                          type="LONG_TEXT"
+                          value={color.description}
+                          placeholder={
+                            locals[this.props.lang].global.description
+                              .placeholder
+                          }
+                          feature="UPDATE_DESCRIPTION"
+                          isGrowing={true}
+                          onBlur={this.colorsHandler}
+                          onConfirm={this.colorsHandler}
+                        />
+                      </FormItem>
+                    </div>
+                  </Feature>
+                </>
               ))}
-            </ul>
+              isScrollable={true}
+              onChangeSortableList={this.onRemoveColor}
+            />
           )}
         </div>
         <Actions

@@ -391,7 +391,7 @@ export default class Themes extends React.Component<ThemesProps> {
                         )?.isActive
                       }
                     >
-                      <div className="list__item__param--compact">
+                      <div className="draggable-list__param--compact">
                         <Input
                           type="TEXT"
                           value={theme.name}
@@ -409,7 +409,7 @@ export default class Themes extends React.Component<ThemesProps> {
                         )?.isActive
                       }
                     >
-                      <div className="list__item__param">
+                      <div className="draggable-list__param">
                         <FormItem
                           id="palette-background-color"
                           label={
@@ -441,7 +441,7 @@ export default class Themes extends React.Component<ThemesProps> {
                       )?.isActive
                     }
                   >
-                    <div className="list__item__param">
+                    <div className="draggable-list__param">
                       <FormItem
                         id="theme-description"
                         label={locals[this.props.lang].global.description.label}

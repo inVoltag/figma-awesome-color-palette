@@ -468,7 +468,7 @@ export default class Colors extends React.Component<ColorsProps> {
                         )?.isActive
                       }
                     >
-                      <div className="list__item__param--compact">
+                      <div className="draggable-list__param--compact">
                         <Input
                           type="TEXT"
                           value={color.name}
@@ -487,7 +487,7 @@ export default class Colors extends React.Component<ColorsProps> {
                       }
                     >
                       <>
-                        <div className="list__item__param--compact">
+                        <div className="draggable-list__param--compact">
                           <Input
                             type="COLOR"
                             value={hex}
@@ -498,7 +498,7 @@ export default class Colors extends React.Component<ColorsProps> {
                         </div>
                         <InputsBar
                           label={locals[this.props.lang].colors.lch.label}
-                          customClassName="list__item__param"
+                          customClassName="draggable-list__param"
                         >
                           <Input
                             type="NUMBER"
@@ -546,7 +546,7 @@ export default class Colors extends React.Component<ColorsProps> {
                       )?.isActive
                     }
                   >
-                    <div className="list__item__param">
+                    <div className="draggable-list__param">
                       <FormItem
                         id="hue-shifting"
                         label={locals[this.props.lang].colors.hueShifting.label}
@@ -581,7 +581,7 @@ export default class Colors extends React.Component<ColorsProps> {
                       )?.isActive
                     }
                   >
-                    <div className="list__item__param">
+                    <div className="draggable-list__param">
                       <FormItem
                         id="chroma-shifting"
                         label={
@@ -618,7 +618,7 @@ export default class Colors extends React.Component<ColorsProps> {
                       )?.isActive
                     }
                   >
-                    <div className="list__item__param">
+                    <div className="draggable-list__param">
                       <FormItem
                         id="color-description"
                         label={locals[this.props.lang].global.description.label}

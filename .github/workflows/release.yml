@@ -2,10 +2,9 @@ name: Release for Figma
 
 on:
   pull_request:
-    types:
-      - closed
+    types: [closed]
     branches:
-      - ui-color-palette-*
+      - dev
 
 jobs:
   create-release:
@@ -26,7 +25,7 @@ jobs:
 
     - name: Create release
       id: create_release
-      if: github.event.pull_request.merged == true
+      if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'ui-color-palette-')
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,12 +1,8 @@
 name: Release for Figma
 
 on:
-  push:
-    branches:
-      - ui-color-palette-*
   pull_request:
-    types:
-      - synchronize
+    types: [synchronize, closed]
     branches:
       - ui-color-palette-*
 

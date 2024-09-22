@@ -45,9 +45,7 @@ const loadUI = async () => {
   })
 
   checkUserConsent().then(() => checkEditorType())
-
   processSelection()
-
   await checkPlanStatus()
 
   figma.ui.postMessage({

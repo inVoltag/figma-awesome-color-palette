@@ -53,7 +53,7 @@ export default class Knob extends React.Component<KnobProps, States> {
           })
       },
       Escape: () => {
-        (e.target as HTMLElement).blur()
+        ;(e.target as HTMLElement).blur()
         this.setState({ isStopInputOpen: false })
       },
       Backspace: () => {

@@ -546,19 +546,19 @@ export default class Shortcuts extends React.Component<
                   .filter((n) => n)
                   .join(' ')}
               >
-                {(this.props.planStatus === 'UNPAID' &&
-                this.props.trialStatus !== 'PENDING') && (
-                  <Button
-                    type="compact"
-                    icon="lock-off"
-                    label={
-                      this.props.trialStatus === 'UNUSED'
-                        ? locals[this.props.lang].plan.tryPro
-                        : locals[this.props.lang].plan.getPro
-                    }
-                    action={this.props.onGetProPlan}
-                  />
-                )}
+                {this.props.planStatus === 'UNPAID' &&
+                  this.props.trialStatus !== 'PENDING' && (
+                    <Button
+                      type="compact"
+                      icon="lock-off"
+                      label={
+                        this.props.trialStatus === 'UNUSED'
+                          ? locals[this.props.lang].plan.tryPro
+                          : locals[this.props.lang].plan.getPro
+                      }
+                      action={this.props.onGetProPlan}
+                    />
+                  )}
                 {this.props.trialStatus === 'PENDING' ? (
                   <div className={`label ${texts.label}`}>
                     <div className="type--bold">
@@ -576,25 +576,27 @@ export default class Shortcuts extends React.Component<
                       left in this trial
                     </div>
                   </div>
-                ) : (this.props.trialStatus === 'EXPIRED' &&
-                  this.props.planStatus !== 'PAID') && (
-                  <>
-                    <div
-                      className={`type ${texts.type} ${texts['type--secondary']} truncated`}
-                    >
-                      <span>{locals[this.props.lang].plan.trialEnded}</span>
-                    </div>
-                    <span
-                      className={`type ${texts.type} ${texts['type--secondary']}`}
-                    >
-                      ﹒
-                    </span>
-                    <Button
-                      type="tertiary"
-                      label={locals[this.props.lang].shortcuts.trialFeedback}
-                      action={this.props.onReOpenTrialFeedback}
-                    />
-                  </>
+                ) : (
+                  this.props.trialStatus === 'EXPIRED' &&
+                  this.props.planStatus !== 'PAID' && (
+                    <>
+                      <div
+                        className={`type ${texts.type} ${texts['type--secondary']} truncated`}
+                      >
+                        <span>{locals[this.props.lang].plan.trialEnded}</span>
+                      </div>
+                      <span
+                        className={`type ${texts.type} ${texts['type--secondary']}`}
+                      >
+                        ﹒
+                      </span>
+                      <Button
+                        type="tertiary"
+                        label={locals[this.props.lang].shortcuts.trialFeedback}
+                        action={this.props.onReOpenTrialFeedback}
+                      />
+                    </>
+                  )
                 )}
               </div>
             </Feature>

@@ -9,13 +9,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  }
-  
-  .box-resizer-grip .icon-box {
-    width: var(--size-xsmall);
-    height: var(--size-xsmall);
-    background: var(--figma-color-icon);
-    pointer-events: none;
+}
+
+.box-resizer-grip .icon-box {
+  width: var(--size-xsmall);
+  height: var(--size-xsmall);
+  background: var(--figma-color-icon);
+  pointer-events: none;
 }
 
 /* List */

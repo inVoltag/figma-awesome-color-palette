@@ -494,14 +494,10 @@ export default class PriorityContainer extends React.Component<
     return (
       <>
         {this.props.context === 'TRY' ? <this.TryPro /> : null}
-        {this.props.context === 'WELCOME_TO_TRIAL' && (
-          <this.WelcomeToTrial />
-        )}
+        {this.props.context === 'WELCOME_TO_TRIAL' && <this.WelcomeToTrial />}
         {this.props.context === 'WELCOME_TO_PRO' ? <this.WelcomeToPro /> : null}
         {this.props.context === 'FEEDBACK' ? <this.Feedback /> : null}
-        {this.props.context === 'TRIAL_FEEDBACK' && (
-          <this.TrialFeedback />
-        )}
+        {this.props.context === 'TRIAL_FEEDBACK' && <this.TrialFeedback />}
         {this.props.context === 'HIGHLIGHT' ? <this.Highlight /> : null}
         {this.props.context === 'ABOUT' ? <this.About /> : null}
         {this.props.context === 'PUBLICATION' ? <this.Publication /> : null}

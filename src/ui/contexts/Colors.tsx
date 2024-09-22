@@ -1,24 +1,31 @@
-import { Button, ConsentConfiguration, FormItem, HexModel, Input, InputsBar, Message, SectionTitle, SortableList } from '@a_ng_d/figmug-ui';
-import chroma from 'chroma-js';
-import React from 'react';
-import { uid } from 'uid';
+import {
+  Button,
+  ConsentConfiguration,
+  FormItem,
+  HexModel,
+  Input,
+  InputsBar,
+  Message,
+  SectionTitle,
+  SortableList,
+} from '@a_ng_d/figmug-ui'
+import chroma from 'chroma-js'
+import React from 'react'
+import { uid } from 'uid'
 
-
-
-import { locals } from '../../content/locals';
-import { EditorType, Language, PlanStatus } from '../../types/app';
-import { ColorConfiguration } from '../../types/configurations';
-import { ColorsMessage } from '../../types/messages';
-import { ActionsList, DispatchProcess } from '../../types/models';
-import { Identity } from '../../types/user';
-import features from '../../utils/config';
-import { trackSourceColorsManagementEvent } from '../../utils/eventsTracker';
-import isBlocked from '../../utils/isBlocked';
-import type { AppStates } from '../App';
-import Feature from '../components/Feature';
-import Actions from '../modules/Actions';
-import Dispatcher from '../modules/Dispatcher';
-
+import { locals } from '../../content/locals'
+import { EditorType, Language, PlanStatus } from '../../types/app'
+import { ColorConfiguration } from '../../types/configurations'
+import { ColorsMessage } from '../../types/messages'
+import { ActionsList, DispatchProcess } from '../../types/models'
+import { Identity } from '../../types/user'
+import features from '../../utils/config'
+import { trackSourceColorsManagementEvent } from '../../utils/eventsTracker'
+import isBlocked from '../../utils/isBlocked'
+import type { AppStates } from '../App'
+import Feature from '../components/Feature'
+import Actions from '../modules/Actions'
+import Dispatcher from '../modules/Dispatcher'
 
 interface ColorsProps {
   colors: Array<ColorConfiguration>
@@ -560,7 +567,11 @@ export default class Colors extends React.Component<ColorsProps> {
                           type="NUMBER"
                           icon={{ type: 'LETTER', value: 'H' }}
                           unit="°"
-                          value={color.hueShifting !== undefined ? color.hueShifting.toString() : '100'}
+                          value={
+                            color.hueShifting !== undefined
+                              ? color.hueShifting.toString()
+                              : '100'
+                          }
                           min="-360"
                           max="360"
                           feature="SHIFT_HUE"
@@ -597,7 +608,11 @@ export default class Colors extends React.Component<ColorsProps> {
                           type="NUMBER"
                           icon={{ type: 'LETTER', value: 'C' }}
                           unit="%"
-                          value={color.chromaShifting !== undefined ? color.chromaShifting.toString() : '100'}
+                          value={
+                            color.chromaShifting !== undefined
+                              ? color.chromaShifting.toString()
+                              : '100'
+                          }
                           min="0"
                           max="200"
                           feature="SHIFT_CHROMA"

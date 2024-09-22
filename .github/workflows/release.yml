@@ -21,11 +21,11 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Extract local tag
-      id: extract_tag
+    - name: Extract package version
+      id: extract_version
       run: |
-        local_tag=$(git tag --points-at HEAD | head -n 1)
-        echo "::set-output name=local_tag::$local_tag"
+        package_version=$(jq -r '.version' package.json)
+        echo "::set-output name=package_version::$package_version"
 
     - name: Create release
       id: create_release
@@ -33,8 +33,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.extract_tag.outputs.local_tag }}
-        release_name: Release ${{ steps.extract_tag.outputs.local_tag }}
+        tag_name: v${{ steps.extract_version.outputs.package_version }}
+        release_name: Release ${{ steps.extract_version.outputs.package_version }}
         body: |
           ## What's Changed
           [Friendly release note](https://ui-color-palette.canny.io/changelog/${{ github.ref_name }})・[Full Changelog](https://github.com/inVoltag/figma-ui-color-palette/commits/${{ github.ref_name }})

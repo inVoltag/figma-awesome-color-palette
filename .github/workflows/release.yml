@@ -3,6 +3,7 @@ name: Release for Figma
 on:
   pull_request:
     types:
+      - synchronize
       - closed
     branches:
       - ui-color-palette-*

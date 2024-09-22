@@ -12,7 +12,6 @@ on:
 
 jobs:
   create-release:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -22,26 +21,20 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Extract last commit message
-      id: extract_message
+    - name: Extract local tag
+      id: extract_tag
       run: |
-        last_commit_message=$(git log --format=%B -n 1)
-        echo "::set-output name=last_commit_message::$last_commit_message"
-
-    - name: Set default tag name
-      if: steps.extract_message.outputs.last_commit_message == ''
-      run: |
-        echo "::set-output name=tag_name::default-tag-name"
-      id: default_tag_name
+        local_tag=$(git tag --points-at HEAD | head -n 1)
+        echo "::set-output name=local_tag::$local_tag"
 
     - name: Create release
-      id: create_release_
+      id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.extract_message.outputs.last_commit_message || steps.default_tag_name.outputs.tag_name }}
-        release_name: Release ${{ steps.extract_message.outputs.last_commit_message || steps.default_tag_name.outputs.tag_name }}
+        tag_name: ${{ steps.extract_tag.outputs.local_tag }}
+        release_name: Release ${{ steps.extract_tag.outputs.local_tag }}
         body: |
           ## What's Changed
-          [Friendly release note](https://ui-color-palette.canny.io/changelog/${{ steps.extract_message.outputs.last_commit_message || steps.default_tag_name.outputs.tag_name }})・[Full Changelog](https://github.com/inVoltag/figma-ui-color-palette/commits/${{ steps.extract_message.outputs.last_commit_message || steps.default_tag_name.outputs.tag_name }})
+          [Friendly release note](https://ui-color-palette.canny.io/changelog/${{ github.ref_name }})・[Full Changelog](https://github.com/inVoltag/figma-ui-color-palette/commits/${{ github.ref_name }})

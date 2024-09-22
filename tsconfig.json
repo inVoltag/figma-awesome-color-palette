@@ -17,7 +17,7 @@
       "ScriptHost"
     ],
     "moduleResolution": "node",
-    "module": "CommonJS",
+    "module": "ESNext",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "strict": true,

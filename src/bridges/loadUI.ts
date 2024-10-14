@@ -44,10 +44,12 @@ const loadUI = async () => {
     themeColors: true,
   })
 
+  // Checks
   checkUserConsent().then(() => checkEditorType())
   processSelection()
   await checkPlanStatus()
 
+  // Canvas > UI
   figma.ui.postMessage({
     type: 'CHECK_USER_AUTHENTICATION',
     id: figma.currentUser?.id,
@@ -59,6 +61,7 @@ const loadUI = async () => {
     },
   })
 
+  // UI > Canvas
   figma.ui.onmessage = async (msg) => {
     const palette = figma.currentPage.selection[0] as FrameNode
 
@@ -194,6 +197,7 @@ const loadUI = async () => {
     return actions[msg.type]?.()
   }
 
+  // Listeners
   figma.on('currentpagechange', () => getPalettesOnCurrentPage())
 }
 

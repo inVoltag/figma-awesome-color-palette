@@ -1,5 +1,5 @@
-import * as blinder from 'color-blind'
 import chroma from 'chroma-js'
+import * as blinder from 'color-blind'
 import { Hsluv } from 'hsluv'
 
 import { lang, locals } from '../content/locals'

@@ -1,26 +1,38 @@
-import { Button, ConsentConfiguration, Dialog, Dropdown, FormItem, KeyboardShortcutItem, SectionTitle, layouts, texts } from '@a_ng_d/figmug-ui';
-import React from 'react';
+import {
+  Button,
+  ConsentConfiguration,
+  Dialog,
+  Dropdown,
+  FormItem,
+  KeyboardShortcutItem,
+  SectionTitle,
+  layouts,
+  texts,
+} from '@a_ng_d/figmug-ui'
+import React from 'react'
 
-
-
-import { locals } from '../../content/locals';
-import { Easing, EditorType, Language, PlanStatus } from '../../types/app';
-import { NamingConventionConfiguration, PresetConfiguration, ScaleConfiguration, SourceColorConfiguration } from '../../types/configurations';
-import { ScaleMessage } from '../../types/messages';
-import { ActionsList, DispatchProcess } from '../../types/models';
-import { Identity } from '../../types/user';
-import features from '../../utils/config';
-import doLightnessScale from '../../utils/doLightnessScale';
-import { trackScaleManagementEvent } from '../../utils/eventsTracker';
-import isBlocked from '../../utils/isBlocked';
-import { palette, presets } from '../../utils/palettePackage';
-import type { AppStates } from '../App';
-import Feature from '../components/Feature';
-import Slider from '../components/Slider';
-import Actions from '../modules/Actions';
-import Dispatcher from '../modules/Dispatcher';
-import Preview from '../modules/Preview';
-
+import { locals } from '../../content/locals'
+import { Easing, EditorType, Language, PlanStatus } from '../../types/app'
+import {
+  NamingConventionConfiguration,
+  PresetConfiguration,
+  ScaleConfiguration,
+  SourceColorConfiguration,
+} from '../../types/configurations'
+import { ScaleMessage } from '../../types/messages'
+import { ActionsList, DispatchProcess } from '../../types/models'
+import { Identity } from '../../types/user'
+import features from '../../utils/config'
+import doLightnessScale from '../../utils/doLightnessScale'
+import { trackScaleManagementEvent } from '../../utils/eventsTracker'
+import isBlocked from '../../utils/isBlocked'
+import { palette, presets } from '../../utils/palettePackage'
+import type { AppStates } from '../App'
+import Feature from '../components/Feature'
+import Slider from '../components/Slider'
+import Actions from '../modules/Actions'
+import Dispatcher from '../modules/Dispatcher'
+import Preview from '../modules/Preview'
 
 interface ScaleProps {
   sourceColors?: Array<SourceColorConfiguration>

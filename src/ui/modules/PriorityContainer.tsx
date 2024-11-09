@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/browser'
 import {
   ConsentConfiguration,
   Dialog,
@@ -6,6 +5,7 @@ import {
   Input,
   texts,
 } from '@a_ng_d/figmug-ui'
+import * as Sentry from '@sentry/browser'
 import React from 'react'
 
 import { signIn } from '../../bridges/publication/authentication'

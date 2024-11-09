@@ -1,5 +1,5 @@
-import * as Sentry from '@sentry/react'
 import { Consent, ConsentConfiguration } from '@a_ng_d/figmug-ui'
+import * as Sentry from '@sentry/react'
 import 'figma-plugin-ds/dist/figma-plugin-ds.css'
 import mixpanel from 'mixpanel-figma'
 import React from 'react'

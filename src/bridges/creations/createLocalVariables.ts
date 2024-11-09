@@ -49,8 +49,8 @@ const createLocalVariables = async (palette: SceneNode) => {
       .then((localVariables) => {
         let i = 0,
           j = 0
-        const messages: Array<string> = [],
-          createdVariables: Array<Variable> = []
+        const messages: Array<string> = []
+        let createdVariables: Array<Variable> = []
 
         // Create variables
         paletteData.themes
@@ -85,6 +85,7 @@ const createLocalVariables = async (palette: SceneNode) => {
                   collection !== undefined
                 ) {
                   collection.renameMode(collection.defaultModeId, 'Mode 1')
+                  paletteData.themes[0].modeId = collection.defaultModeId
                 }
               })
             })
@@ -124,6 +125,7 @@ const createLocalVariables = async (palette: SceneNode) => {
         // Set values
         themesList.forEach((themeItem) => {
           if (collection !== undefined && themeItem !== undefined) {
+            if (createdVariables.length === 0) createdVariables = localVariables
             createdVariables.forEach((variable) => {
               const rightShade = paletteData.themes
                 .find((theme) => theme.name === themeItem?.name)

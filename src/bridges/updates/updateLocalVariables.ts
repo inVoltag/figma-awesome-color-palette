@@ -25,7 +25,7 @@ const updateLocalVariables = async (palette: FrameNode) => {
         .getLocalVariablesAsync()
         .then((allLocalVariables) =>
           allLocalVariables.filter(
-            async (localVariable) =>
+            (localVariable) =>
               localVariable.variableCollectionId === collection?.id
           )
         )
@@ -45,6 +45,31 @@ const updateLocalVariables = async (palette: FrameNode) => {
               : paletteData.themes.filter(
                   (theme) => theme.type === 'custom theme'
                 )
+
+          collection.modes.forEach((mode) => {
+            const themeMatch = workingThemes.find(
+              (theme) => theme.modeId === mode.modeId
+            )
+            if (themeMatch === undefined) {
+              collection.removeMode(mode.modeId)
+              j++
+            }
+          })
+          localVariables.forEach((localVariable) => {
+            const shadeMatch = workingThemes.find(
+              (theme) =>
+                theme.colors.find(
+                  (color) =>
+                    color.shades.find(
+                      (shade) => shade.variableId === localVariable.id
+                    ) !== undefined
+                ) !== undefined
+            )
+            if (shadeMatch === undefined) {
+              localVariable.remove()
+              i++
+            }
+          })
 
           workingThemes.forEach((theme) => {
             const modeMatch = collection.modes.find(

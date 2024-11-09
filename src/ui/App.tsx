@@ -117,6 +117,7 @@ Sentry.init({
     Sentry.replayIntegration(),
     Sentry.feedbackIntegration({
       colorScheme: 'system',
+      autoInject: false,
     }),
   ],
   tracesSampleRate: 1.0,

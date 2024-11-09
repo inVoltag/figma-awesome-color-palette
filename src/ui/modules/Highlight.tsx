@@ -127,23 +127,7 @@ export default class Highlight extends React.Component<
               ? `${this.state.position + 1} of ${this.state.announcements.length}`
               : undefined
           }
-          onClose={(e) => {
-            parent.postMessage(
-              {
-                pluginMessage: {
-                  type: 'SET_ITEMS',
-                  items: [
-                    {
-                      key: 'highlight_version',
-                      value: this.props.highlight.version,
-                    },
-                  ],
-                },
-              },
-              '*'
-            )
-            this.props.onCloseHighlight(e)
-          }}
+          onClose={this.props.onCloseHighlight}
         >
           <div className="dialog__cover">
             <img

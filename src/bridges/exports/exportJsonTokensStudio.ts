@@ -23,7 +23,7 @@ const exportJsonTokensStudio = (palette: FrameNode) => {
       value: shade.hex,
       description:
         color.description !== ''
-          ? color.description + '﹒' + shade.description
+          ? color.description + '・' + shade.description
           : shade.description,
       type: 'color',
     }

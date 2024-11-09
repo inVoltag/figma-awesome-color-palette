@@ -783,7 +783,7 @@ export default class Scale extends React.Component<ScaleProps, ScaleStates> {
                     <span
                       className={`type ${texts.type} ${texts['type--secondary']}`}
                     >
-                      ﹒
+                      ・
                     </span>
                     <Button
                       type="tertiary"
@@ -897,7 +897,7 @@ export default class Scale extends React.Component<ScaleProps, ScaleStates> {
                     <span
                       className={`type ${texts.type} ${texts['type--secondary']}`}
                     >
-                      ﹒
+                      ・
                     </span>
                     <Button
                       type="tertiary"

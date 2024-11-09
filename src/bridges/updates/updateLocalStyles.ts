@@ -30,7 +30,7 @@ const updateLocalStyles = async (palette: FrameNode) => {
                       }/${shade.name}`,
                 description =
                   color.description !== ''
-                    ? color.description + '﹒' + shade.description
+                    ? color.description + '・' + shade.description
                     : shade.description
 
               if (

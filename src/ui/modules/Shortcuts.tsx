@@ -588,7 +588,7 @@ export default class Shortcuts extends React.Component<
                       <span
                         className={`type ${texts.type} ${texts['type--secondary']}`}
                       >
-                        ﹒
+                        ・
                       </span>
                       <Button
                         type="tertiary"

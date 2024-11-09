@@ -35,7 +35,7 @@ export default class About extends React.Component<AboutProps> {
                       ?.isActive
                   }
                 >
-                  <span>﹒</span>
+                  <span>・</span>
                   <p className={`type ${texts.type}`}>
                     {process.env.NODE_ENV === 'development'
                       ? locals[this.props.lang].plan.dev

@@ -783,7 +783,7 @@ export default class Colors {
   makeNode = () => {
     // Base
     this.node = figma.createFrame()
-    this.node.name = '_colors﹒do not edit any layer'
+    this.node.name = '_colors・do not edit any layer'
     this.node.fills = []
     this.node.locked = true
 

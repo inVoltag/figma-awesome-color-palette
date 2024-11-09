@@ -93,7 +93,7 @@ const loadUI = async () => {
       SYNC_LOCAL_STYLES: async () =>
         createLocalStyles(palette)
           .then(async (message) => [message, await updateLocalStyles(palette)])
-          .then((messages) => figma.notify(messages.join('﹒')))
+          .then((messages) => figma.notify(messages.join('・')))
           .catch((error) => {
             figma.notify(locals[lang].error.generic)
             throw error
@@ -104,7 +104,7 @@ const loadUI = async () => {
             message,
             await updateLocalVariables(palette),
           ])
-          .then((messages) => figma.notify(messages.join('﹒')))
+          .then((messages) => figma.notify(messages.join('・')))
           .catch((error) => {
             figma.notify(locals[lang].error.generic)
             throw error

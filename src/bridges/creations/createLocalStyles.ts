@@ -32,7 +32,7 @@ const createLocalStyles = async (palette: FrameNode) => {
                         color.name
                       }/${shade.name}`,
                   color.description !== ''
-                    ? color.description + '﹒' + shade.description
+                    ? color.description + '・' + shade.description
                     : shade.description,
                   {
                     r: shade.gl[0],

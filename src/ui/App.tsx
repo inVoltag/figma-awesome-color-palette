@@ -981,12 +981,6 @@ class App extends React.Component<Record<string, never>, AppStates> {
           >
             <Shortcuts
               {...this.state}
-              onReOpenFeedback={() =>
-                this.setState({ priorityContainerContext: 'FEEDBACK' })
-              }
-              onReOpenTrialFeedback={() =>
-                this.setState({ priorityContainerContext: 'TRIAL_FEEDBACK' })
-              }
               onReOpenHighlight={() =>
                 this.setState({ priorityContainerContext: 'HIGHLIGHT' })
               }

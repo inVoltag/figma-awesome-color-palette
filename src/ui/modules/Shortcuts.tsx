@@ -34,8 +34,6 @@ interface ShortcutsProps {
   highlight: HighlightDigest
   lang: Language
   figmaUserId: string
-  onReOpenFeedback: () => void
-  onReOpenTrialFeedback: () => void
   onReOpenHighlight: () => void
   onReOpenAbout: () => void
   onReOpenReport: () => void
@@ -379,7 +377,16 @@ export default class Shortcuts extends React.Component<
                         (feature) => feature.name === 'SHORTCUTS_FEEDBACK'
                       )?.isNew,
                       children: [],
-                      action: () => this.props.onReOpenFeedback(),
+                      action: () =>
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'OPEN_IN_BROWSER',
+                              url: 'https://uicp.link/feedback',
+                            },
+                          },
+                          '*'
+                        ),
                     },
                     {
                       label: locals[this.props.lang].about.beInvolved.request,
@@ -593,7 +600,17 @@ export default class Shortcuts extends React.Component<
                       <Button
                         type="tertiary"
                         label={locals[this.props.lang].shortcuts.trialFeedback}
-                        action={this.props.onReOpenTrialFeedback}
+                        action={() =>
+                          parent.postMessage(
+                            {
+                              pluginMessage: {
+                                type: 'OPEN_IN_BROWSER',
+                                url: 'https://uicp.link/trial-feedback',
+                              },
+                            },
+                            '*'
+                          )
+                        }
                       />
                     </>
                   )

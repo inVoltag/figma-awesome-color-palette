@@ -1,5 +1,5 @@
 const setData = (
-  data: Array<any>,
+  data: Array<{ [key: string]: boolean | string | number }>,
   entry: string,
   value: boolean | string | number
 ): string => {

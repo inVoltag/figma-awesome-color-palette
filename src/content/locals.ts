@@ -20,6 +20,7 @@ const glossary: {
   p3: 'P3',
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const locals: { [key: string]: any } = {
   'en-US': {
     name: glossary.name,

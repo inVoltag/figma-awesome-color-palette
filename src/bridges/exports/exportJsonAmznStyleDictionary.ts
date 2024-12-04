@@ -12,6 +12,7 @@ const exportJsonAmznStyleDictionary = (palette: FrameNode) => {
         .length === 0
         ? paletteData.themes.filter((theme) => theme.type === 'default theme')
         : paletteData.themes.filter((theme) => theme.type === 'custom theme'),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     json: { [key: string]: any } = {
       color: {},
     }

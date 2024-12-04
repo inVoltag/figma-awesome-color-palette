@@ -1,5 +1,13 @@
 import Colors from '../../canvas/Colors'
 import { lang, locals } from '../../content/locals'
+import {
+  ColorConfiguration,
+  CreatorConfiguration,
+  DatesConfiguration,
+  PaletteConfiguration,
+  PublicationConfiguration,
+  ThemeConfiguration,
+} from '../../types/configurations'
 import setPaletteName from '../../utils/setPaletteName'
 import {
   currentSelection,
@@ -7,7 +15,17 @@ import {
   previousSelection,
 } from '../processSelection'
 
-const updateGlobal = async (msg: any) => {
+interface Msg {
+  data: PaletteConfiguration & {
+    creatorIdentity: CreatorConfiguration
+    colors: Array<ColorConfiguration>
+    themes: Array<ThemeConfiguration>
+    dates: DatesConfiguration
+    publicationStatus: PublicationConfiguration
+  }
+}
+
+const updateGlobal = async (msg: Msg) => {
   const palette = isSelectionChanged
     ? (previousSelection?.[0] as FrameNode)
     : (currentSelection[0] as FrameNode)
@@ -43,7 +61,7 @@ const updateGlobal = async (msg: any) => {
 
     palette.name = setPaletteName(
       msg.data.name,
-      msg.data.themes.find((theme: any) => theme.isEnabled)?.name,
+      msg.data.themes.find((theme) => theme.isEnabled)?.name,
       msg.data.preset.name,
       msg.data.colorSpace,
       msg.data.visionSimulationMode
@@ -63,9 +81,9 @@ const updateGlobal = async (msg: any) => {
       JSON.stringify(msg.data.textColorsTheme)
     )
     palette.setPluginData('algorithmVersion', msg.data.algorithmVersion)
-    palette.setPluginData('createdAt', msg.data.dates.createdAt)
-    palette.setPluginData('updatedAt', msg.data.dates.updatedAt)
-    palette.setPluginData('publishedAt', msg.data.dates.publishedAt)
+    palette.setPluginData('createdAt', msg.data.dates.createdAt.toString())
+    palette.setPluginData('updatedAt', msg.data.dates.updatedAt.toString())
+    palette.setPluginData('publishedAt', msg.data.dates.publishedAt.toString())
     palette.setPluginData(
       'isPublished',
       msg.data.publicationStatus.isPublished.toString()

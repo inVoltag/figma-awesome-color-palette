@@ -5,12 +5,29 @@ import { presets } from '../utils/palettePackage'
 
 const loadParameters = ({ key, result }: ParameterInputEvent) => {
   const viableSelection = figma.currentPage.selection.filter(
-    (element: any) =>
-      element.type !== 'GROUP' &&
-      element.type !== 'EMBED' &&
-      element.type !== 'CONNECTOR' &&
-      element.getPluginDataKeys().length === 0 &&
-      element.fills.filter((fill: Paint) => fill.type === 'SOLID').length !== 0
+    (element: SceneNode) => {
+      const fills = (
+        element as Exclude<
+          SceneNode,
+          | SliceNode
+          | GroupNode
+          | ConnectorNode
+          | CodeBlockNode
+          | WidgetNode
+          | EmbedNode
+          | LinkUnfurlNode
+          | MediaNode
+        >
+      ).fills
+      return (
+        element.type !== 'GROUP' &&
+        element.type !== 'EMBED' &&
+        element.type !== 'CONNECTOR' &&
+        element.getPluginDataKeys().length === 0 &&
+        Array.isArray(fills) &&
+        fills.filter((fill: Paint) => fill.type === 'SOLID').length !== 0
+      )
+    }
   )
 
   switch (key) {

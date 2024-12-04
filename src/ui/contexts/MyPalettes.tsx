@@ -81,7 +81,6 @@ export default class MyPalettes extends React.Component<
     return actions[this.props.status]?.()
   }
 
-  // Lifecycle
   componentDidUpdate = (prevProps: Readonly<MyPalettesProps>): void => {
     if (
       prevProps.userSession.connectionStatus !==

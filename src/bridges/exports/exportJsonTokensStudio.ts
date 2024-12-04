@@ -16,6 +16,7 @@ const exportJsonTokensStudio = (palette: FrameNode) => {
       palette.getPluginData('name') === ''
         ? locals[lang].name
         : palette.getPluginData('name'),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     json: { [key: string]: any } = {}
 
   const model = (color: PaletteDataColorItem, shade: PaletteDataShadeItem) => {

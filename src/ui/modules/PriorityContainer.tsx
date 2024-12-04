@@ -33,9 +33,9 @@ import Publication from './Publication'
 interface PriorityContainerProps {
   context: PriorityContext
   rawData: AppStates
-  userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   trialStatus: TrialStatus
+  userConsent: Array<ConsentConfiguration>
   userSession: UserSession
   highlight: HighlightDigest
   lang: Language

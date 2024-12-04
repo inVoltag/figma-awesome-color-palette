@@ -49,7 +49,7 @@ export default class Slider extends React.Component<SliderProps> {
   onGrab = (e: React.MouseEvent<Element, MouseEvent>) => {
     const stop = e.currentTarget as HTMLElement,
       range = stop.parentElement as HTMLElement,
-      shift = (e.nativeEvent as any).layerX as number,
+      shift = (e.nativeEvent as MouseEvent).layerX,
       tooltip = stop.children[0] as HTMLElement,
       rangeWidth = range.offsetWidth as number,
       slider = range.parentElement as HTMLElement,

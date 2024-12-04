@@ -99,6 +99,7 @@ export interface ExportConfiguration {
     | 'text/x-kotlin'
     | 'text/xml'
     | 'text/csv'
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any
 }
 

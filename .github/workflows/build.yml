@@ -29,6 +29,7 @@ jobs:
         echo REACT_APP_MIXPANEL_TOKEN="${{ secrets.REACT_APP_MIXPANEL_TOKEN }}" >> .env.local
         echo REACT_APP_AUTH_WORKER_URL="${{ vars.REACT_APP_AUTH_WORKER_URL }}" >> .env.local
         echo REACT_APP_ANNOUNCEMENTS_WORKER_URL="${{ vars.REACT_APP_ANNOUNCEMENTS_WORKER_URL }}" >> .env.local
+        echo REACT_APP_NOTION_ANNOUNCEMENTS_ID="${{ vars.REACT_APP_NOTION_ANNOUNCEMENTS_ID }}" >> .env.local
         cat .env.local
 
     - name: Install and Build

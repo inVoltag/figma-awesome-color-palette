@@ -1,9 +1,6 @@
 import { Consent, ConsentConfiguration } from '@a_ng_d/figmug-ui'
-import * as Sentry from '@sentry/react'
 import 'figma-plugin-ds/dist/figma-plugin-ds.css'
-import mixpanel from 'mixpanel-figma'
 import React from 'react'
-import { createRoot } from 'react-dom/client'
 
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
 import { supabase } from '../bridges/publication/authentication'
@@ -97,36 +94,11 @@ export interface AppStates {
 }
 
 let isPaletteSelected = false
-const container = document.getElementById('app'),
-  root = createRoot(container)
 
-mixpanel.init(process.env.REACT_APP_MIXPANEL_TOKEN ?? '', {
-  debug: process.env.NODE_ENV === 'development',
-  disable_persistence: true,
-  disable_cookie: true,
-  opt_out_tracking_by_default: true,
-})
-
-Sentry.init({
-  dsn:
-    process.env.NODE_ENV === 'development'
-      ? undefined
-      : process.env.REACT_APP_SENTRY_DSN,
-  integrations: [
-    Sentry.browserTracingIntegration(),
-    Sentry.replayIntegration(),
-    Sentry.feedbackIntegration({
-      colorScheme: 'system',
-      autoInject: false,
-    }),
-  ],
-  tracesSampleRate: 1.0,
-  tracePropagationTargets: ['localhost', /^https:\/\/yourserver\.io\/api/],
-  replaysSessionSampleRate: 0.1,
-  replaysOnErrorSampleRate: 1.0,
-})
-
-class App extends React.Component<Record<string, never>, AppStates> {
+export default class App extends React.Component<
+  Record<string, never>,
+  AppStates
+> {
   constructor(props: Record<string, never>) {
     super(props)
     this.state = {
@@ -1005,5 +977,3 @@ class App extends React.Component<Record<string, never>, AppStates> {
       )
   }
 }
-
-root.render(<App />)

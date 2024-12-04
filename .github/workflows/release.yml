@@ -34,4 +34,4 @@ jobs:
         release_name: ${{ github.event.pull_request.title}}
         body: |
           ## What's Changed
-          [Friendly release note](https://ui-color-palette.canny.io/changelog/${{ github.head_ref }})・[Full Changelog](https://github.com/inVoltag/figma-ui-color-palette/commits/${{ github.head_ref }})
+          [Friendly release note](https://ui-color-palette.canny.io/changelog/${{ github.head_ref }})・[Full Changelog](https://github.com/a-ng-d/figma-ui-color-palette/commits/${{ github.head_ref }})

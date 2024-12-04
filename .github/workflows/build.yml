@@ -31,6 +31,9 @@ jobs:
         echo REACT_APP_ANNOUNCEMENTS_WORKER_URL="${{ vars.REACT_APP_ANNOUNCEMENTS_WORKER_URL }}" >> .env.local
         echo REACT_APP_NOTION_ANNOUNCEMENTS_ID="${{ vars.REACT_APP_NOTION_ANNOUNCEMENTS_ID }}" >> .env.local
         cat .env.local
+        touch .env.sentry-build-plugin
+        echo SENTRY_AUTH_TOKEN="${{ secrets.SENTRY_AUTH_TOKEN }}" >> .env.sentry-build-plugin
+        cat .env.sentry-build-plugin
 
     - name: Install and Build
       run: |

@@ -2,50 +2,47 @@ const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 const Dotenv = require('dotenv-webpack')
+const { sentryWebpackPlugin } = require('@sentry/webpack-plugin')
 
 module.exports = (env, argv) => ({
   mode: argv.mode === 'production' ? 'production' : 'development',
 
-  // This is necessary because Figma's 'eval' works differently than normal eval
-  devtool: argv.mode === 'production' ? false : 'inline-source-map',
+  devtool: 'source-map',
 
   entry: {
-    ui: './src/ui/index.tsx', // The entry point for your UI code
-    code: './src/index.ts', // The entry point for your plugin code
+    ui: './src/ui/index.tsx',
+    code: './src/index.ts',
   },
 
   module: {
     rules: [
-      // Converts TypeScript code to JavaScript
       { test: /\.tsx?$/, use: 'ts-loader', exclude: /node_modules/ },
-
-      // Enables including CSS by doing "import './file.css'" in your TypeScript code
       { test: /\.css$/, use: ['style-loader', { loader: 'css-loader' }] },
-
-      // Allows to use scss modules
       {
         test: /\.s[ac]ss$/i,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
-
-      // Allows you to use "<%= require('./file.svg') %>" in your HTML code to get a data URI
       { test: /\.(png|jpg|gif|webp|svg)$/, loader: 'url-loader' },
     ],
   },
 
-  // Webpack tries these extensions for you if you omit the extension like "import './file'"
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
+    alias: {
+      react: 'preact/compat',
+      'react-dom/test-utils': 'preact/test-utils',
+      'react-dom': 'preact/compat', // Must be below test-utils
+      'react/jsx-runtime': 'preact/jsx-runtime',
+    },
   },
 
   output: {
     filename: '[name].js',
     publicPath: '/',
-    path: path.resolve(__dirname, 'dist'), // Compile into a folder called "dist",
+    path: path.resolve(__dirname, 'dist'),
     clean: true,
   },
 
-  // Tells Webpack to generate "ui.html" and to inline "ui.ts" into it
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/ui/app.html',
@@ -58,6 +55,11 @@ module.exports = (env, argv) => ({
     new HtmlWebpackInlineSourcePlugin(HtmlWebpackPlugin),
     new Dotenv({
       path: path.resolve(__dirname, '.env.local'),
+    }),
+    sentryWebpackPlugin({
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      org: 'yelbolt',
+      project: 'ui-color-palette',
     }),
   ],
 })

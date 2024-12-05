@@ -1,6 +1,6 @@
-import { Dialog, Icon, Message, texts } from '@a_ng_d/figmug-ui'
+import { Dialog, Icon, SemanticMessage, texts } from '@a_ng_d/figmug-ui'
+import { PureComponent } from 'preact/compat'
 import React from 'react'
-
 import { locals } from '../../content/locals'
 import { HighlightDigest, Language } from '../../types/app'
 import { announcementsWorkerUrl } from '../../utils/config'
@@ -8,19 +8,17 @@ import { announcementsWorkerUrl } from '../../utils/config'
 interface HighlightProps {
   highlight: HighlightDigest
   lang: Language
-  onCloseHighlight: React.ReactEventHandler
+  onCloseHighlight: (e: MouseEvent) => void
 }
 
 interface HighlightStates {
   position: number
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   announcements: Array<any>
   status: 'LOADING' | 'LOADED' | 'ERROR'
 }
 
-export default class Highlight extends React.Component<
-  HighlightProps,
-  HighlightStates
-> {
+export default class Highlight extends PureComponent<HighlightProps, HighlightStates> {
   constructor(props: HighlightProps) {
     super(props)
     this.state = {
@@ -46,11 +44,11 @@ export default class Highlight extends React.Component<
       })
   }
 
-  goNextSlide = (e: React.SyntheticEvent<Element, Event>) => {
+  goNextSlide = (e: MouseEvent) => {
     if (this.state.position + 1 < this.state.announcements.length)
       this.setState({ position: this.state.position + 1 })
     else {
-      this.props.onCloseHighlight(e)
+      this.props.onCloseHighlight(e as MouseEvent)
       this.setState({ position: 0 })
     }
   }
@@ -63,7 +61,7 @@ export default class Highlight extends React.Component<
           actions={{}}
           onClose={this.props.onCloseHighlight}
         >
-          <div className="onboarding__callout--centered">
+          <div className="callout--centered">
             <Icon
               type="PICTO"
               iconName="spinner"
@@ -78,10 +76,10 @@ export default class Highlight extends React.Component<
           actions={{}}
           onClose={this.props.onCloseHighlight}
         >
-          <div className="onboarding__callout--centered">
-            <Message
-              icon="warning"
-              messages={[locals[this.props.lang].error.announcements]}
+          <div className="callout--centered">
+            <SemanticMessage
+              type="WARNING"
+              message={locals[this.props.lang].error.announcements}
             />
           </div>
         </Dialog>
@@ -103,7 +101,7 @@ export default class Highlight extends React.Component<
                 this.state.position + 1 < this.state.announcements.length
                   ? locals[this.props.lang].highlight.cta.next
                   : locals[this.props.lang].highlight.cta.gotIt,
-              action: (e) => this.goNextSlide(e),
+              action: (e: MouseEvent) => this.goNextSlide(e),
             },
             secondary: (() => {
               if (
@@ -127,7 +125,23 @@ export default class Highlight extends React.Component<
               ? `${this.state.position + 1} of ${this.state.announcements.length}`
               : undefined
           }
-          onClose={this.props.onCloseHighlight}
+          onClose={(e: MouseEvent) => {
+            parent.postMessage(
+              {
+                pluginMessage: {
+                  type: 'SET_ITEMS',
+                  items: [
+                    {
+                      key: 'highlight_version',
+                      value: this.props.highlight.version,
+                    },
+                  ],
+                },
+              },
+              '*'
+            )
+            this.props.onCloseHighlight(e)
+          }}
         >
           <div className="dialog__cover">
             <img

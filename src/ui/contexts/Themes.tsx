@@ -8,7 +8,7 @@ import {
   SectionTitle,
   SortableList,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { uid } from 'uid'
 
 import { locals } from '../../content/locals'
@@ -17,10 +17,10 @@ import {
   PresetConfiguration,
   ScaleConfiguration,
   ThemeConfiguration,
+  UserConfiguration,
 } from '../../types/configurations'
 import { ThemesMessage } from '../../types/messages'
 import { ActionsList, DispatchProcess } from '../../types/models'
-import { Identity } from '../../types/user'
 import features from '../../utils/config'
 import doLightnessScale from '../../utils/doLightnessScale'
 import { trackColorThemesManagementEvent } from '../../utils/eventsTracker'
@@ -34,19 +34,18 @@ interface ThemesProps {
   preset: PresetConfiguration
   scale: ScaleConfiguration
   themes: Array<ThemeConfiguration>
-  identity?: Identity
+  userIdentity: UserConfiguration
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   editorType: EditorType
   lang: Language
-  figmaUserId: string
   onChangeThemes: React.Dispatch<Partial<AppStates>>
   onSyncLocalStyles: () => void
   onSyncLocalVariables: () => void
   onPublishPalette: () => void
 }
 
-export default class Themes extends React.Component<ThemesProps> {
+export default class Themes extends PureComponent<ThemesProps> {
   themesMessage: ThemesMessage
   dispatch: { [key: string]: DispatchProcess }
 
@@ -66,7 +65,7 @@ export default class Themes extends React.Component<ThemesProps> {
   }
 
   // Handlers
-  themesHandler = (e: any) => {
+  themesHandler = (e: Event) => {
     let id: string | null
     const element: HTMLElement | null = (e.target as HTMLElement).closest(
         '.draggable-item'
@@ -109,7 +108,7 @@ export default class Themes extends React.Component<ThemesProps> {
 
       parent.postMessage({ pluginMessage: this.themesMessage }, '*')
       trackColorThemesManagementEvent(
-        this.props.figmaUserId,
+        this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -139,10 +138,10 @@ export default class Themes extends React.Component<ThemesProps> {
         onGoingStep: 'themes changed',
       })
 
-      if (e.type === 'blur' || e.code === 'Enter') {
+      if (e.type === 'blur' || (e as KeyboardEvent).key === 'Enter') {
         parent.postMessage({ pluginMessage: this.themesMessage }, '*')
         trackColorThemesManagementEvent(
-          this.props.figmaUserId,
+          this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -177,7 +176,7 @@ export default class Themes extends React.Component<ThemesProps> {
         this.dispatch.themes.on.status = false
         parent.postMessage({ pluginMessage: this.themesMessage }, '*')
         trackColorThemesManagementEvent(
-          this.props.figmaUserId,
+          this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -203,10 +202,10 @@ export default class Themes extends React.Component<ThemesProps> {
         onGoingStep: 'themes changed',
       })
 
-      if (e.type === 'blur' || e.key === 'Enter') {
+      if (e.type === 'blur' || (e as KeyboardEvent).key === 'Enter') {
         parent.postMessage({ pluginMessage: this.themesMessage }, '*')
         trackColorThemesManagementEvent(
-          this.props.figmaUserId,
+          this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -240,7 +239,7 @@ export default class Themes extends React.Component<ThemesProps> {
 
       parent.postMessage({ pluginMessage: this.themesMessage }, '*')
       trackColorThemesManagementEvent(
-        this.props.figmaUserId,
+        this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -292,7 +291,7 @@ export default class Themes extends React.Component<ThemesProps> {
 
     parent.postMessage({ pluginMessage: this.themesMessage }, '*')
     trackColorThemesManagementEvent(
-      this.props.figmaUserId,
+      this.props.userIdentity.id,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
       {
@@ -317,7 +316,7 @@ export default class Themes extends React.Component<ThemesProps> {
 
     parent.postMessage({ pluginMessage: this.themesMessage }, '*')
     trackColorThemesManagementEvent(
-      this.props.figmaUserId,
+      this.props.userIdentity.id,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
       {

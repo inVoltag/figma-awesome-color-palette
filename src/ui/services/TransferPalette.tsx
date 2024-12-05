@@ -2,6 +2,7 @@ import { doSnakeCase } from '@a-ng-d/figmug.modules.do-snake-case'
 import FileSaver from 'file-saver'
 import JSZip from 'jszip'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 
 import { locals } from '../../content/locals'
 import { EditorType, Language, PlanStatus, Service } from '../../types/app'
@@ -38,7 +39,7 @@ interface TransferPaletteProps {
   lang: Language
 }
 
-export default class TransferPalette extends React.Component<TransferPaletteProps> {
+export default class TransferPalette extends PureComponent<TransferPaletteProps> {
   // Direct actions
   onExport = () => {
     const blob = new Blob([this.props.export.data], {

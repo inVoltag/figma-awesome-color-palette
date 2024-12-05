@@ -1,6 +1,7 @@
 import { Consent, ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import 'figma-plugin-ds/dist/figma-plugin-ds.css'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
 import { supabase } from '../bridges/publication/authentication'
@@ -28,6 +29,7 @@ import {
   ScaleConfiguration,
   SourceColorConfiguration,
   ThemeConfiguration,
+  UserConfiguration,
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '../types/configurations'
@@ -82,11 +84,11 @@ export interface AppStates {
   trialRemainingTime: number
   publicationStatus: PublicationConfiguration
   creatorIdentity: CreatorConfiguration
+  userIdentity: UserConfiguration
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   priorityContainerContext: PriorityContext
   lang: Language
-  figmaUserId: string
   mustUserConsent: boolean
   highlight: HighlightDigest
   isLoaded: boolean
@@ -95,7 +97,7 @@ export interface AppStates {
 
 let isPaletteSelected = false
 
-export default class App extends React.Component<
+export default class App extends PureComponent<
   Record<string, never>,
   AppStates
 > {
@@ -160,7 +162,11 @@ export default class App extends React.Component<
         refreshToken: undefined,
       },
       userConsent: userConsent,
-      figmaUserId: '',
+      userIdentity: {
+        id: '',
+        fullName: '',
+        avatar: '',
+      },
       mustUserConsent: true,
       highlight: {
         version: '',
@@ -264,7 +270,11 @@ export default class App extends React.Component<
             e.data.pluginMessage.data.refreshToken
           )
           this.setState({
-            figmaUserId: e.data.pluginMessage.id,
+            userIdentity: {
+              id: e.data.pluginMessage.id,
+              fullName: e.data.pluginMessage.data.fullName,
+              avatar: e.data.pluginMessage.data.avatar,
+            },
           })
         }
 
@@ -852,11 +862,6 @@ export default class App extends React.Component<
           >
             <EditPalette
               {...this.state}
-              identity={{
-                connectionStatus: this.state.userSession.connectionStatus,
-                userId: this.state.userSession.userId,
-                creatorId: this.state.creatorIdentity.creatorId,
-              }}
               onChangeScale={(e) => this.setState({ ...this.state, ...e })}
               onChangeStop={(e) => this.setState({ ...this.state, ...e })}
               onChangeColors={(e) => this.setState({ ...this.state, ...e })}

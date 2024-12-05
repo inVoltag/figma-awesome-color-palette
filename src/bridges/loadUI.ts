@@ -45,14 +45,17 @@ const loadUI = async () => {
   })
 
   // Checks
-  checkUserConsent().then(() => checkEditorType())
-  processSelection()
-  await checkPlanStatus()
+  checkUserConsent()
+    .then(() => checkEditorType())
+    .then(() => checkPlanStatus())
+    .then(() => processSelection())
 
   // Canvas > UI
   figma.ui.postMessage({
     type: 'CHECK_USER_AUTHENTICATION',
     id: figma.currentUser?.id,
+    fullName: figma.currentUser?.name,
+    avatar: figma.currentUser?.photoUrl,
     data: {
       accessToken: await figma.clientStorage.getAsync('supabase_access_token'),
       refreshToken: await figma.clientStorage.getAsync(

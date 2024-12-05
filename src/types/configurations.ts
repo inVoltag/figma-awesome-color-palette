@@ -150,6 +150,12 @@ export interface CreatorConfiguration {
   creatorId: string
 }
 
+export interface UserConfiguration {
+  id: string
+  fullName: string
+  avatar: string
+}
+
 export interface MetaConfiguration {
   id: string
   dates: DatesConfiguration

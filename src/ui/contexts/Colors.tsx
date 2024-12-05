@@ -11,14 +11,17 @@ import {
 } from '@a_ng_d/figmug-ui'
 import chroma from 'chroma-js'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 import { uid } from 'uid'
 
 import { locals } from '../../content/locals'
 import { EditorType, Language, PlanStatus } from '../../types/app'
-import { ColorConfiguration } from '../../types/configurations'
+import {
+  ColorConfiguration,
+  UserConfiguration,
+} from '../../types/configurations'
 import { ColorsMessage } from '../../types/messages'
 import { ActionsList, DispatchProcess } from '../../types/models'
-import { Identity } from '../../types/user'
 import features from '../../utils/config'
 import { trackSourceColorsManagementEvent } from '../../utils/eventsTracker'
 import isBlocked from '../../utils/isBlocked'
@@ -30,18 +33,17 @@ import Dispatcher from '../modules/Dispatcher'
 interface ColorsProps {
   colors: Array<ColorConfiguration>
   editorType: EditorType
-  identity?: Identity
+  userIdentity: UserConfiguration
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   lang: Language
-  figmaUserId: string
   onChangeColors: React.Dispatch<Partial<AppStates>>
   onSyncLocalStyles: () => void
   onSyncLocalVariables: () => void
   onPublishPalette: () => void
 }
 
-export default class Colors extends React.Component<ColorsProps> {
+export default class Colors extends PureComponent<ColorsProps> {
   colorsMessage: ColorsMessage
   dispatch: { [key: string]: DispatchProcess }
 
@@ -61,12 +63,12 @@ export default class Colors extends React.Component<ColorsProps> {
   }
 
   // Handlers
-  colorsHandler = (e: any) => {
+  colorsHandler = (e: Event) => {
     let id: string | null
     const element: HTMLElement | null = (e.target as HTMLElement).closest(
         '.draggable-item'
       ),
-      currentElement: HTMLInputElement = e.currentTarget
+      currentElement = e.currentTarget as HTMLInputElement
 
     element !== null ? (id = element.getAttribute('data-id')) : (id = null)
 
@@ -99,7 +101,7 @@ export default class Colors extends React.Component<ColorsProps> {
 
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
       trackSourceColorsManagementEvent(
-        this.props.figmaUserId,
+        this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -127,10 +129,10 @@ export default class Colors extends React.Component<ColorsProps> {
         onGoingStep: 'colors changed',
       })
 
-      if (e.type === 'blur' || e.code === 'Enter') {
+      if (e.type === 'blur' || (e as KeyboardEvent).key === 'Enter') {
         parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
         trackSourceColorsManagementEvent(
-          this.props.figmaUserId,
+          this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -172,7 +174,7 @@ export default class Colors extends React.Component<ColorsProps> {
         this.dispatch.colors.on.status = false
         parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
         trackSourceColorsManagementEvent(
-          this.props.figmaUserId,
+          this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -206,7 +208,7 @@ export default class Colors extends React.Component<ColorsProps> {
 
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
       trackSourceColorsManagementEvent(
-        this.props.figmaUserId,
+        this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -236,7 +238,7 @@ export default class Colors extends React.Component<ColorsProps> {
 
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
       trackSourceColorsManagementEvent(
-        this.props.figmaUserId,
+        this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -266,7 +268,7 @@ export default class Colors extends React.Component<ColorsProps> {
 
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
       trackSourceColorsManagementEvent(
-        this.props.figmaUserId,
+        this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -295,7 +297,7 @@ export default class Colors extends React.Component<ColorsProps> {
 
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
       trackSourceColorsManagementEvent(
-        this.props.figmaUserId,
+        this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -324,7 +326,7 @@ export default class Colors extends React.Component<ColorsProps> {
 
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
       trackSourceColorsManagementEvent(
-        this.props.figmaUserId,
+        this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -347,7 +349,7 @@ export default class Colors extends React.Component<ColorsProps> {
       if (e.type === 'blur') {
         parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
         trackSourceColorsManagementEvent(
-          this.props.figmaUserId,
+          this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -369,7 +371,7 @@ export default class Colors extends React.Component<ColorsProps> {
 
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
       trackSourceColorsManagementEvent(
-        this.props.figmaUserId,
+        this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -406,7 +408,7 @@ export default class Colors extends React.Component<ColorsProps> {
 
     parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
     trackSourceColorsManagementEvent(
-      this.props.figmaUserId,
+      this.props.userIdentity.id,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
       {
@@ -432,7 +434,7 @@ export default class Colors extends React.Component<ColorsProps> {
                 type="icon"
                 icon="plus"
                 feature="ADD_COLOR"
-                action={(e) => this.colorsHandler(e)}
+                action={(e: Event) => this.colorsHandler(e)}
               />
             </div>
           </div>
@@ -447,7 +449,7 @@ export default class Colors extends React.Component<ColorsProps> {
                   type="primary"
                   feature="ADD_COLOR"
                   label={locals[this.props.lang].colors.callout.cta}
-                  action={(e) => this.colorsHandler(e)}
+                  action={(e: Event) => this.colorsHandler(e)}
                 />
               </div>
             </div>

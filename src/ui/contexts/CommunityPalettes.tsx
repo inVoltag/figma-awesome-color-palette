@@ -8,6 +8,7 @@ import {
   Message,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 
 import { supabase } from '../../bridges/publication/authentication'
 import { locals } from '../../content/locals'
@@ -18,6 +19,7 @@ import {
   PaletteConfiguration,
   SourceColorConfiguration,
   ThemeConfiguration,
+  UserConfiguration,
 } from '../../types/configurations'
 import { ExternalPalettes } from '../../types/data'
 import { ActionsList } from '../../types/models'
@@ -31,11 +33,11 @@ interface CommunityPalettesProps {
   searchQuery: string
   status: FetchStatus
   palettesList: Array<ExternalPalettes>
+  userIdentity: UserConfiguration
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   lang: Language
-  figmaUserId: string
   onChangeStatus: (status: FetchStatus) => void
   onChangeCurrentPage: (page: number) => void
   onChangeSearchQuery: (query: string) => void
@@ -48,7 +50,7 @@ interface CommunityPalettesStates {
   isAddToFileActionLoading: Array<boolean>
 }
 
-export default class CommunityPalettes extends React.Component<
+export default class CommunityPalettes extends PureComponent<
   CommunityPalettesProps,
   CommunityPalettesStates
 > {
@@ -225,7 +227,7 @@ export default class CommunityPalettes extends React.Component<
           '*'
         )
         trackPublicationEvent(
-          this.props.figmaUserId,
+          this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {

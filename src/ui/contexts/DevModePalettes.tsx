@@ -1,5 +1,6 @@
 import { ActionsItem, Button, Message, texts } from '@a_ng_d/figmug-ui'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 
 import { locals } from '../../content/locals'
 import { Language } from '../../types/app'
@@ -14,7 +15,7 @@ interface DevModePalettesProps {
   lang: Language
 }
 
-export default class DevModePalettes extends React.Component<DevModePalettesProps> {
+export default class DevModePalettes extends PureComponent<DevModePalettesProps> {
   hasPalettes: boolean
 
   constructor(props: DevModePalettesProps) {

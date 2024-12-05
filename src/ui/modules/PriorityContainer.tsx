@@ -7,6 +7,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import * as Sentry from '@sentry/browser'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 
 import { signIn } from '../../bridges/publication/authentication'
 import cp from '../../content/images/choose_plan.webp'
@@ -29,19 +30,20 @@ import Feature from '../components/Feature'
 import About from './About'
 import Highlight from './Highlight'
 import Publication from './Publication'
+import { UserConfiguration } from 'src/types/configurations'
 
 interface PriorityContainerProps {
   context: PriorityContext
   rawData: AppStates
   planStatus: PlanStatus
   trialStatus: TrialStatus
+  userIdentity: UserConfiguration
   userConsent: Array<ConsentConfiguration>
   userSession: UserSession
   highlight: HighlightDigest
   lang: Language
-  figmaUserId: string
   onChangePublication: React.Dispatch<Partial<AppStates>>
-  onClose: React.ChangeEventHandler & (() => void)
+  onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
 interface PriorityContainerStates {
@@ -52,7 +54,7 @@ interface PriorityContainerStates {
   userMessage: string
 }
 
-export default class PriorityContainer extends React.Component<
+export default class PriorityContainer extends PureComponent<
   PriorityContainerProps,
   PriorityContainerStates
 > {
@@ -304,10 +306,10 @@ export default class PriorityContainer extends React.Component<
                   : 'DEFAULT',
                 action: async () => {
                   this.setState({ isPrimaryActionLoading: true })
-                  signIn(this.props.figmaUserId)
+                  signIn(this.props.userIdentity.id)
                     .then(() => {
                       trackSignInEvent(
-                        this.props.figmaUserId,
+                        this.props.userIdentity.id,
                         this.props.userConsent.find(
                           (consent) => consent.id === 'mixpanel'
                         )?.isConsented ?? false
@@ -406,7 +408,9 @@ export default class PriorityContainer extends React.Component<
                     locals[this.props.lang].report.fullName.placeholder
                   }
                   onChange={(e) =>
-                    this.setState({ userFullName: e.target.value })
+                    this.setState({
+                      userFullName: (e.target as HTMLInputElement).value,
+                    })
                   }
                 />
               </FormItem>
@@ -421,7 +425,11 @@ export default class PriorityContainer extends React.Component<
                   type="TEXT"
                   value={this.state.userEmail}
                   placeholder={locals[this.props.lang].report.email.placeholder}
-                  onChange={(e) => this.setState({ userEmail: e.target.value })}
+                  onChange={(e) =>
+                    this.setState({
+                      userEmail: (e.target as HTMLInputElement).value,
+                    })
+                  }
                 />
               </FormItem>
             </div>
@@ -439,7 +447,9 @@ export default class PriorityContainer extends React.Component<
                   value={this.state.userMessage}
                   isGrowing
                   onChange={(e) =>
-                    this.setState({ userMessage: e.target.value })
+                    this.setState({
+                      userMessage: (e.target as HTMLInputElement).value,
+                    })
                   }
                 />
               </FormItem>

@@ -1,5 +1,6 @@
 import { Bar, ConsentConfiguration, HexModel, Tabs } from '@a_ng_d/figmug-ui'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 
 import { ContextItem, FetchStatus, Language, PlanStatus } from '../../types/app'
 import { ExternalPalettes } from '../../types/data'
@@ -7,13 +8,14 @@ import { UserSession } from '../../types/user'
 import { setContexts } from '../../utils/setContexts'
 import CommunityPalettes from './CommunityPalettes'
 import MyPalettes from './MyPalettes'
+import { UserConfiguration } from 'src/types/configurations'
 
 interface PalettesProps {
+  userIdentity: UserConfiguration
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   lang: Language
-  figmaUserId: string
   onConfigureExternalSourceColors: (
     name: string,
     colors: Array<HexModel>
@@ -32,7 +34,7 @@ interface PalettesStates {
   communityPalettesList: Array<ExternalPalettes>
 }
 
-export default class Palettes extends React.Component<
+export default class Palettes extends PureComponent<
   PalettesProps,
   PalettesStates
 > {
@@ -68,7 +70,7 @@ export default class Palettes extends React.Component<
   }
 
   // Handlers
-  navHandler = (e: React.SyntheticEvent) =>
+  navHandler = (e: Event) =>
     this.setState({
       context: (e.target as HTMLElement).dataset.feature,
     })

@@ -1,5 +1,6 @@
 import { doMap } from '@a-ng-d/figmug.modules.do-map'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 
 import { Easing } from '../../types/app'
 import { ScaleConfiguration } from '../../types/configurations'
@@ -25,12 +26,12 @@ interface SliderProps {
   onChange: (state: string, feature?: string) => void
 }
 
-export default class Slider extends React.Component<SliderProps> {
+export default class Slider extends PureComponent<SliderProps> {
   // Handlers
   validHandler = (
     stopId: string,
     e:
-      | React.FocusEvent<HTMLInputElement, Element>
+      | React.FocusEvent<HTMLInputElement>
       | React.KeyboardEvent<HTMLInputElement>
   ) => {
     const target = e.target as HTMLInputElement
@@ -46,16 +47,18 @@ export default class Slider extends React.Component<SliderProps> {
   }
 
   // Direct actions
-  onGrab = (e: React.MouseEvent<Element, MouseEvent>) => {
+  onGrab = (e: React.MouseEvent<HTMLElement>) => {
     const stop = e.currentTarget as HTMLElement,
       range = stop.parentElement as HTMLElement,
-      shift = (e.nativeEvent as MouseEvent).layerX,
+      shift =
+        e.clientX -
+        (e.currentTarget as HTMLElement).getBoundingClientRect().left -
+        (e.currentTarget as HTMLElement).getBoundingClientRect().width / 2,
       tooltip = stop.children[0] as HTMLElement,
       rangeWidth = range.offsetWidth as number,
       slider = range.parentElement as HTMLElement,
       stops = Array.from(range.children as HTMLCollectionOf<HTMLElement>)
 
-    let offset: number
     const update = () => {
       palette.min = parseFloat(
         doMap(
@@ -93,7 +96,6 @@ export default class Slider extends React.Component<SliderProps> {
         stops,
         stop,
         tooltip,
-        offset,
         shift,
         rangeWidth,
         update
@@ -109,7 +111,6 @@ export default class Slider extends React.Component<SliderProps> {
     stops: Array<HTMLElement>,
     stop: HTMLElement,
     tooltip: HTMLElement,
-    offset: number,
     shift: number,
     rangeWidth: number,
     update: () => void
@@ -119,7 +120,7 @@ export default class Slider extends React.Component<SliderProps> {
       sliderPadding: number = parseFloat(
         window.getComputedStyle(slider, null).getPropertyValue('padding-left')
       )
-    offset = e.clientX - slider.offsetLeft - sliderPadding - shift
+    let offset = e.clientX - slider.offsetLeft - sliderPadding - shift
 
     update()
 
@@ -202,7 +203,7 @@ export default class Slider extends React.Component<SliderProps> {
     this.props.onChange('RELEASED')
   }
 
-  onAdd = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  onAdd = (e: React.MouseEvent<HTMLDivElement>) => {
     if (
       (e.target as HTMLElement).classList[0] === 'slider__range' &&
       Object.keys(this.props.scale !== undefined ? this.props.scale : {})
@@ -317,7 +318,7 @@ export default class Slider extends React.Component<SliderProps> {
             shortId={lightness[0].replace('lightness-', '')}
             value={lightness[1]}
             canBeTyped={false}
-            onMouseDown={(e) => this.onGrab(e)}
+            onMouseDown={(e: React.MouseEvent<HTMLElement>) => this.onGrab(e)}
           />
         ))}
       </div>
@@ -357,13 +358,13 @@ export default class Slider extends React.Component<SliderProps> {
                   : (original[index - 1][1] - safeGap).toString()
               }
               canBeTyped={!this.props.hasPreset}
-              onShiftRight={(e) => {
+              onShiftRight={(e: React.KeyboardEvent<HTMLInputElement>) => {
                 this.onShiftRight(e.target as HTMLElement, e.metaKey, e.ctrlKey)
               }}
-              onShiftLeft={(e) => {
+              onShiftLeft={(e: React.KeyboardEvent<HTMLInputElement>) => {
                 this.onShiftLeft(e.target as HTMLElement, e.metaKey, e.ctrlKey)
               }}
-              onDelete={(e) => {
+              onDelete={(e: React.KeyboardEvent<HTMLInputElement>) => {
                 if (
                   this.props.stops.length > 2 &&
                   this.props.presetName === 'Custom' &&
@@ -371,7 +372,7 @@ export default class Slider extends React.Component<SliderProps> {
                 )
                   this.onDelete(e.target as HTMLElement)
               }}
-              onMouseDown={(e) => {
+              onMouseDown={(e: React.MouseEvent<HTMLElement>) => {
                 this.onGrab(e)
                 ;(e.target as HTMLElement).focus()
               }}

@@ -6,6 +6,7 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 
 import { supabase } from '../../bridges/publication/authentication'
 import detachPalette from '../../bridges/publication/detachPalette'
@@ -18,18 +19,19 @@ import { Language } from '../../types/app'
 import { palettesDbTableName } from '../../utils/config'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
+import { UserConfiguration } from 'src/types/configurations'
 
 interface PublicationProps {
   rawData: AppStates
   isPrimaryActionLoading: boolean
   isSecondaryActionLoading: boolean
+  userIdentity: UserConfiguration
   userConsent: Array<ConsentConfiguration>
   lang: Language
-  figmaUserId: string
   onLoadPrimaryAction: (e: boolean) => void
   onLoadSecondaryAction: (e: boolean) => void
   onChangePublication: React.Dispatch<Partial<AppStates>>
-  onClosePublication: React.ReactEventHandler
+  onClosePublication: React.MouseEventHandler<HTMLButtonElement>
 }
 
 type PublicationStatus =
@@ -51,13 +53,13 @@ interface PublicationStates {
 interface PublicationAction {
   label: string
   state: 'LOADING' | 'DEFAULT' | 'DISABLED'
-  action: React.EventHandler<any> | (() => void)
+  action: () => void
 }
 
 interface PublicationOption {
   label: string
   state: boolean
-  action: React.EventHandler<any> | (() => void)
+  action: () => void
 }
 
 interface PublicationActions {
@@ -65,7 +67,7 @@ interface PublicationActions {
   secondary: PublicationAction | undefined
 }
 
-export default class Publication extends React.Component<
+export default class Publication extends PureComponent<
   PublicationProps,
   PublicationStates
 > {
@@ -262,7 +264,7 @@ export default class Publication extends React.Component<
                   '*'
                 )
                 trackPublicationEvent(
-                  this.props.figmaUserId,
+                  this.props.userIdentity.id,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -312,7 +314,7 @@ export default class Publication extends React.Component<
                   '*'
                 )
                 trackPublicationEvent(
-                  this.props.figmaUserId,
+                  this.props.userIdentity.id,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -359,7 +361,7 @@ export default class Publication extends React.Component<
                   '*'
                 )
                 trackPublicationEvent(
-                  this.props.figmaUserId,
+                  this.props.userIdentity.id,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -408,7 +410,7 @@ export default class Publication extends React.Component<
                   '*'
                 )
                 trackPublicationEvent(
-                  this.props.figmaUserId,
+                  this.props.userIdentity.id,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -446,7 +448,7 @@ export default class Publication extends React.Component<
                   isPaletteShared: false,
                 })
                 trackPublicationEvent(
-                  this.props.figmaUserId,
+                  this.props.userIdentity.id,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -484,7 +486,7 @@ export default class Publication extends React.Component<
                   '*'
                 )
                 trackPublicationEvent(
-                  this.props.figmaUserId,
+                  this.props.userIdentity.id,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -522,7 +524,7 @@ export default class Publication extends React.Component<
                   isPaletteShared: false,
                 })
                 trackPublicationEvent(
-                  this.props.figmaUserId,
+                  this.props.userIdentity.id,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -568,7 +570,7 @@ export default class Publication extends React.Component<
                   '*'
                 )
                 trackPublicationEvent(
-                  this.props.figmaUserId,
+                  this.props.userIdentity.id,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -615,7 +617,7 @@ export default class Publication extends React.Component<
                   '*'
                 )
                 trackPublicationEvent(
-                  this.props.figmaUserId,
+                  this.props.userIdentity.id,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -655,7 +657,7 @@ export default class Publication extends React.Component<
                   isPaletteShared: false,
                 })
                 trackPublicationEvent(
-                  this.props.figmaUserId,
+                  this.props.userIdentity.id,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -685,7 +687,7 @@ export default class Publication extends React.Component<
                   isPaletteShared: data.publicationStatus?.isShared ?? false,
                 })
                 trackPublicationEvent(
-                  this.props.figmaUserId,
+                  this.props.userIdentity.id,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -732,7 +734,7 @@ export default class Publication extends React.Component<
                   isPaletteShared: false,
                 })
                 trackPublicationEvent(
-                  this.props.figmaUserId,
+                  this.props.userIdentity.id,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -761,7 +763,7 @@ export default class Publication extends React.Component<
                   isPaletteShared: false,
                 })
                 trackPublicationEvent(
-                  this.props.figmaUserId,
+                  this.props.userIdentity.id,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,

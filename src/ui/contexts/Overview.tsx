@@ -9,11 +9,15 @@ import {
 } from '@a_ng_d/figmug-ui'
 import chroma from 'chroma-js'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 import { uid } from 'uid'
 
 import { locals } from '../../content/locals'
 import { ImportUrl, Language, PlanStatus, ThirdParty } from '../../types/app'
-import { SourceColorConfiguration } from '../../types/configurations'
+import {
+  SourceColorConfiguration,
+  UserConfiguration,
+} from '../../types/configurations'
 import features from '../../utils/config'
 import { trackImportEvent } from '../../utils/eventsTracker'
 import isBlocked from '../../utils/isBlocked'
@@ -21,16 +25,15 @@ import Feature from '../components/Feature'
 
 interface OverviewProps {
   sourceColors: Array<SourceColorConfiguration>
+  userIdentity: UserConfiguration
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   lang: Language
-  figmaUserId: string
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
     source: ThirdParty
   ) => void
-  onChangeContexts: React.MouseEventHandler<Element> &
-    React.KeyboardEventHandler<Element>
+  onChangeContexts: () => void
 }
 
 interface OverviewStates {
@@ -41,10 +44,7 @@ interface OverviewStates {
   isColourLoversImportOpen: boolean
 }
 
-export default class Overview extends React.Component<
-  OverviewProps,
-  OverviewStates
-> {
+export default class Overview extends PureComponent<OverviewProps, OverviewStates> {
   constructor(props: OverviewProps) {
     super(props)
     this.state = {
@@ -93,7 +93,7 @@ export default class Overview extends React.Component<
   }
 
   // Handlers
-  isTypingCoolorsUrlHandler = (e: React.SyntheticEvent) =>
+  isTypingCoolorsUrlHandler = (e: Event) =>
     this.setState((state) => ({
       coolorsUrl: {
         value: (e.target as HTMLInputElement).value,
@@ -118,7 +118,7 @@ export default class Overview extends React.Component<
       },
     }))
 
-  isTypingRealtimeColorsUrlHandler = (e: React.SyntheticEvent) =>
+  isTypingRealtimeColorsUrlHandler = (e: Event) =>
     this.setState((state) => ({
       realtimeColorsUrl: {
         value: (e.target as HTMLInputElement).value,
@@ -175,7 +175,7 @@ export default class Overview extends React.Component<
         },
       })
       trackImportEvent(
-        this.props.figmaUserId,
+        this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -227,7 +227,7 @@ export default class Overview extends React.Component<
         },
       })
       trackImportEvent(
-        this.props.figmaUserId,
+        this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {

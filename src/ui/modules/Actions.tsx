@@ -1,61 +1,67 @@
 import { Button, DropdownOption, Menu, texts } from '@a_ng_d/figmug-ui'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 
 import { locals } from '../../content/locals'
 import { EditorType, Language, PlanStatus } from '../../types/app'
-import { SourceColorConfiguration } from '../../types/configurations'
-import { Identity } from '../../types/user'
+import {
+  CreatorConfiguration,
+  SourceColorConfiguration,
+} from '../../types/configurations'
 import features from '../../utils/config'
 import isBlocked from '../../utils/isBlocked'
 import Feature from '../components/Feature'
+import { UserSession } from 'src/types/user'
 
 interface ActionsProps {
   context: string
   sourceColors: Array<SourceColorConfiguration> | []
-  identity?: Identity
+  creatorIdentity?: CreatorConfiguration
+  userSession?: UserSession
   exportType?: string
   planStatus?: PlanStatus
   editorType?: EditorType
   lang: Language
-  onCreatePalette?: React.MouseEventHandler & React.KeyboardEventHandler
+  onCreatePalette?: React.MouseEventHandler<HTMLButtonElement> &
+    React.KeyboardEventHandler<HTMLButtonElement>
   onSyncLocalStyles?: (
-    e:
-      | React.MouseEvent<HTMLLIElement, MouseEvent>
-      | React.KeyboardEvent<HTMLLIElement>
+    e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
   ) => void
   onSyncLocalVariables?: (
-    e:
-      | React.MouseEvent<HTMLLIElement, MouseEvent>
-      | React.KeyboardEvent<HTMLLIElement>
+    e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
   ) => void
   onPublishPalette?: (
     e: React.MouseEvent<Element> | React.KeyboardEvent<Element>
   ) => void
-  onExportPalette?: React.MouseEventHandler & React.KeyboardEventHandler
+  onExportPalette?: React.MouseEventHandler<HTMLButtonElement> &
+    React.KeyboardEventHandler<HTMLButtonElement>
 }
 
-export default class Actions extends React.Component<ActionsProps> {
+export default class Actions extends PureComponent<ActionsProps> {
   static defaultProps = {
     sourceColors: [],
   }
 
   // Direct actions
   publicationAction = (): Partial<DropdownOption> => {
-    if (this.props.identity?.connectionStatus === 'UNCONNECTED')
+    if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
       return {
         label: locals[this.props.lang].actions.publishOrSyncPalette,
         value: 'PALETTE_PUBLICATION',
         feature: 'PUBLISH_SYNC_PALETTE',
       }
-    else if (this.props.identity?.userId === this.props.identity?.creatorId)
+    else if (
+      this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
+    )
       return {
         label: locals[this.props.lang].actions.publishPalette,
         value: 'PALETTE_PUBLICATION',
         feature: 'PUBLISH_PALETTE',
       }
     else if (
-      this.props.identity?.userId !== this.props.identity?.creatorId &&
-      this.props.identity?.creatorId !== ''
+      this.props.userSession?.userId !==
+        this.props.creatorIdentity?.creatorId &&
+      this.props.creatorIdentity?.creatorId !== ''
     )
       return {
         label: locals[this.props.lang].actions.syncPalette,
@@ -71,13 +77,16 @@ export default class Actions extends React.Component<ActionsProps> {
   }
 
   publicationLabel = (): string => {
-    if (this.props.identity?.connectionStatus === 'UNCONNECTED')
+    if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
       return locals[this.props.lang].actions.publishOrSyncPalette
-    else if (this.props.identity?.userId === this.props.identity?.creatorId)
+    else if (
+      this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
+    )
       return locals[this.props.lang].actions.publishPalette
     else if (
-      this.props.identity?.userId !== this.props.identity?.creatorId &&
-      this.props.identity?.creatorId !== ''
+      this.props.userSession?.userId !==
+        this.props.creatorIdentity?.creatorId &&
+      this.props.creatorIdentity?.creatorId !== ''
     )
       return locals[this.props.lang].actions.syncPalette
     else return locals[this.props.lang].actions.publishPalette
@@ -142,7 +151,6 @@ export default class Actions extends React.Component<ActionsProps> {
                   isNew: features.find(
                     (feature) => feature.name === 'SYNC_LOCAL_STYLES'
                   )?.isNew,
-                  children: [],
                   action: (e) => this.props.onSyncLocalStyles?.(e),
                 },
                 {
@@ -161,20 +169,11 @@ export default class Actions extends React.Component<ActionsProps> {
                   isNew: features.find(
                     (feature) => feature.name === 'SYNC_LOCAL_VARIABLES'
                   )?.isNew,
-                  children: [],
                   action: (e) => this.props.onSyncLocalVariables?.(e),
                 },
                 {
-                  label: null,
-                  value: null,
-                  feature: null,
                   position: 0,
                   type: 'SEPARATOR',
-                  isActive: true,
-                  isBlocked: false,
-                  isNew: false,
-                  children: [],
-                  action: () => null,
                 },
                 {
                   ...this.publicationAction(),
@@ -190,7 +189,6 @@ export default class Actions extends React.Component<ActionsProps> {
                   isNew: features.find(
                     (feature) => feature.name === 'PUBLISH_PALETTE'
                   )?.isNew,
-                  children: [],
                   action: (e) => this.props.onPublishPalette?.(e),
                 } as DropdownOption,
               ]}

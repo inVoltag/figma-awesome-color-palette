@@ -4,6 +4,7 @@ import { Bar, Dropdown, FormItem, Tabs } from '@a_ng_d/figmug-ui'
 import FileSaver from 'file-saver'
 import JSZip from 'jszip'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 
 import { locals } from '../../content/locals'
 import { ContextItem, EditorType, Language, PlanStatus } from '../../types/app'
@@ -15,12 +16,12 @@ import {
   PresetConfiguration,
   ScaleConfiguration,
   ThemeConfiguration,
+  UserConfiguration,
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '../../types/configurations'
 import { ThemesMessage } from '../../types/messages'
 import { TextColorsThemeHexModel } from '../../types/models'
-import { Identity } from '../../types/user'
 import features from '../../utils/config'
 import doLightnessScale from '../../utils/doLightnessScale'
 import { trackActionEvent } from '../../utils/eventsTracker'
@@ -48,12 +49,11 @@ interface EditPaletteProps {
   textColorsTheme: TextColorsThemeHexModel
   algorithmVersion: AlgorithmVersionConfiguration
   export: ExportConfiguration
-  identity: Identity
+  userIdentity: UserConfiguration
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   editorType: EditorType
   lang: Language
-  figmaUserId: string
   onChangeScale: React.Dispatch<Partial<AppStates>>
   onChangeStop?: React.Dispatch<Partial<AppStates>>
   onChangeColors: React.Dispatch<Partial<AppStates>>
@@ -70,7 +70,7 @@ interface EditPaletteStates {
   }
 }
 
-export default class EditPalette extends React.Component<
+export default class EditPalette extends PureComponent<
   EditPaletteProps,
   EditPaletteStates
 > {
@@ -103,14 +103,12 @@ export default class EditPalette extends React.Component<
   }
 
   // Handlers
-  navHandler = (e: React.SyntheticEvent) =>
+  navHandler = (e: Event) =>
     this.setState({
       context: (e.target as HTMLElement).dataset.feature,
     })
 
-  switchThemeHandler = (
-    e: React.MouseEvent<HTMLLIElement, MouseEvent> | React.KeyboardEvent
-  ) => {
+  switchThemeHandler = (e: Event) => {
     this.themesMessage.data = this.props.themes.map((theme) => {
       if ((e.target as HTMLElement).dataset.value === theme.id)
         theme.isEnabled = true
@@ -171,7 +169,7 @@ export default class EditPalette extends React.Component<
       },
     })
     trackActionEvent(
-      this.props.figmaUserId,
+      this.props.userIdentity.id,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
       {
@@ -189,7 +187,7 @@ export default class EditPalette extends React.Component<
       },
     })
     trackActionEvent(
-      this.props.figmaUserId,
+      this.props.userIdentity.id,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
       {
@@ -273,26 +271,16 @@ export default class EditPalette extends React.Component<
         isActive: true,
         isBlocked: false,
         children: [],
-        action: (
-          e: React.MouseEvent<HTMLLIElement, MouseEvent> | React.KeyboardEvent
-        ) => this.switchThemeHandler(e),
+        action: (e: Event) => this.switchThemeHandler(e),
       } as DropdownOption
     })
     const actions: Array<DropdownOption> = [
       {
-        label: null,
-        value: null,
-        feature: null,
         position: themes.length,
         type: 'SEPARATOR',
-        isActive: true,
-        isBlocked: false,
-        children: [],
-        action: () => null,
       },
       {
         label: 'Create a color theme',
-        value: null,
         feature: 'ADD_THEME',
         position: 0,
         type: 'OPTION',
@@ -300,7 +288,6 @@ export default class EditPalette extends React.Component<
           ?.isActive,
         isBlocked: isBlocked('THEMES', this.props.planStatus),
         isNew: features.find((feature) => feature.name === 'THEMES')?.isNew,
-        children: [],
         action: () => {
           this.setState({ context: 'THEMES' })
           setTimeout(() => this.themesRef.current?.onAddTheme(), 1)

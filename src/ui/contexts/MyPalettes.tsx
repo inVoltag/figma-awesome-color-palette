@@ -9,6 +9,7 @@ import {
   Message,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 
 import { signIn, supabase } from '../../bridges/publication/authentication'
 import sharePalette from '../../bridges/publication/sharePalette'
@@ -21,6 +22,7 @@ import {
   PaletteConfiguration,
   SourceColorConfiguration,
   ThemeConfiguration,
+  UserConfiguration,
 } from '../../types/configurations'
 import { ExternalPalettes } from '../../types/data'
 import { ActionsList } from '../../types/models'
@@ -34,11 +36,11 @@ interface MyPalettesProps {
   searchQuery: string
   status: FetchStatus
   palettesList: Array<ExternalPalettes>
+  userIdentity: UserConfiguration
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   lang: Language
-  figmaUserId: string
   onChangeStatus: (status: FetchStatus) => void
   onChangeCurrentPage: (page: number) => void
   onChangeSearchQuery: (query: string) => void
@@ -52,7 +54,7 @@ interface MyPalettesStates {
   isContextActionLoading: Array<boolean>
 }
 
-export default class MyPalettes extends React.Component<
+export default class MyPalettes extends PureComponent<
   MyPalettesProps,
   MyPalettesStates
 > {
@@ -241,7 +243,7 @@ export default class MyPalettes extends React.Component<
           '*'
         )
         trackPublicationEvent(
-          this.props.figmaUserId,
+          this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -362,14 +364,10 @@ export default class MyPalettes extends React.Component<
                     options={[
                       {
                         label: locals[this.props.lang].publication.unpublish,
-                        value: null,
-                        feature: null,
-                        position: 0,
                         type: 'OPTION',
                         isActive: true,
                         isBlocked: false,
                         isNew: false,
-                        children: [],
                         action: async () => {
                           this.setState({
                             isContextActionLoading:
@@ -409,7 +407,7 @@ export default class MyPalettes extends React.Component<
                                 this.props.onChangeCurrentPage(1)
 
                               trackPublicationEvent(
-                                this.props.figmaUserId,
+                                this.props.userIdentity.id,
                                 this.props.userConsent.find(
                                   (consent) => consent.id === 'mixpanel'
                                 )?.isConsented ?? false,
@@ -446,14 +444,10 @@ export default class MyPalettes extends React.Component<
                         label: palette.is_shared
                           ? locals[this.props.lang].publication.unshare
                           : locals[this.props.lang].publication.share,
-                        value: null,
-                        feature: null,
-                        position: 0,
                         type: 'OPTION',
                         isActive: true,
                         isBlocked: false,
                         isNew: false,
-                        children: [],
                         action: async () => {
                           this.setState({
                             isContextActionLoading:
@@ -487,7 +481,7 @@ export default class MyPalettes extends React.Component<
                               this.props.onLoadPalettesList(currentPalettesList)
 
                               trackPublicationEvent(
-                                this.props.figmaUserId,
+                                this.props.userIdentity.id,
                                 this.props.userConsent.find(
                                   (consent) => consent.id === 'mixpanel'
                                 )?.isConsented ?? false,
@@ -590,7 +584,7 @@ export default class MyPalettes extends React.Component<
               isLoading={this.state.isSignInActionLoading}
               action={async () => {
                 this.setState({ isSignInActionLoading: true })
-                signIn(this.props.figmaUserId)
+                signIn(this.props.userIdentity.id)
                   .finally(() => {
                     this.setState({ isSignInActionLoading: false })
                   })

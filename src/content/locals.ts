@@ -33,9 +33,14 @@ export const locals: { [key: string]: any } = {
       },
     },
     shortcuts: {
+      documentation: 'Read the documentation',
       feedback: 'Give feedback',
-      trialFeedback: 'How was it?',
+      email: 'Contact support',
       news: "What's new",
+      repository: 'Repository',
+      discuss: 'Start a discussion',
+      request: 'Post a feature request',
+      follow: 'Follow us',
     },
     publication: {
       titlePublish: 'Publish palette',
@@ -332,23 +337,11 @@ export const locals: { [key: string]: any } = {
     },
     about: {
       title: `About ${glossary.name}`,
-      repository: 'Repository',
-      getHelp: {
-        title: 'Have help',
-        documentation: 'Read the documentation',
-        email: 'Contact support',
-      },
-      beInvolved: {
-        title: 'Get involved',
-        issue: 'Report a bug',
-        discuss: 'Start a discussion',
-        request: 'Post a feature request',
-      },
-      giveSupport: {
-        title: 'Give support',
-        follow: 'Follow us',
-        rate: 'Like us',
-      },
+      createdBy: 'Created and maintained by ',
+      author: glossary.author,
+      sourceCode: 'Source code',
+      isLicensed: ' is licensed under ',
+      license: glossary.license,
     },
     actions: {
       createPalette: `Create a ${glossary.name}`,
@@ -385,6 +378,20 @@ export const locals: { [key: string]: any } = {
       free: 'Free plan',
       trial: 'Trial',
       trialEnded: 'Your trial has ended',
+      trialTimeDays: {
+        single: '1 day left in this trial',
+        plural: '$1 days left in this trial',
+      },
+      trialTimeHours: {
+        single: '1 hour left in this trial',
+        plural: '$1 hours left in this trial',
+      },
+      trialFeedback: 'How was it?',
+      sessionCount: {
+        none: 'No session left',
+        single: '1 session left',
+        plural: '$1 sessions left',
+      },
       dev: 'Developer plan',
     },
     proPlan: {

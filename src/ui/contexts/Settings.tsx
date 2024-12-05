@@ -9,6 +9,7 @@ import {
   Select,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 
 import { locals } from '../../content/locals'
 import { EditorType, Language, PlanStatus } from '../../types/app'
@@ -16,6 +17,7 @@ import {
   AlgorithmVersionConfiguration,
   ColorSpaceConfiguration,
   SourceColorConfiguration,
+  UserConfiguration,
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '../../types/configurations'
@@ -25,7 +27,6 @@ import {
   DispatchProcess,
   TextColorsThemeHexModel,
 } from '../../types/models'
-import { Identity } from '../../types/user'
 import features from '../../utils/config'
 import { trackSettingsManagementEvent } from '../../utils/eventsTracker'
 import isBlocked from '../../utils/isBlocked'
@@ -46,12 +47,11 @@ interface SettingsProps {
   visionSimulationMode: VisionSimulationModeConfiguration
   view: string
   algorithmVersion?: AlgorithmVersionConfiguration
-  identity?: Identity
+  userIdentity: UserConfiguration
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   editorType?: EditorType
   lang: Language
-  figmaUserId: string
   onChangeSettings: React.Dispatch<Partial<AppStates>>
   onCreatePalette?: () => void
   onSyncLocalStyles?: () => void
@@ -59,7 +59,7 @@ interface SettingsProps {
   onPublishPalette?: () => void
 }
 
-export default class Settings extends React.Component<SettingsProps> {
+export default class Settings extends PureComponent<SettingsProps> {
   settingsMessage: SettingsMessage
   dispatch: { [key: string]: DispatchProcess }
 
@@ -90,7 +90,7 @@ export default class Settings extends React.Component<SettingsProps> {
   }
 
   // Direct actions
-  settingsHandler = (e: any) => {
+  settingsHandler = (e: Event) => {
     const target = e.target as HTMLInputElement,
       feature = target.dataset.feature ?? 'DEFAULT'
 
@@ -111,12 +111,12 @@ export default class Settings extends React.Component<SettingsProps> {
       })
 
       if (
-        (e.type === 'blur' || e.key === 'Enter') &&
+        (e.type === 'blur' || (e as KeyboardEvent).key === 'Enter') &&
         this.props.context === 'LOCAL_STYLES'
       ) {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
-          this.props.figmaUserId,
+          this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -145,7 +145,7 @@ export default class Settings extends React.Component<SettingsProps> {
       if (e.type === 'blur' && this.props.context === 'LOCAL_STYLES') {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
-          this.props.figmaUserId,
+          this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -170,7 +170,7 @@ export default class Settings extends React.Component<SettingsProps> {
             '*'
           )
           trackSettingsManagementEvent(
-            this.props.figmaUserId,
+            this.props.userIdentity.id,
             this.props.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
             {
@@ -201,7 +201,7 @@ export default class Settings extends React.Component<SettingsProps> {
       if (this.props.context === 'LOCAL_STYLES') {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
-          this.props.figmaUserId,
+          this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -231,7 +231,7 @@ export default class Settings extends React.Component<SettingsProps> {
       if (this.props.context === 'LOCAL_STYLES') {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
-          this.props.figmaUserId,
+          this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -257,7 +257,7 @@ export default class Settings extends React.Component<SettingsProps> {
 
       parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
       trackSettingsManagementEvent(
-        this.props.figmaUserId,
+        this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -293,7 +293,7 @@ export default class Settings extends React.Component<SettingsProps> {
         this.dispatch.textColorsTheme.on.status = false
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
-          this.props.figmaUserId,
+          this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -331,7 +331,7 @@ export default class Settings extends React.Component<SettingsProps> {
         this.dispatch.textColorsTheme.on.status = false
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
-          this.props.figmaUserId,
+          this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -488,7 +488,6 @@ export default class Settings extends React.Component<SettingsProps> {
                     (feature) =>
                       feature.name === 'VIEWS_PALETTE_WITH_PROPERTIES'
                   )?.isNew,
-                  children: [],
                   action: this.settingsHandler,
                 },
                 {
@@ -504,7 +503,6 @@ export default class Settings extends React.Component<SettingsProps> {
                   isNew: features.find(
                     (feature) => feature.name === 'VIEWS_PALETTE'
                   )?.isNew,
-                  children: [],
                   action: this.settingsHandler,
                 },
                 {
@@ -520,7 +518,6 @@ export default class Settings extends React.Component<SettingsProps> {
                   isNew: features.find(
                     (feature) => feature.name === 'VIEWS_SHEET'
                   )?.isNew,
-                  children: [],
                   action: this.settingsHandler,
                 },
               ]}
@@ -567,7 +564,6 @@ export default class Settings extends React.Component<SettingsProps> {
                   isNew: features.find(
                     (feature) => feature.name === 'SETTINGS_COLOR_SPACE_LCH'
                   )?.isNew,
-                  children: [],
                   action: this.settingsHandler,
                 },
                 {
@@ -587,7 +583,6 @@ export default class Settings extends React.Component<SettingsProps> {
                   isNew: features.find(
                     (feature) => feature.name === 'SETTINGS_COLOR_SPACE_OKLCH'
                   )?.isNew,
-                  children: [],
                   action: this.settingsHandler,
                 },
                 {
@@ -606,7 +601,6 @@ export default class Settings extends React.Component<SettingsProps> {
                   isNew: features.find(
                     (feature) => feature.name === 'SETTINGS_COLOR_SPACE_LAB'
                   )?.isNew,
-                  children: [],
                   action: this.settingsHandler,
                 },
                 {
@@ -626,7 +620,6 @@ export default class Settings extends React.Component<SettingsProps> {
                   isNew: features.find(
                     (feature) => feature.name === 'SETTINGS_COLOR_SPACE_OKLAB'
                   )?.isNew,
-                  children: [],
                   action: this.settingsHandler,
                 },
                 {
@@ -645,7 +638,6 @@ export default class Settings extends React.Component<SettingsProps> {
                   isNew: features.find(
                     (feature) => feature.name === 'SETTINGS_COLOR_SPACE_HSL'
                   )?.isNew,
-                  children: [],
                   action: this.settingsHandler,
                 },
                 {
@@ -665,7 +657,6 @@ export default class Settings extends React.Component<SettingsProps> {
                   isNew: features.find(
                     (feature) => feature.name === 'SETTINGS_COLOR_SPACE_HSLUV'
                   )?.isNew,
-                  children: [],
                   action: this.settingsHandler,
                 },
               ]}
@@ -727,32 +718,18 @@ export default class Settings extends React.Component<SettingsProps> {
                     'SETTINGS_VISION_SIMULATION_MODE_NONE',
                     this.props.planStatus
                   ),
-                  children: [],
                   action: this.settingsHandler,
                 },
                 {
-                  label: null,
-                  value: null,
-                  feature: null,
                   position: 1,
                   type: 'SEPARATOR',
-                  isActive: true,
-                  isBlocked: false,
-                  children: [],
-                  action: () => null,
                 },
                 {
                   label:
                     locals[this.props.lang].settings.color.visionSimulationMode
                       .colorBlind,
-                  value: null,
-                  feature: null,
                   position: 2,
                   type: 'TITLE',
-                  isActive: true,
-                  isBlocked: false,
-                  children: [],
-                  action: () => null,
                 },
                 {
                   label:
@@ -776,7 +753,6 @@ export default class Settings extends React.Component<SettingsProps> {
                       feature.name ===
                       'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY'
                   )?.isNew,
-                  children: [],
                   action: this.settingsHandler,
                 },
                 {
@@ -801,7 +777,6 @@ export default class Settings extends React.Component<SettingsProps> {
                       feature.name ===
                       'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA'
                   )?.isNew,
-                  children: [],
                   action: this.settingsHandler,
                 },
                 {
@@ -826,7 +801,6 @@ export default class Settings extends React.Component<SettingsProps> {
                       feature.name ===
                       'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY'
                   )?.isNew,
-                  children: [],
                   action: this.settingsHandler,
                 },
                 {
@@ -851,7 +825,6 @@ export default class Settings extends React.Component<SettingsProps> {
                       feature.name ===
                       'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA'
                   )?.isNew,
-                  children: [],
                   action: this.settingsHandler,
                 },
                 {
@@ -876,7 +849,6 @@ export default class Settings extends React.Component<SettingsProps> {
                       feature.name ===
                       'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY'
                   )?.isNew,
-                  children: [],
                   action: this.settingsHandler,
                 },
                 {
@@ -901,7 +873,6 @@ export default class Settings extends React.Component<SettingsProps> {
                       feature.name ===
                       'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA'
                   )?.isNew,
-                  children: [],
                   action: this.settingsHandler,
                 },
                 {
@@ -926,7 +897,6 @@ export default class Settings extends React.Component<SettingsProps> {
                       feature.name ===
                       'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY'
                   )?.isNew,
-                  children: [],
                   action: this.settingsHandler,
                 },
                 {
@@ -951,7 +921,6 @@ export default class Settings extends React.Component<SettingsProps> {
                       feature.name ===
                       'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA'
                   )?.isNew,
-                  children: [],
                   action: this.settingsHandler,
                 },
               ]}

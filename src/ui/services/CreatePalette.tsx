@@ -1,6 +1,7 @@
 import { Bar, ConsentConfiguration, HexModel, Tabs } from '@a_ng_d/figmug-ui'
 import chroma from 'chroma-js'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 import { uid } from 'uid'
 
 import { ContextItem, Language, PlanStatus, ThirdParty } from '../../types/app'
@@ -10,6 +11,7 @@ import {
   PresetConfiguration,
   ScaleConfiguration,
   SourceColorConfiguration,
+  UserConfiguration,
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '../../types/configurations'
@@ -36,11 +38,11 @@ interface CreatePaletteProps {
   visionSimulationMode: VisionSimulationModeConfiguration
   view: ViewConfiguration
   textColorsTheme: TextColorsThemeHexModel
+  userIdentity: UserConfiguration
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   lang: Language
-  figmaUserId: string
   onChangeColorsFromImport: React.Dispatch<Partial<AppStates>>
   onChangeScale: React.Dispatch<Partial<AppStates>>
   onChangePreset: React.Dispatch<Partial<AppStates>>
@@ -53,7 +55,7 @@ interface CreatePaletteStates {
   context: string | undefined
 }
 
-export default class CreatePalette extends React.Component<
+export default class CreatePalette extends PureComponent<
   CreatePaletteProps,
   CreatePaletteStates
 > {
@@ -68,7 +70,7 @@ export default class CreatePalette extends React.Component<
   }
 
   // Handlers
-  navHandler = (e: React.SyntheticEvent) =>
+  navHandler = (e: Event) =>
     this.setState({
       context: (e.target as HTMLElement).dataset.feature,
     })
@@ -111,7 +113,7 @@ export default class CreatePalette extends React.Component<
       '*'
     )
     trackActionEvent(
-      this.props.figmaUserId,
+      this.props.userIdentity.id,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
       {

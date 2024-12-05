@@ -1,11 +1,12 @@
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 
 interface FeatureProps {
   isActive: boolean
   children: React.ReactNode
 }
 
-export default class Feature extends React.Component<FeatureProps> {
+export default class Feature extends PureComponent<FeatureProps> {
   static defaultProps = {
     isActive: false,
     isPro: false,
@@ -13,6 +14,6 @@ export default class Feature extends React.Component<FeatureProps> {
 
   // Render
   render() {
-    return <>{this.props.isActive ? this.props.children : null}</>
+    return <>{this.props.isActive && this.props.children}</>
   }
 }

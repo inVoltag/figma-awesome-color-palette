@@ -1,5 +1,6 @@
 import { Input, texts } from '@a_ng_d/figmug-ui'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 
 import { ActionsList } from '../../types/models'
 
@@ -10,10 +11,10 @@ interface KnobProps {
   min?: string
   max?: string
   canBeTyped: boolean
-  onShiftRight?: React.KeyboardEventHandler
-  onShiftLeft?: React.KeyboardEventHandler
-  onDelete?: React.KeyboardEventHandler
-  onMouseDown: React.MouseEventHandler
+  onShiftRight?: React.KeyboardEventHandler<HTMLInputElement>
+  onShiftLeft?: React.KeyboardEventHandler<HTMLInputElement>
+  onDelete?: React.KeyboardEventHandler<HTMLInputElement>
+  onMouseDown: React.MouseEventHandler<HTMLDivElement>
   onValidStopValue?: (
     stopId: string,
     e:
@@ -27,7 +28,7 @@ interface States {
   stopInputValue: string | number
 }
 
-export default class Knob extends React.Component<KnobProps, States> {
+export default class Knob extends PureComponent<KnobProps, States> {
   constructor(props: KnobProps) {
     super(props)
     this.state = {
@@ -37,7 +38,10 @@ export default class Knob extends React.Component<KnobProps, States> {
   }
 
   // Handlers
-  keyboardHandler = (action: string, e: React.KeyboardEvent) => {
+  keyboardHandler = (
+    action: string,
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     const actions: ActionsList = {
       ArrowRight: () => {
         if (this.props.onShiftRight !== undefined) this.props.onShiftRight(e)
@@ -53,7 +57,8 @@ export default class Knob extends React.Component<KnobProps, States> {
           })
       },
       Escape: () => {
-        (e.target as HTMLElement).blur()
+        // eslint-disable-next-line @typescript-eslint/no-extra-semi
+        ;(e.target as HTMLElement).blur()
         this.setState({ isStopInputOpen: false })
       },
       Backspace: () => {
@@ -64,7 +69,7 @@ export default class Knob extends React.Component<KnobProps, States> {
     if (e.currentTarget === e.target) return actions[action]?.()
   }
 
-  clickHandler = (e: React.MouseEvent) => {
+  clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.detail === 2 && this.props.canBeTyped)
       this.setState({
         isStopInputOpen: true,
@@ -93,7 +98,12 @@ export default class Knob extends React.Component<KnobProps, States> {
           .join(' ')}
         style={{ left: `${this.props.value}%` }}
         tabIndex={0}
-        onKeyDown={(e) => this.keyboardHandler(e.key, e)}
+        onKeyDown={(e) =>
+          this.keyboardHandler(
+            e.key,
+            e as React.KeyboardEvent<HTMLInputElement>
+          )
+        }
         onMouseDown={this.props.onMouseDown}
         onClick={(e) => this.clickHandler(e)}
       >

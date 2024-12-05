@@ -1,5 +1,6 @@
 import { Bar, ConsentConfiguration, Tabs } from '@a_ng_d/figmug-ui'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 
 import {
   ContextItem,
@@ -9,7 +10,10 @@ import {
   PlanStatus,
   ThirdParty,
 } from '../../types/app'
-import { SourceColorConfiguration } from '../../types/configurations'
+import {
+  SourceColorConfiguration,
+  UserConfiguration,
+} from '../../types/configurations'
 import { ColourLovers } from '../../types/data'
 import features from '../../utils/config'
 import { setContexts } from '../../utils/setContexts'
@@ -21,11 +25,11 @@ import Overview from './Overview'
 
 interface SourceProps {
   sourceColors: Array<SourceColorConfiguration>
+  userIdentity: UserConfiguration
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   editorType?: EditorType
   lang: Language
-  figmaUserId: string
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
     source: ThirdParty
@@ -39,7 +43,7 @@ interface SourceStates {
   activeFilters: Array<FilterOptions>
 }
 
-export default class Source extends React.Component<SourceProps, SourceStates> {
+export default class Source extends PureComponent<SourceProps, SourceStates> {
   contexts: Array<ContextItem>
 
   constructor(props: SourceProps) {
@@ -53,7 +57,7 @@ export default class Source extends React.Component<SourceProps, SourceStates> {
   }
 
   // Handlers
-  navHandler = (e: React.SyntheticEvent) =>
+  navHandler = (e: Event) =>
     this.setState({
       context: (e.target as HTMLElement).dataset.feature,
     })

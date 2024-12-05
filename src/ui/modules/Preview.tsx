@@ -2,6 +2,7 @@ import chroma from 'chroma-js'
 import * as blinder from 'color-blind'
 import { Hsluv } from 'hsluv'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 
 import { SourceColorConfiguration } from '../../types/configurations'
 import { RgbModel } from '../../types/models'
@@ -11,7 +12,7 @@ interface PreviewProps {
   sourceColors: Array<SourceColorConfiguration> | []
 }
 
-export default class Preview extends React.Component<PreviewProps> {
+export default class Preview extends PureComponent<PreviewProps> {
   static defaultProps = {
     sourceColors: [],
   }

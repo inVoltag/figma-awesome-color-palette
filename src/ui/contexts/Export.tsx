@@ -1,6 +1,7 @@
 import type { DropdownOption } from '@a_ng_d/figmug-ui'
 import { Dropdown, Input, Menu, SectionTitle } from '@a_ng_d/figmug-ui'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
@@ -36,7 +37,7 @@ interface ExportStates {
   }
 }
 
-export default class Export extends React.Component<ExportProps, ExportStates> {
+export default class Export extends PureComponent<ExportProps, ExportStates> {
   counter: number
 
   static defaultProps = {
@@ -56,7 +57,7 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
   }
 
   // Handlers
-  exportHandler = (e: React.SyntheticEvent) => {
+  exportHandler = (e: Event) => {
     const actions: ActionsList = {
       EXPORT_TOKENS_GLOBAL: () => {
         this.setState({
@@ -105,14 +106,7 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
             options: [
               {
                 label: locals[this.props.lang].export.colorSpace.label,
-                value: null,
-                feature: null,
-                position: 0,
                 type: 'TITLE',
-                isActive: true,
-                isBlocked: false,
-                children: [],
-                action: () => null,
               },
               {
                 label: locals[this.props.lang].export.colorSpace.rgb,
@@ -127,7 +121,6 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
                 isNew: features.find(
                   (feature) => feature.name === 'EXPORT_CSS_RGB'
                 )?.isNew,
-                children: [],
                 action: this.exportHandler,
               },
               {
@@ -143,7 +136,6 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
                 isNew: features.find(
                   (feature) => feature.name === 'EXPORT_CSS_HEX'
                 )?.isNew,
-                children: [],
                 action: this.exportHandler,
               },
               {
@@ -159,7 +151,6 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
                 isNew: features.find(
                   (feature) => feature.name === 'EXPORT_CSS_HSL'
                 )?.isNew,
-                children: [],
                 action: this.exportHandler,
               },
               {
@@ -175,7 +166,6 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
                 isNew: features.find(
                   (feature) => feature.name === 'EXPORT_CSS_LCH'
                 )?.isNew,
-                children: [],
                 action: this.exportHandler,
               },
               {
@@ -191,7 +181,6 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
                 isNew: features.find(
                   (feature) => feature.name === 'EXPORT_CSS_P3'
                 )?.isNew,
-                children: [],
                 action: this.exportHandler,
               },
             ],
@@ -383,7 +372,7 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
 
   selectPreview = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => e.target.select()
+  ) => (e.target as HTMLInputElement).select()
 
   deSelectPreview = () => window.getSelection()?.removeAllRanges()
 
@@ -437,7 +426,6 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
                         isNew: features.find(
                           (feature) => feature.name === 'EXPORT_TOKENS_JSON'
                         )?.isNew,
-                        children: [],
                         action: this.exportHandler,
                       },
                       {
@@ -462,7 +450,6 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
                             feature.name ===
                             'EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY'
                         )?.isNew,
-                        children: [],
                         action: this.exportHandler,
                       },
                       {
@@ -484,7 +471,6 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
                           (feature) =>
                             feature.name === 'EXPORT_TOKENS_JSON_TOKENS_STUDIO'
                         )?.isNew,
-                        children: [],
                         action: this.exportHandler,
                       },
                     ],
@@ -503,7 +489,6 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
                     isNew: features.find(
                       (feature) => feature.name === 'EXPORT_CSS'
                     )?.isNew,
-                    children: [],
                     action: this.exportHandler,
                   },
                   {
@@ -522,7 +507,6 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
                     isNew: features.find(
                       (feature) => feature.name === 'EXPORT_TAILWIND'
                     )?.isNew,
-                    children: [],
                     action: this.exportHandler,
                   },
                   {
@@ -555,7 +539,6 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
                         isNew: features.find(
                           (feature) => feature.name === 'EXPORT_APPLE_SWIFTUI'
                         )?.isNew,
-                        children: [],
                         action: this.exportHandler,
                       },
                       {
@@ -574,7 +557,6 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
                         isNew: features.find(
                           (feature) => feature.name === 'EXPORT_APPLE_UIKIT'
                         )?.isNew,
-                        children: [],
                         action: this.exportHandler,
                       },
                     ],
@@ -613,7 +595,6 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
                         isNew: features.find(
                           (feature) => feature.name === 'EXPORT_ANDROID_COMPOSE'
                         )?.isNew,
-                        children: [],
                         action: this.exportHandler,
                       },
                       {
@@ -632,7 +613,6 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
                         isNew: features.find(
                           (feature) => feature.name === 'EXPORT_ANDROID_XML'
                         )?.isNew,
-                        children: [],
                         action: this.exportHandler,
                       },
                     ],
@@ -651,7 +631,6 @@ export default class Export extends React.Component<ExportProps, ExportStates> {
                     isNew: features.find(
                       (feature) => feature.name === 'EXPORT_CSV'
                     )?.isNew,
-                    children: [],
                     action: this.exportHandler,
                   },
                 ]}

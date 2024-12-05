@@ -12,6 +12,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import chroma from 'chroma-js'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
 import { uid } from 'uid'
 
 import { locals } from '../../content/locals'
@@ -21,7 +22,10 @@ import {
   Language,
   ThirdParty,
 } from '../../types/app'
-import { SourceColorConfiguration } from '../../types/configurations'
+import {
+  SourceColorConfiguration,
+  UserConfiguration,
+} from '../../types/configurations'
 import { ColourLovers } from '../../types/data'
 import { pageSize } from '../../utils/config'
 import { trackImportEvent } from '../../utils/eventsTracker'
@@ -29,9 +33,9 @@ import { trackImportEvent } from '../../utils/eventsTracker'
 interface ExploreProps {
   colourLoversPaletteList: Array<ColourLovers>
   activeFilters: Array<FilterOptions>
+  userIdentity: UserConfiguration
   userConsent: Array<ConsentConfiguration>
   lang: Language
-  figmaUserId: string
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
     source: ThirdParty
@@ -50,7 +54,7 @@ interface ExploreStates {
   isLoadMoreActionLoading: boolean
 }
 
-export default class Explore extends React.Component<
+export default class Explore extends PureComponent<
   ExploreProps,
   ExploreStates
 > {
@@ -239,7 +243,7 @@ export default class Explore extends React.Component<
                         'COLOUR_LOVERS'
                       )
                       trackImportEvent(
-                        this.props.figmaUserId,
+                        this.props.userIdentity.id,
                         this.props.userConsent.find(
                           (consent) => consent.id === 'mixpanel'
                         )?.isConsented ?? false,

@@ -4,7 +4,7 @@ import { ScaleConfiguration } from '../../types/configurations'
 import { palette } from '../../utils/palettePackage'
 
 const addStop = (
-  e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  e: MouseEvent,
   scale: ScaleConfiguration,
   presetName: string,
   presetMin: number,

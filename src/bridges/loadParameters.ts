@@ -1,9 +1,11 @@
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { lang, locals } from '../content/locals'
-import isAvailableAndBlocked from '../utils/isAvailableAndBlocked'
-import isBlocked from '../utils/isBlocked'
+import { PlanStatus } from '../types/app'
+import features from '../utils/config'
 import { presets } from '../utils/palettePackage'
 
 const loadParameters = ({ key, result }: ParameterInputEvent) => {
+  const planStatus: PlanStatus = figma.payments?.status.type as PlanStatus
   const viableSelection = figma.currentPage.selection.filter(
     (element: SceneNode) => {
       const fills = (
@@ -35,10 +37,11 @@ const loadParameters = ({ key, result }: ParameterInputEvent) => {
       const suggestionsList = presets
         .filter(
           (preset) =>
-            !isBlocked(
-              `PRESETS_${preset.id}`,
-              figma.payments?.status.type as 'PAID' | 'UNPAID'
-            )
+            !new FeatureStatus({
+              features: features,
+              featureName: `PRESETS_${preset.id}`,
+              planStatus: planStatus,
+            }).isBlocked()
         )
         .map((preset) => preset.name) as Array<string>
 
@@ -49,12 +52,42 @@ const loadParameters = ({ key, result }: ParameterInputEvent) => {
 
     case 'space': {
       const suggestionsList = [
-        isAvailableAndBlocked('SETTINGS_COLOR_SPACE_LCH', 'LCH'),
-        isAvailableAndBlocked('SETTINGS_COLOR_SPACE_OKLCH', 'OKLCH'),
-        isAvailableAndBlocked('SETTINGS_COLOR_SPACE_LAB', 'LAB'),
-        isAvailableAndBlocked('SETTINGS_COLOR_SPACE_OKLAB', 'OKLAB'),
-        isAvailableAndBlocked('SETTINGS_COLOR_SPACE_HSL', 'HSL'),
-        isAvailableAndBlocked('SETTINGS_COLOR_SPACE_HSLUV', 'HSLuv'),
+        new FeatureStatus({
+          features: features,
+          featureName: 'SETTINGS_COLOR_SPACE_LCH',
+          planStatus: planStatus,
+          suggestion: locals[lang].settings.color.colorSpace.lch,
+        }).isAvailableAndBlocked(),
+        new FeatureStatus({
+          features: features,
+          featureName: 'SETTINGS_COLOR_SPACE_OKLCH',
+          planStatus: planStatus,
+          suggestion: locals[lang].settings.color.colorSpace.oklch,
+        }).isAvailableAndBlocked(),
+        new FeatureStatus({
+          features: features,
+          featureName: 'SETTINGS_COLOR_SPACE_LAB',
+          planStatus: planStatus,
+          suggestion: locals[lang].settings.color.colorSpace.lab,
+        }).isAvailableAndBlocked(),
+        new FeatureStatus({
+          features: features,
+          featureName: 'SETTINGS_COLOR_SPACE_OKLAB',
+          planStatus: planStatus,
+          suggestion: locals[lang].settings.color.colorSpace.oklab,
+        }).isAvailableAndBlocked(),
+        new FeatureStatus({
+          features: features,
+          featureName: 'SETTINGS_COLOR_SPACE_HSL',
+          planStatus: planStatus,
+          suggestion: locals[lang].settings.color.colorSpace.hsl,
+        }).isAvailableAndBlocked(),
+        new FeatureStatus({
+          features: features,
+          featureName: 'SETTINGS_COLOR_SPACE_HSLUV',
+          planStatus: planStatus,
+          suggestion: locals[lang].settings.color.colorSpace.hsluv,
+        }).isAvailableAndBlocked(),
       ].filter((n) => n) as Array<string>
 
       result.setSuggestions(suggestionsList)
@@ -63,12 +96,24 @@ const loadParameters = ({ key, result }: ParameterInputEvent) => {
 
     case 'view': {
       const suggestionsList = [
-        isAvailableAndBlocked(
-          'VIEWS_PALETTE_WITH_PROPERTIES',
-          'Palette with properties'
-        ),
-        isAvailableAndBlocked('VIEWS_PALETTE', 'Palette'),
-        isAvailableAndBlocked('VIEWS_SHEET', 'Color sheet'),
+        new FeatureStatus({
+          features: features,
+          featureName: 'VIEWS_PALETTE_WITH_PROPERTIES',
+          planStatus: planStatus,
+          suggestion: locals[lang].settings.global.views.detailed,
+        }).isAvailableAndBlocked(),
+        new FeatureStatus({
+          features: features,
+          featureName: 'VIEWS_PALETTE',
+          planStatus: planStatus,
+          suggestion: locals[lang].settings.global.views.simple,
+        }).isAvailableAndBlocked(),
+        new FeatureStatus({
+          features: features,
+          featureName: 'VIEWS_SHEET',
+          planStatus: planStatus,
+          suggestion: locals[lang].settings.global.views.sheet,
+        }).isAvailableAndBlocked(),
       ].filter((n) => n) as Array<string>
 
       result.setSuggestions(suggestionsList)

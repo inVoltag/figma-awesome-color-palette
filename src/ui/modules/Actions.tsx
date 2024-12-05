@@ -1,7 +1,9 @@
 import { Button, DropdownOption, Menu, texts } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 
+import { UserSession } from 'src/types/user'
 import { locals } from '../../content/locals'
 import { EditorType, Language, PlanStatus } from '../../types/app'
 import {
@@ -9,9 +11,7 @@ import {
   SourceColorConfiguration,
 } from '../../types/configurations'
 import features from '../../utils/config'
-import isBlocked from '../../utils/isBlocked'
 import Feature from '../components/Feature'
-import { UserSession } from 'src/types/user'
 
 interface ActionsProps {
   context: string
@@ -41,6 +41,34 @@ export default class Actions extends PureComponent<ActionsProps> {
   static defaultProps = {
     sourceColors: [],
   }
+
+  static features = (planStatus: PlanStatus) => ({
+    GET_PRO_PLAN: new FeatureStatus({
+      features: features,
+      featureName: 'GET_PRO_PLAN',
+      planStatus: planStatus,
+    }),
+    CREATE_PALETTE: new FeatureStatus({
+      features: features,
+      featureName: 'CREATE_PALETTE',
+      planStatus: planStatus,
+    }),
+    SYNC_LOCAL_STYLES: new FeatureStatus({
+      features: features,
+      featureName: 'SYNC_LOCAL_STYLES',
+      planStatus: planStatus,
+    }),
+    SYNC_LOCAL_VARIABLES: new FeatureStatus({
+      features: features,
+      featureName: 'SYNC_LOCAL_VARIABLES',
+      planStatus: planStatus,
+    }),
+    PUBLISH_PALETTE: new FeatureStatus({
+      features: features,
+      featureName: 'PUBLISH_PALETTE',
+      planStatus: planStatus,
+    }),
+  })
 
   // Direct actions
   publicationAction = (): Partial<DropdownOption> => {
@@ -98,10 +126,9 @@ export default class Actions extends PureComponent<ActionsProps> {
       <div className="actions">
         <div className="actions__right">
           <Feature
-            isActive={
-              features.find((feature) => feature.name === 'CREATE_PALETTE')
-                ?.isActive
-            }
+            isActive={Actions.features(
+              this.props.planStatus ?? 'UNPAID'
+            ).CREATE_PALETTE.isActive()}
           >
             <Button
               type="primary"
@@ -139,56 +166,49 @@ export default class Actions extends PureComponent<ActionsProps> {
                   label: locals[this.props.lang].actions.createLocalStyles,
                   value: 'LOCAL_STYLES',
                   feature: 'SYNC_LOCAL_STYLES',
-                  position: 0,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) => feature.name === 'SYNC_LOCAL_STYLES'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'SYNC_LOCAL_STYLES',
+                  isActive: Actions.features(
                     this.props.planStatus ?? 'UNPAID'
-                  ),
-                  isNew: features.find(
-                    (feature) => feature.name === 'SYNC_LOCAL_STYLES'
-                  )?.isNew,
+                  ).SYNC_LOCAL_STYLES.isActive(),
+                  isBlocked: Actions.features(
+                    this.props.planStatus ?? 'UNPAID'
+                  ).SYNC_LOCAL_STYLES.isBlocked(),
+                  isNew: Actions.features(
+                    this.props.planStatus ?? 'UNPAID'
+                  ).SYNC_LOCAL_STYLES.isNew(),
                   action: (e) => this.props.onSyncLocalStyles?.(e),
                 },
                 {
                   label: locals[this.props.lang].actions.createLocalVariables,
                   value: 'LOCAL_VARIABLES',
                   feature: 'SYNC_LOCAL_VARIABLES',
-                  position: 0,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) => feature.name === 'SYNC_LOCAL_VARIABLES'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'SYNC_LOCAL_VARIABLES',
+                  isActive: Actions.features(
                     this.props.planStatus ?? 'UNPAID'
-                  ),
-                  isNew: features.find(
-                    (feature) => feature.name === 'SYNC_LOCAL_VARIABLES'
-                  )?.isNew,
+                  ).SYNC_LOCAL_VARIABLES.isActive(),
+                  isBlocked: Actions.features(
+                    this.props.planStatus ?? 'UNPAID'
+                  ).SYNC_LOCAL_VARIABLES.isBlocked(),
+                  isNew: Actions.features(
+                    this.props.planStatus ?? 'UNPAID'
+                  ).SYNC_LOCAL_VARIABLES.isNew(),
                   action: (e) => this.props.onSyncLocalVariables?.(e),
                 },
                 {
-                  position: 0,
                   type: 'SEPARATOR',
                 },
                 {
                   ...this.publicationAction(),
-                  position: 0,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) => feature.name === 'PUBLISH_PALETTE'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'PUBLISH_PALETTE',
+                  isActive: Actions.features(
                     this.props.planStatus ?? 'UNPAID'
-                  ),
-                  isNew: features.find(
-                    (feature) => feature.name === 'PUBLISH_PALETTE'
-                  )?.isNew,
+                  ).PUBLISH_PALETTE.isActive(),
+                  isBlocked: Actions.features(
+                    this.props.planStatus ?? 'UNPAID'
+                  ).PUBLISH_PALETTE.isBlocked(),
+                  isNew: Actions.features(
+                    this.props.planStatus ?? 'UNPAID'
+                  ).PUBLISH_PALETTE.isNew(),
                   action: (e) => this.props.onPublishPalette?.(e),
                 } as DropdownOption,
               ]}
@@ -196,15 +216,20 @@ export default class Actions extends PureComponent<ActionsProps> {
             />
           ) : (
             <Feature
-              isActive={
-                features.find((feature) => feature.name === 'PUBLISH_PALETTE')
-                  ?.isActive
-              }
+              isActive={Actions.features(
+                this.props.planStatus ?? 'UNPAID'
+              ).PUBLISH_PALETTE.isActive()}
             >
               <Button
                 type="primary"
                 label={this.publicationLabel()}
                 feature="PUBLISH_PALETTE"
+                isBlocked={Actions.features(
+                  this.props.planStatus ?? 'UNPAID'
+                ).PUBLISH_PALETTE.isBlocked()}
+                isNew={Actions.features(
+                  this.props.planStatus ?? 'UNPAID'
+                ).PUBLISH_PALETTE.isNew()}
                 action={this.props.onPublishPalette}
               />
             </Feature>

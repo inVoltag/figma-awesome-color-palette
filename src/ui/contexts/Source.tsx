@@ -1,6 +1,7 @@
 import { Bar, ConsentConfiguration, Tabs } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 
 import {
   ContextItem,
@@ -45,6 +46,14 @@ interface SourceStates {
 
 export default class Source extends PureComponent<SourceProps, SourceStates> {
   contexts: Array<ContextItem>
+
+  static features = (planStatus: PlanStatus) => ({
+    PREVIEW: new FeatureStatus({
+      features: features,
+      featureName: 'PREVIEW',
+      planStatus: planStatus,
+    }),
+  })
 
   constructor(props: SourceProps) {
     super(props)
@@ -125,9 +134,7 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
           }
         />
         <Feature
-          isActive={
-            features.find((feature) => feature.name === 'PREVIEW')?.isActive
-          }
+          isActive={Source.features(this.props.planStatus).PREVIEW.isActive()}
         >
           <Preview sourceColors={this.props.sourceColors} />
         </Feature>

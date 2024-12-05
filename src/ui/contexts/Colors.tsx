@@ -1,6 +1,7 @@
 import {
   Button,
   ConsentConfiguration,
+  FeatureStatus,
   FormItem,
   HexModel,
   Input,
@@ -24,7 +25,6 @@ import { ColorsMessage } from '../../types/messages'
 import { ActionsList, DispatchProcess } from '../../types/models'
 import features from '../../utils/config'
 import { trackSourceColorsManagementEvent } from '../../utils/eventsTracker'
-import isBlocked from '../../utils/isBlocked'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import Actions from '../modules/Actions'
@@ -46,6 +46,34 @@ interface ColorsProps {
 export default class Colors extends PureComponent<ColorsProps> {
   colorsMessage: ColorsMessage
   dispatch: { [key: string]: DispatchProcess }
+
+  static features = (planStatus: PlanStatus) => ({
+    COLORS_NAME: new FeatureStatus({
+      features: features,
+      featureName: 'COLORS_NAME',
+      planStatus: planStatus,
+    }),
+    COLORS_PARAMS: new FeatureStatus({
+      features: features,
+      featureName: 'COLORS_PARAMS',
+      planStatus: planStatus,
+    }),
+    COLORS_HUE_SHIFTING: new FeatureStatus({
+      features: features,
+      featureName: 'COLORS_HUE_SHIFTING',
+      planStatus: planStatus,
+    }),
+    COLORS_CHROMA_SHIFTING: new FeatureStatus({
+      features: features,
+      featureName: 'COLORS_CHROMA_SHIFTING',
+      planStatus: planStatus,
+    }),
+    COLORS_DESCRIPTION: new FeatureStatus({
+      features: features,
+      featureName: 'COLORS_DESCRIPTION',
+      planStatus: planStatus,
+    }),
+  })
 
   constructor(props: ColorsProps) {
     super(props)
@@ -471,11 +499,9 @@ export default class Colors extends PureComponent<ColorsProps> {
                 return (
                   <>
                     <Feature
-                      isActive={
-                        features.find(
-                          (feature) => feature.name === 'COLORS_NAME'
-                        )?.isActive
-                      }
+                      isActive={Colors.features(
+                        this.props.planStatus
+                      ).COLORS_NAME.isActive()}
                     >
                       <div className="draggable-list__param--compact">
                         <Input
@@ -483,17 +509,21 @@ export default class Colors extends PureComponent<ColorsProps> {
                           value={color.name}
                           charactersLimit={24}
                           feature="RENAME_COLOR"
+                          isBlocked={Colors.features(
+                            this.props.planStatus
+                          ).COLORS_NAME.isBlocked()}
+                          isNew={Colors.features(
+                            this.props.planStatus
+                          ).COLORS_NAME.isNew()}
                           onBlur={this.colorsHandler}
                           onConfirm={this.colorsHandler}
                         />
                       </div>
                     </Feature>
                     <Feature
-                      isActive={
-                        features.find(
-                          (feature) => feature.name === 'COLORS_PARAMS'
-                        )?.isActive
-                      }
+                      isActive={Colors.features(
+                        this.props.planStatus
+                      ).COLORS_PARAMS.isActive()}
                     >
                       <>
                         <div className="draggable-list__param--compact">
@@ -501,6 +531,12 @@ export default class Colors extends PureComponent<ColorsProps> {
                             type="COLOR"
                             value={hex}
                             feature="UPDATE_HEX"
+                            isBlocked={Colors.features(
+                              this.props.planStatus
+                            ).COLORS_PARAMS.isBlocked()}
+                            isNew={Colors.features(
+                              this.props.planStatus
+                            ).COLORS_PARAMS.isNew()}
                             onChange={this.colorsHandler}
                             onBlur={this.colorsHandler}
                           />
@@ -514,6 +550,9 @@ export default class Colors extends PureComponent<ColorsProps> {
                             value={lch[0].toFixed(0)}
                             min="0"
                             max="100"
+                            isBlocked={Colors.features(
+                              this.props.planStatus
+                            ).COLORS_PARAMS.isBlocked()}
                             feature="UPDATE_LIGHTNESS"
                             onBlur={this.colorsHandler}
                             onConfirm={this.colorsHandler}
@@ -523,6 +562,9 @@ export default class Colors extends PureComponent<ColorsProps> {
                             value={lch[1].toFixed(0)}
                             min="0"
                             max="100"
+                            isBlocked={Colors.features(
+                              this.props.planStatus
+                            ).COLORS_PARAMS.isBlocked()}
                             feature="UPDATE_CHROMA"
                             onBlur={this.colorsHandler}
                             onConfirm={this.colorsHandler}
@@ -536,6 +578,9 @@ export default class Colors extends PureComponent<ColorsProps> {
                             }
                             min="0"
                             max="360"
+                            isBlocked={Colors.features(
+                              this.props.planStatus
+                            ).COLORS_PARAMS.isBlocked()}
                             feature="UPDATE_HUE"
                             onBlur={this.colorsHandler}
                             onConfirm={this.colorsHandler}
@@ -549,20 +594,17 @@ export default class Colors extends PureComponent<ColorsProps> {
               secondarySlot={this.props.colors.map((color) => (
                 <>
                   <Feature
-                    isActive={
-                      features.find(
-                        (feature) => feature.name === 'COLORS_HUE_SHIFTING'
-                      )?.isActive
-                    }
+                    isActive={Colors.features(
+                      this.props.planStatus
+                    ).COLORS_HUE_SHIFTING.isActive()}
                   >
                     <div className="draggable-list__param">
                       <FormItem
                         id="hue-shifting"
                         label={locals[this.props.lang].colors.hueShifting.label}
-                        isBlocked={isBlocked(
-                          'COLORS_CHROMA_SHIFTING',
+                        isBlocked={Colors.features(
                           this.props.planStatus
-                        )}
+                        ).COLORS_HUE_SHIFTING.isBlocked()}
                       >
                         <Input
                           id="hue-shifting"
@@ -577,10 +619,12 @@ export default class Colors extends PureComponent<ColorsProps> {
                           min="-360"
                           max="360"
                           feature="SHIFT_HUE"
-                          isBlocked={isBlocked(
-                            'COLORS_CHROMA_SHIFTING',
+                          isBlocked={Colors.features(
                             this.props.planStatus
-                          )}
+                          ).COLORS_HUE_SHIFTING.isBlocked()}
+                          isNew={Colors.features(
+                            this.props.planStatus
+                          ).COLORS_HUE_SHIFTING.isNew()}
                           onBlur={this.colorsHandler}
                           onConfirm={this.colorsHandler}
                         />
@@ -588,11 +632,9 @@ export default class Colors extends PureComponent<ColorsProps> {
                     </div>
                   </Feature>
                   <Feature
-                    isActive={
-                      features.find(
-                        (feature) => feature.name === 'COLORS_CHROMA_SHIFTING'
-                      )?.isActive
-                    }
+                    isActive={Colors.features(
+                      this.props.planStatus
+                    ).COLORS_CHROMA_SHIFTING.isActive()}
                   >
                     <div className="draggable-list__param">
                       <FormItem
@@ -600,10 +642,9 @@ export default class Colors extends PureComponent<ColorsProps> {
                         label={
                           locals[this.props.lang].colors.chromaShifting.label
                         }
-                        isBlocked={isBlocked(
-                          'COLORS_CHROMA_SHIFTING',
+                        isBlocked={Colors.features(
                           this.props.planStatus
-                        )}
+                        ).COLORS_CHROMA_SHIFTING.isBlocked()}
                       >
                         <Input
                           id="chroma-shifting"
@@ -618,10 +659,12 @@ export default class Colors extends PureComponent<ColorsProps> {
                           min="0"
                           max="200"
                           feature="SHIFT_CHROMA"
-                          isBlocked={isBlocked(
-                            'COLORS_CHROMA_SHIFTING',
+                          isBlocked={Colors.features(
                             this.props.planStatus
-                          )}
+                          ).COLORS_CHROMA_SHIFTING.isBlocked()}
+                          isNew={Colors.features(
+                            this.props.planStatus
+                          ).COLORS_CHROMA_SHIFTING.isNew()}
                           onBlur={this.colorsHandler}
                           onConfirm={this.colorsHandler}
                         />
@@ -629,16 +672,17 @@ export default class Colors extends PureComponent<ColorsProps> {
                     </div>
                   </Feature>
                   <Feature
-                    isActive={
-                      features.find(
-                        (feature) => feature.name === 'COLORS_DESCRIPTION'
-                      )?.isActive
-                    }
+                    isActive={Colors.features(
+                      this.props.planStatus
+                    ).COLORS_DESCRIPTION.isActive()}
                   >
                     <div className="draggable-list__param">
                       <FormItem
                         id="color-description"
                         label={locals[this.props.lang].global.description.label}
+                        isBlocked={Colors.features(
+                          this.props.planStatus
+                        ).COLORS_DESCRIPTION.isBlocked()}
                       >
                         <Input
                           id="color-description"
@@ -649,6 +693,12 @@ export default class Colors extends PureComponent<ColorsProps> {
                               .placeholder
                           }
                           feature="UPDATE_DESCRIPTION"
+                          isBlocked={Colors.features(
+                            this.props.planStatus
+                          ).COLORS_DESCRIPTION.isBlocked()}
+                          isNew={Colors.features(
+                            this.props.planStatus
+                          ).COLORS_DESCRIPTION.isNew()}
                           isGrowing={true}
                           onBlur={this.colorsHandler}
                           onConfirm={this.colorsHandler}

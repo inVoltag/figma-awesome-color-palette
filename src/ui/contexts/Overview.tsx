@@ -7,6 +7,7 @@ import {
   Message,
   SectionTitle,
 } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import chroma from 'chroma-js'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
@@ -20,7 +21,6 @@ import {
 } from '../../types/configurations'
 import features from '../../utils/config'
 import { trackImportEvent } from '../../utils/eventsTracker'
-import isBlocked from '../../utils/isBlocked'
 import Feature from '../components/Feature'
 
 interface OverviewProps {
@@ -44,7 +44,37 @@ interface OverviewStates {
   isColourLoversImportOpen: boolean
 }
 
-export default class Overview extends PureComponent<OverviewProps, OverviewStates> {
+export default class Overview extends PureComponent<
+  OverviewProps,
+  OverviewStates
+> {
+  static features = (planStatus: PlanStatus) => ({
+    SOURCE_CANVAS: new FeatureStatus({
+      features: features,
+      featureName: 'SOURCE_CANVAS',
+      planStatus: planStatus,
+    }),
+    SOURCE_COOLORS: new FeatureStatus({
+      features: features,
+      featureName: 'SOURCE_COOLORS',
+      planStatus: planStatus,
+    }),
+    SOURCE_REALTIME_COLORS: new FeatureStatus({
+      features: features,
+      featureName: 'SOURCE_REALTIME_COLORS',
+      planStatus: planStatus,
+    }),
+    SOURCE_COLOUR_LOVERS: new FeatureStatus({
+      features: features,
+      featureName: 'SOURCE_COLOUR_LOVERS',
+      planStatus: planStatus,
+    }),
+    SOURCE_EXPLORE: new FeatureStatus({
+      features: features,
+      featureName: 'SOURCE_EXPLORE',
+      planStatus: planStatus,
+    }),
+  })
   constructor(props: OverviewProps) {
     super(props)
     this.state = {
@@ -310,10 +340,12 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
             .length.toString()}
           helper={locals[this.props.lang].source.coolors.helper}
           isExpanded={this.state.isCoolorsImportOpen}
-          isBlocked={isBlocked('SOURCE_COOLORS', this.props.planStatus)}
-          isNew={
-            features.find((feature) => feature.name === 'SOURCE_COOLORS')?.isNew
-          }
+          isBlocked={Overview.features(
+            this.props.planStatus
+          ).SOURCE_COOLORS.isBlocked()}
+          isNew={Overview.features(
+            this.props.planStatus
+          ).SOURCE_COOLORS.isNew()}
           onAdd={() => {
             this.setState({ isCoolorsImportOpen: true })
           }}
@@ -392,12 +424,12 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
             .length.toString()}
           helper={locals[this.props.lang].source.realtimeColors.helper}
           isExpanded={this.state.isRealtimeColorsImportOpen}
-          isBlocked={isBlocked('SOURCE_REALTIME_COLORS', this.props.planStatus)}
-          isNew={
-            features.find(
-              (feature) => feature.name === 'SOURCE_REALTIME_COLORS'
-            )?.isNew
-          }
+          isBlocked={Overview.features(
+            this.props.planStatus
+          ).SOURCE_REALTIME_COLORS.isBlocked()}
+          isNew={Overview.features(
+            this.props.planStatus
+          ).SOURCE_REALTIME_COLORS.isNew()}
           onAdd={() => {
             this.setState({ isRealtimeColorsImportOpen: true })
           }}
@@ -477,10 +509,12 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
           icon="adjust"
           helper={locals[this.props.lang].source.colourLovers.helper}
           isExpanded={this.state.isColourLoversImportOpen}
-          isBlocked={isBlocked('SOURCE_EXPLORE', this.props.planStatus)}
-          isNew={
-            features.find((feature) => feature.name === 'SOURCE_EXPLORE')?.isNew
-          }
+          isBlocked={Overview.features(
+            this.props.planStatus
+          ).SOURCE_EXPLORE.isBlocked()}
+          isNew={Overview.features(
+            this.props.planStatus
+          ).SOURCE_EXPLORE.isNew()}
           onAdd={this.props.onChangeContexts}
           onEmpty={() => {
             this.props.onChangeColorsFromImport([], 'COLOUR_LOVERS')
@@ -520,38 +554,32 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
       <div className="controls__control controls__control--horizontal">
         <div className="control__block control__block--list">
           <Feature
-            isActive={
-              features.find((feature) => feature.name === 'SOURCE_CANVAS')
-                ?.isActive
-            }
+            isActive={Overview.features(
+              this.props.planStatus
+            ).SOURCE_CANVAS.isActive()}
           >
             <this.SelectedColors />
           </Feature>
         </div>
         <div className="control__block control__block--no-padding">
           <Feature
-            isActive={
-              features.find((feature) => feature.name === 'SOURCE_COOLORS')
-                ?.isActive
-            }
+            isActive={Overview.features(
+              this.props.planStatus
+            ).SOURCE_COOLORS.isActive()}
           >
             <this.CoolorsColors />
           </Feature>
           <Feature
-            isActive={
-              features.find(
-                (feature) => feature.name === 'SOURCE_REALTIME_COLORS'
-              )?.isActive
-            }
+            isActive={Overview.features(
+              this.props.planStatus
+            ).SOURCE_REALTIME_COLORS.isActive()}
           >
             <this.RealtimeColorsColors />
           </Feature>
           <Feature
-            isActive={
-              features.find(
-                (feature) => feature.name === 'SOURCE_COLOUR_LOVERS'
-              )?.isActive
-            }
+            isActive={Overview.features(
+              this.props.planStatus
+            ).SOURCE_COLOUR_LOVERS.isActive()}
           >
             <this.ColourLoversColors />
           </Feature>

@@ -1,5 +1,6 @@
 import type { DropdownOption } from '@a_ng_d/figmug-ui'
 import { Dropdown, Input, Menu, SectionTitle } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 
@@ -8,7 +9,6 @@ import { Language, PlanStatus } from '../../types/app'
 import { ColorSpaceConfiguration } from '../../types/configurations'
 import { ActionsList } from '../../types/models'
 import features from '../../utils/config'
-import isBlocked from '../../utils/isBlocked'
 import Actions from '../modules/Actions'
 
 interface ExportProps {
@@ -43,6 +43,99 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
   static defaultProps = {
     exportPreview: '',
   }
+
+  static features = (planStatus: PlanStatus) => ({
+    EXPORT_CSS_RGB: new FeatureStatus({
+      features: features,
+      featureName: 'EXPORT_CSS_RGB',
+      planStatus: planStatus,
+    }),
+    EXPORT_CSS_HEX: new FeatureStatus({
+      features: features,
+      featureName: 'EXPORT_CSS_HEX',
+      planStatus: planStatus,
+    }),
+    EXPORT_CSS_HSL: new FeatureStatus({
+      features: features,
+      featureName: 'EXPORT_CSS_HSL',
+      planStatus: planStatus,
+    }),
+    EXPORT_CSS_LCH: new FeatureStatus({
+      features: features,
+      featureName: 'EXPORT_CSS_LCH',
+      planStatus: planStatus,
+    }),
+    EXPORT_CSS_P3: new FeatureStatus({
+      features: features,
+      featureName: 'EXPORT_CSS_P3',
+      planStatus: planStatus,
+    }),
+    EXPORT_TOKENS: new FeatureStatus({
+      features: features,
+      featureName: 'EXPORT_TOKENS',
+      planStatus: planStatus,
+    }),
+    EXPORT_TOKENS_JSON: new FeatureStatus({
+      features: features,
+      featureName: 'EXPORT_TOKENS_JSON',
+      planStatus: planStatus,
+    }),
+    EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY: new FeatureStatus({
+      features: features,
+      featureName: 'EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY',
+      planStatus: planStatus,
+    }),
+    EXPORT_TOKENS_JSON_TOKENS_STUDIO: new FeatureStatus({
+      features: features,
+      featureName: 'EXPORT_TOKENS_JSON_TOKENS_STUDIO',
+      planStatus: planStatus,
+    }),
+    EXPORT_CSS: new FeatureStatus({
+      features: features,
+      featureName: 'EXPORT_CSS',
+      planStatus: planStatus,
+    }),
+    EXPORT_TAILWIND: new FeatureStatus({
+      features: features,
+      featureName: 'EXPORT_TAILWIND',
+      planStatus: planStatus,
+    }),
+    EXPORT_APPLE: new FeatureStatus({
+      features: features,
+      featureName: 'EXPORT_APPLE',
+      planStatus: planStatus,
+    }),
+    EXPORT_APPLE_SWIFTUI: new FeatureStatus({
+      features: features,
+      featureName: 'EXPORT_APPLE_SWIFTUI',
+      planStatus: planStatus,
+    }),
+    EXPORT_APPLE_UIKIT: new FeatureStatus({
+      features: features,
+      featureName: 'EXPORT_APPLE_UIKIT',
+      planStatus: planStatus,
+    }),
+    EXPORT_ANDROID: new FeatureStatus({
+      features: features,
+      featureName: 'EXPORT_ANDROID',
+      planStatus: planStatus,
+    }),
+    EXPORT_ANDROID_COMPOSE: new FeatureStatus({
+      features: features,
+      featureName: 'EXPORT_ANDROID_COMPOSE',
+      planStatus: planStatus,
+    }),
+    EXPORT_ANDROID_XML: new FeatureStatus({
+      features: features,
+      featureName: 'EXPORT_ANDROID_XML',
+      planStatus: planStatus,
+    }),
+    EXPORT_CSV: new FeatureStatus({
+      features: features,
+      featureName: 'EXPORT_CSV',
+      planStatus: planStatus,
+    }),
+  })
 
   constructor(props: ExportProps) {
     super(props)
@@ -114,13 +207,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                 feature: 'SELECT_COLOR_SPACE',
                 position: 0,
                 type: 'OPTION',
-                isActive: features.find(
-                  (feature) => feature.name === 'EXPORT_CSS_RGB'
-                )?.isActive,
-                isBlocked: isBlocked('EXPORT_CSS_RGB', this.props.planStatus),
-                isNew: features.find(
-                  (feature) => feature.name === 'EXPORT_CSS_RGB'
-                )?.isNew,
+                isActive: Export.features(
+                  this.props.planStatus
+                ).EXPORT_CSS_RGB.isActive(),
+                isBlocked: Export.features(
+                  this.props.planStatus
+                ).EXPORT_CSS_RGB.isBlocked(),
+                isNew: Export.features(
+                  this.props.planStatus
+                ).EXPORT_CSS_RGB.isNew(),
                 action: this.exportHandler,
               },
               {
@@ -129,13 +224,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                 feature: 'SELECT_COLOR_SPACE',
                 position: 1,
                 type: 'OPTION',
-                isActive: features.find(
-                  (feature) => feature.name === 'EXPORT_CSS_HEX'
-                )?.isActive,
-                isBlocked: isBlocked('EXPORT_CSS_HEX', this.props.planStatus),
-                isNew: features.find(
-                  (feature) => feature.name === 'EXPORT_CSS_HEX'
-                )?.isNew,
+                isActive: Export.features(
+                  this.props.planStatus
+                ).EXPORT_CSS_HEX.isActive(),
+                isBlocked: Export.features(
+                  this.props.planStatus
+                ).EXPORT_CSS_HEX.isBlocked(),
+                isNew: Export.features(
+                  this.props.planStatus
+                ).EXPORT_CSS_HEX.isNew(),
                 action: this.exportHandler,
               },
               {
@@ -144,13 +241,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                 feature: 'SELECT_COLOR_SPACE',
                 position: 2,
                 type: 'OPTION',
-                isActive: features.find(
-                  (feature) => feature.name === 'EXPORT_CSS_HSL'
-                )?.isActive,
-                isBlocked: isBlocked('EXPORT_CSS_HSL', this.props.planStatus),
-                isNew: features.find(
-                  (feature) => feature.name === 'EXPORT_CSS_HSL'
-                )?.isNew,
+                isActive: Export.features(
+                  this.props.planStatus
+                ).EXPORT_CSS_HSL.isActive(),
+                isBlocked: Export.features(
+                  this.props.planStatus
+                ).EXPORT_CSS_HSL.isBlocked(),
+                isNew: Export.features(
+                  this.props.planStatus
+                ).EXPORT_CSS_HSL.isNew(),
                 action: this.exportHandler,
               },
               {
@@ -159,13 +258,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                 feature: 'SELECT_COLOR_SPACE',
                 position: 3,
                 type: 'OPTION',
-                isActive: features.find(
-                  (feature) => feature.name === 'EXPORT_CSS_LCH'
-                )?.isActive,
-                isBlocked: isBlocked('EXPORT_CSS_LCH', this.props.planStatus),
-                isNew: features.find(
-                  (feature) => feature.name === 'EXPORT_CSS_LCH'
-                )?.isNew,
+                isActive: Export.features(
+                  this.props.planStatus
+                ).EXPORT_CSS_LCH.isActive(),
+                isBlocked: Export.features(
+                  this.props.planStatus
+                ).EXPORT_CSS_LCH.isBlocked(),
+                isNew: Export.features(
+                  this.props.planStatus
+                ).EXPORT_CSS_LCH.isNew(),
                 action: this.exportHandler,
               },
               {
@@ -174,13 +275,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                 feature: 'SELECT_COLOR_SPACE',
                 position: 4,
                 type: 'OPTION',
-                isActive: features.find(
-                  (feature) => feature.name === 'EXPORT_CSS_P3'
-                )?.isActive,
-                isBlocked: isBlocked('EXPORT_CSS_P3', this.props.planStatus),
-                isNew: features.find(
-                  (feature) => feature.name === 'EXPORT_CSS_P3'
-                )?.isNew,
+                isActive: Export.features(
+                  this.props.planStatus
+                ).EXPORT_CSS_P3.isActive(),
+                isBlocked: Export.features(
+                  this.props.planStatus
+                ).EXPORT_CSS_P3.isBlocked(),
+                isNew: Export.features(
+                  this.props.planStatus
+                ).EXPORT_CSS_P3.isNew(),
                 action: this.exportHandler,
               },
             ],
@@ -397,35 +500,31 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                     label: locals[this.props.lang].export.tokens.label,
                     value: 'TOKENS_GROUP',
                     feature: 'SELECT_EXPORT_FILE',
-                    position: 0,
                     type: 'OPTION',
-                    isActive: features.find(
-                      (feature) => feature.name === 'EXPORT_TOKENS'
-                    )?.isActive,
-                    isBlocked: isBlocked(
-                      'EXPORT_TOKENS',
+                    isActive: Export.features(
                       this.props.planStatus
-                    ),
-                    isNew: features.find(
-                      (feature) => feature.name === 'EXPORT_TOKENS'
-                    )?.isNew,
+                    ).EXPORT_TOKENS.isActive(),
+                    isBlocked: Export.features(
+                      this.props.planStatus
+                    ).EXPORT_TOKENS.isBlocked(),
+                    isNew: Export.features(
+                      this.props.planStatus
+                    ).EXPORT_TOKENS.isNew(),
                     children: [
                       {
                         label: locals[this.props.lang].export.tokens.global,
                         value: 'EXPORT_TOKENS_GLOBAL',
                         feature: 'SELECT_EXPORT_FILE',
-                        position: 0,
                         type: 'OPTION',
-                        isActive: features.find(
-                          (feature) => feature.name === 'EXPORT_TOKENS_JSON'
-                        )?.isActive,
-                        isBlocked: isBlocked(
-                          'EXPORT_TOKENS_JSON',
+                        isActive: Export.features(
                           this.props.planStatus
-                        ),
-                        isNew: features.find(
-                          (feature) => feature.name === 'EXPORT_TOKENS_JSON'
-                        )?.isNew,
+                        ).EXPORT_TOKENS_JSON.isActive(),
+                        isBlocked: Export.features(
+                          this.props.planStatus
+                        ).EXPORT_TOKENS_JSON.isBlocked(),
+                        isNew: Export.features(
+                          this.props.planStatus
+                        ).EXPORT_TOKENS_JSON.isNew(),
                         action: this.exportHandler,
                       },
                       {
@@ -434,22 +533,16 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             .amznStyleDictionary,
                         value: 'EXPORT_TOKENS_AMZN_STYLE_DICTIONARY',
                         feature: 'SELECT_EXPORT_FILE',
-                        position: 0,
                         type: 'OPTION',
-                        isActive: features.find(
-                          (feature) =>
-                            feature.name ===
-                            'EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY'
-                        )?.isActive,
-                        isBlocked: isBlocked(
-                          'EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY',
+                        isActive: Export.features(
                           this.props.planStatus
-                        ),
-                        isNew: features.find(
-                          (feature) =>
-                            feature.name ===
-                            'EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY'
-                        )?.isNew,
+                        ).EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY.isActive(),
+                        isBlocked: Export.features(
+                          this.props.planStatus
+                        ).EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY.isBlocked(),
+                        isNew: Export.features(
+                          this.props.planStatus
+                        ).EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY.isNew(),
                         action: this.exportHandler,
                       },
                       {
@@ -457,20 +550,16 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                           locals[this.props.lang].export.tokens.tokensStudio,
                         value: 'EXPORT_TOKENS_TOKENS_STUDIO',
                         feature: 'SELECT_EXPORT_FILE',
-                        position: 0,
                         type: 'OPTION',
-                        isActive: features.find(
-                          (feature) =>
-                            feature.name === 'EXPORT_TOKENS_JSON_TOKENS_STUDIO'
-                        )?.isActive,
-                        isBlocked: isBlocked(
-                          'EXPORT_TOKENS_JSON_TOKENS_STUDIO',
+                        isActive: Export.features(
                           this.props.planStatus
-                        ),
-                        isNew: features.find(
-                          (feature) =>
-                            feature.name === 'EXPORT_TOKENS_JSON_TOKENS_STUDIO'
-                        )?.isNew,
+                        ).EXPORT_TOKENS_JSON_TOKENS_STUDIO.isActive(),
+                        isBlocked: Export.features(
+                          this.props.planStatus
+                        ).EXPORT_TOKENS_JSON_TOKENS_STUDIO.isBlocked(),
+                        isNew: Export.features(
+                          this.props.planStatus
+                        ).EXPORT_TOKENS_JSON_TOKENS_STUDIO.isNew(),
                         action: this.exportHandler,
                       },
                     ],
@@ -480,83 +569,79 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                     label: locals[this.props.lang].export.css.customProperties,
                     value: 'EXPORT_CSS',
                     feature: 'SELECT_EXPORT_FILE',
-                    position: 0,
                     type: 'OPTION',
-                    isActive: features.find(
-                      (feature) => feature.name === 'EXPORT_CSS'
-                    )?.isActive,
-                    isBlocked: isBlocked('EXPORT_CSS', this.props.planStatus),
-                    isNew: features.find(
-                      (feature) => feature.name === 'EXPORT_CSS'
-                    )?.isNew,
+                    isActive: Export.features(
+                      this.props.planStatus
+                    ).EXPORT_CSS.isActive(),
+                    isBlocked: Export.features(
+                      this.props.planStatus
+                    ).EXPORT_CSS.isBlocked(),
+                    isNew: Export.features(
+                      this.props.planStatus
+                    ).EXPORT_CSS.isNew(),
                     action: this.exportHandler,
                   },
                   {
                     label: locals[this.props.lang].export.tailwind.config,
                     value: 'EXPORT_TAILWIND',
                     feature: 'SELECT_EXPORT_FILE',
-                    position: 0,
                     type: 'OPTION',
-                    isActive: features.find(
-                      (feature) => feature.name === 'EXPORT_TAILWIND'
-                    )?.isActive,
-                    isBlocked: isBlocked(
-                      'EXPORT_TAILWIND',
+                    isActive: Export.features(
                       this.props.planStatus
-                    ),
-                    isNew: features.find(
-                      (feature) => feature.name === 'EXPORT_TAILWIND'
-                    )?.isNew,
+                    ).EXPORT_TAILWIND.isActive(),
+                    isBlocked: Export.features(
+                      this.props.planStatus
+                    ).EXPORT_TAILWIND.isBlocked(),
+                    isNew: Export.features(
+                      this.props.planStatus
+                    ).EXPORT_TAILWIND.isNew(),
                     action: this.exportHandler,
                   },
                   {
                     label: locals[this.props.lang].export.apple.label,
                     value: 'APPLE_GROUP',
                     feature: 'SELECT_EXPORT_FILE',
-                    position: 0,
                     type: 'OPTION',
-                    isActive: features.find(
-                      (feature) => feature.name === 'EXPORT_APPLE'
-                    )?.isActive,
-                    isBlocked: isBlocked('EXPORT_APPLE', this.props.planStatus),
-                    isNew: features.find(
-                      (feature) => feature.name === 'EXPORT_APPLE'
-                    )?.isNew,
+                    isActive: Export.features(
+                      this.props.planStatus
+                    ).EXPORT_APPLE.isActive(),
+                    isBlocked: Export.features(
+                      this.props.planStatus
+                    ).EXPORT_APPLE.isBlocked(),
+                    isNew: Export.features(
+                      this.props.planStatus
+                    ).EXPORT_APPLE.isNew(),
                     children: [
                       {
                         label: locals[this.props.lang].export.apple.swiftui,
                         value: 'EXPORT_APPLE_SWIFTUI',
                         feature: 'SELECT_EXPORT_FILE',
-                        position: 0,
                         type: 'OPTION',
-                        isActive: features.find(
-                          (feature) => feature.name === 'EXPORT_APPLE_SWIFTUI'
-                        )?.isActive,
-                        isBlocked: isBlocked(
-                          'EXPORT_APPLE_SWIFTUI',
+                        isActive: Export.features(
                           this.props.planStatus
-                        ),
-                        isNew: features.find(
-                          (feature) => feature.name === 'EXPORT_APPLE_SWIFTUI'
-                        )?.isNew,
+                        ).EXPORT_APPLE_SWIFTUI.isActive(),
+                        isBlocked: Export.features(
+                          this.props.planStatus
+                        ).EXPORT_APPLE_SWIFTUI.isBlocked(),
+                        isNew: Export.features(
+                          this.props.planStatus
+                        ).EXPORT_APPLE_SWIFTUI.isNew(),
                         action: this.exportHandler,
                       },
                       {
                         label: locals[this.props.lang].export.apple.uikit,
                         value: 'EXPORT_APPLE_UIKIT',
                         feature: 'SELECT_EXPORT_FILE',
-                        position: 0,
                         type: 'OPTION',
-                        isActive: features.find(
-                          (feature) => feature.name === 'EXPORT_APPLE_UIKIT'
-                        )?.isActive,
-                        isBlocked: isBlocked(
-                          'EXPORT_APPLE_UIKIT',
+                        isActive: Export.features(
                           this.props.planStatus
-                        ),
-                        isNew: features.find(
-                          (feature) => feature.name === 'EXPORT_APPLE_UIKIT'
-                        )?.isNew,
+                        ).EXPORT_APPLE_UIKIT.isActive(),
+                        isBlocked: Export.features(
+                          this.props.planStatus
+                        ).EXPORT_APPLE_UIKIT.isBlocked(),
+                        isNew: Export.features(
+                          this.props.planStatus
+                        ).EXPORT_APPLE_UIKIT.isNew(),
                         action: this.exportHandler,
                       },
                     ],
@@ -566,53 +651,47 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                     label: locals[this.props.lang].export.android.label,
                     value: 'ANDROID_GROUP',
                     feature: 'SELECT_EXPORT_FILE',
-                    position: 0,
                     type: 'OPTION',
-                    isActive: features.find(
-                      (feature) => feature.name === 'EXPORT_ANDROID'
-                    )?.isActive,
-                    isBlocked: isBlocked(
-                      'EXPORT_ANDROID',
+                    isActive: Export.features(
                       this.props.planStatus
-                    ),
-                    isNew: features.find(
-                      (feature) => feature.name === 'EXPORT_ANDROID'
-                    )?.isNew,
+                    ).EXPORT_ANDROID.isActive(),
+                    isBlocked: Export.features(
+                      this.props.planStatus
+                    ).EXPORT_ANDROID.isBlocked(),
+                    isNew: Export.features(
+                      this.props.planStatus
+                    ).EXPORT_ANDROID.isNew(),
                     children: [
                       {
                         label: locals[this.props.lang].export.android.compose,
                         value: 'EXPORT_ANDROID_COMPOSE',
                         feature: 'SELECT_EXPORT_FILE',
-                        position: 0,
                         type: 'OPTION',
-                        isActive: features.find(
-                          (feature) => feature.name === 'EXPORT_ANDROID_COMPOSE'
-                        )?.isActive,
-                        isBlocked: isBlocked(
-                          'EXPORT_ANDROID_COMPOSE',
+                        isActive: Export.features(
                           this.props.planStatus
-                        ),
-                        isNew: features.find(
-                          (feature) => feature.name === 'EXPORT_ANDROID_COMPOSE'
-                        )?.isNew,
+                        ).EXPORT_ANDROID_COMPOSE.isActive(),
+                        isBlocked: Export.features(
+                          this.props.planStatus
+                        ).EXPORT_ANDROID_COMPOSE.isBlocked(),
+                        isNew: Export.features(
+                          this.props.planStatus
+                        ).EXPORT_ANDROID_COMPOSE.isNew(),
                         action: this.exportHandler,
                       },
                       {
                         label: locals[this.props.lang].export.android.resources,
                         value: 'EXPORT_ANDROID_XML',
                         feature: 'SELECT_EXPORT_FILE',
-                        position: 0,
                         type: 'OPTION',
-                        isActive: features.find(
-                          (feature) => feature.name === 'EXPORT_ANDROID_XML'
-                        )?.isActive,
-                        isBlocked: isBlocked(
-                          'EXPORT_ANDROID_XML',
+                        isActive: Export.features(
                           this.props.planStatus
-                        ),
-                        isNew: features.find(
-                          (feature) => feature.name === 'EXPORT_ANDROID_XML'
-                        )?.isNew,
+                        ).EXPORT_ANDROID_XML.isActive(),
+                        isBlocked: Export.features(
+                          this.props.planStatus
+                        ).EXPORT_ANDROID_XML.isBlocked(),
+                        isNew: Export.features(
+                          this.props.planStatus
+                        ).EXPORT_ANDROID_XML.isNew(),
                         action: this.exportHandler,
                       },
                     ],
@@ -622,15 +701,16 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                     label: locals[this.props.lang].export.csv.spreadsheet,
                     value: 'EXPORT_CSV',
                     feature: 'SELECT_EXPORT_FILE',
-                    position: 0,
                     type: 'OPTION',
-                    isActive: features.find(
-                      (feature) => feature.name === 'EXPORT_CSV'
-                    )?.isActive,
-                    isBlocked: isBlocked('EXPORT_CSV', this.props.planStatus),
-                    isNew: features.find(
-                      (feature) => feature.name === 'EXPORT_CSV'
-                    )?.isNew,
+                    isActive: Export.features(
+                      this.props.planStatus
+                    ).EXPORT_CSV.isActive(),
+                    isBlocked: Export.features(
+                      this.props.planStatus
+                    ).EXPORT_CSV.isBlocked(),
+                    isNew: Export.features(
+                      this.props.planStatus
+                    ).EXPORT_CSV.isNew(),
                     action: this.exportHandler,
                   },
                 ]}

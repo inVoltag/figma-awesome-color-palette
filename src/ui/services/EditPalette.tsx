@@ -1,6 +1,7 @@
 import { doSnakeCase } from '@a-ng-d/figmug.modules.do-snake-case'
 import type { ConsentConfiguration, DropdownOption } from '@a_ng_d/figmug-ui'
 import { Bar, Dropdown, FormItem, Tabs } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import FileSaver from 'file-saver'
 import JSZip from 'jszip'
 import React from 'react'
@@ -25,7 +26,6 @@ import { TextColorsThemeHexModel } from '../../types/models'
 import features from '../../utils/config'
 import doLightnessScale from '../../utils/doLightnessScale'
 import { trackActionEvent } from '../../utils/eventsTracker'
-import isBlocked from '../../utils/isBlocked'
 import { palette } from '../../utils/palettePackage'
 import { setContexts } from '../../utils/setContexts'
 import type { AppStates } from '../App'
@@ -70,13 +70,18 @@ interface EditPaletteStates {
   }
 }
 
-export default class EditPalette extends PureComponent<
-  EditPaletteProps,
-  EditPaletteStates
-> {
+export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteStates> {
   themesMessage: ThemesMessage
   contexts: Array<ContextItem>
   themesRef: React.RefObject<Themes>
+
+  static features = (planStatus: PlanStatus) => ({
+    THEMES: new FeatureStatus({
+      features: features,
+      featureName: 'THEMES',
+      planStatus: planStatus,
+    }),
+  })
 
   constructor(props: EditPaletteProps) {
     super(props)
@@ -266,11 +271,7 @@ export default class EditPalette extends PureComponent<
         label: theme.name,
         value: theme.id,
         feature: 'SWITCH_THEME',
-        position: 0,
         type: 'OPTION',
-        isActive: true,
-        isBlocked: false,
-        children: [],
         action: (e: Event) => this.switchThemeHandler(e),
       } as DropdownOption
     })
@@ -282,12 +283,12 @@ export default class EditPalette extends PureComponent<
       {
         label: 'Create a color theme',
         feature: 'ADD_THEME',
-        position: 0,
         type: 'OPTION',
-        isActive: features.find((feature) => feature.name === 'THEMES')
-          ?.isActive,
-        isBlocked: isBlocked('THEMES', this.props.planStatus),
-        isNew: features.find((feature) => feature.name === 'THEMES')?.isNew,
+        isActive: EditPalette.features(this.props.planStatus).THEMES.isActive(),
+        isBlocked: EditPalette.features(
+          this.props.planStatus
+        ).THEMES.isBlocked(),
+        isNew: EditPalette.features(this.props.planStatus).THEMES.isNew(),
         action: () => {
           this.setState({ context: 'THEMES' })
           setTimeout(() => this.themesRef.current?.onAddTheme(), 1)
@@ -384,9 +385,9 @@ export default class EditPalette extends PureComponent<
           }
           rightPartSlot={
             <Feature
-              isActive={
-                features.find((feature) => feature.name === 'THEMES')?.isActive
-              }
+              isActive={EditPalette.features(
+                this.props.planStatus
+              ).THEMES.isActive()}
             >
               <FormItem
                 id="themes"

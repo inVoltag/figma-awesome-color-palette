@@ -8,6 +8,7 @@ import {
   SectionTitle,
   Select,
 } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 
@@ -29,7 +30,6 @@ import {
 } from '../../types/models'
 import features from '../../utils/config'
 import { trackSettingsManagementEvent } from '../../utils/eventsTracker'
-import isBlocked from '../../utils/isBlocked'
 import { palette } from '../../utils/palettePackage'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
@@ -62,6 +62,159 @@ interface SettingsProps {
 export default class Settings extends PureComponent<SettingsProps> {
   settingsMessage: SettingsMessage
   dispatch: { [key: string]: DispatchProcess }
+
+  static features = (planStatus: PlanStatus) => ({
+    SCALE_PRESETS: new FeatureStatus({
+      features: features,
+      featureName: 'SCALE_PRESETS',
+      planStatus: planStatus,
+    }),
+    SETTINGS_NAME: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_NAME',
+      planStatus: planStatus,
+    }),
+    SETTINGS_DESCRIPTION: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_DESCRIPTION',
+      planStatus: planStatus,
+    }),
+    VIEWS: new FeatureStatus({
+      features: features,
+      featureName: 'VIEWS',
+      planStatus: planStatus,
+    }),
+    VIEWS_PALETTE_WITH_PROPERTIES: new FeatureStatus({
+      features: features,
+      featureName: 'VIEWS_PALETTE_WITH_PROPERTIES',
+      planStatus: planStatus,
+    }),
+    VIEWS_PALETTE: new FeatureStatus({
+      features: features,
+      featureName: 'VIEWS_PALETTE',
+      planStatus: planStatus,
+    }),
+    VIEWS_SHEET: new FeatureStatus({
+      features: features,
+      featureName: 'VIEWS_SHEET',
+      planStatus: planStatus,
+    }),
+    SETTINGS_COLOR_SPACE: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_COLOR_SPACE',
+      planStatus: planStatus,
+    }),
+    SETTINGS_COLOR_SPACE_LCH: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_COLOR_SPACE_LCH',
+      planStatus: planStatus,
+    }),
+    SETTINGS_COLOR_SPACE_OKLCH: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_COLOR_SPACE_OKLCH',
+      planStatus: planStatus,
+    }),
+    SETTINGS_COLOR_SPACE_LAB: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_COLOR_SPACE_LAB',
+      planStatus: planStatus,
+    }),
+    SETTINGS_COLOR_SPACE_OKLAB: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_COLOR_SPACE_OKLAB',
+      planStatus: planStatus,
+    }),
+    SETTINGS_COLOR_SPACE_HSL: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_COLOR_SPACE_HSL',
+      planStatus: planStatus,
+    }),
+    SETTINGS_COLOR_SPACE_HSLUV: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_COLOR_SPACE_HSLUV',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_NONE: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_NONE',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
+      planStatus: planStatus,
+    }),
+    SETTINGS_NEW_ALGORITHM: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_NEW_ALGORITHM',
+      planStatus: planStatus,
+    }),
+    SETTINGS_GLOBAL: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_GLOBAL',
+      planStatus: planStatus,
+    }),
+    SETTINGS_TEXT_COLORS_THEME: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_TEXT_COLORS_THEME',
+      planStatus: planStatus,
+    }),
+    SETTINGS_COLOR_MANAGEMENT: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_COLOR_MANAGEMENT',
+      planStatus: planStatus,
+    }),
+    SETTINGS_CONTRAST_MANAGEMENT: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_CONTRAST_MANAGEMENT',
+      planStatus: planStatus,
+    }),
+    PREVIEW: new FeatureStatus({
+      features: features,
+      featureName: 'PREVIEW',
+      planStatus: planStatus,
+    }),
+  })
 
   constructor(props: SettingsProps) {
     super(props)
@@ -361,15 +514,17 @@ export default class Settings extends PureComponent<SettingsProps> {
   Name = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SETTINGS_NAME')?.isActive
-        }
+        isActive={Settings.features(
+          this.props.planStatus
+        ).SETTINGS_NAME.isActive()}
       >
         <div className="settings__item">
           <FormItem
             label={locals[this.props.lang].settings.global.name.label}
             id="update-palette-name"
-            isBlocked={isBlocked('SETTINGS_NAME', this.props.planStatus)}
+            isBlocked={Settings.features(
+              this.props.planStatus
+            ).SETTINGS_NAME.isBlocked()}
           >
             <Input
               id="update-palette-name"
@@ -377,28 +532,17 @@ export default class Settings extends PureComponent<SettingsProps> {
               placeholder={locals[this.props.lang].name}
               value={this.props.name !== '' ? this.props.name : ''}
               charactersLimit={64}
-              isBlocked={isBlocked('SETTINGS_NAME', this.props.planStatus)}
+              isBlocked={Settings.features(
+                this.props.planStatus
+              ).SETTINGS_NAME.isBlocked()}
+              isNew={Settings.features(
+                this.props.planStatus
+              ).SETTINGS_NAME.isNew()}
               feature="RENAME_PALETTE"
-              onChange={
-                isBlocked('SETTINGS_NAME', this.props.planStatus)
-                  ? () => null
-                  : this.settingsHandler
-              }
-              onFocus={
-                isBlocked('SETTINGS_NAME', this.props.planStatus)
-                  ? () => null
-                  : this.settingsHandler
-              }
-              onBlur={
-                isBlocked('SETTINGS_NAME', this.props.planStatus)
-                  ? () => null
-                  : this.settingsHandler
-              }
-              onConfirm={
-                isBlocked('SETTINGS_NAME', this.props.planStatus)
-                  ? () => null
-                  : this.settingsHandler
-              }
+              onChange={this.settingsHandler}
+              onFocus={this.settingsHandler}
+              onBlur={this.settingsHandler}
+              onConfirm={this.settingsHandler}
             />
           </FormItem>
         </div>
@@ -409,16 +553,17 @@ export default class Settings extends PureComponent<SettingsProps> {
   Description = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SETTINGS_DESCRIPTION')
-            ?.isActive
-        }
+        isActive={Settings.features(
+          this.props.planStatus
+        ).SETTINGS_DESCRIPTION.isActive()}
       >
         <div className="settings__item">
           <FormItem
             label={locals[this.props.lang].settings.global.description.label}
             id="update-palette-description"
-            isBlocked={isBlocked('SETTINGS_DESCRIPTION', this.props.planStatus)}
+            isBlocked={Settings.features(
+              this.props.planStatus
+            ).SETTINGS_DESCRIPTION.isBlocked()}
           >
             <Input
               id="update-palette-description"
@@ -427,27 +572,17 @@ export default class Settings extends PureComponent<SettingsProps> {
                 locals[this.props.lang].global.description.placeholder
               }
               value={this.props.description}
-              isBlocked={isBlocked(
-                'SETTINGS_DESCRIPTION',
+              isBlocked={Settings.features(
                 this.props.planStatus
-              )}
+              ).SETTINGS_DESCRIPTION.isBlocked()}
+              isNew={Settings.features(
+                this.props.planStatus
+              ).SETTINGS_DESCRIPTION.isNew()}
               feature="UPDATE_DESCRIPTION"
               isGrowing={true}
-              onFocus={
-                isBlocked('SETTINGS_DESCRIPTION', this.props.planStatus)
-                  ? () => null
-                  : this.settingsHandler
-              }
-              onBlur={
-                isBlocked('SETTINGS_DESCRIPTION', this.props.planStatus)
-                  ? () => null
-                  : this.settingsHandler
-              }
-              onConfirm={
-                isBlocked('SETTINGS_DESCRIPTION', this.props.planStatus)
-                  ? () => null
-                  : this.settingsHandler
-              }
+              onFocus={this.settingsHandler}
+              onBlur={this.settingsHandler}
+              onConfirm={this.settingsHandler}
             />
           </FormItem>
         </div>
@@ -458,14 +593,15 @@ export default class Settings extends PureComponent<SettingsProps> {
   View = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'VIEWS')?.isActive
-        }
+        isActive={Settings.features(this.props.planStatus).VIEWS.isActive()}
       >
         <div className="settings__item">
           <FormItem
             id="update-view"
             label={locals[this.props.lang].settings.global.views.label}
+            isBlocked={Settings.features(
+              this.props.planStatus
+            ).VIEWS.isBlocked()}
           >
             <Dropdown
               id="views"
@@ -476,18 +612,15 @@ export default class Settings extends PureComponent<SettingsProps> {
                   feature: 'UPDATE_VIEW',
                   position: 0,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) =>
-                      feature.name === 'VIEWS_PALETTE_WITH_PROPERTIES'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'VIEWS_PALETTE_WITH_PROPERTIES',
+                  isActive: Settings.features(
                     this.props.planStatus
-                  ),
-                  isNew: features.find(
-                    (feature) =>
-                      feature.name === 'VIEWS_PALETTE_WITH_PROPERTIES'
-                  )?.isNew,
+                  ).VIEWS_PALETTE_WITH_PROPERTIES.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).VIEWS_PALETTE_WITH_PROPERTIES.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).VIEWS_PALETTE_WITH_PROPERTIES.isNew(),
                   action: this.settingsHandler,
                 },
                 {
@@ -496,13 +629,15 @@ export default class Settings extends PureComponent<SettingsProps> {
                   feature: 'UPDATE_VIEW',
                   position: 1,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) => feature.name === 'VIEWS_PALETTE'
-                  )?.isActive,
-                  isBlocked: isBlocked('VIEWS_PALETTE', this.props.planStatus),
-                  isNew: features.find(
-                    (feature) => feature.name === 'VIEWS_PALETTE'
-                  )?.isNew,
+                  isActive: Settings.features(
+                    this.props.planStatus
+                  ).VIEWS_PALETTE.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).VIEWS_PALETTE.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).VIEWS_PALETTE.isNew(),
                   action: this.settingsHandler,
                 },
                 {
@@ -511,20 +646,20 @@ export default class Settings extends PureComponent<SettingsProps> {
                   feature: 'UPDATE_VIEW',
                   position: 2,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) => feature.name === 'VIEWS_SHEET'
-                  )?.isActive,
-                  isBlocked: isBlocked('VIEWS_SHEET', this.props.planStatus),
-                  isNew: features.find(
-                    (feature) => feature.name === 'VIEWS_SHEET'
-                  )?.isNew,
+                  isActive: Settings.features(
+                    this.props.planStatus
+                  ).VIEWS_SHEET.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).VIEWS_SHEET.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).VIEWS_SHEET.isNew(),
                   action: this.settingsHandler,
                 },
               ]}
               selected={this.props.view}
-              isNew={
-                features.find((feature) => feature.name === 'VIEWS')?.isNew
-              }
+              isNew={Settings.features(this.props.planStatus).VIEWS.isNew()}
             />
           </FormItem>
         </div>
@@ -535,15 +670,17 @@ export default class Settings extends PureComponent<SettingsProps> {
   ColorSpace = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SETTINGS_COLOR_SPACE')
-            ?.isActive
-        }
+        isActive={Settings.features(
+          this.props.planStatus
+        ).SETTINGS_COLOR_SPACE.isActive()}
       >
         <div className="settings__item">
           <FormItem
             id="update-color-space"
             label={locals[this.props.lang].settings.color.colorSpace.label}
+            isBlocked={Settings.features(
+              this.props.planStatus
+            ).SETTINGS_COLOR_SPACE.isBlocked()}
           >
             <Dropdown
               id="update-color-space"
@@ -554,16 +691,15 @@ export default class Settings extends PureComponent<SettingsProps> {
                   feature: 'UPDATE_COLOR_SPACE',
                   position: 0,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) => feature.name === 'SETTINGS_COLOR_SPACE_LCH'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'SETTINGS_COLOR_SPACE_LCH',
+                  isActive: Settings.features(
                     this.props.planStatus
-                  ),
-                  isNew: features.find(
-                    (feature) => feature.name === 'SETTINGS_COLOR_SPACE_LCH'
-                  )?.isNew,
+                  ).SETTINGS_COLOR_SPACE_LCH.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_COLOR_SPACE_LCH.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_COLOR_SPACE_LCH.isNew(),
                   action: this.settingsHandler,
                 },
                 {
@@ -573,16 +709,15 @@ export default class Settings extends PureComponent<SettingsProps> {
                   feature: 'UPDATE_COLOR_SPACE',
                   position: 1,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) => feature.name === 'SETTINGS_COLOR_SPACE_OKLCH'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'SETTINGS_COLOR_SPACE_OKLCH',
+                  isActive: Settings.features(
                     this.props.planStatus
-                  ),
-                  isNew: features.find(
-                    (feature) => feature.name === 'SETTINGS_COLOR_SPACE_OKLCH'
-                  )?.isNew,
+                  ).SETTINGS_COLOR_SPACE_OKLCH.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_COLOR_SPACE_OKLCH.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_COLOR_SPACE_OKLCH.isNew(),
                   action: this.settingsHandler,
                 },
                 {
@@ -591,16 +726,15 @@ export default class Settings extends PureComponent<SettingsProps> {
                   feature: 'UPDATE_COLOR_SPACE',
                   position: 2,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) => feature.name === 'SETTINGS_COLOR_SPACE_LAB'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'SETTINGS_COLOR_SPACE_LAB',
+                  isActive: Settings.features(
                     this.props.planStatus
-                  ),
-                  isNew: features.find(
-                    (feature) => feature.name === 'SETTINGS_COLOR_SPACE_LAB'
-                  )?.isNew,
+                  ).SETTINGS_COLOR_SPACE_LAB.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_COLOR_SPACE_LAB.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_COLOR_SPACE_LAB.isNew(),
                   action: this.settingsHandler,
                 },
                 {
@@ -610,16 +744,15 @@ export default class Settings extends PureComponent<SettingsProps> {
                   feature: 'UPDATE_COLOR_SPACE',
                   position: 3,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) => feature.name === 'SETTINGS_COLOR_SPACE_OKLAB'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'SETTINGS_COLOR_SPACE_OKLAB',
+                  isActive: Settings.features(
                     this.props.planStatus
-                  ),
-                  isNew: features.find(
-                    (feature) => feature.name === 'SETTINGS_COLOR_SPACE_OKLAB'
-                  )?.isNew,
+                  ).SETTINGS_COLOR_SPACE_OKLAB.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_COLOR_SPACE_OKLAB.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_COLOR_SPACE_OKLAB.isNew(),
                   action: this.settingsHandler,
                 },
                 {
@@ -628,16 +761,15 @@ export default class Settings extends PureComponent<SettingsProps> {
                   feature: 'UPDATE_COLOR_SPACE',
                   position: 4,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) => feature.name === 'SETTINGS_COLOR_SPACE_HSL'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'SETTINGS_COLOR_SPACE_HSL',
+                  isActive: Settings.features(
                     this.props.planStatus
-                  ),
-                  isNew: features.find(
-                    (feature) => feature.name === 'SETTINGS_COLOR_SPACE_HSL'
-                  )?.isNew,
+                  ).SETTINGS_COLOR_SPACE_HSL.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_COLOR_SPACE_HSL.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_COLOR_SPACE_HSL.isNew(),
                   action: this.settingsHandler,
                 },
                 {
@@ -647,35 +779,31 @@ export default class Settings extends PureComponent<SettingsProps> {
                   feature: 'UPDATE_COLOR_SPACE',
                   position: 5,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) => feature.name === 'SETTINGS_COLOR_SPACE_HSLUV'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'SETTINGS_COLOR_SPACE_HSLUV',
+                  isActive: Settings.features(
                     this.props.planStatus
-                  ),
-                  isNew: features.find(
-                    (feature) => feature.name === 'SETTINGS_COLOR_SPACE_HSLUV'
-                  )?.isNew,
+                  ).SETTINGS_COLOR_SPACE_HSLUV.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_COLOR_SPACE_HSLUV.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_COLOR_SPACE_HSLUV.isNew(),
                   action: this.settingsHandler,
                 },
               ]}
               selected={this.props.colorSpace}
-              isNew={
-                features.find(
-                  (feature) => feature.name === 'SETTINGS_COLOR_SPACE'
-                )?.isNew
-              }
+              isNew={Settings.features(
+                this.props.planStatus
+              ).SETTINGS_COLOR_SPACE.isNew()}
             />
           </FormItem>
           {this.props.colorSpace === 'HSL' && (
             <Message
               icon="warning"
               messages={[locals[this.props.lang].warning.hslColorSpace]}
-              isBlocked={isBlocked(
-                'SETTINGS_COLOR_SPACE',
+              isBlocked={Settings.features(
                 this.props.planStatus
-              )}
+              ).SETTINGS_COLOR_SPACE.isBlocked()}
             />
           )}
         </div>
@@ -686,11 +814,9 @@ export default class Settings extends PureComponent<SettingsProps> {
   VisionSimulationMode = () => {
     return (
       <Feature
-        isActive={
-          features.find(
-            (feature) => feature.name === 'SETTINGS_VISION_SIMULATION_MODE'
-          )?.isActive
-        }
+        isActive={Settings.features(
+          this.props.planStatus
+        ).SETTINGS_VISION_SIMULATION_MODE.isActive()}
       >
         <div className="settings__item">
           <FormItem
@@ -698,6 +824,9 @@ export default class Settings extends PureComponent<SettingsProps> {
             label={
               locals[this.props.lang].settings.color.visionSimulationMode.label
             }
+            isBlocked={Settings.features(
+              this.props.planStatus
+            ).SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
           >
             <Dropdown
               id="update-color-blind-mode"
@@ -710,14 +839,15 @@ export default class Settings extends PureComponent<SettingsProps> {
                   feature: 'UPDATE_COLOR_BLIND_MODE',
                   position: 0,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) =>
-                      feature.name === 'SETTINGS_VISION_SIMULATION_MODE_NONE'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'SETTINGS_VISION_SIMULATION_MODE_NONE',
+                  isActive: Settings.features(
                     this.props.planStatus
-                  ),
+                  ).SETTINGS_VISION_SIMULATION_MODE_NONE.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE_NONE.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE_NONE.isNew(),
                   action: this.settingsHandler,
                 },
                 {
@@ -739,20 +869,15 @@ export default class Settings extends PureComponent<SettingsProps> {
                   feature: 'UPDATE_COLOR_BLIND_MODE',
                   position: 3,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) =>
-                      feature.name ===
-                      'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
+                  isActive: Settings.features(
                     this.props.planStatus
-                  ),
-                  isNew: features.find(
-                    (feature) =>
-                      feature.name ===
-                      'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY'
-                  )?.isNew,
+                  ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isNew(),
                   action: this.settingsHandler,
                 },
                 {
@@ -763,20 +888,15 @@ export default class Settings extends PureComponent<SettingsProps> {
                   feature: 'UPDATE_COLOR_BLIND_MODE',
                   position: 4,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) =>
-                      feature.name ===
-                      'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
+                  isActive: Settings.features(
                     this.props.planStatus
-                  ),
-                  isNew: features.find(
-                    (feature) =>
-                      feature.name ===
-                      'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA'
-                  )?.isNew,
+                  ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isNew(),
                   action: this.settingsHandler,
                 },
                 {
@@ -787,20 +907,15 @@ export default class Settings extends PureComponent<SettingsProps> {
                   feature: 'UPDATE_COLOR_BLIND_MODE',
                   position: 5,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) =>
-                      feature.name ===
-                      'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
+                  isActive: Settings.features(
                     this.props.planStatus
-                  ),
-                  isNew: features.find(
-                    (feature) =>
-                      feature.name ===
-                      'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY'
-                  )?.isNew,
+                  ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isNew(),
                   action: this.settingsHandler,
                 },
                 {
@@ -811,20 +926,15 @@ export default class Settings extends PureComponent<SettingsProps> {
                   feature: 'UPDATE_COLOR_BLIND_MODE',
                   position: 6,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) =>
-                      feature.name ===
-                      'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
+                  isActive: Settings.features(
                     this.props.planStatus
-                  ),
-                  isNew: features.find(
-                    (feature) =>
-                      feature.name ===
-                      'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA'
-                  )?.isNew,
+                  ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isNew(),
                   action: this.settingsHandler,
                 },
                 {
@@ -835,20 +945,15 @@ export default class Settings extends PureComponent<SettingsProps> {
                   feature: 'UPDATE_COLOR_BLIND_MODE',
                   position: 7,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) =>
-                      feature.name ===
-                      'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
+                  isActive: Settings.features(
                     this.props.planStatus
-                  ),
-                  isNew: features.find(
-                    (feature) =>
-                      feature.name ===
-                      'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY'
-                  )?.isNew,
+                  ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isNew(),
                   action: this.settingsHandler,
                 },
                 {
@@ -859,20 +964,15 @@ export default class Settings extends PureComponent<SettingsProps> {
                   feature: 'UPDATE_COLOR_BLIND_MODE',
                   position: 8,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) =>
-                      feature.name ===
-                      'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
+                  isActive: Settings.features(
                     this.props.planStatus
-                  ),
-                  isNew: features.find(
-                    (feature) =>
-                      feature.name ===
-                      'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA'
-                  )?.isNew,
+                  ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isNew(),
                   action: this.settingsHandler,
                 },
                 {
@@ -883,20 +983,15 @@ export default class Settings extends PureComponent<SettingsProps> {
                   feature: 'UPDATE_COLOR_BLIND_MODE',
                   position: 9,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) =>
-                      feature.name ===
-                      'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
+                  isActive: Settings.features(
                     this.props.planStatus
-                  ),
-                  isNew: features.find(
-                    (feature) =>
-                      feature.name ===
-                      'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY'
-                  )?.isNew,
+                  ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isNew(),
                   action: this.settingsHandler,
                 },
                 {
@@ -907,30 +1002,22 @@ export default class Settings extends PureComponent<SettingsProps> {
                   feature: 'UPDATE_COLOR_BLIND_MODE',
                   position: 10,
                   type: 'OPTION',
-                  isActive: features.find(
-                    (feature) =>
-                      feature.name ===
-                      'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA'
-                  )?.isActive,
-                  isBlocked: isBlocked(
-                    'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
+                  isActive: Settings.features(
                     this.props.planStatus
-                  ),
-                  isNew: features.find(
-                    (feature) =>
-                      feature.name ===
-                      'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA'
-                  )?.isNew,
+                  ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isActive(),
+                  isBlocked: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isBlocked(),
+                  isNew: Settings.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isNew(),
                   action: this.settingsHandler,
                 },
               ]}
               selected={this.props.visionSimulationMode}
-              isNew={
-                features.find(
-                  (feature) =>
-                    feature.name === 'SETTINGS_VISION_SIMULATION_MODE'
-                )?.isNew
-              }
+              isNew={Settings.features(
+                this.props.planStatus
+              ).SETTINGS_VISION_SIMULATION_MODE.isNew()}
             />
           </FormItem>
         </div>
@@ -941,10 +1028,9 @@ export default class Settings extends PureComponent<SettingsProps> {
   NewAlgorithm = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SETTINGS_NEW_ALGORITHM')
-            ?.isActive
-        }
+        isActive={Settings.features(
+          this.props.planStatus
+        ).SETTINGS_NEW_ALGORITHM.isActive()}
       >
         <div className="settings__item">
           <Select
@@ -953,31 +1039,23 @@ export default class Settings extends PureComponent<SettingsProps> {
             name="algorythm"
             label={locals[this.props.lang].settings.color.newAlgorithm.label}
             isChecked={this.props.algorithmVersion === 'v2' ? true : false}
-            isBlocked={isBlocked(
-              'SETTINGS_NEW_ALGORITHM',
+            isBlocked={Settings.features(
               this.props.planStatus
-            )}
-            isNew={
-              features.find(
-                (feature) => feature.name === 'SETTINGS_NEW_ALGORITHM'
-              )?.isNew
-            }
+            ).SETTINGS_NEW_ALGORITHM.isBlocked()}
+            isNew={Settings.features(
+              this.props.planStatus
+            ).SETTINGS_NEW_ALGORITHM.isNew()}
             feature="UPDATE_ALGORITHM_VERSION"
-            onChange={
-              isBlocked('SETTINGS_NEW_ALGORITHM', this.props.planStatus)
-                ? () => null
-                : this.settingsHandler
-            }
+            onChange={this.settingsHandler}
           />
           <Message
             icon="info"
             messages={[
               locals[this.props.lang].settings.color.newAlgorithm.description,
             ]}
-            isBlocked={isBlocked(
-              'SETTINGS_NEW_ALGORITHM',
+            isBlocked={Settings.features(
               this.props.planStatus
-            )}
+            ).SETTINGS_NEW_ALGORITHM.isBlocked()}
           />
         </div>
       </Feature>
@@ -987,11 +1065,9 @@ export default class Settings extends PureComponent<SettingsProps> {
   TextColorsTheme = () => {
     return (
       <Feature
-        isActive={
-          features.find(
-            (feature) => feature.name === 'SETTINGS_TEXT_COLORS_THEME'
-          )?.isActive
-        }
+        isActive={Settings.features(
+          this.props.planStatus
+        ).SETTINGS_TEXT_COLORS_THEME.isActive()}
       >
         <div className="settings__item">
           <FormItem
@@ -1000,44 +1076,24 @@ export default class Settings extends PureComponent<SettingsProps> {
                 .textLightColor
             }
             id="update-text-light-color"
-            isBlocked={isBlocked(
-              'SETTINGS_TEXT_COLORS_THEME',
+            isBlocked={Settings.features(
               this.props.planStatus
-            )}
+            ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
           >
             <Input
               id="update-text-light-color"
               type="COLOR"
               value={this.props.textColorsTheme?.lightColor ?? '#FFFFFF'}
-              isBlocked={isBlocked(
-                'SETTINGS_TEXT_COLORS_THEME',
+              isBlocked={Settings.features(
                 this.props.planStatus
-              )}
-              isDisabled={isBlocked(
-                'SETTINGS_TEXT_COLORS_THEME',
+              ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
+              isNew={Settings.features(
                 this.props.planStatus
-              )}
-              isNew={
-                features.find(
-                  (feature) => feature.name === 'SETTINGS_TEXT_COLORS_THEME'
-                )?.isNew
-              }
+              ).SETTINGS_TEXT_COLORS_THEME.isNew()}
               feature="UPDATE_TEXT_LIGHT_COLOR"
-              onChange={
-                isBlocked('SETTINGS_TEXT_COLORS_THEME', this.props.planStatus)
-                  ? () => null
-                  : this.settingsHandler
-              }
-              onFocus={
-                isBlocked('SETTINGS_TEXT_COLORS_THEME', this.props.planStatus)
-                  ? () => null
-                  : this.settingsHandler
-              }
-              onBlur={
-                isBlocked('SETTINGS_TEXT_COLORS_THEME', this.props.planStatus)
-                  ? () => null
-                  : this.settingsHandler
-              }
+              onChange={this.settingsHandler}
+              onFocus={this.settingsHandler}
+              onBlur={this.settingsHandler}
             />
           </FormItem>
           <FormItem
@@ -1045,44 +1101,24 @@ export default class Settings extends PureComponent<SettingsProps> {
               locals[this.props.lang].settings.contrast.textColors.textDarkColor
             }
             id="update-text-dark-color"
-            isBlocked={isBlocked(
-              'SETTINGS_TEXT_COLORS_THEME',
+            isBlocked={Settings.features(
               this.props.planStatus
-            )}
+            ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
           >
             <Input
               id="update-text-dark-color"
               type="COLOR"
               value={this.props.textColorsTheme?.darkColor ?? '#OOOOOO'}
-              isBlocked={isBlocked(
-                'SETTINGS_TEXT_COLORS_THEME',
+              isBlocked={Settings.features(
                 this.props.planStatus
-              )}
-              isDisabled={isBlocked(
-                'SETTINGS_TEXT_COLORS_THEME',
+              ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
+              isNew={Settings.features(
                 this.props.planStatus
-              )}
-              isNew={
-                features.find(
-                  (feature) => feature.name === 'SETTINGS_TEXT_COLORS_THEME'
-                )?.isNew
-              }
+              ).SETTINGS_TEXT_COLORS_THEME.isNew()}
               feature="UPDATE_TEXT_DARK_COLOR"
-              onChange={
-                isBlocked('SETTINGS_TEXT_COLORS_THEME', this.props.planStatus)
-                  ? () => null
-                  : this.settingsHandler
-              }
-              onFocus={
-                isBlocked('SETTINGS_TEXT_COLORS_THEME', this.props.planStatus)
-                  ? () => null
-                  : this.settingsHandler
-              }
-              onBlur={
-                isBlocked('SETTINGS_TEXT_COLORS_THEME', this.props.planStatus)
-                  ? () => null
-                  : this.settingsHandler
-              }
+              onChange={this.settingsHandler}
+              onFocus={this.settingsHandler}
+              onBlur={this.settingsHandler}
             />
           </FormItem>
           <Message
@@ -1091,10 +1127,9 @@ export default class Settings extends PureComponent<SettingsProps> {
               locals[this.props.lang].settings.contrast.textColors
                 .textThemeColorsDescription,
             ]}
-            isBlocked={isBlocked(
-              'SETTINGS_NEW_ALGORITHM',
+            isBlocked={Settings.features(
               this.props.planStatus
-            )}
+            ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
           />
         </div>
       </Feature>
@@ -1104,10 +1139,9 @@ export default class Settings extends PureComponent<SettingsProps> {
   Global = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SETTINGS_GLOBAL')
-            ?.isActive
-        }
+        isActive={Settings.features(
+          this.props.planStatus
+        ).SETTINGS_GLOBAL.isActive()}
       >
         <div className="settings__group">
           <div className="section-controls">
@@ -1128,11 +1162,9 @@ export default class Settings extends PureComponent<SettingsProps> {
   ColorManagement = () => {
     return (
       <Feature
-        isActive={
-          features.find(
-            (feature) => feature.name === 'SETTINGS_COLOR_MANAGEMENT'
-          )?.isActive
-        }
+        isActive={Settings.features(
+          this.props.planStatus
+        ).SETTINGS_COLOR_MANAGEMENT.isActive()}
       >
         <div className="settings__group">
           <div className="section-controls">
@@ -1153,11 +1185,9 @@ export default class Settings extends PureComponent<SettingsProps> {
   ContrastManagement = () => {
     return (
       <Feature
-        isActive={
-          features.find(
-            (feature) => feature.name === 'SETTINGS_CONTRAST_MANAGEMENT'
-          )?.isActive
-        }
+        isActive={Settings.features(
+          this.props.planStatus
+        ).SETTINGS_CONTRAST_MANAGEMENT.isActive()}
       >
         <div className="settings__group">
           <div className="section-controls">
@@ -1188,9 +1218,9 @@ export default class Settings extends PureComponent<SettingsProps> {
               context="CREATE"
             />
             <Feature
-              isActive={
-                features.find((feature) => feature.name === 'PREVIEW')?.isActive
-              }
+              isActive={Settings.features(
+                this.props.planStatus
+              ).PREVIEW.isActive()}
             >
               <Preview sourceColors={this.props.sourceColors} />
             </Feature>

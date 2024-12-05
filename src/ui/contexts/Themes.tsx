@@ -8,6 +8,7 @@ import {
   SectionTitle,
   SortableList,
 } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import React, { PureComponent } from 'react'
 import { uid } from 'uid'
 
@@ -24,7 +25,6 @@ import { ActionsList, DispatchProcess } from '../../types/models'
 import features from '../../utils/config'
 import doLightnessScale from '../../utils/doLightnessScale'
 import { trackColorThemesManagementEvent } from '../../utils/eventsTracker'
-import isBlocked from '../../utils/isBlocked'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import Actions from '../modules/Actions'
@@ -48,6 +48,29 @@ interface ThemesProps {
 export default class Themes extends PureComponent<ThemesProps> {
   themesMessage: ThemesMessage
   dispatch: { [key: string]: DispatchProcess }
+
+  static features = (planStatus: PlanStatus) => ({
+    THEMES: new FeatureStatus({
+      features: features,
+      featureName: 'THEMES',
+      planStatus: planStatus,
+    }),
+    THEMES_NAME: new FeatureStatus({
+      features: features,
+      featureName: 'THEMES_NAME',
+      planStatus: planStatus,
+    }),
+    THEMES_PARAMS: new FeatureStatus({
+      features: features,
+      featureName: 'THEMES_PARAMS',
+      planStatus: planStatus,
+    }),
+    THEMES_DESCRIPTION: new FeatureStatus({
+      features: features,
+      featureName: 'THEMES_DESCRIPTION',
+      planStatus: planStatus,
+    }),
+  })
 
   constructor(props: ThemesProps) {
     super(props)
@@ -345,14 +368,11 @@ export default class Themes extends PureComponent<ThemesProps> {
               <Button
                 type="icon"
                 icon="plus"
-                isBlocked={isBlocked('THEMES', this.props.planStatus)}
-                isDisabled={isBlocked('THEMES', this.props.planStatus)}
+                isBlocked={Themes.features(
+                  this.props.planStatus
+                ).THEMES.isBlocked()}
                 feature="ADD_THEME"
-                action={
-                  isBlocked('THEMES', this.props.planStatus)
-                    ? () => null
-                    : this.themesHandler
-                }
+                action={this.themesHandler}
               />
             </div>
           </div>
@@ -367,13 +387,10 @@ export default class Themes extends PureComponent<ThemesProps> {
                   type="primary"
                   feature="ADD_THEME"
                   label={locals[this.props.lang].themes.callout.cta}
-                  isBlocked={isBlocked('THEMES', this.props.planStatus)}
-                  isDisabled={isBlocked('THEMES', this.props.planStatus)}
-                  action={
-                    isBlocked('THEMES', this.props.planStatus)
-                      ? () => null
-                      : this.themesHandler
-                  }
+                  isBlocked={Themes.features(
+                    this.props.planStatus
+                  ).THEMES.isBlocked()}
+                  action={this.themesHandler}
                 />
               </div>
             </div>
@@ -384,11 +401,9 @@ export default class Themes extends PureComponent<ThemesProps> {
                 return (
                   <>
                     <Feature
-                      isActive={
-                        features.find(
-                          (feature) => feature.name === 'THEMES_NAME'
-                        )?.isActive
-                      }
+                      isActive={Themes.features(
+                        this.props.planStatus
+                      ).THEMES_NAME.isActive()}
                     >
                       <div className="draggable-list__param--compact">
                         <Input
@@ -396,17 +411,21 @@ export default class Themes extends PureComponent<ThemesProps> {
                           value={theme.name}
                           feature="RENAME_THEME"
                           charactersLimit={24}
+                          isBlocked={Themes.features(
+                            this.props.planStatus
+                          ).THEMES.isBlocked()}
+                          isNew={Themes.features(
+                            this.props.planStatus
+                          ).THEMES.isNew()}
                           onBlur={this.themesHandler}
                           onConfirm={this.themesHandler}
                         />
                       </div>
                     </Feature>
                     <Feature
-                      isActive={
-                        features.find(
-                          (feature) => feature.name === 'THEMES_PARAMS'
-                        )?.isActive
-                      }
+                      isActive={Themes.features(
+                        this.props.planStatus
+                      ).THEMES_PARAMS.isActive()}
                     >
                       <div className="draggable-list__param">
                         <FormItem
@@ -416,12 +435,21 @@ export default class Themes extends PureComponent<ThemesProps> {
                               .paletteBackgroundColor.label
                           }
                           shouldFill={false}
+                          isBlocked={Themes.features(
+                            this.props.planStatus
+                          ).THEMES_PARAMS.isBlocked()}
                         >
                           <Input
                             id="palette-background-color"
                             type="COLOR"
                             value={theme.paletteBackground}
                             feature="UPDATE_PALETTE_BACKGROUND"
+                            isBlocked={Themes.features(
+                              this.props.planStatus
+                            ).THEMES_PARAMS.isBlocked()}
+                            isNew={Themes.features(
+                              this.props.planStatus
+                            ).THEMES_PARAMS.isNew()}
                             onChange={this.themesHandler}
                             onBlur={this.themesHandler}
                           />
@@ -434,16 +462,17 @@ export default class Themes extends PureComponent<ThemesProps> {
               secondarySlot={customThemes.map((theme) => (
                 <>
                   <Feature
-                    isActive={
-                      features.find(
-                        (feature) => feature.name === 'THEMES_DESCRIPTION'
-                      )?.isActive
-                    }
+                    isActive={Themes.features(
+                      this.props.planStatus
+                    ).THEMES_DESCRIPTION.isActive()}
                   >
                     <div className="draggable-list__param">
                       <FormItem
                         id="theme-description"
                         label={locals[this.props.lang].global.description.label}
+                        isBlocked={Themes.features(
+                          this.props.planStatus
+                        ).THEMES_DESCRIPTION.isBlocked()}
                       >
                         <Input
                           id="theme-description"
@@ -454,6 +483,12 @@ export default class Themes extends PureComponent<ThemesProps> {
                               .placeholder
                           }
                           feature="UPDATE_DESCRIPTION"
+                          isBlocked={Themes.features(
+                            this.props.planStatus
+                          ).THEMES_DESCRIPTION.isBlocked()}
+                          isNew={Themes.features(
+                            this.props.planStatus
+                          ).THEMES_DESCRIPTION.isNew()}
                           isGrowing={true}
                           onBlur={this.themesHandler}
                           onConfirm={this.themesHandler}

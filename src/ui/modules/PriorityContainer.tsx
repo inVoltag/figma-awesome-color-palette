@@ -31,6 +31,7 @@ import About from './About'
 import Highlight from './Highlight'
 import Publication from './Publication'
 import { UserConfiguration } from 'src/types/configurations'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 
 interface PriorityContainerProps {
   context: PriorityContext
@@ -59,6 +60,34 @@ export default class PriorityContainer extends PureComponent<
   PriorityContainerStates
 > {
   counter: number
+
+  static features = (planStatus: PlanStatus) => ({
+    GET_PRO_PLAN: new FeatureStatus({
+      features: features,
+      featureName: 'GET_PRO_PLAN',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS_HIGHLIGHT: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_HIGHLIGHT',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS_ABOUT: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_ABOUT',
+      planStatus: planStatus,
+    }),
+    PUBLICATION: new FeatureStatus({
+      features: features,
+      featureName: 'PUBLICATION',
+      planStatus: planStatus,
+    }),
+    REPORT: new FeatureStatus({
+      features: features,
+      featureName: 'REPORT',
+      planStatus: planStatus,
+    }),
+  })
 
   constructor(props: PriorityContainerProps) {
     super(props)
@@ -119,9 +148,9 @@ export default class PriorityContainer extends PureComponent<
   TryPro = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'GET_PRO_PLAN')?.isActive
-        }
+        isActive={PriorityContainer.features(
+          this.props.planStatus
+        ).GET_PRO_PLAN.isActive()}
       >
         <Dialog
           title={locals[this.props.lang].proPlan.trial.title}
@@ -166,9 +195,9 @@ export default class PriorityContainer extends PureComponent<
   WelcomeToTrial = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'GET_PRO_PLAN')?.isActive
-        }
+        isActive={PriorityContainer.features(
+          this.props.planStatus
+        ).GET_PRO_PLAN.isActive()}
       >
         <Dialog
           title={locals[this.props.lang].proPlan.welcome.title}
@@ -201,9 +230,9 @@ export default class PriorityContainer extends PureComponent<
   WelcomeToPro = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'GET_PRO_PLAN')?.isActive
-        }
+        isActive={PriorityContainer.features(
+          this.props.planStatus
+        ).GET_PRO_PLAN.isActive()}
       >
         <Dialog
           title={locals[this.props.lang].proPlan.welcome.title}
@@ -236,10 +265,9 @@ export default class PriorityContainer extends PureComponent<
   Highlight = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SHORTCUTS_HIGHLIGHT')
-            ?.isActive
-        }
+        isActive={PriorityContainer.features(
+          this.props.planStatus
+        ).SHORTCUTS_HIGHLIGHT.isActive()}
       >
         <Highlight
           {...this.props}
@@ -268,10 +296,9 @@ export default class PriorityContainer extends PureComponent<
   About = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'SHORTCUTS_ABOUT')
-            ?.isActive
-        }
+        isActive={PriorityContainer.features(
+          this.props.planStatus
+        ).SHORTCUTS_ABOUT.isActive()}
       >
         <Dialog
           title={locals[this.props.lang].about.title}
@@ -291,9 +318,9 @@ export default class PriorityContainer extends PureComponent<
   Publication = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'PUBLICATION')?.isActive
-        }
+        isActive={PriorityContainer.features(
+          this.props.planStatus
+        ).PUBLICATION.isActive()}
       >
         {this.props.rawData.userSession.connectionStatus === 'UNCONNECTED' ? (
           <Dialog
@@ -372,9 +399,9 @@ export default class PriorityContainer extends PureComponent<
   Report = () => {
     return (
       <Feature
-        isActive={
-          features.find((feature) => feature.name === 'REPORT')?.isActive
-        }
+        isActive={PriorityContainer.features(
+          this.props.planStatus
+        ).REPORT.isActive()}
       >
         <Dialog
           title={locals[this.props.lang].report.title}

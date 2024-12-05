@@ -1,7 +1,8 @@
 import { Consent, ConsentConfiguration } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import 'figma-plugin-ds/dist/figma-plugin-ds.css'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
 import { supabase } from '../bridges/publication/authentication'
@@ -97,10 +98,35 @@ export interface AppStates {
 
 let isPaletteSelected = false
 
-export default class App extends PureComponent<
-  Record<string, never>,
-  AppStates
-> {
+export default class App extends PureComponent<Record<string, never>, AppStates> {
+  static features = (planStatus: PlanStatus) => ({
+    CREATE: new FeatureStatus({
+      features: features,
+      featureName: 'CREATE',
+      planStatus: planStatus,
+    }),
+    EDIT: new FeatureStatus({
+      features: features,
+      featureName: 'EDIT',
+      planStatus: planStatus,
+    }),
+    TRANSFER: new FeatureStatus({
+      features: features,
+      featureName: 'TRANSFER',
+      planStatus: planStatus,
+    }),
+    CONSENT: new FeatureStatus({
+      features: features,
+      featureName: 'CONSENT',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS',
+      planStatus: planStatus,
+    }),
+  })
+
   constructor(props: Record<string, never>) {
     super(props)
     this.state = {
@@ -834,7 +860,7 @@ export default class App extends PureComponent<
         <main className="ui">
           <Feature
             isActive={
-              features.find((feature) => feature.name === 'CREATE')?.isActive &&
+              App.features(this.props.planStatus).CREATE.isActive() &&
               this.state.editorType !== 'dev' &&
               this.state.service === 'CREATE'
             }
@@ -855,7 +881,7 @@ export default class App extends PureComponent<
           </Feature>
           <Feature
             isActive={
-              features.find((feature) => feature.name === 'EDIT')?.isActive &&
+              App.features(this.props.planStatus).EDIT.isActive() &&
               this.state.editorType !== 'dev' &&
               this.state.service === 'EDIT'
             }
@@ -874,8 +900,8 @@ export default class App extends PureComponent<
           </Feature>
           <Feature
             isActive={
-              features.find((feature) => feature.name === 'TRANSFER')
-                ?.isActive && this.state.editorType === 'dev'
+              App.features(this.props.planStatus).TRANSFER.isActive() &&
+              this.state.editorType === 'dev'
             }
           >
             <TransferPalette {...this.state} />
@@ -902,7 +928,7 @@ export default class App extends PureComponent<
           <Feature
             isActive={
               this.state.mustUserConsent &&
-              features.find((feature) => feature.name === 'CONSENT')?.isActive
+              App.features(this.props.planStatus).CONSENT.isActive()
             }
           >
             <Consent
@@ -952,9 +978,7 @@ export default class App extends PureComponent<
             />
           </Feature>
           <Feature
-            isActive={
-              features.find((feature) => feature.name === 'SHORTCUTS')?.isActive
-            }
+            isActive={App.features(this.props.planStatus).SHORTCUTS.isActive()}
           >
             <Shortcuts
               {...this.state}

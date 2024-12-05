@@ -1,6 +1,7 @@
 import { texts } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, TrialStatus } from '../../types/app'
 import features from '../../utils/config'
@@ -15,6 +16,14 @@ interface AboutProps {
 }
 
 export default class About extends PureComponent<AboutProps> {
+  static features = (planStatus: PlanStatus) => ({
+    GET_PRO_PLAN: new FeatureStatus({
+      features: features,
+      featureName: 'GET_PRO_PLAN',
+      planStatus: planStatus,
+    }),
+  })
+
   render() {
     return (
       <div className="about controls__control">
@@ -30,10 +39,9 @@ export default class About extends PureComponent<AboutProps> {
                   className={`type ${texts.type}`}
                 >{`Version ${package_json.version}`}</p>
                 <Feature
-                  isActive={
-                    features.find((feature) => feature.name === 'GET_PRO_PLAN')
-                      ?.isActive
-                  }
+                  isActive={About.features(
+                    this.props.planStatus
+                  ).GET_PRO_PLAN.isActive()}
                 >
                   <span>・</span>
                   <p className={`type ${texts.type}`}>

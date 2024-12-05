@@ -9,6 +9,7 @@ import {
   layouts,
   texts,
 } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 
@@ -26,7 +27,6 @@ import { ActionsList, DispatchProcess } from '../../types/models'
 import features from '../../utils/config'
 import doLightnessScale from '../../utils/doLightnessScale'
 import { trackScaleManagementEvent } from '../../utils/eventsTracker'
-import isBlocked from '../../utils/isBlocked'
 import { palette, presets } from '../../utils/palettePackage'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
@@ -71,6 +71,56 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
   static defaultProps: Partial<ScaleProps> = {
     namingConvention: 'ONES',
   }
+
+  static features = (planStatus: PlanStatus) => ({
+    SCALE_PRESETS: new FeatureStatus({
+      features: features,
+      featureName: 'SCALE_PRESETS',
+      planStatus: planStatus,
+    }),
+    SCALE_PRESETS_NAMING_CONVENTION: new FeatureStatus({
+      features: features,
+      featureName: 'SCALE_PRESETS_NAMING_CONVENTION',
+      planStatus: planStatus,
+    }),
+    SCALE_CONFIGURATION: new FeatureStatus({
+      features: features,
+      featureName: 'SCALE_CONFIGURATION',
+      planStatus: planStatus,
+    }),
+    SCALE_HELPER: new FeatureStatus({
+      features: features,
+      featureName: 'SCALE_HELPER',
+      planStatus: planStatus,
+    }),
+    SCALE_HELPER_DISTRIBUTION: new FeatureStatus({
+      features: features,
+      featureName: 'SCALE_HELPER_DISTRIBUTION',
+      planStatus: planStatus,
+    }),
+    SCALE_HELPER_TIPS: new FeatureStatus({
+      features: features,
+      featureName: 'SCALE_HELPER_TIPS',
+      planStatus: planStatus,
+    }),
+    PREVIEW: new FeatureStatus({
+      features: features,
+      featureName: 'PREVIEW',
+      planStatus: planStatus,
+    }),
+    PRESETS: (() => {
+      return Object.fromEntries(
+        Object.entries(presets).map(([key, preset]) => [
+          `PRESETS_${preset.id}`,
+          new FeatureStatus({
+            features: features,
+            featureName: `PRESETS_${preset.id}`,
+            planStatus: planStatus,
+          }),
+        ])
+      )
+    })(),
+  })
 
   constructor(props: ScaleProps) {
     super(props)
@@ -398,6 +448,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
         label={locals[this.props.lang].scale.easing.label}
         id="distribution-easing"
         shouldFill={false}
+        isBlocked={Scale.features(
+          this.props.planStatus
+        ).SCALE_HELPER_DISTRIBUTION.isBlocked()}
       >
         <Dropdown
           id="distribution-easing"
@@ -453,11 +506,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           ]}
           selected={this.state.distributionEasing}
           parentClassName="controls"
-          isNew={
-            features.find(
-              (feature) => feature.name === 'SCALE_HELPER_DISTRIBUTION'
-            )?.isNew
-          }
+          isNew={Scale.features(
+            this.props.planStatus
+          ).SCALE_HELPER_DISTRIBUTION.isNew()}
         />
       </FormItem>
     )
@@ -502,11 +553,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
         selected={this.props.namingConvention}
         parentClassName="controls"
         alignment="RIGHT"
-        isNew={
-          features.find(
-            (feature) => feature.name === 'SCALE_PRESETS_NAMING_CONVENTION'
-          )?.isNew
-        }
+        isNew={Scale.features(
+          this.props.planStatus
+        ).SCALE_PRESETS_NAMING_CONVENTION.isNew()}
       />
     )
   }
@@ -619,10 +668,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             </div>
             <div className="section-controls__right-part">
               <Feature
-                isActive={
-                  features.find((feature) => feature.name === 'SCALE_PRESETS')
-                    ?.isActive
-                }
+                isActive={Scale.features(
+                  this.props.planStatus
+                ).SCALE_PRESETS.isActive()}
               >
                 <Dropdown
                   id="presets"
@@ -633,16 +681,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                       feature: 'UPDATE_PRESET',
                       position: 0,
                       type: 'OPTION',
-                      isActive: features.find(
-                        (feature) => feature.name === `PRESETS_${preset[1].id}`
-                      )?.isActive,
-                      isBlocked: isBlocked(
-                        `PRESETS_${preset[1].id}`,
-                        this.props.planStatus
-                      ),
-                      isNew: features.find(
-                        (feature) => feature.name === `PRESETS_${preset[1].id}`
-                      )?.isNew,
+                      isActive: Scale.features(this.props.planStatus).PRESETS[
+                        `PRESETS_${preset[1].id}`
+                      ].isActive(),
+                      isBlocked: Scale.features(this.props.planStatus).PRESETS[
+                        `PRESETS_${preset[1].id}`
+                      ].isBlocked(),
+                      isNew: Scale.features(this.props.planStatus).PRESETS[
+                        `PRESETS_${preset[1].id}`
+                      ].isNew(),
                       action: (e) => this.presetsHandler?.(e),
                     }
                   })}
@@ -652,20 +699,16 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 />
               </Feature>
               <Feature
-                isActive={
-                  features.find((feature) => feature.name === 'SCALE_PRESETS')
-                    ?.isActive
-                }
+                isActive={Scale.features(
+                  this.props.planStatus
+                ).SCALE_PRESETS.isActive()}
               >
                 {this.props.preset.name === 'Custom' && (
                   <>
                     <Feature
-                      isActive={
-                        features.find(
-                          (feature) =>
-                            feature.name === 'SCALE_PRESETS_NAMING_CONVENTION'
-                        )?.isActive
-                      }
+                      isActive={Scale.features(
+                        this.props.planStatus
+                      ).SCALE_PRESETS_NAMING_CONVENTION.isActive()}
                     >
                       <this.NamingConvention />
                     </Feature>
@@ -694,10 +737,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             </div>
           </div>
           <Feature
-            isActive={
-              features.find((feature) => feature.name === 'SCALE_CONFIGURATION')
-                ?.isActive
-            }
+            isActive={Scale.features(
+              this.props.planStatus
+            ).SCALE_CONFIGURATION.isActive()}
           >
             {this.props.preset.isDistributed &&
             Object.keys(this.props.scale ?? {}).length === 0 ? (
@@ -733,30 +775,25 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             )}
           </Feature>
           <Feature
-            isActive={
-              features.find((feature) => feature.name === 'SCALE_HELPER')
-                ?.isActive
-            }
+            isActive={Scale.features(
+              this.props.planStatus
+            ).SCALE_HELPER.isActive()}
           >
             <div className="section-controls">
               <div className="section-controls__left-part">
                 <Feature
-                  isActive={
-                    features.find(
-                      (feature) => feature.name === 'SCALE_HELPER_DISTRIBUTION'
-                    )?.isActive
-                  }
+                  isActive={Scale.features(
+                    this.props.planStatus
+                  ).SCALE_HELPER_DISTRIBUTION.isActive()}
                 >
                   <this.DistributionEasing />
                 </Feature>
               </div>
               <div className="section-controls__right-part">
                 <Feature
-                  isActive={
-                    features.find(
-                      (feature) => feature.name === 'SCALE_HELPER_TIPS'
-                    )?.isActive
-                  }
+                  isActive={Scale.features(
+                    this.props.planStatus
+                  ).SCALE_HELPER_TIPS.isActive()}
                 >
                   <div className={layouts['snackbar--tight']}>
                     <Button
@@ -800,9 +837,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           context="CREATE"
         />
         <Feature
-          isActive={
-            features.find((feature) => feature.name === 'PREVIEW')?.isActive
-          }
+          isActive={Scale.features(this.props.planStatus).PREVIEW.isActive()}
         >
           <Preview sourceColors={this.props.sourceColors} />
         </Feature>
@@ -831,10 +866,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             </div>
           </div>
           <Feature
-            isActive={
-              features.find((feature) => feature.name === 'SCALE_CONFIGURATION')
-                ?.isActive
-            }
+            isActive={Scale.features(
+              this.props.planStatus
+            ).SCALE_CONFIGURATION.isActive()}
           >
             <Slider
               type="CUSTOM"
@@ -847,30 +881,25 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             />
           </Feature>
           <Feature
-            isActive={
-              features.find((feature) => feature.name === 'SCALE_HELPER')
-                ?.isActive
-            }
+            isActive={Scale.features(
+              this.props.planStatus
+            ).SCALE_HELPER.isActive()}
           >
             <div className="section-controls">
               <div className="section-controls__left-part">
                 <Feature
-                  isActive={
-                    features.find(
-                      (feature) => feature.name === 'SCALE_HELPER_DISTRIBUTION'
-                    )?.isActive
-                  }
+                  isActive={Scale.features(
+                    this.props.planStatus
+                  ).SCALE_HELPER_DISTRIBUTION.isActive()}
                 >
                   <this.DistributionEasing />
                 </Feature>
               </div>
               <div className="section-controls__right-part">
                 <Feature
-                  isActive={
-                    features.find(
-                      (feature) => feature.name === 'SCALE_HELPER_TIPS'
-                    )?.isActive
-                  }
+                  isActive={Scale.features(
+                    this.props.planStatus
+                  ).SCALE_HELPER_TIPS.isActive()}
                 >
                   <div className={layouts['snackbar--tight']}>
                     <Button

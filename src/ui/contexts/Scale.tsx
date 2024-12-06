@@ -110,7 +110,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     }),
     PRESETS: (() => {
       return Object.fromEntries(
-        Object.entries(presets).map(([key, preset]) => [
+        Object.entries(presets).map(([, preset]) => [
           `PRESETS_${preset.id}`,
           new FeatureStatus({
             features: features,

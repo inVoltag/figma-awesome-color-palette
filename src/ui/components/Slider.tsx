@@ -331,10 +331,14 @@ export default class Slider extends Component<SliderProps> {
       <div
         className={[
           'slider__range',
-          this.props.presetName === 'Custom' && this.props.stops.length < 24
-            ? 'slider__range--add'
-            : null,
-          this.props.stops.length === 24 ? 'slider__range--not-allowed' : null,
+          this.props.presetName === 'Custom' &&
+            this.props.stops.length < 24 &&
+            !this.props.hasPreset &&
+            'slider__range--add',
+          this.props.presetName === 'Custom' &&
+            this.props.stops.length === 24 &&
+            !this.props.hasPreset &&
+            'slider__range--not-allowed',
         ]
           .filter((n) => n)
           .join(' ')}

@@ -1,7 +1,6 @@
 import {
   Button,
   ConsentConfiguration,
-  FeatureStatus,
   FormItem,
   HexModel,
   Input,
@@ -10,6 +9,7 @@ import {
   SemanticMessage,
   SortableList,
 } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import chroma from 'chroma-js'
 import React from 'react'
 import { PureComponent } from 'preact/compat'

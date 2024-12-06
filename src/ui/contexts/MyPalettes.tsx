@@ -7,6 +7,7 @@ import {
   Input,
   Menu,
   Message,
+  SemanticMessage,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
@@ -313,26 +314,26 @@ export default class MyPalettes extends PureComponent<
           />
         )}
         {this.props.status === 'ERROR' && (
-          <div className="onboarding__callout--centered">
-            <Message
-              icon="warning"
-              messages={[locals[this.props.lang].error.fetchPalette]}
+          <div className="callout--centered">
+            <SemanticMessage
+              type="WARNING"
+              message={locals[this.props.lang].error.fetchPalette}
             />
           </div>
         )}
         {this.props.status === 'EMPTY' && (
-          <div className="onboarding__callout--centered">
-            <Message
-              icon="info"
-              messages={[locals[this.props.lang].warning.noSelfPaletteOnRemote]}
+          <div className="callout--centered">
+            <SemanticMessage
+              type="NEUTRAL"
+              message={locals[this.props.lang].warning.noSelfPaletteOnRemote}
             />
           </div>
         )}
         {this.props.status === 'NO_RESULT' && (
-          <div className="onboarding__callout--centered">
-            <Message
-              icon="info"
-              messages={[locals[this.props.lang].info.noResult]}
+          <div className="callout--centered">
+            <SemanticMessage
+              type="NEUTRAL"
+              message={locals[this.props.lang].info.noResult}
             />
           </div>
         )}
@@ -572,39 +573,40 @@ export default class MyPalettes extends PureComponent<
       fragment = <this.ExternalPalettesList />
     } else {
       fragment = (
-        <div className="onboarding__callout--centered">
-          <Message
-            icon="info"
-            messages={[locals[this.props.lang].palettes.signInFirst.message]}
-          />
-          <div className="onboarding__actions">
-            <Button
-              type="primary"
-              label={locals[this.props.lang].palettes.signInFirst.signIn}
-              isLoading={this.state.isSignInActionLoading}
-              action={async () => {
-                this.setState({ isSignInActionLoading: true })
-                signIn(this.props.userIdentity.id)
-                  .finally(() => {
-                    this.setState({ isSignInActionLoading: false })
-                  })
-                  .catch((error) => {
-                    parent.postMessage(
-                      {
-                        pluginMessage: {
-                          type: 'SEND_MESSAGE',
-                          message:
-                            error.message === 'Authentication timeout'
-                              ? locals[this.props.lang].error.timeout
-                              : locals[this.props.lang].error.authentication,
+        <div className="callout--centered">
+          <SemanticMessage
+            type="NEUTRAL"
+            message={locals[this.props.lang].palettes.signInFirst.message}
+            orientation="VERTICAL"
+            actionsSlot={
+              <Button
+                type="primary"
+                label={locals[this.props.lang].palettes.signInFirst.signIn}
+                isLoading={this.state.isSignInActionLoading}
+                action={async () => {
+                  this.setState({ isSignInActionLoading: true })
+                  signIn(this.props.userIdentity.id)
+                    .finally(() => {
+                      this.setState({ isSignInActionLoading: false })
+                    })
+                    .catch((error) => {
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'SEND_MESSAGE',
+                            message:
+                              error.message === 'Authentication timeout'
+                                ? locals[this.props.lang].error.timeout
+                                : locals[this.props.lang].error.authentication,
+                          },
                         },
-                      },
-                      '*'
-                    )
-                  })
-              }}
-            />
-          </div>
+                        '*'
+                      )
+                    })
+                }}
+              />
+            }
+          />
         </div>
       )
     }

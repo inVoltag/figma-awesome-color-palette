@@ -7,7 +7,7 @@ import {
   DropdownOption,
   FormItem,
   Icon,
-  Message,
+  SemanticMessage,
   texts,
 } from '@a_ng_d/figmug-ui'
 import chroma from 'chroma-js'
@@ -280,10 +280,10 @@ export default class Explore extends PureComponent<
       )
     } else if (this.state.colourLoversPalettesListStatus === 'ERROR')
       fragment = (
-        <div className="onboarding__callout--centered">
-          <Message
-            icon="warning"
-            messages={[locals[this.props.lang].error.fetchPalette]}
+        <div className="callout--centered">
+          <SemanticMessage
+            type="WARNING"
+            message={locals[this.props.lang].error.fetchPalette}
           />
         </div>
       )

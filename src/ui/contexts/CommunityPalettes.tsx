@@ -6,6 +6,7 @@ import {
   Icon,
   Input,
   Message,
+  SemanticMessage,
 } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
@@ -297,28 +298,28 @@ export default class CommunityPalettes extends PureComponent<
           />
         )}
         {this.props.status === 'ERROR' && (
-          <div className="onboarding__callout--centered">
-            <Message
-              icon="warning"
-              messages={[locals[this.props.lang].error.fetchPalette]}
+          <div className="callout--centered">
+            <SemanticMessage
+              type="WARNING"
+              message={locals[this.props.lang].error.fetchPalette}
             />
           </div>
         )}
         {this.props.status === 'EMPTY' && (
-          <div className="onboarding__callout--centered">
-            <Message
-              icon="info"
-              messages={[
-                locals[this.props.lang].warning.noCommunityPaletteOnRemote,
-              ]}
+          <div className="callout--centered">
+            <SemanticMessage
+              type="NEUTRAL"
+              message={
+                locals[this.props.lang].warning.noCommunityPaletteOnRemote
+              }
             />
           </div>
         )}
         {this.props.status === 'NO_RESULT' && (
-          <div className="onboarding__callout--centered">
-            <Message
-              icon="info"
-              messages={[locals[this.props.lang].info.noResult]}
+          <div className="callout--centered">
+            <SemanticMessage
+              type="NEUTRAL"
+              message={locals[this.props.lang].info.noResult}
             />
           </div>
         )}

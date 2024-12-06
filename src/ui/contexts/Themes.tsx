@@ -4,8 +4,8 @@ import {
   FormItem,
   HexModel,
   Input,
-  Message,
   SectionTitle,
+  SemanticMessage,
   SortableList,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
@@ -377,22 +377,23 @@ export default class Themes extends PureComponent<ThemesProps> {
             </div>
           </div>
           {customThemes.length === 0 ? (
-            <div className="onboarding__callout--centered">
-              <Message
-                icon="theme"
-                messages={[locals[this.props.lang].themes.callout.message]}
+            <div className="callout--centered">
+              <SemanticMessage
+                type="NEUTRAL"
+                message={locals[this.props.lang].themes.callout.message}
+                orientation="VERTICAL"
+                actionsSlot={
+                  <Button
+                    type="primary"
+                    feature="ADD_THEME"
+                    label={locals[this.props.lang].themes.callout.cta}
+                    isBlocked={Themes.features(
+                      this.props.planStatus
+                    ).THEMES.isBlocked()}
+                    action={this.themesHandler}
+                  />
+                }
               />
-              <div className="onboarding__actions">
-                <Button
-                  type="primary"
-                  feature="ADD_THEME"
-                  label={locals[this.props.lang].themes.callout.cta}
-                  isBlocked={Themes.features(
-                    this.props.planStatus
-                  ).THEMES.isBlocked()}
-                  action={this.themesHandler}
-                />
-              </div>
             </div>
           ) : (
             <SortableList<ThemeConfiguration>

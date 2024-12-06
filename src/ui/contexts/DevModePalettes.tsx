@@ -1,6 +1,6 @@
-import { ActionsItem, Button, Message, texts } from '@a_ng_d/figmug-ui'
-import React from 'react'
+import { ActionsItem, Button, SemanticMessage, texts } from '@a_ng_d/figmug-ui'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 
 import { locals } from '../../content/locals'
 import { Language } from '../../types/app'
@@ -126,12 +126,12 @@ export default class DevModePalettes extends PureComponent<DevModePalettesProps>
           {this.hasPalettes ? (
             <this.InternalPalettesList />
           ) : (
-            <div className="onboarding__callout">
-              <Message
-                icon="info"
-                messages={[
-                  locals[this.props.lang].warning.noPaletteOnCurrrentPage,
-                ]}
+            <div className="callout">
+              <SemanticMessage
+                type="NEUTRAL"
+                message={
+                  locals[this.props.lang].warning.noPaletteOnCurrrentPage
+                }
               />
             </div>
           )}

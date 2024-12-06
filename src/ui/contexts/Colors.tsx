@@ -6,8 +6,8 @@ import {
   HexModel,
   Input,
   InputsBar,
-  Message,
   SectionTitle,
+  SemanticMessage,
   SortableList,
 } from '@a_ng_d/figmug-ui'
 import chroma from 'chroma-js'
@@ -467,19 +467,20 @@ export default class Colors extends PureComponent<ColorsProps> {
             </div>
           </div>
           {this.props.colors.length === 0 ? (
-            <div className="onboarding__callout--centered">
-              <Message
-                icon="list-tile"
-                messages={[locals[this.props.lang].colors.callout.message]}
+            <div className="callout--centered">
+              <SemanticMessage
+                type="NEUTRAL"
+                message={locals[this.props.lang].colors.callout.message}
+                orientation="VERTICAL"
+                actionsSlot={
+                  <Button
+                    type="primary"
+                    feature="ADD_COLOR"
+                    label={locals[this.props.lang].colors.callout.cta}
+                    action={(e: Event) => this.colorsHandler(e)}
+                  />
+                }
               />
-              <div className="onboarding__actions">
-                <Button
-                  type="primary"
-                  feature="ADD_COLOR"
-                  label={locals[this.props.lang].colors.callout.cta}
-                  action={(e: Event) => this.colorsHandler(e)}
-                />
-              </div>
             </div>
           ) : (
             <SortableList<ColorConfiguration>

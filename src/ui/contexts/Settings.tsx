@@ -4,9 +4,9 @@ import {
   FormItem,
   HexModel,
   Input,
-  Message,
   SectionTitle,
   Select,
+  SemanticMessage,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import React from 'react'
@@ -798,12 +798,9 @@ export default class Settings extends PureComponent<SettingsProps> {
             />
           </FormItem>
           {this.props.colorSpace === 'HSL' && (
-            <Message
-              icon="warning"
-              messages={[locals[this.props.lang].warning.hslColorSpace]}
-              isBlocked={Settings.features(
-                this.props.planStatus
-              ).SETTINGS_COLOR_SPACE.isBlocked()}
+            <SemanticMessage
+              type="WARNING"
+              message={locals[this.props.lang].warning.hslColorSpace}
             />
           )}
         </div>
@@ -1048,14 +1045,11 @@ export default class Settings extends PureComponent<SettingsProps> {
             feature="UPDATE_ALGORITHM_VERSION"
             onChange={this.settingsHandler}
           />
-          <Message
-            icon="info"
-            messages={[
-              locals[this.props.lang].settings.color.newAlgorithm.description,
-            ]}
-            isBlocked={Settings.features(
-              this.props.planStatus
-            ).SETTINGS_NEW_ALGORITHM.isBlocked()}
+          <SemanticMessage
+            type="INFO"
+            message={
+              locals[this.props.lang].settings.color.newAlgorithm.description
+            }
           />
         </div>
       </Feature>
@@ -1121,15 +1115,12 @@ export default class Settings extends PureComponent<SettingsProps> {
               onBlur={this.settingsHandler}
             />
           </FormItem>
-          <Message
-            icon="info"
-            messages={[
+          <SemanticMessage
+            type="INFO"
+            message={
               locals[this.props.lang].settings.contrast.textColors
-                .textThemeColorsDescription,
-            ]}
-            isBlocked={Settings.features(
-              this.props.planStatus
-            ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
+                .textThemeColorsDescription
+            }
           />
         </div>
       </Feature>

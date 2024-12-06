@@ -47,22 +47,14 @@ div.list-control {
 }
 
 /* Callout */
-div.onboarding .label {
-  width: auto;
-}
-
-div.onboarding__callout {
+div.callout {
   display: flex;
   flex-direction: column;
   gap: var(--size-xxxsmall);
 }
 
-div.onboarding__callout--centered {
+div.callout--centered {
   margin: auto;
-}
-
-div.onboarding__callout div.onboarding-tip {
-  justify-content: center;
 }
 
 div.onboarding__actions {
@@ -244,17 +236,6 @@ div.slider .slider__input {
   border: 1px solid var(--figma-color-border);
   border-radius: var(--border-radius-med);
   background-color: var(--figma-color-bg);
-}
-
-/* Truncated */
-div.truncated {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  padding: 0 0 0 var(--size-xxxsmall);
-}
-
-div.truncated span {
-  white-space: nowrap;
 }
 
 /* User */

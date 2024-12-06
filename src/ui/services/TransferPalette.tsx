@@ -1,9 +1,9 @@
-import { doSnakeCase } from '@a-ng-d/figmug.modules.do-snake-case'
 import FileSaver from 'file-saver'
 import JSZip from 'jszip'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 
+import { Case } from '@a_ng_d/figmug-utils'
 import { locals } from '../../content/locals'
 import { EditorType, Language, PlanStatus, Service } from '../../types/app'
 import {
@@ -56,11 +56,14 @@ export default class TransferPalette extends PureComponent<TransferPaletteProps>
           if (theme.type !== 'default theme') {
             const folder = zip.folder(theme.name) ?? zip
             theme.colors.forEach((color) => {
-              folder.file(`${doSnakeCase(color.name)}.csv`, color.csv)
+              folder.file(
+                `${new Case(color.name).doSnakeCase()}.csv`,
+                color.csv
+              )
             })
           } else
             theme.colors.forEach((color) => {
-              zip.file(`${doSnakeCase(color.name)}.csv`, color.csv)
+              zip.file(`${new Case(color.name).doSnakeCase()}.csv`, color.csv)
             })
         }
       )
@@ -70,8 +73,8 @@ export default class TransferPalette extends PureComponent<TransferPaletteProps>
           FileSaver.saveAs(
             content,
             this.props.name === ''
-              ? doSnakeCase(locals[this.props.lang].name)
-              : doSnakeCase(this.props.name)
+              ? new Case(locals[this.props.lang].name).doSnakeCase()
+              : new Case(this.props.name).doSnakeCase()
           )
         )
         .catch(() => locals[this.props.lang].error.generic)
@@ -82,8 +85,8 @@ export default class TransferPalette extends PureComponent<TransferPaletteProps>
         blob,
         `${
           this.props.name === ''
-            ? doSnakeCase(locals[this.props.lang].name)
-            : doSnakeCase(this.props.name)
+            ? new Case(locals[this.props.lang].name).doSnakeCase()
+            : new Case(this.props.name).doSnakeCase()
         }.swift`
       )
     } else if (this.props.export.format === 'KT') {
@@ -91,16 +94,16 @@ export default class TransferPalette extends PureComponent<TransferPaletteProps>
         blob,
         `${
           this.props.name === ''
-            ? doSnakeCase(locals[this.props.lang].name)
-            : doSnakeCase(this.props.name)
+            ? new Case(locals[this.props.lang].name).doSnakeCase()
+            : new Case(this.props.name).doSnakeCase()
         }.kt`
       )
     } else {
       FileSaver.saveAs(
         blob,
         this.props.name === ''
-          ? doSnakeCase(locals[this.props.lang].name)
-          : doSnakeCase(this.props.name)
+          ? new Case(locals[this.props.lang].name).doSnakeCase()
+          : new Case(this.props.name).doSnakeCase()
       )
     }
   }

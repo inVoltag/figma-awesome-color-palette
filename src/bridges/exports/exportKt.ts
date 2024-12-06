@@ -1,5 +1,4 @@
-import { doSnakeCase } from '@a-ng-d/figmug.modules.do-snake-case'
-
+import { Case } from '@a_ng_d/figmug-utils'
 import { lang, locals } from '../../content/locals'
 import { PaletteData } from '../../types/data'
 
@@ -25,8 +24,8 @@ const exportKt = (palette: FrameNode) => {
           colors.unshift(
             `val ${
               workingThemes[0].type === 'custom theme'
-                ? doSnakeCase(theme.name + ' ' + color.name)
-                : doSnakeCase(color.name)
+                ? new Case(theme.name + ' ' + color.name).doSnakeCase()
+                : new Case(color.name).doSnakeCase()
             }_${shade.name} = Color(${shade.hex
               .replace('#', '0xFF')
               .toUpperCase()})`

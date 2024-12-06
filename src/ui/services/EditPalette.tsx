@@ -1,11 +1,10 @@
-import { doSnakeCase } from '@a-ng-d/figmug.modules.do-snake-case'
 import type { ConsentConfiguration, DropdownOption } from '@a_ng_d/figmug-ui'
 import { Bar, Dropdown, FormItem, Tabs } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Case, FeatureStatus } from '@a_ng_d/figmug-utils'
 import FileSaver from 'file-saver'
 import JSZip from 'jszip'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 
 import { locals } from '../../content/locals'
 import { ContextItem, EditorType, Language, PlanStatus } from '../../types/app'
@@ -70,7 +69,10 @@ interface EditPaletteStates {
   }
 }
 
-export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteStates> {
+export default class EditPalette extends PureComponent<
+  EditPaletteProps,
+  EditPaletteStates
+> {
   themesMessage: ThemesMessage
   contexts: Array<ContextItem>
   themesRef: React.RefObject<Themes>
@@ -216,11 +218,14 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
           if (theme.type !== 'default theme') {
             const folder = zip.folder(theme.name) ?? zip
             theme.colors.forEach((color) => {
-              folder.file(`${doSnakeCase(color.name)}.csv`, color.csv)
+              folder.file(
+                `${new Case(color.name).doSnakeCase()}.csv`,
+                color.csv
+              )
             })
           } else
             theme.colors.forEach((color) => {
-              zip.file(`${doSnakeCase(color.name)}.csv`, color.csv)
+              zip.file(`${new Case(color.name).doSnakeCase()}.csv`, color.csv)
             })
         }
       )
@@ -230,8 +235,8 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
           FileSaver.saveAs(
             content,
             this.props.name === ''
-              ? doSnakeCase(locals[this.props.lang].name)
-              : doSnakeCase(this.props.name)
+              ? new Case(locals[this.props.lang].name).doSnakeCase()
+              : new Case(this.props.name).doSnakeCase()
           )
         )
         .catch(() => locals[this.props.lang].error.generic)
@@ -242,8 +247,8 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
         blob,
         `${
           this.props.name === ''
-            ? doSnakeCase(locals[this.props.lang].name)
-            : doSnakeCase(this.props.name)
+            ? new Case(locals[this.props.lang].name).doSnakeCase()
+            : new Case(this.props.name).doSnakeCase()
         }.swift`
       )
     } else if (this.props.export.format === 'KT') {
@@ -251,16 +256,16 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
         blob,
         `${
           this.props.name === ''
-            ? doSnakeCase(locals[this.props.lang].name)
-            : doSnakeCase(this.props.name)
+            ? new Case(locals[this.props.lang].name).doSnakeCase()
+            : new Case(this.props.name).doSnakeCase()
         }.kt`
       )
     } else {
       FileSaver.saveAs(
         blob,
         this.props.name === ''
-          ? doSnakeCase(locals[this.props.lang].name)
-          : doSnakeCase(this.props.name)
+          ? new Case(locals[this.props.lang].name).doSnakeCase()
+          : new Case(this.props.name).doSnakeCase()
       )
     }
   }

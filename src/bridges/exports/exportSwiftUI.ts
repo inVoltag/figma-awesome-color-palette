@@ -1,5 +1,4 @@
-import { doCamelCase } from '@a-ng-d/figmug.modules.do-camel-case'
-
+import { Case } from '@a_ng_d/figmug-utils'
 import { lang, locals } from '../../content/locals'
 import { PaletteData } from '../../types/data'
 
@@ -25,8 +24,8 @@ const exportSwiftUI = (palette: FrameNode) => {
           Colors.unshift(
             `public let ${
               workingThemes[0].type === 'custom theme'
-                ? doCamelCase(theme.name + ' ' + color.name)
-                : doCamelCase(color.name)
+                ? new Case(theme.name + ' ' + color.name).doCamelCase()
+                : new Case(color.name).doCamelCase()
             }${
               shade.name === 'source' ? 'Source' : shade.name
             } = Color(red: ${shade.gl[0].toFixed(

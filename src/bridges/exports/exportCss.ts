@@ -1,5 +1,4 @@
-import { doKebabCase } from '@a-ng-d/figmug.modules.do-kebab-case'
-
+import { Case } from '@a_ng_d/figmug-utils'
 import { lang, locals } from '../../content/locals'
 import { PaletteData, PaletteDataShadeItem } from '../../types/data'
 import { ActionsList } from '../../types/models'
@@ -44,9 +43,7 @@ const exportCss = (palette: FrameNode, colorSpace: 'RGB' | 'LCH' | 'P3') => {
         rowCss.push(`/* ${color.name} */`)
         color.shades.forEach((shade) => {
           rowCss.push(
-            `--${doKebabCase(
-              color.name
-            )}-${shade.name}: ${setValueAccordingToColorSpace(shade)};`
+            `--${new Case(color.name).doKebabCase()}-${shade.name}: ${setValueAccordingToColorSpace(shade)};`
           )
         })
         rowCss.push('')
@@ -55,7 +52,7 @@ const exportCss = (palette: FrameNode, colorSpace: 'RGB' | 'LCH' | 'P3') => {
       css.push(
         `:root${
           theme.type === 'custom theme'
-            ? `[data-theme='${doKebabCase(theme.name)}']`
+            ? `[data-theme='${new Case(theme.name).doKebabCase()}']`
             : ''
         } {\n  ${rowCss.join('\n  ')}\n}`
       )

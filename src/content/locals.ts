@@ -8,6 +8,8 @@ const glossary: {
   name: 'UI Color Palette',
   tagline: 'Create, Manage, Deploy & Publish WCAG-compliant color palettes.',
   url: 'www.ui-color-palette.com',
+  author: 'Aurélien Grimaud',
+  license: 'MIT',
   colorSpace: 'Color space',
   lch: 'LCH',
   oklch: 'OKLCH',

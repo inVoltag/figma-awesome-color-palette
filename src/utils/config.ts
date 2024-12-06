@@ -30,13 +30,13 @@ export const userConsentVersion = '2024.01'
 export const trialVersion = '2024.03'
 
 // External URLs
-export const documentationUrl = ''
-export const repositoryUrl = ''
-export const supportEmail = ''
-export const feedbackUrl = ''
-export const trialFeedbackUrl = ''
-export const requestsUrl = ''
-export const networkUrl = ''
+export const documentationUrl = 'https://uicp.link/docs'
+export const repositoryUrl = 'https://uicp.link/repository'
+export const supportEmail = 'https://uicp.link/contact-support'
+export const feedbackUrl = 'https://uicp.link/feedback'
+export const trialFeedbackUrl = 'https://uicp.link/trial-feedback'
+export const requestsUrl = 'https://uicp.link/request-feature'
+export const networkUrl = 'https://uicp.link/network'
 
 export const features: Array<Feature> =
   process.env.NODE_ENV === 'development'

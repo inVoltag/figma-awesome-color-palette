@@ -8,16 +8,21 @@ const loadParameters = async ({ key, result }: ParameterInputEvent) => {
   switch (key) {
     case 'preset': {
       const planStatus = (await checkPlanStatus('PARAMETERS')) ?? 'UNPAID'
-      const suggestionsList = presets
-        .filter(
-          async (preset) =>
-            !new FeatureStatus({
-              features: features,
-              featureName: `PRESETS_${preset.id}`,
-              planStatus: planStatus,
-            }).isBlocked()
-        )
-        .map((preset) => preset.name) as Array<string>
+      
+      const filteredPresets = await Promise.all(
+        presets.map(async (preset) => {
+          const isBlocked = new FeatureStatus({
+            features: features,
+            featureName: `PRESETS_${preset.id}`,
+            planStatus: planStatus,
+          }).isBlocked()
+          return { preset, isBlocked }
+        })
+      )
+
+      const suggestionsList = filteredPresets
+        .filter(({ isBlocked }) => !isBlocked)
+        .map(({ preset }) => preset.name) as Array<string>
 
       result.setSuggestions(suggestionsList)
       break

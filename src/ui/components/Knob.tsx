@@ -1,6 +1,6 @@
 import { Input, texts } from '@a_ng_d/figmug-ui'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 
 import { ActionsList } from '../../types/models'
 

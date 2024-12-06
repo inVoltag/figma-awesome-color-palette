@@ -1,5 +1,5 @@
-import React from 'react'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 
 interface FeatureProps {
   isActive: boolean

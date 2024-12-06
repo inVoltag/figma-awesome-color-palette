@@ -98,7 +98,10 @@ export interface AppStates {
 
 let isPaletteSelected = false
 
-export default class App extends PureComponent<Record<string, never>, AppStates> {
+export default class App extends PureComponent<
+  Record<string, never>,
+  AppStates
+> {
   static features = (planStatus: PlanStatus) => ({
     CREATE: new FeatureStatus({
       features: features,

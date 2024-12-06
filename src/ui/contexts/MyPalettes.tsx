@@ -9,8 +9,8 @@ import {
   Message,
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 
 import { signIn, supabase } from '../../bridges/publication/authentication'
 import sharePalette from '../../bridges/publication/sharePalette'

@@ -1,8 +1,8 @@
 import chroma from 'chroma-js'
 import * as blinder from 'color-blind'
 import { Hsluv } from 'hsluv'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 
 import { SourceColorConfiguration } from '../../types/configurations'
 import { RgbModel } from '../../types/models'

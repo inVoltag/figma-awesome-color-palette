@@ -18,7 +18,10 @@ interface HighlightStates {
   status: 'LOADING' | 'LOADED' | 'ERROR'
 }
 
-export default class Highlight extends PureComponent<HighlightProps, HighlightStates> {
+export default class Highlight extends PureComponent<
+  HighlightProps,
+  HighlightStates
+> {
   constructor(props: HighlightProps) {
     super(props)
     this.state = {

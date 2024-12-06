@@ -1,14 +1,14 @@
 import { Bar, ConsentConfiguration, HexModel, Tabs } from '@a_ng_d/figmug-ui'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 
+import { UserConfiguration } from 'src/types/configurations'
 import { ContextItem, FetchStatus, Language, PlanStatus } from '../../types/app'
 import { ExternalPalettes } from '../../types/data'
 import { UserSession } from '../../types/user'
 import { setContexts } from '../../utils/setContexts'
 import CommunityPalettes from './CommunityPalettes'
 import MyPalettes from './MyPalettes'
-import { UserConfiguration } from 'src/types/configurations'
 
 interface PalettesProps {
   userIdentity: UserConfiguration

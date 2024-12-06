@@ -10,8 +10,8 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 
 import { locals } from '../../content/locals'
 import { Easing, EditorType, Language, PlanStatus } from '../../types/app'

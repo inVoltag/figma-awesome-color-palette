@@ -1,7 +1,7 @@
 import { Bar, ConsentConfiguration, HexModel, Tabs } from '@a_ng_d/figmug-ui'
 import chroma from 'chroma-js'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 import { uid } from 'uid'
 
 import { ContextItem, Language, PlanStatus, ThirdParty } from '../../types/app'

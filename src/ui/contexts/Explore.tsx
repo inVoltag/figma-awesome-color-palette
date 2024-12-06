@@ -11,8 +11,8 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import chroma from 'chroma-js'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 import { uid } from 'uid'
 
 import { locals } from '../../content/locals'

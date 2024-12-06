@@ -5,9 +5,10 @@ import {
   Thumbnail,
   texts,
 } from '@a_ng_d/figmug-ui'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 
+import { UserConfiguration } from 'src/types/configurations'
 import { supabase } from '../../bridges/publication/authentication'
 import detachPalette from '../../bridges/publication/detachPalette'
 import publishPalette from '../../bridges/publication/publishPalette'
@@ -19,7 +20,6 @@ import { Language } from '../../types/app'
 import { palettesDbTableName } from '../../utils/config'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
-import { UserConfiguration } from 'src/types/configurations'
 
 interface PublicationProps {
   rawData: AppStates

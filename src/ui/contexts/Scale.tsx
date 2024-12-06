@@ -506,6 +506,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           ]}
           selected={this.state.distributionEasing}
           parentClassName="controls"
+          isBlocked={Scale.features(
+            this.props.planStatus
+          ).SCALE_HELPER_DISTRIBUTION.isBlocked()}
           isNew={Scale.features(
             this.props.planStatus
           ).SCALE_HELPER_DISTRIBUTION.isNew()}
@@ -553,6 +556,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
         selected={this.props.namingConvention}
         parentClassName="controls"
         alignment="RIGHT"
+        isBlocked={Scale.features(
+          this.props.planStatus
+        ).SCALE_PRESETS_NAMING_CONVENTION.isBlocked()}
         isNew={Scale.features(
           this.props.planStatus
         ).SCALE_PRESETS_NAMING_CONVENTION.isNew()}

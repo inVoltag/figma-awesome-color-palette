@@ -659,6 +659,9 @@ export default class Settings extends PureComponent<SettingsProps> {
                 },
               ]}
               selected={this.props.view}
+              isBlocked={Settings.features(
+                this.props.planStatus
+              ).VIEWS.isBlocked()}
               isNew={Settings.features(this.props.planStatus).VIEWS.isNew()}
             />
           </FormItem>
@@ -792,6 +795,9 @@ export default class Settings extends PureComponent<SettingsProps> {
                 },
               ]}
               selected={this.props.colorSpace}
+              isBlocked={Settings.features(
+                this.props.planStatus
+              ).SETTINGS_COLOR_SPACE.isBlocked()}
               isNew={Settings.features(
                 this.props.planStatus
               ).SETTINGS_COLOR_SPACE.isNew()}
@@ -1012,6 +1018,9 @@ export default class Settings extends PureComponent<SettingsProps> {
                 },
               ]}
               selected={this.props.visionSimulationMode}
+              isBlocked={Settings.features(
+                this.props.planStatus
+              ).SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
               isNew={Settings.features(
                 this.props.planStatus
               ).SETTINGS_VISION_SIMULATION_MODE.isNew()}

@@ -1,5 +1,5 @@
 import { doMap } from '@a_ng_d/figmug-utils'
-import { PureComponent } from 'preact/compat'
+import { Component } from 'preact/compat'
 import React from 'react'
 
 import { Easing } from '../../types/app'
@@ -26,7 +26,7 @@ interface SliderProps {
   onChange: (state: string, feature?: string) => void
 }
 
-export default class Slider extends PureComponent<SliderProps> {
+export default class Slider extends Component<SliderProps> {
   // Handlers
   validHandler = (
     stopId: string,

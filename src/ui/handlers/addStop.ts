@@ -1,4 +1,4 @@
-import { doMap } from '@a-ng-d/figmug.modules.do-map'
+import { doMap } from '@a_ng_d/figmug-utils'
 
 import { ScaleConfiguration } from '../../types/configurations'
 import { palette } from '../../utils/palettePackage'

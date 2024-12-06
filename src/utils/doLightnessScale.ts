@@ -1,4 +1,4 @@
-import { doMap } from '@a-ng-d/figmug.modules.do-map'
+import { doMap } from '@a_ng_d/figmug-utils'
 
 import { Easing } from '../types/app'
 import { ScaleConfiguration } from '../types/configurations'

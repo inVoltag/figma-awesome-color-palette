@@ -1,6 +1,6 @@
-import { doMap } from '@a-ng-d/figmug.modules.do-map'
-import React from 'react'
+import { doMap } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
+import React from 'react'
 
 import { Easing } from '../../types/app'
 import { ScaleConfiguration } from '../../types/configurations'

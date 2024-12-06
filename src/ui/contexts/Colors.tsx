@@ -157,7 +157,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         onGoingStep: 'colors changed',
       })
 
-      if (e.type === 'blur' || (e as KeyboardEvent).key === 'Enter') {
+      if (e.type === 'focusout' || (e as KeyboardEvent).key === 'Enter') {
         parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
         trackSourceColorsManagementEvent(
           this.props.userIdentity.id,
@@ -198,7 +198,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         })
       }
 
-      if (e.type === 'blur') {
+      if (e.type === 'focusout') {
         this.dispatch.colors.on.status = false
         parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
         trackSourceColorsManagementEvent(
@@ -374,7 +374,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         onGoingStep: 'colors changed',
       })
 
-      if (e.type === 'blur') {
+      if (e.type === 'focusout') {
         parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
         trackSourceColorsManagementEvent(
           this.props.userIdentity.id,

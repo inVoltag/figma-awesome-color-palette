@@ -264,7 +264,7 @@ export default class Settings extends PureComponent<SettingsProps> {
       })
 
       if (
-        (e.type === 'blur' || (e as KeyboardEvent).key === 'Enter') &&
+        (e.type === 'focusout' || (e as KeyboardEvent).key === 'Enter') &&
         this.props.context === 'LOCAL_STYLES'
       ) {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
@@ -295,7 +295,7 @@ export default class Settings extends PureComponent<SettingsProps> {
         onGoingStep: 'settings changed',
       })
 
-      if (e.type === 'blur' && this.props.context === 'LOCAL_STYLES') {
+      if (e.type === 'focusout' && this.props.context === 'LOCAL_STYLES') {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
           this.props.userIdentity.id,
@@ -442,7 +442,7 @@ export default class Settings extends PureComponent<SettingsProps> {
         onGoingStep: 'settings changed',
       })
 
-      if (e.type === 'blur' && this.props.context === 'LOCAL_STYLES') {
+      if (e.type === 'focusout' && this.props.context === 'LOCAL_STYLES') {
         this.dispatch.textColorsTheme.on.status = false
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
@@ -480,7 +480,7 @@ export default class Settings extends PureComponent<SettingsProps> {
         onGoingStep: 'settings changed',
       })
 
-      if (e.type === 'blur' && this.props.context === 'LOCAL_STYLES') {
+      if (e.type === 'focusout' && this.props.context === 'LOCAL_STYLES') {
         this.dispatch.textColorsTheme.on.status = false
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(

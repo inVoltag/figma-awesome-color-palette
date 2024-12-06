@@ -161,7 +161,7 @@ export default class Themes extends PureComponent<ThemesProps> {
         onGoingStep: 'themes changed',
       })
 
-      if (e.type === 'blur' || (e as KeyboardEvent).key === 'Enter') {
+      if (e.type === 'focusout' || (e as KeyboardEvent).key === 'Enter') {
         parent.postMessage({ pluginMessage: this.themesMessage }, '*')
         trackColorThemesManagementEvent(
           this.props.userIdentity.id,
@@ -195,7 +195,7 @@ export default class Themes extends PureComponent<ThemesProps> {
         })
       }
 
-      if (e.type === 'blur') {
+      if (e.type === 'focusout') {
         this.dispatch.themes.on.status = false
         parent.postMessage({ pluginMessage: this.themesMessage }, '*')
         trackColorThemesManagementEvent(
@@ -225,7 +225,7 @@ export default class Themes extends PureComponent<ThemesProps> {
         onGoingStep: 'themes changed',
       })
 
-      if (e.type === 'blur' || (e as KeyboardEvent).key === 'Enter') {
+      if (e.type === 'focusout' || (e as KeyboardEvent).key === 'Enter') {
         parent.postMessage({ pluginMessage: this.themesMessage }, '*')
         trackColorThemesManagementEvent(
           this.props.userIdentity.id,

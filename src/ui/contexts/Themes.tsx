@@ -414,10 +414,10 @@ export default class Themes extends PureComponent<ThemesProps> {
                           charactersLimit={24}
                           isBlocked={Themes.features(
                             this.props.planStatus
-                          ).THEMES.isBlocked()}
+                          ).THEMES_NAME.isBlocked()}
                           isNew={Themes.features(
                             this.props.planStatus
-                          ).THEMES.isNew()}
+                          ).THEMES_NAME.isNew()}
                           onBlur={this.themesHandler}
                           onConfirm={this.themesHandler}
                         />

@@ -68,7 +68,6 @@
   "dependencies": {
     "@a_ng_d/figmug-ui": "^0.110.5",
     "@a_ng_d/figmug-utils": "^0.1.2",
-    "@a-ng-d/figmug.modules.do-map": "^0.0.3",
     "@sentry/react": "^8.8.0",
     "@sentry/webpack-plugin": "^2.22.6",
     "@supabase/supabase-js": "^2.44.2",

@@ -1,42 +1,16 @@
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { lang, locals } from '../content/locals'
-import { PlanStatus } from '../types/app'
 import features from '../utils/config'
 import { presets } from '../utils/palettePackage'
+import checkPlanStatus from './checks/checkPlanStatus'
 
-const loadParameters = ({ key, result }: ParameterInputEvent) => {
-  const planStatus: PlanStatus = figma.payments?.status.type as PlanStatus
-  const viableSelection = figma.currentPage.selection.filter(
-    (element: SceneNode) => {
-      const fills = (
-        element as Exclude<
-          SceneNode,
-          | SliceNode
-          | GroupNode
-          | ConnectorNode
-          | CodeBlockNode
-          | WidgetNode
-          | EmbedNode
-          | LinkUnfurlNode
-          | MediaNode
-        >
-      ).fills
-      return (
-        element.type !== 'GROUP' &&
-        element.type !== 'EMBED' &&
-        element.type !== 'CONNECTOR' &&
-        element.getPluginDataKeys().length === 0 &&
-        Array.isArray(fills) &&
-        fills.filter((fill: Paint) => fill.type === 'SOLID').length !== 0
-      )
-    }
-  )
-
+const loadParameters = async ({ key, result }: ParameterInputEvent) => {
   switch (key) {
     case 'preset': {
+      const planStatus = (await checkPlanStatus('PARAMETERS')) ?? 'UNPAID'
       const suggestionsList = presets
         .filter(
-          (preset) =>
+          async (preset) =>
             !new FeatureStatus({
               features: features,
               featureName: `PRESETS_${preset.id}`,
@@ -45,12 +19,12 @@ const loadParameters = ({ key, result }: ParameterInputEvent) => {
         )
         .map((preset) => preset.name) as Array<string>
 
-      if (viableSelection.length > 0) result.setSuggestions(suggestionsList)
-      else result.setError(locals[lang].warning.unselectedColor)
+      result.setSuggestions(suggestionsList)
       break
     }
 
     case 'space': {
+      const planStatus = (await checkPlanStatus('PARAMETERS')) ?? 'UNPAID'
       const suggestionsList = [
         new FeatureStatus({
           features: features,
@@ -95,6 +69,7 @@ const loadParameters = ({ key, result }: ParameterInputEvent) => {
     }
 
     case 'view': {
+      const planStatus = (await checkPlanStatus('PARAMETERS')) ?? 'UNPAID'
       const suggestionsList = [
         new FeatureStatus({
           features: features,
@@ -117,11 +92,6 @@ const loadParameters = ({ key, result }: ParameterInputEvent) => {
       ].filter((n) => n) as Array<string>
 
       result.setSuggestions(suggestionsList)
-      break
-    }
-
-    case 'name': {
-      result.setLoadingMessage(locals[lang].warning.paletteNameRecommendation)
       break
     }
 

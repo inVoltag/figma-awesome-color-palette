@@ -46,7 +46,7 @@
     {
       "name": "Preset",
       "key": "preset",
-      "description": "Select a color system"
+      "description": "Select a specific preset"
     },
     {
       "name": "Color space",
@@ -61,6 +61,7 @@
     {
       "name": "Palette name",
       "key": "name",
+      "description": "Select source colors and type a name",
       "allowFreeform": true,
       "optional": true
     }

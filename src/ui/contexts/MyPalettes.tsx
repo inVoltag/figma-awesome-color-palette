@@ -28,7 +28,7 @@ import {
 import { ExternalPalettes } from '../../types/data'
 import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
-import { pageSize, palettesDbTableName } from '../../utils/config'
+import { pageSize, palettesDbTableName } from '../../config'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
 
 interface MyPalettesProps {

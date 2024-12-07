@@ -23,7 +23,7 @@ import {
 } from '../../types/configurations'
 import { ColorsMessage } from '../../types/messages'
 import { ActionsList, DispatchProcess } from '../../types/models'
-import features from '../../utils/config'
+import features from '../../config'
 import { trackSourceColorsManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'

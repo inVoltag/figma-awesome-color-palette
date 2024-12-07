@@ -1,5 +1,5 @@
 import type { AppStates } from '../../ui/App'
-import { palettesDbTableName, palettesStorageName } from '../../utils/config'
+import { palettesDbTableName, palettesStorageName } from '../../config'
 import { supabase } from './authentication'
 
 const unpublishPalette = async (

@@ -40,7 +40,7 @@ import features, {
   announcementsWorkerUrl,
   trialTime,
   userConsentVersion,
-} from '../utils/config'
+} from '../config'
 import {
   trackEditorEvent,
   trackExportEvent,

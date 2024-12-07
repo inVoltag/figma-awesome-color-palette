@@ -1,4 +1,4 @@
-import { trialTime, trialVersion } from '../utils/config'
+import { trialTime, trialVersion } from '../config'
 
 const enableTrial = async () => {
   const date = new Date().getTime()

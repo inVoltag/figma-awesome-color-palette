@@ -19,7 +19,7 @@ import {
   SourceColorConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
-import features from '../../utils/config'
+import features from '../../config'
 import { trackImportEvent } from '../../utils/eventsTracker'
 import Feature from '../components/Feature'
 

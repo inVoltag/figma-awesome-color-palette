@@ -1,4 +1,4 @@
-import { palettesDbTableName } from '../../utils/config'
+import { palettesDbTableName } from '../../config'
 import { supabase } from './authentication'
 
 const sharePalette = async (id: string, isShared: boolean): Promise<void> => {

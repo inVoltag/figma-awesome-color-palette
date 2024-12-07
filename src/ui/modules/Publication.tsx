@@ -17,7 +17,7 @@ import pushPalette from '../../bridges/publication/pushPalette'
 import unpublishPalette from '../../bridges/publication/unpublishPalette'
 import { locals } from '../../content/locals'
 import { Language } from '../../types/app'
-import { palettesDbTableName } from '../../utils/config'
+import { palettesDbTableName } from '../../config'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 

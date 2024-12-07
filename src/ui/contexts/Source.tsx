@@ -16,7 +16,7 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { ColourLovers } from '../../types/data'
-import features from '../../utils/config'
+import features from '../../config'
 import { setContexts } from '../../utils/setContexts'
 import Feature from '../components/Feature'
 import Actions from '../modules/Actions'

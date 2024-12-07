@@ -27,7 +27,7 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { ColourLovers } from '../../types/data'
-import { pageSize } from '../../utils/config'
+import { pageSize } from '../../config'
 import { trackImportEvent } from '../../utils/eventsTracker'
 
 interface ExploreProps {

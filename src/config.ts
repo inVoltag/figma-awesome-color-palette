@@ -1,4 +1,4 @@
-import { doSpecificMode, featuresScheme } from './features'
+import { doSpecificMode, featuresScheme } from './utils/features'
 
 // Limitations
 export const trialTime = 48

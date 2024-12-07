@@ -1,4 +1,4 @@
-import { userConsentVersion } from '../../utils/config'
+import { userConsentVersion } from '../../config'
 import { userConsent } from '../../utils/userConsent'
 
 const checkUserConsent = async () => {

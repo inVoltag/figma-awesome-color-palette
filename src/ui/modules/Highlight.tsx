@@ -3,7 +3,7 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { locals } from '../../content/locals'
 import { HighlightDigest, Language } from '../../types/app'
-import { announcementsWorkerUrl } from '../../utils/config'
+import { announcementsWorkerUrl } from '../../config'
 
 interface HighlightProps {
   highlight: HighlightDigest

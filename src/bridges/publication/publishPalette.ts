@@ -5,7 +5,7 @@ import {
   databaseUrl,
   palettesDbTableName,
   palettesStorageName,
-} from '../../utils/config'
+} from '../../config'
 import { supabase } from './authentication'
 
 const publishPalette = async (

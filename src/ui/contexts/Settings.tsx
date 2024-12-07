@@ -28,7 +28,7 @@ import {
   DispatchProcess,
   TextColorsThemeHexModel,
 } from '../../types/models'
-import features from '../../utils/config'
+import features from '../../config'
 import { trackSettingsManagementEvent } from '../../utils/eventsTracker'
 import { palette } from '../../utils/palettePackage'
 import type { AppStates } from '../App'

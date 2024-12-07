@@ -1,6 +1,6 @@
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { lang, locals } from '../content/locals'
-import features from '../utils/config'
+import features from '../config'
 import { presets } from '../utils/palettePackage'
 import checkPlanStatus from './checks/checkPlanStatus'
 

@@ -24,7 +24,7 @@ import {
 } from '../../types/configurations'
 import { ScaleMessage } from '../../types/messages'
 import { ActionsList, DispatchProcess } from '../../types/models'
-import features from '../../utils/config'
+import features from '../../config'
 import doLightnessScale from '../../utils/doLightnessScale'
 import { trackScaleManagementEvent } from '../../utils/eventsTracker'
 import { palette, presets } from '../../utils/palettePackage'

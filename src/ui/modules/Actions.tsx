@@ -10,7 +10,7 @@ import {
   CreatorConfiguration,
   SourceColorConfiguration,
 } from '../../types/configurations'
-import features from '../../utils/config'
+import features from '../../config'
 import Feature from '../components/Feature'
 
 interface ActionsProps {

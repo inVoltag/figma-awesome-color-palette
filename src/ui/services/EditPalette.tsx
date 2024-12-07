@@ -22,7 +22,7 @@ import {
 } from '../../types/configurations'
 import { ThemesMessage } from '../../types/messages'
 import { TextColorsThemeHexModel } from '../../types/models'
-import features from '../../utils/config'
+import features from '../../config'
 import doLightnessScale from '../../utils/doLightnessScale'
 import { trackActionEvent } from '../../utils/eventsTracker'
 import { palette } from '../../utils/palettePackage'

@@ -1,4 +1,4 @@
-import { trialTime } from '../utils/config'
+import { trialTime } from '../config'
 
 export const lang = 'en-US'
 

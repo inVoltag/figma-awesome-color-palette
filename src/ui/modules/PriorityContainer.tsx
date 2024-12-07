@@ -25,7 +25,7 @@ import {
   TrialStatus,
 } from '../../types/app'
 import { UserSession } from '../../types/user'
-import features from '../../utils/config'
+import features from '../../config'
 import { trackSignInEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'

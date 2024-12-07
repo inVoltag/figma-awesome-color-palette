@@ -22,7 +22,7 @@ import {
 } from '../../types/configurations'
 import { ThemesMessage } from '../../types/messages'
 import { ActionsList, DispatchProcess } from '../../types/models'
-import features from '../../utils/config'
+import features from '../../config'
 import doLightnessScale from '../../utils/doLightnessScale'
 import { trackColorThemesManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'

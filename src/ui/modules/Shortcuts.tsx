@@ -21,7 +21,7 @@ import features, {
   repositoryUrl,
   requestsUrl,
   supportEmail,
-} from '../../utils/config'
+} from '../../config'
 import { trackSignInEvent, trackSignOutEvent } from '../../utils/eventsTracker'
 import Feature from '../components/Feature'
 import TrialControls from './TrialControls'

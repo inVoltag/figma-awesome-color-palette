@@ -8,7 +8,7 @@ import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import { ColorSpaceConfiguration } from '../../types/configurations'
 import { ActionsList } from '../../types/models'
-import features from '../../utils/config'
+import features from '../../config'
 import Actions from '../modules/Actions'
 
 interface ExportProps {

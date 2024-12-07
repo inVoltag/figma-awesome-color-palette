@@ -3,7 +3,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import React, { PureComponent } from 'react'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, TrialStatus } from '../../types/app'
-import features, { trialFeedbackUrl } from '../../utils/config'
+import features, { trialFeedbackUrl } from '../../config'
 import Feature from '../components/Feature'
 
 interface TrialControlsProps {

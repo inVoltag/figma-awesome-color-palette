@@ -1,13 +1,3 @@
-export interface Feature {
-  name: string
-  description: string
-  isActive: boolean
-  isPro: boolean
-  isNew: boolean
-  type: 'SERVICE' | 'DIVISION' | 'ACTION' | 'CONTEXT'
-  service: Array<Service>
-}
-
 export type Service = 'CREATE' | 'EDIT' | 'TRANSFER'
 
 export type Context =

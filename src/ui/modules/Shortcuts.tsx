@@ -11,7 +11,12 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { signIn, signOut } from '../../bridges/publication/authentication'
 import { locals } from '../../content/locals'
-import { Language, PlanStatus, TrialStatus } from '../../types/app'
+import {
+  HighlightDigest,
+  Language,
+  PlanStatus,
+  TrialStatus,
+} from '../../types/app'
 import { UserConfiguration } from '../../types/configurations'
 import { UserSession } from '../../types/user'
 import features, {
@@ -34,6 +39,7 @@ interface ShortcutsProps {
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   lang: Language
+  highlight: HighlightDigest
   onReOpenHighlight: () => void
   onReOpenAbout: () => void
   onReOpenReport: () => void
@@ -507,6 +513,12 @@ export default class Shortcuts extends PureComponent<
                     },
                   ]}
                   alignment="TOP_RIGHT"
+                  isNew={
+                    this.props.highlight.status ===
+                    'DISPLAY_HIGHLIGHT_NOTIFICATION'
+                      ? true
+                      : false
+                  }
                 />
               </div>
               <div

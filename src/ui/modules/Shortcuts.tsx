@@ -355,9 +355,11 @@ export default class Shortcuts extends PureComponent<
                       isBlocked: Shortcuts.features(
                         this.props.planStatus
                       ).SHORTCUTS_HIGHLIGHT.isBlocked(),
-                      isNew: Shortcuts.features(
-                        this.props.planStatus
-                      ).SHORTCUTS_HIGHLIGHT.isNew(),
+                      isNew:
+                        this.props.highlight.status ===
+                        'DISPLAY_HIGHLIGHT_NOTIFICATION'
+                          ? true
+                          : false,
                       action: () => this.props.onReOpenHighlight(),
                     },
                     {

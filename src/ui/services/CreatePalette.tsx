@@ -4,7 +4,13 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { uid } from 'uid'
 
-import { ContextItem, Language, PlanStatus, ThirdParty } from '../../types/app'
+import {
+  Context,
+  ContextItem,
+  Language,
+  PlanStatus,
+  ThirdParty,
+} from '../../types/app'
 import {
   ColorSpaceConfiguration,
   NamingConventionConfiguration,
@@ -52,7 +58,7 @@ interface CreatePaletteProps {
 }
 
 interface CreatePaletteStates {
-  context: string | undefined
+  context: Context | ''
 }
 
 export default class CreatePalette extends PureComponent<
@@ -63,7 +69,10 @@ export default class CreatePalette extends PureComponent<
 
   constructor(props: CreatePaletteProps) {
     super(props)
-    this.contexts = setContexts(['PALETTES', 'SOURCE', 'SCALE', 'SETTINGS'])
+    this.contexts = setContexts(
+      ['PALETTES', 'SOURCE', 'SCALE', 'SETTINGS'],
+      props.planStatus
+    )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[1].id : '',
     }
@@ -72,7 +81,7 @@ export default class CreatePalette extends PureComponent<
   // Handlers
   navHandler = (e: Event) =>
     this.setState({
-      context: (e.target as HTMLElement).dataset.feature,
+      context: (e.target as HTMLElement).dataset.feature as Context,
     })
 
   colorsFromImportHandler = (

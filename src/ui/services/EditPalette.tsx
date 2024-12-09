@@ -7,7 +7,13 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 
 import { locals } from '../../content/locals'
-import { ContextItem, EditorType, Language, PlanStatus } from '../../types/app'
+import {
+  Context,
+  ContextItem,
+  EditorType,
+  Language,
+  PlanStatus,
+} from '../../types/app'
 import {
   AlgorithmVersionConfiguration,
   ColorConfiguration,
@@ -62,17 +68,14 @@ interface EditPaletteProps {
 }
 
 interface EditPaletteStates {
-  context: string | undefined
+  context: Context | ''
   selectedElement: {
     id: string
     position: number | null
   }
 }
 
-export default class EditPalette extends PureComponent<
-  EditPaletteProps,
-  EditPaletteStates
-> {
+export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteStates> {
   themesMessage: ThemesMessage
   contexts: Array<ContextItem>
   themesRef: React.RefObject<Themes>
@@ -92,13 +95,10 @@ export default class EditPalette extends PureComponent<
       data: [],
       isEditedInRealTime: false,
     }
-    this.contexts = setContexts([
-      'SCALE',
-      'COLORS',
-      'THEMES',
-      'EXPORT',
-      'SETTINGS',
-    ])
+    this.contexts = setContexts(
+      ['SCALE', 'COLORS', 'THEMES', 'EXPORT', 'SETTINGS'],
+      props.planStatus
+    )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
       selectedElement: {
@@ -112,7 +112,7 @@ export default class EditPalette extends PureComponent<
   // Handlers
   navHandler = (e: Event) =>
     this.setState({
-      context: (e.target as HTMLElement).dataset.feature,
+      context: (e.target as HTMLElement).dataset.feature as Context,
     })
 
   switchThemeHandler = (e: Event) => {

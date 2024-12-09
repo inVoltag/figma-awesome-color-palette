@@ -3,7 +3,13 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 
 import { UserConfiguration } from 'src/types/configurations'
-import { ContextItem, FetchStatus, Language, PlanStatus } from '../../types/app'
+import {
+  Context,
+  ContextItem,
+  FetchStatus,
+  Language,
+  PlanStatus,
+} from '../../types/app'
 import { ExternalPalettes } from '../../types/data'
 import { UserSession } from '../../types/user'
 import { setContexts } from '../../utils/setContexts'
@@ -23,7 +29,7 @@ interface PalettesProps {
 }
 
 interface PalettesStates {
-  context: string | undefined
+  context: Context | ''
   selfPalettesListStatus: FetchStatus
   communityPalettesListStatus: FetchStatus
   selfCurrentPage: number
@@ -34,15 +40,15 @@ interface PalettesStates {
   communityPalettesList: Array<ExternalPalettes>
 }
 
-export default class Palettes extends PureComponent<
-  PalettesProps,
-  PalettesStates
-> {
+export default class Palettes extends PureComponent<PalettesProps, PalettesStates> {
   contexts: Array<ContextItem>
 
   constructor(props: PalettesProps) {
     super(props)
-    this.contexts = setContexts(['PALETTES_SELF', 'PALETTES_COMMUNITY'])
+    this.contexts = setContexts(
+      ['PALETTES_SELF', 'PALETTES_COMMUNITY'],
+      props.planStatus
+    )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
       selfPalettesListStatus: 'UNLOADED',
@@ -72,7 +78,7 @@ export default class Palettes extends PureComponent<
   // Handlers
   navHandler = (e: Event) =>
     this.setState({
-      context: (e.target as HTMLElement).dataset.feature,
+      context: (e.target as HTMLElement).dataset.feature as Context,
     })
 
   // Render

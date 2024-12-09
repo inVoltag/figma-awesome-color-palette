@@ -262,6 +262,10 @@ export const locals: { [key: string]: any } = {
       },
     },
     settings: {
+      contexts: {
+        palette: 'Palette',
+        preferences: 'Preferences',
+      },
       global: {
         title: 'Global settings',
         name: {

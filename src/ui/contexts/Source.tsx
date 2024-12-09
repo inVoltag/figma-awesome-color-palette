@@ -4,6 +4,7 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 
 import {
+  Context,
   ContextItem,
   EditorType,
   FilterOptions,
@@ -39,7 +40,7 @@ interface SourceProps {
 }
 
 interface SourceStates {
-  context: string | undefined
+  context: Context | ''
   colourLoversPaletteList: Array<ColourLovers>
   activeFilters: Array<FilterOptions>
 }
@@ -57,7 +58,10 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
 
   constructor(props: SourceProps) {
     super(props)
-    this.contexts = setContexts(['SOURCE_OVERVIEW', 'SOURCE_EXPLORE'])
+    this.contexts = setContexts(
+      ['SOURCE_OVERVIEW', 'SOURCE_EXPLORE'],
+      props.planStatus
+    )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
       colourLoversPaletteList: [],
@@ -68,7 +72,7 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
   // Handlers
   navHandler = (e: Event) =>
     this.setState({
-      context: (e.target as HTMLElement).dataset.feature,
+      context: (e.target as HTMLElement).dataset.feature as Context,
     })
 
   // Render

@@ -419,10 +419,10 @@ export default class Colors extends PureComponent<ColorsProps> {
       SHIFT_CHROMA: () => setChromaShifting(),
       UPDATE_DESCRIPTION: () => updateColorDescription(),
       REMOVE_ITEM: () => removeColor(),
-      NULL: () => null,
+      DEFAULT: () => null,
     }
 
-    return actions[currentElement.dataset.feature ?? 'NULL']?.()
+    return actions[currentElement.dataset.feature ?? 'DEFAULT']?.()
   }
 
   // Direct actions

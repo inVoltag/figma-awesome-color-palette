@@ -372,10 +372,11 @@ export default class Settings extends PureComponent<SettingsProps> {
       UPDATE_ALGORITHM_VERSION: () => updateAlgorythmVersion(),
       UPDATE_TEXT_LIGHT_COLOR: () => updateTextLightColor(),
       UPDATE_TEXT_DARK_COLOR: () => updateTextDarkColor(),
-      NULL: () => null,
+      UPDATE_VARIABLES_COLLECTION: () => updateVariablesCollection(),
+      DEFAULT: () => null,
     }
 
-    return actions[feature ?? 'NULL']?.()
+    return actions[feature ?? 'DEFAULT']?.()
   }
 
   render() {

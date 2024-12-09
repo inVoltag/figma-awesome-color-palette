@@ -451,10 +451,10 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
           '*'
         )
       },
-      NULL: () => null,
+      DEFAULT: () => null,
     }
 
-    return actions[(e.target as HTMLElement).dataset.value ?? 'NULL']?.()
+    return actions[(e.target as HTMLElement).dataset.value ?? 'DEFAULT']?.()
   }
 
   // Direct actions

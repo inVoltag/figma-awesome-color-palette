@@ -348,10 +348,10 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       CARBON: () => setCarbonPreset(),
       BASE: () => setBasePreset(),
       CUSTOM: () => setCustomPreset(),
-      NULL: () => null,
+      DEFAULT: () => null,
     }
 
-    return actions[(e.target as HTMLElement).dataset.value ?? 'NULL']?.()
+    return actions[(e.target as HTMLElement).dataset.value ?? 'DEFAULT']?.()
   }
 
   customHandler = (e: Event) => {
@@ -435,10 +435,12 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       REMOVE_STOP: () => removeStop(),
       UPDATE_NAMING_CONVENTION: () => changeNamingConvention(),
       UPDATE_DISTRIBUTION_EASING: () => changeDistributionEasing(),
-      NULL: () => null,
+      DEFAULT: () => null,
     }
 
-    return actions[(e.target as HTMLInputElement).dataset.feature ?? 'NULL']?.()
+    return actions[
+      (e.target as HTMLInputElement).dataset.feature ?? 'DEFAULT'
+    ]?.()
   }
 
   // Templates

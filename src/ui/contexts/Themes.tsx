@@ -277,10 +277,10 @@ export default class Themes extends PureComponent<ThemesProps> {
       UPDATE_PALETTE_BACKGROUND: () => updatePaletteBackgroundColor(),
       UPDATE_DESCRIPTION: () => updateThemeDescription(),
       REMOVE_ITEM: () => removeTheme(),
-      NULL: () => null,
+      DEFAULT: () => null,
     }
 
-    return actions[currentElement.dataset.feature ?? 'NULL']?.()
+    return actions[currentElement.dataset.feature ?? 'DEFAULT']?.()
   }
 
   // Direct actions

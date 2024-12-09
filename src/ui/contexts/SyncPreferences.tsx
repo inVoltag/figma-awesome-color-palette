@@ -1,11 +1,18 @@
-import { Section, SectionTitle, Select, SimpleItem } from '@a_ng_d/figmug-ui'
+import {
+  Section,
+  SectionTitle,
+  Select,
+  SemanticMessage,
+  SimpleItem,
+} from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 
-import { ActionsList } from 'src/types/models'
 import features from '../../config'
+import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
+import { ActionsList } from '../../types/models'
 import Feature from '../components/Feature'
 
 interface SyncPreferencesProps {
@@ -132,7 +139,7 @@ export default class SyncPreferences extends PureComponent<
           type="SWITCH_BUTTON"
           name="update-variables-deep-sync"
           label={
-            'Enable a deep synchronization with the variables in the collection'
+            locals[this.props.lang].settings.preferences.sync.variables.label
           }
           isChecked={this.state.areVariablesDeepSync}
           isBlocked={SyncPreferences.features(
@@ -164,9 +171,7 @@ export default class SyncPreferences extends PureComponent<
           id="update-styles-deep-sync"
           type="SWITCH_BUTTON"
           name="update-styles-deep-sync"
-          label={
-            'Enable a deep synchronization with the styles in the document'
-          }
+          label={locals[this.props.lang].settings.preferences.sync.styles.label}
           isChecked={this.state.areStylesDeepSync}
           isBlocked={SyncPreferences.features(
             this.props.planStatus
@@ -191,11 +196,25 @@ export default class SyncPreferences extends PureComponent<
       <Section
         title={
           <SimpleItem
-            leftPartSlot={<SectionTitle label={'Synchronization'} />}
+            leftPartSlot={
+              <SectionTitle
+                label={locals[this.props.lang].settings.preferences.sync.title}
+              />
+            }
             isListItem={false}
           />
         }
         body={[
+          {
+            node: (
+              <SemanticMessage
+                type="INFO"
+                message={
+                  locals[this.props.lang].settings.preferences.sync.message
+                }
+              />
+            ),
+          },
           {
             node: <this.VariablesDeepSync />,
           },

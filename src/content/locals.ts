@@ -323,6 +323,21 @@ export const locals: { [key: string]: any } = {
             'The Chroma values are harmonized to ensure consistent lightness across all shades, but this may make the colors look desaturated.',
         },
       },
+      preferences: {
+        sync: {
+          title: 'Synchronization',
+          message:
+            'A deep synchronization means that the palette and the local variables/styles are synchronized in both directions',
+          variables: {
+            label:
+              'Enable a deep synchronization with the local variables in the collection',
+          },
+          styles: {
+            label:
+              'Enable a deep synchronization with the local styles in the document',
+          },
+        },
+      },
     },
     report: {
       title: 'Report a bug',

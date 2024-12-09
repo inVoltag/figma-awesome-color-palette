@@ -137,139 +137,134 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
           this.props.planStatus
         ).SETTINGS_COLOR_SPACE.isActive()}
       >
-        <div className="settings__item">
-          <FormItem
+        <FormItem
+          id="update-color-space"
+          label={locals[this.props.lang].settings.color.colorSpace.label}
+          isBlocked={ColorSettings.features(
+            this.props.planStatus
+          ).SETTINGS_COLOR_SPACE.isBlocked()}
+        >
+          <Dropdown
             id="update-color-space"
-            label={locals[this.props.lang].settings.color.colorSpace.label}
+            options={[
+              {
+                label: locals[this.props.lang].settings.color.colorSpace.lch,
+                value: 'LCH',
+                feature: 'UPDATE_COLOR_SPACE',
+                position: 0,
+                type: 'OPTION',
+                isActive: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_COLOR_SPACE_LCH.isActive(),
+                isBlocked: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_COLOR_SPACE_LCH.isBlocked(),
+                isNew: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_COLOR_SPACE_LCH.isNew(),
+                action: this.props.onChangeSettings,
+              },
+              {
+                label: locals[this.props.lang].settings.color.colorSpace.oklch,
+                value: 'OKLCH',
+                feature: 'UPDATE_COLOR_SPACE',
+                position: 1,
+                type: 'OPTION',
+                isActive: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_COLOR_SPACE_OKLCH.isActive(),
+                isBlocked: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_COLOR_SPACE_OKLCH.isBlocked(),
+                isNew: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_COLOR_SPACE_OKLCH.isNew(),
+                action: this.props.onChangeSettings,
+              },
+              {
+                label: locals[this.props.lang].settings.color.colorSpace.lab,
+                value: 'LAB',
+                feature: 'UPDATE_COLOR_SPACE',
+                position: 2,
+                type: 'OPTION',
+                isActive: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_COLOR_SPACE_LAB.isActive(),
+                isBlocked: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_COLOR_SPACE_LAB.isBlocked(),
+                isNew: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_COLOR_SPACE_LAB.isNew(),
+                action: this.props.onChangeSettings,
+              },
+              {
+                label: locals[this.props.lang].settings.color.colorSpace.oklab,
+                value: 'OKLAB',
+                feature: 'UPDATE_COLOR_SPACE',
+                position: 3,
+                type: 'OPTION',
+                isActive: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_COLOR_SPACE_OKLAB.isActive(),
+                isBlocked: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_COLOR_SPACE_OKLAB.isBlocked(),
+                isNew: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_COLOR_SPACE_OKLAB.isNew(),
+                action: this.props.onChangeSettings,
+              },
+              {
+                label: locals[this.props.lang].settings.color.colorSpace.hsl,
+                value: 'HSL',
+                feature: 'UPDATE_COLOR_SPACE',
+                position: 4,
+                type: 'OPTION',
+                isActive: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_COLOR_SPACE_HSL.isActive(),
+                isBlocked: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_COLOR_SPACE_HSL.isBlocked(),
+                isNew: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_COLOR_SPACE_HSL.isNew(),
+                action: this.props.onChangeSettings,
+              },
+              {
+                label: locals[this.props.lang].settings.color.colorSpace.hsluv,
+                value: 'HSLUV',
+                feature: 'UPDATE_COLOR_SPACE',
+                position: 5,
+                type: 'OPTION',
+                isActive: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_COLOR_SPACE_HSLUV.isActive(),
+                isBlocked: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_COLOR_SPACE_HSLUV.isBlocked(),
+                isNew: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_COLOR_SPACE_HSLUV.isNew(),
+                action: this.props.onChangeSettings,
+              },
+            ]}
+            selected={this.props.colorSpace}
             isBlocked={ColorSettings.features(
               this.props.planStatus
             ).SETTINGS_COLOR_SPACE.isBlocked()}
-          >
-            <Dropdown
-              id="update-color-space"
-              options={[
-                {
-                  label: locals[this.props.lang].settings.color.colorSpace.lch,
-                  value: 'LCH',
-                  feature: 'UPDATE_COLOR_SPACE',
-                  position: 0,
-                  type: 'OPTION',
-                  isActive: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_COLOR_SPACE_LCH.isActive(),
-                  isBlocked: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_COLOR_SPACE_LCH.isBlocked(),
-                  isNew: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_COLOR_SPACE_LCH.isNew(),
-                  action: this.props.onChangeSettings,
-                },
-                {
-                  label:
-                    locals[this.props.lang].settings.color.colorSpace.oklch,
-                  value: 'OKLCH',
-                  feature: 'UPDATE_COLOR_SPACE',
-                  position: 1,
-                  type: 'OPTION',
-                  isActive: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_COLOR_SPACE_OKLCH.isActive(),
-                  isBlocked: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_COLOR_SPACE_OKLCH.isBlocked(),
-                  isNew: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_COLOR_SPACE_OKLCH.isNew(),
-                  action: this.props.onChangeSettings,
-                },
-                {
-                  label: locals[this.props.lang].settings.color.colorSpace.lab,
-                  value: 'LAB',
-                  feature: 'UPDATE_COLOR_SPACE',
-                  position: 2,
-                  type: 'OPTION',
-                  isActive: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_COLOR_SPACE_LAB.isActive(),
-                  isBlocked: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_COLOR_SPACE_LAB.isBlocked(),
-                  isNew: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_COLOR_SPACE_LAB.isNew(),
-                  action: this.props.onChangeSettings,
-                },
-                {
-                  label:
-                    locals[this.props.lang].settings.color.colorSpace.oklab,
-                  value: 'OKLAB',
-                  feature: 'UPDATE_COLOR_SPACE',
-                  position: 3,
-                  type: 'OPTION',
-                  isActive: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_COLOR_SPACE_OKLAB.isActive(),
-                  isBlocked: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_COLOR_SPACE_OKLAB.isBlocked(),
-                  isNew: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_COLOR_SPACE_OKLAB.isNew(),
-                  action: this.props.onChangeSettings,
-                },
-                {
-                  label: locals[this.props.lang].settings.color.colorSpace.hsl,
-                  value: 'HSL',
-                  feature: 'UPDATE_COLOR_SPACE',
-                  position: 4,
-                  type: 'OPTION',
-                  isActive: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_COLOR_SPACE_HSL.isActive(),
-                  isBlocked: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_COLOR_SPACE_HSL.isBlocked(),
-                  isNew: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_COLOR_SPACE_HSL.isNew(),
-                  action: this.props.onChangeSettings,
-                },
-                {
-                  label:
-                    locals[this.props.lang].settings.color.colorSpace.hsluv,
-                  value: 'HSLUV',
-                  feature: 'UPDATE_COLOR_SPACE',
-                  position: 5,
-                  type: 'OPTION',
-                  isActive: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_COLOR_SPACE_HSLUV.isActive(),
-                  isBlocked: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_COLOR_SPACE_HSLUV.isBlocked(),
-                  isNew: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_COLOR_SPACE_HSLUV.isNew(),
-                  action: this.props.onChangeSettings,
-                },
-              ]}
-              selected={this.props.colorSpace}
-              isBlocked={ColorSettings.features(
-                this.props.planStatus
-              ).SETTINGS_COLOR_SPACE.isBlocked()}
-              isNew={ColorSettings.features(
-                this.props.planStatus
-              ).SETTINGS_COLOR_SPACE.isNew()}
-            />
-          </FormItem>
-          {this.props.colorSpace === 'HSL' && (
-            <SemanticMessage
-              type="WARNING"
-              message={locals[this.props.lang].warning.hslColorSpace}
-            />
-          )}
-        </div>
+            isNew={ColorSettings.features(
+              this.props.planStatus
+            ).SETTINGS_COLOR_SPACE.isNew()}
+          />
+        </FormItem>
+        {this.props.colorSpace === 'HSL' && (
+          <SemanticMessage
+            type="WARNING"
+            message={locals[this.props.lang].warning.hslColorSpace}
+          />
+        )}
       </Feature>
     )
   }
@@ -281,212 +276,210 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
           this.props.planStatus
         ).SETTINGS_VISION_SIMULATION_MODE.isActive()}
       >
-        <div className="settings__item">
-          <FormItem
+        <FormItem
+          id="update-color-blind-mode"
+          label={
+            locals[this.props.lang].settings.color.visionSimulationMode.label
+          }
+          isBlocked={ColorSettings.features(
+            this.props.planStatus
+          ).SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
+        >
+          <Dropdown
             id="update-color-blind-mode"
-            label={
-              locals[this.props.lang].settings.color.visionSimulationMode.label
-            }
+            options={[
+              {
+                label:
+                  locals[this.props.lang].settings.color.visionSimulationMode
+                    .none,
+                value: 'NONE',
+                feature: 'UPDATE_COLOR_BLIND_MODE',
+                position: 0,
+                type: 'OPTION',
+                isActive: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_NONE.isActive(),
+                isBlocked: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_NONE.isBlocked(),
+                isNew: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_NONE.isNew(),
+                action: this.props.onChangeSettings,
+              },
+              {
+                position: 1,
+                type: 'SEPARATOR',
+              },
+              {
+                label:
+                  locals[this.props.lang].settings.color.visionSimulationMode
+                    .colorBlind,
+                position: 2,
+                type: 'TITLE',
+              },
+              {
+                label:
+                  locals[this.props.lang].settings.color.visionSimulationMode
+                    .protanomaly,
+                value: 'PROTANOMALY',
+                feature: 'UPDATE_COLOR_BLIND_MODE',
+                position: 3,
+                type: 'OPTION',
+                isActive: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isActive(),
+                isBlocked: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isBlocked(),
+                isNew: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isNew(),
+                action: this.props.onChangeSettings,
+              },
+              {
+                label:
+                  locals[this.props.lang].settings.color.visionSimulationMode
+                    .protanopia,
+                value: 'PROTANOPIA',
+                feature: 'UPDATE_COLOR_BLIND_MODE',
+                position: 4,
+                type: 'OPTION',
+                isActive: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isActive(),
+                isBlocked: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isBlocked(),
+                isNew: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isNew(),
+                action: this.props.onChangeSettings,
+              },
+              {
+                label:
+                  locals[this.props.lang].settings.color.visionSimulationMode
+                    .deuteranomaly,
+                value: 'DEUTERANOMALY',
+                feature: 'UPDATE_COLOR_BLIND_MODE',
+                position: 5,
+                type: 'OPTION',
+                isActive: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isActive(),
+                isBlocked: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isBlocked(),
+                isNew: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isNew(),
+                action: this.props.onChangeSettings,
+              },
+              {
+                label:
+                  locals[this.props.lang].settings.color.visionSimulationMode
+                    .deuteranopia,
+                value: 'DEUTERANOPIA',
+                feature: 'UPDATE_COLOR_BLIND_MODE',
+                position: 6,
+                type: 'OPTION',
+                isActive: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isActive(),
+                isBlocked: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isBlocked(),
+                isNew: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isNew(),
+                action: this.props.onChangeSettings,
+              },
+              {
+                label:
+                  locals[this.props.lang].settings.color.visionSimulationMode
+                    .tritanomaly,
+                value: 'TRITANOMALY',
+                feature: 'UPDATE_COLOR_BLIND_MODE',
+                position: 7,
+                type: 'OPTION',
+                isActive: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isActive(),
+                isBlocked: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isBlocked(),
+                isNew: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isNew(),
+                action: this.props.onChangeSettings,
+              },
+              {
+                label:
+                  locals[this.props.lang].settings.color.visionSimulationMode
+                    .tritanopia,
+                value: 'TRITANOPIA',
+                feature: 'UPDATE_COLOR_BLIND_MODE',
+                position: 8,
+                type: 'OPTION',
+                isActive: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isActive(),
+                isBlocked: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isBlocked(),
+                isNew: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isNew(),
+                action: this.props.onChangeSettings,
+              },
+              {
+                label:
+                  locals[this.props.lang].settings.color.visionSimulationMode
+                    .achromatomaly,
+                value: 'ACHROMATOMALY',
+                feature: 'UPDATE_COLOR_BLIND_MODE',
+                position: 9,
+                type: 'OPTION',
+                isActive: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isActive(),
+                isBlocked: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isBlocked(),
+                isNew: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isNew(),
+                action: this.props.onChangeSettings,
+              },
+              {
+                label:
+                  locals[this.props.lang].settings.color.visionSimulationMode
+                    .achromatopsia,
+                value: 'ACHROMATOPSIA',
+                feature: 'UPDATE_COLOR_BLIND_MODE',
+                position: 10,
+                type: 'OPTION',
+                isActive: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isActive(),
+                isBlocked: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isBlocked(),
+                isNew: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isNew(),
+                action: this.props.onChangeSettings,
+              },
+            ]}
+            selected={this.props.visionSimulationMode}
             isBlocked={ColorSettings.features(
               this.props.planStatus
             ).SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
-          >
-            <Dropdown
-              id="update-color-blind-mode"
-              options={[
-                {
-                  label:
-                    locals[this.props.lang].settings.color.visionSimulationMode
-                      .none,
-                  value: 'NONE',
-                  feature: 'UPDATE_COLOR_BLIND_MODE',
-                  position: 0,
-                  type: 'OPTION',
-                  isActive: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_NONE.isActive(),
-                  isBlocked: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_NONE.isBlocked(),
-                  isNew: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_NONE.isNew(),
-                  action: this.props.onChangeSettings,
-                },
-                {
-                  position: 1,
-                  type: 'SEPARATOR',
-                },
-                {
-                  label:
-                    locals[this.props.lang].settings.color.visionSimulationMode
-                      .colorBlind,
-                  position: 2,
-                  type: 'TITLE',
-                },
-                {
-                  label:
-                    locals[this.props.lang].settings.color.visionSimulationMode
-                      .protanomaly,
-                  value: 'PROTANOMALY',
-                  feature: 'UPDATE_COLOR_BLIND_MODE',
-                  position: 3,
-                  type: 'OPTION',
-                  isActive: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isActive(),
-                  isBlocked: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isBlocked(),
-                  isNew: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isNew(),
-                  action: this.props.onChangeSettings,
-                },
-                {
-                  label:
-                    locals[this.props.lang].settings.color.visionSimulationMode
-                      .protanopia,
-                  value: 'PROTANOPIA',
-                  feature: 'UPDATE_COLOR_BLIND_MODE',
-                  position: 4,
-                  type: 'OPTION',
-                  isActive: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isActive(),
-                  isBlocked: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isBlocked(),
-                  isNew: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isNew(),
-                  action: this.props.onChangeSettings,
-                },
-                {
-                  label:
-                    locals[this.props.lang].settings.color.visionSimulationMode
-                      .deuteranomaly,
-                  value: 'DEUTERANOMALY',
-                  feature: 'UPDATE_COLOR_BLIND_MODE',
-                  position: 5,
-                  type: 'OPTION',
-                  isActive: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isActive(),
-                  isBlocked: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isBlocked(),
-                  isNew: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isNew(),
-                  action: this.props.onChangeSettings,
-                },
-                {
-                  label:
-                    locals[this.props.lang].settings.color.visionSimulationMode
-                      .deuteranopia,
-                  value: 'DEUTERANOPIA',
-                  feature: 'UPDATE_COLOR_BLIND_MODE',
-                  position: 6,
-                  type: 'OPTION',
-                  isActive: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isActive(),
-                  isBlocked: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isBlocked(),
-                  isNew: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isNew(),
-                  action: this.props.onChangeSettings,
-                },
-                {
-                  label:
-                    locals[this.props.lang].settings.color.visionSimulationMode
-                      .tritanomaly,
-                  value: 'TRITANOMALY',
-                  feature: 'UPDATE_COLOR_BLIND_MODE',
-                  position: 7,
-                  type: 'OPTION',
-                  isActive: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isActive(),
-                  isBlocked: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isBlocked(),
-                  isNew: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isNew(),
-                  action: this.props.onChangeSettings,
-                },
-                {
-                  label:
-                    locals[this.props.lang].settings.color.visionSimulationMode
-                      .tritanopia,
-                  value: 'TRITANOPIA',
-                  feature: 'UPDATE_COLOR_BLIND_MODE',
-                  position: 8,
-                  type: 'OPTION',
-                  isActive: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isActive(),
-                  isBlocked: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isBlocked(),
-                  isNew: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isNew(),
-                  action: this.props.onChangeSettings,
-                },
-                {
-                  label:
-                    locals[this.props.lang].settings.color.visionSimulationMode
-                      .achromatomaly,
-                  value: 'ACHROMATOMALY',
-                  feature: 'UPDATE_COLOR_BLIND_MODE',
-                  position: 9,
-                  type: 'OPTION',
-                  isActive: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isActive(),
-                  isBlocked: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isBlocked(),
-                  isNew: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isNew(),
-                  action: this.props.onChangeSettings,
-                },
-                {
-                  label:
-                    locals[this.props.lang].settings.color.visionSimulationMode
-                      .achromatopsia,
-                  value: 'ACHROMATOPSIA',
-                  feature: 'UPDATE_COLOR_BLIND_MODE',
-                  position: 10,
-                  type: 'OPTION',
-                  isActive: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isActive(),
-                  isBlocked: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isBlocked(),
-                  isNew: ColorSettings.features(
-                    this.props.planStatus
-                  ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isNew(),
-                  action: this.props.onChangeSettings,
-                },
-              ]}
-              selected={this.props.visionSimulationMode}
-              isBlocked={ColorSettings.features(
-                this.props.planStatus
-              ).SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
-              isNew={ColorSettings.features(
-                this.props.planStatus
-              ).SETTINGS_VISION_SIMULATION_MODE.isNew()}
-            />
-          </FormItem>
-        </div>
+            isNew={ColorSettings.features(
+              this.props.planStatus
+            ).SETTINGS_VISION_SIMULATION_MODE.isNew()}
+          />
+        </FormItem>
       </Feature>
     )
   }
@@ -498,29 +491,27 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
           this.props.planStatus
         ).SETTINGS_NEW_ALGORITHM.isActive()}
       >
-        <div className="settings__item">
-          <Select
-            id="update-algorithm"
-            type="SWITCH_BUTTON"
-            name="algorythm"
-            label={locals[this.props.lang].settings.color.newAlgorithm.label}
-            isChecked={this.props.algorithmVersion === 'v2' ? true : false}
-            isBlocked={ColorSettings.features(
-              this.props.planStatus
-            ).SETTINGS_NEW_ALGORITHM.isBlocked()}
-            isNew={ColorSettings.features(
-              this.props.planStatus
-            ).SETTINGS_NEW_ALGORITHM.isNew()}
-            feature="UPDATE_ALGORITHM_VERSION"
-            onChange={this.props.onChangeSettings}
-          />
-          <SemanticMessage
-            type="INFO"
-            message={
-              locals[this.props.lang].settings.color.newAlgorithm.description
-            }
-          />
-        </div>
+        <Select
+          id="update-algorithm"
+          type="SWITCH_BUTTON"
+          name="algorythm"
+          label={locals[this.props.lang].settings.color.newAlgorithm.label}
+          isChecked={this.props.algorithmVersion === 'v2' ? true : false}
+          isBlocked={ColorSettings.features(
+            this.props.planStatus
+          ).SETTINGS_NEW_ALGORITHM.isBlocked()}
+          isNew={ColorSettings.features(
+            this.props.planStatus
+          ).SETTINGS_NEW_ALGORITHM.isNew()}
+          feature="UPDATE_ALGORITHM_VERSION"
+          onChange={this.props.onChangeSettings}
+        />
+        <SemanticMessage
+          type="INFO"
+          message={
+            locals[this.props.lang].settings.color.newAlgorithm.description
+          }
+        />
       </Feature>
     )
   }

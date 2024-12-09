@@ -44,66 +44,63 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
           this.props.planStatus
         ).SETTINGS_TEXT_COLORS_THEME.isActive()}
       >
-        <div className="settings__item">
-          <FormItem
-            label={
-              locals[this.props.lang].settings.contrast.textColors
-                .textLightColor
-            }
+        <FormItem
+          label={
+            locals[this.props.lang].settings.contrast.textColors.textLightColor
+          }
+          id="update-text-light-color"
+          isBlocked={ContrastSettings.features(
+            this.props.planStatus
+          ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
+        >
+          <Input
             id="update-text-light-color"
+            type="COLOR"
+            value={this.props.textColorsTheme?.lightColor ?? '#FFFFFF'}
             isBlocked={ContrastSettings.features(
               this.props.planStatus
             ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
-          >
-            <Input
-              id="update-text-light-color"
-              type="COLOR"
-              value={this.props.textColorsTheme?.lightColor ?? '#FFFFFF'}
-              isBlocked={ContrastSettings.features(
-                this.props.planStatus
-              ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
-              isNew={ContrastSettings.features(
-                this.props.planStatus
-              ).SETTINGS_TEXT_COLORS_THEME.isNew()}
-              feature="UPDATE_TEXT_LIGHT_COLOR"
-              onChange={this.props.onChangeSettings}
-              onFocus={this.props.onChangeSettings}
-              onBlur={this.props.onChangeSettings}
-            />
-          </FormItem>
-          <FormItem
-            label={
-              locals[this.props.lang].settings.contrast.textColors.textDarkColor
-            }
-            id="update-text-dark-color"
-            isBlocked={ContrastSettings.features(
+            isNew={ContrastSettings.features(
               this.props.planStatus
-            ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
-          >
-            <Input
-              id="update-text-dark-color"
-              type="COLOR"
-              value={this.props.textColorsTheme?.darkColor ?? '#OOOOOO'}
-              isBlocked={ContrastSettings.features(
-                this.props.planStatus
-              ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
-              isNew={ContrastSettings.features(
-                this.props.planStatus
-              ).SETTINGS_TEXT_COLORS_THEME.isNew()}
-              feature="UPDATE_TEXT_DARK_COLOR"
-              onChange={this.props.onChangeSettings}
-              onFocus={this.props.onChangeSettings}
-              onBlur={this.props.onChangeSettings}
-            />
-          </FormItem>
-          <SemanticMessage
-            type="INFO"
-            message={
-              locals[this.props.lang].settings.contrast.textColors
-                .textThemeColorsDescription
-            }
+            ).SETTINGS_TEXT_COLORS_THEME.isNew()}
+            feature="UPDATE_TEXT_LIGHT_COLOR"
+            onChange={this.props.onChangeSettings}
+            onFocus={this.props.onChangeSettings}
+            onBlur={this.props.onChangeSettings}
           />
-        </div>
+        </FormItem>
+        <FormItem
+          label={
+            locals[this.props.lang].settings.contrast.textColors.textDarkColor
+          }
+          id="update-text-dark-color"
+          isBlocked={ContrastSettings.features(
+            this.props.planStatus
+          ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
+        >
+          <Input
+            id="update-text-dark-color"
+            type="COLOR"
+            value={this.props.textColorsTheme?.darkColor ?? '#OOOOOO'}
+            isBlocked={ContrastSettings.features(
+              this.props.planStatus
+            ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
+            isNew={ContrastSettings.features(
+              this.props.planStatus
+            ).SETTINGS_TEXT_COLORS_THEME.isNew()}
+            feature="UPDATE_TEXT_DARK_COLOR"
+            onChange={this.props.onChangeSettings}
+            onFocus={this.props.onChangeSettings}
+            onBlur={this.props.onChangeSettings}
+          />
+        </FormItem>
+        <SemanticMessage
+          type="INFO"
+          message={
+            locals[this.props.lang].settings.contrast.textColors
+              .textThemeColorsDescription
+          }
+        />
       </Feature>
     )
   }

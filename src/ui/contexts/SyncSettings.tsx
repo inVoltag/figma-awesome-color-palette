@@ -178,36 +178,34 @@ export default class SyncSettings extends PureComponent<
             this.props.planStatus
           ).SETTINGS_SYNC_VARIABLES_COLLECTIONS.isActive()}
         >
-          <div className="settings__item">
-            <FormItem
+          <FormItem
+            id="update-variables-collection"
+            label={'Variables collections'}
+            isBlocked={SyncSettings.features(
+              this.props.planStatus
+            ).SETTINGS_SYNC_VARIABLES_COLLECTIONS.isBlocked()}
+            helper={
+              this.state.collections.length === 0
+                ? {
+                    type: 'INFO',
+                    message: 'No collection found',
+                  }
+                : undefined
+            }
+          >
+            <Dropdown
               id="update-variables-collection"
-              label={'Variables collections'}
+              options={this.collectionsHandler()}
+              selected={this.collectionIdHandler()}
+              isDisabled={this.state.collections.length === 0}
               isBlocked={SyncSettings.features(
                 this.props.planStatus
               ).SETTINGS_SYNC_VARIABLES_COLLECTIONS.isBlocked()}
-              helper={
-                this.state.collections.length === 0
-                  ? {
-                      type: 'INFO',
-                      message: 'No collection found',
-                    }
-                  : undefined
-              }
-            >
-              <Dropdown
-                id="update-variables-collection"
-                options={this.collectionsHandler()}
-                selected={this.collectionIdHandler()}
-                isDisabled={this.state.collections.length === 0}
-                isBlocked={SyncSettings.features(
-                  this.props.planStatus
-                ).SETTINGS_SYNC_VARIABLES_COLLECTIONS.isBlocked()}
-                isNew={SyncSettings.features(
-                  this.props.planStatus
-                ).SETTINGS_SYNC_VARIABLES_COLLECTIONS.isNew()}
-              />
-            </FormItem>
-          </div>
+              isNew={SyncSettings.features(
+                this.props.planStatus
+              ).SETTINGS_SYNC_VARIABLES_COLLECTIONS.isNew()}
+            />
+          </FormItem>
         </Feature>
       )
   }

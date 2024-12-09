@@ -101,7 +101,6 @@ export default class Settings extends PureComponent<SettingsProps> {
         algorithmVersion: 'v2',
       },
       isEditedInRealTime: false,
-      isSynchronized: false,
     }
     this.dispatch = {
       textColorsTheme: new Dispatcher(

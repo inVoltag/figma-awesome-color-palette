@@ -75,14 +75,12 @@ const updateSettings = async (msg: SettingsMessage) => {
     )
 
     // Update
-    if (!msg.isSynchronized) {
-      const now = new Date().toISOString()
-      palette.setPluginData('updatedAt', now)
-      figma.ui.postMessage({
-        type: 'UPDATE_PALETTE_DATE',
-        data: now,
-      })
-    }
+    const now = new Date().toISOString()
+    palette.setPluginData('updatedAt', now)
+    figma.ui.postMessage({
+      type: 'UPDATE_PALETTE_DATE',
+      data: now,
+    })
 
     // Palette migration
     palette.counterAxisSizingMode = 'AUTO'

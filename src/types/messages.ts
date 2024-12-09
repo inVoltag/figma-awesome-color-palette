@@ -44,5 +44,12 @@ export interface SettingsMessage {
     algorithmVersion: AlgorithmVersionConfiguration
   }
   isEditedInRealTime: boolean
-  isSynchronized: boolean
+}
+
+export interface CollectionMessage {
+  type: 'UPDATE_COLLECTION'
+  data: {
+    id: string
+  }
+  isEditedInRealTime: boolean
 }

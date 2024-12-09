@@ -19,7 +19,9 @@ const updateLocalStyles = async (palette: FrameNode) => {
       .getLocalPaintStylesAsync()
       .then((localStyles) => {
         let i = 0,
-          j = 0
+          j = 0,
+          k = 0
+        const messages: Array<string> = []
 
         if (canDeepSyncStyles ?? false)
           localStyles.forEach((localStyle) => {
@@ -34,7 +36,7 @@ const updateLocalStyles = async (palette: FrameNode) => {
             )
             if (shadeMatch === undefined) {
               localStyle.remove()
-              i++
+              k++
             }
           })
 
@@ -146,8 +148,19 @@ const updateLocalStyles = async (palette: FrameNode) => {
           })
         })
 
-        if (i > 1) return `${i} ${locals[lang].info.updatedLocalStyles}`
-        else return `${i} ${locals[lang].info.updatedLocalStyle}`
+        if (i > 1)
+          messages.push(`${i} ${locals[lang].info.updatedLocalStyles.plural}`)
+        else if (i === 1)
+          messages.push(`${i} ${locals[lang].info.updatedLocalStyles.single}`)
+        else messages.push(locals[lang].info.updatedLocalStyles.none)
+
+        if (k > 1)
+          messages.push(`${k} ${locals[lang].info.removedLocalStyles.plural}`)
+        else if (k === 1)
+          messages.push(`${k} ${locals[lang].info.removedLocalStyles.single}`)
+        else messages.push(locals[lang].info.removedLocalStyles.none)
+
+        return messages.join('・')
       })
       .catch(() => locals[lang].error.generic)
 

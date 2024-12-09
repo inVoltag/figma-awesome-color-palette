@@ -89,7 +89,6 @@ const createLocalVariables = async (palette: SceneNode) => {
                       b: shade.gl[2],
                     })
                     theme.modeId = collection?.defaultModeId
-                    j = 1
                   }
                   i++
                 } else if (
@@ -155,16 +154,53 @@ const createLocalVariables = async (palette: SceneNode) => {
 
         palette.setPluginData('data', JSON.stringify(paletteData))
 
-        if (i > 1) messages.push(`${i} ${locals[lang].info.localVariables}`)
-        else messages.push(`${i} ${locals[lang].info.localVariable}`)
-
-        if (j > 1) messages.push(`${j} ${locals[lang].info.variableModes}`)
-        else messages.push(`${j} ${locals[lang].info.variableMode}`)
+        if (i > 1 && j > 1)
+          messages.push(
+            locals[lang].info.createdVariablesAndModes.pluralPlural
+              .replace('$1', i)
+              .replace('$2', j)
+          )
+        else if (i === 1 && j === 1)
+          messages.push(locals[lang].info.createdVariablesAndModes.singleSingle)
+        else if (i === 0 && j === 0)
+          messages.push(locals[lang].info.createdVariablesAndModes.noneNone)
+        else if (i > 1 && j === 1)
+          messages.push(
+            locals[lang].info.createdVariablesAndModes.pluralSingle.replace(
+              '$1',
+              i
+            )
+          )
+        else if (i === 1 && j > 1)
+          messages.push(
+            locals[lang].info.createdVariablesAndModes.singlePlural.replace(
+              '$1',
+              j
+            )
+          )
+        else if (i > 1 && j === 0)
+          messages.push(
+            locals[lang].info.createdVariablesAndModes.pluralNone.replace(
+              '$1',
+              i
+            )
+          )
+        else if (i === 0 && j > 1)
+          messages.push(
+            locals[lang].info.createdVariablesAndModes.nonePlural.replace(
+              '$1',
+              j
+            )
+          )
+        else if (i === 1 && j === 0)
+          messages.push(locals[lang].info.createdVariablesAndModes.singleNone)
+        else if (i === 0 && j === 1)
+          messages.push(locals[lang].info.createdVariablesAndModes.noneSingle)
 
         if (themesList.length > 4)
           figma.notify(locals[lang].warning.tooManyThemesToCreateModes)
 
-        return `${messages.join(', ')} created`
+        return messages.join('・')
       })
       .catch(() => locals[lang].error.generic)
 

@@ -14,7 +14,7 @@ const createLocalStyles = async (palette: FrameNode) => {
     const createdLocalStylesStatusMessage = figma
       .getLocalPaintStylesAsync()
       .then((localStyles) => {
-        let j = 0
+        let i = 0
         workingThemes.forEach((theme) => {
           theme.colors.forEach((color) => {
             color.shades.forEach((shade) => {
@@ -41,15 +41,17 @@ const createLocalStyles = async (palette: FrameNode) => {
                   }
                 ).makePaintStyle()
                 shade.styleId = style.id
-                j++
+                i++
               }
             })
           })
         })
         palette.setPluginData('data', JSON.stringify(paletteData))
 
-        if (j > 1) return `${j} ${locals[lang].info.createdLocalStyles}`
-        else return `${j} ${locals[lang].info.createdLocalStyle}`
+        if (i > 1) return `${i} ${locals[lang].info.createdLocalStyles.plural}`
+        else if (i === 1)
+          return `${i} ${locals[lang].info.createdLocalStyle.single}`
+        else return locals[lang].info.createdLocalStyles.none
       })
       .catch(() => locals[lang].error.generic)
 

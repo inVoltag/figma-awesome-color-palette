@@ -35,7 +35,9 @@ const updateLocalVariables = async (palette: FrameNode) => {
         .then((localVariables) => {
           let i = 0,
             j = 0,
-            k = 0
+            k = 0,
+            l = 0,
+            m = 0
           const messages: Array<string> = []
 
           if (collection.name !== name && (canDeepSyncVariables ?? false))
@@ -57,7 +59,7 @@ const updateLocalVariables = async (palette: FrameNode) => {
               )
               if (themeMatch === undefined) {
                 collection.removeMode(mode.modeId)
-                j++
+                m++
               }
             })
             localVariables.forEach((localVariable) => {
@@ -72,7 +74,7 @@ const updateLocalVariables = async (palette: FrameNode) => {
               )
               if (shadeMatch === undefined) {
                 localVariable.remove()
-                i++
+                l++
               }
             })
           }
@@ -128,13 +130,97 @@ const updateLocalVariables = async (palette: FrameNode) => {
             })
           })
 
-          if (i > 1) messages.push(`${i} ${locals[lang].info.localVariables}`)
-          else messages.push(`${i} ${locals[lang].info.localVariable}`)
+          if (i > 1 && j > 1)
+            messages.push(
+              locals[lang].info.updatedVariablesAndModes.pluralPlural
+                .replace('$1', i)
+                .replace('$2', j)
+            )
+          else if (i === 1 && j === 1)
+            messages.push(
+              locals[lang].info.updatedVariablesAndModes.singleSingle
+            )
+          else if (i === 0 && j === 0)
+            messages.push(locals[lang].info.updatedVariablesAndModes.noneNone)
+          else if (i > 1 && j === 1)
+            messages.push(
+              locals[lang].info.updatedVariablesAndModes.pluralSingle.replace(
+                '$1',
+                i
+              )
+            )
+          else if (i === 1 && j > 1)
+            messages.push(
+              locals[lang].info.updatedVariablesAndModes.singlePlural.replace(
+                '$1',
+                j
+              )
+            )
+          else if (i > 1 && j === 0)
+            messages.push(
+              locals[lang].info.updatedVariablesAndModes.pluralNone.replace(
+                '$1',
+                i
+              )
+            )
+          else if (i === 0 && j > 1)
+            messages.push(
+              locals[lang].info.updatedVariablesAndModes.nonePlural.replace(
+                '$1',
+                j
+              )
+            )
+          else if (i === 1 && j === 0)
+            messages.push(locals[lang].info.updatedVariablesAndModes.singleNone)
+          else if (i === 0 && j === 1)
+            messages.push(locals[lang].info.updatedVariablesAndModes.noneSingle)
 
-          if (j > 1) messages.push(`${j} ${locals[lang].info.variableModes}`)
-          else messages.push(`${j} ${locals[lang].info.variableMode}`)
+          if (l > 1 && m > 1)
+            messages.push(
+              locals[lang].info.removedVariablesAndModes.pluralPlural
+                .replace('$1', l)
+                .replace('$2', m)
+            )
+          else if (l === 1 && m === 1)
+            messages.push(
+              locals[lang].info.removedVariablesAndModes.singleSingle
+            )
+          else if (l === 0 && m === 0)
+            messages.push(locals[lang].info.removedVariablesAndModes.noneNone)
+          else if (l > 1 && m === 1)
+            messages.push(
+              locals[lang].info.removedVariablesAndModes.pluralSingle.replace(
+                '$1',
+                l
+              )
+            )
+          else if (l === 1 && m > 1)
+            messages.push(
+              locals[lang].info.removedVariablesAndModes.singlePlural.replace(
+                '$1',
+                m
+              )
+            )
+          else if (l > 1 && m === 0)
+            messages.push(
+              locals[lang].info.removedVariablesAndModes.pluralNone.replace(
+                '$1',
+                l
+              )
+            )
+          else if (l === 0 && m > 1)
+            messages.push(
+              locals[lang].info.removedVariablesAndModes.nonePlural.replace(
+                '$1',
+                m
+              )
+            )
+          else if (l === 1 && m === 0)
+            messages.push(locals[lang].info.removedVariablesAndModes.singleNone)
+          else if (l === 0 && m === 1)
+            messages.push(locals[lang].info.removedVariablesAndModes.noneSingle)
 
-          return `${messages.join(', ')} updated`
+          return messages.join('・')
         })
         .catch(() => locals[lang].error.generic)
 

@@ -183,7 +183,7 @@ export default class Actions extends PureComponent<ActionsProps> {
                 options={[
                   {
                     label: locals[this.props.lang].actions.createLocalStyles,
-                    value: 'LOCAL_STYLES',
+                    value: 'EDIT',
                     feature: 'SYNC_LOCAL_STYLES',
                     type: 'OPTION',
                     isActive: Actions.features(

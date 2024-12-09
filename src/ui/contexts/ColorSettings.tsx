@@ -543,7 +543,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
           },
           {
             node: (() =>
-              this.props.context === 'LOCAL_STYLES' && <this.NewAlgorithm />)(),
+              this.props.context === 'EDIT' && <this.NewAlgorithm />)(),
           },
         ]}
         border={!this.props.isLast ? ['BOTTOM'] : undefined}

@@ -133,7 +133,7 @@ export default class Settings extends PureComponent<SettingsProps> {
 
       if (
         (e.type === 'focusout' || (e as KeyboardEvent).key === 'Enter') &&
-        this.props.context === 'LOCAL_STYLES'
+        this.props.context === 'EDIT'
       ) {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
@@ -163,7 +163,7 @@ export default class Settings extends PureComponent<SettingsProps> {
         onGoingStep: 'settings changed',
       })
 
-      if (e.type === 'focusout' && this.props.context === 'LOCAL_STYLES') {
+      if (e.type === 'focusout' && this.props.context === 'EDIT') {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
           this.props.userIdentity.id,
@@ -185,7 +185,7 @@ export default class Settings extends PureComponent<SettingsProps> {
           onGoingStep: 'view changed',
         })
 
-        if (this.props.context === 'LOCAL_STYLES') {
+        if (this.props.context === 'EDIT') {
           parent.postMessage(
             { pluginMessage: { type: 'UPDATE_VIEW', data: palette } },
             '*'
@@ -219,7 +219,7 @@ export default class Settings extends PureComponent<SettingsProps> {
         onGoingStep: 'settings changed',
       })
 
-      if (this.props.context === 'LOCAL_STYLES') {
+      if (this.props.context === 'EDIT') {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
           this.props.userIdentity.id,
@@ -249,7 +249,7 @@ export default class Settings extends PureComponent<SettingsProps> {
         onGoingStep: 'settings changed',
       })
 
-      if (this.props.context === 'LOCAL_STYLES') {
+      if (this.props.context === 'EDIT') {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
           this.props.userIdentity.id,
@@ -310,7 +310,7 @@ export default class Settings extends PureComponent<SettingsProps> {
         onGoingStep: 'settings changed',
       })
 
-      if (e.type === 'focusout' && this.props.context === 'LOCAL_STYLES') {
+      if (e.type === 'focusout' && this.props.context === 'EDIT') {
         this.dispatch.textColorsTheme.on.status = false
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
@@ -321,7 +321,7 @@ export default class Settings extends PureComponent<SettingsProps> {
             feature: 'UPDATE_TEXT_COLORS_THEME',
           }
         )
-      } else if (this.props.context === 'LOCAL_STYLES')
+      } else if (this.props.context === 'EDIT')
         this.dispatch.textColorsTheme.on.status = true
     }
 
@@ -348,7 +348,7 @@ export default class Settings extends PureComponent<SettingsProps> {
         onGoingStep: 'settings changed',
       })
 
-      if (e.type === 'focusout' && this.props.context === 'LOCAL_STYLES') {
+      if (e.type === 'focusout' && this.props.context === 'EDIT') {
         this.dispatch.textColorsTheme.on.status = false
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
@@ -359,7 +359,7 @@ export default class Settings extends PureComponent<SettingsProps> {
             feature: 'UPDATE_TEXT_COLORS_THEME',
           }
         )
-      } else if (this.props.context === 'LOCAL_STYLES')
+      } else if (this.props.context === 'EDIT')
         this.dispatch.textColorsTheme.on.status = true
     }
 
@@ -465,13 +465,12 @@ export default class Settings extends PureComponent<SettingsProps> {
             isActive={
               Settings.features(
                 this.props.planStatus
-              ).SETTINGS_SYNC.isActive() &&
-              this.props.context === 'LOCAL_STYLES'
+              ).SETTINGS_SYNC.isActive() && this.props.context === 'EDIT'
             }
           >
             <SyncSettings
               {...this.props}
-              isLast={this.props.context === 'LOCAL_STYLES'}
+              isLast={this.props.context === 'EDIT'}
               onChangeSettings={this.settingsHandler}
             />
           </Feature>

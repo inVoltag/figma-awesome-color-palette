@@ -737,8 +737,8 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
           </div>
         </div>
         <Actions
-          context="EXPORT"
           {...this.props}
+          service="TRANSFER"
         />
       </div>
     )

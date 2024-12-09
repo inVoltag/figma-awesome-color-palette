@@ -13,7 +13,7 @@ import React from 'react'
 
 import features from '../../config'
 import { locals } from '../../content/locals'
-import { Language, PlanStatus } from '../../types/app'
+import { Language, PlanStatus, Service } from '../../types/app'
 import {
   AlgorithmVersionConfiguration,
   ColorSpaceConfiguration,
@@ -22,7 +22,7 @@ import {
 import Feature from '../components/Feature'
 
 interface ColorSettingsProps {
-  context: string
+  service: Service
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   algorithmVersion?: AlgorithmVersionConfiguration
@@ -543,7 +543,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
           },
           {
             node: (() =>
-              this.props.context === 'EDIT' && <this.NewAlgorithm />)(),
+              this.props.service === 'EDIT' && <this.NewAlgorithm />)(),
           },
         ]}
         border={!this.props.isLast ? ['BOTTOM'] : undefined}

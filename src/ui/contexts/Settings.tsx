@@ -10,6 +10,7 @@ import {
   EditorType,
   Language,
   PlanStatus,
+  Service,
 } from '../../types/app'
 import {
   AlgorithmVersionConfiguration,
@@ -39,7 +40,7 @@ import GlobalSettings from './GlobalSettings'
 import SyncPreferences from './SyncPreferences'
 
 interface SettingsProps {
-  context: string
+  service: Service
   sourceColors?: Array<SourceColorConfiguration>
   name: string
   description: string
@@ -64,7 +65,10 @@ interface SettingsStates {
   context: Context | ''
 }
 
-export default class Settings extends PureComponent<SettingsProps, SettingsStates> {
+export default class Settings extends PureComponent<
+  SettingsProps,
+  SettingsStates
+> {
   settingsMessage: SettingsMessage
   dispatch: { [key: string]: DispatchProcess }
   contexts: Array<ContextItem>
@@ -117,7 +121,7 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
     this.contexts = setContexts(
       [
         'SETTINGS_PALETTE',
-        this.props.context === 'EDIT' ? 'SETTINGS_PREFERENCES' : null,
+        this.props.service === 'EDIT' ? 'SETTINGS_PREFERENCES' : null,
       ].filter(Boolean) as Context[],
       props.planStatus
     )
@@ -160,7 +164,7 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
 
       if (
         (e.type === 'focusout' || (e as KeyboardEvent).key === 'Enter') &&
-        this.props.context === 'EDIT'
+        this.props.service === 'EDIT'
       ) {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
@@ -190,7 +194,7 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
         onGoingStep: 'settings changed',
       })
 
-      if (e.type === 'focusout' && this.props.context === 'EDIT') {
+      if (e.type === 'focusout' && this.props.service === 'EDIT') {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
           this.props.userIdentity.id,
@@ -212,7 +216,7 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
           onGoingStep: 'view changed',
         })
 
-        if (this.props.context === 'EDIT') {
+        if (this.props.service === 'EDIT') {
           parent.postMessage(
             { pluginMessage: { type: 'UPDATE_VIEW', data: palette } },
             '*'
@@ -246,7 +250,7 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
         onGoingStep: 'settings changed',
       })
 
-      if (this.props.context === 'EDIT') {
+      if (this.props.service === 'EDIT') {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
           this.props.userIdentity.id,
@@ -276,7 +280,7 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
         onGoingStep: 'settings changed',
       })
 
-      if (this.props.context === 'EDIT') {
+      if (this.props.service === 'EDIT') {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
           this.props.userIdentity.id,
@@ -337,7 +341,7 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
         onGoingStep: 'settings changed',
       })
 
-      if (e.type === 'focusout' && this.props.context === 'EDIT') {
+      if (e.type === 'focusout' && this.props.service === 'EDIT') {
         this.dispatch.textColorsTheme.on.status = false
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
@@ -348,7 +352,7 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
             feature: 'UPDATE_TEXT_COLORS_THEME',
           }
         )
-      } else if (this.props.context === 'EDIT')
+      } else if (this.props.service === 'EDIT')
         this.dispatch.textColorsTheme.on.status = true
     }
 
@@ -375,7 +379,7 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
         onGoingStep: 'settings changed',
       })
 
-      if (e.type === 'focusout' && this.props.context === 'EDIT') {
+      if (e.type === 'focusout' && this.props.service === 'EDIT') {
         this.dispatch.textColorsTheme.on.status = false
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
         trackSettingsManagementEvent(
@@ -386,7 +390,7 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
             feature: 'UPDATE_TEXT_COLORS_THEME',
           }
         )
-      } else if (this.props.context === 'EDIT')
+      } else if (this.props.service === 'EDIT')
         this.dispatch.textColorsTheme.on.status = true
     }
 
@@ -484,7 +488,7 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
         >
           <ContrastSettings
             {...this.props}
-            isLast={this.props.context === 'CREATE'}
+            isLast={this.props.service === 'CREATE'}
             onChangeSettings={this.settingsHandler}
           />
         </Feature>
@@ -530,11 +534,11 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
               <this.Preferences />
             )}
           </div>
-          {this.props.context === 'CREATE' ? (
+          {this.props.service === 'CREATE' ? (
             <>
               <Actions
                 {...this.props}
-                context="CREATE"
+                service="CREATE"
               />
               <Feature
                 isActive={Settings.features(
@@ -547,7 +551,7 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
           ) : (
             <Actions
               {...this.props}
-              context="DEPLOY"
+              service="EDIT"
             />
           )}
         </div>

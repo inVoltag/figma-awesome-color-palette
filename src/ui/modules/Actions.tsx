@@ -5,7 +5,7 @@ import React from 'react'
 
 import { UserSession } from 'src/types/user'
 import { locals } from '../../content/locals'
-import { EditorType, Language, PlanStatus } from '../../types/app'
+import { EditorType, Language, PlanStatus, Service } from '../../types/app'
 import {
   CreatorConfiguration,
   SourceColorConfiguration,
@@ -14,7 +14,7 @@ import features from '../../config'
 import Feature from '../components/Feature'
 
 interface ActionsProps {
-  context: string
+  service: Service
   sourceColors: Array<SourceColorConfiguration> | []
   creatorIdentity?: CreatorConfiguration
   userSession?: UserSession
@@ -264,9 +264,9 @@ export default class Actions extends PureComponent<ActionsProps> {
   render() {
     return (
       <>
-        {this.props.context === 'CREATE' && <this.Create />}
-        {this.props.context === 'DEPLOY' && <this.Deploy />}
-        {this.props.context === 'EXPORT' && <this.Export />}
+        {this.props.service === 'CREATE' && <this.Create />}
+        {this.props.service === 'EDIT' && <this.Deploy />}
+        {this.props.service === 'TRANSFER' && <this.Export />}
       </>
     )
   }

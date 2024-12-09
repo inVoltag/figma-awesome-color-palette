@@ -842,7 +842,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
         </div>
         <Actions
           {...this.props}
-          context="CREATE"
+          service="CREATE"
         />
         <Feature
           isActive={Scale.features(this.props.planStatus).PREVIEW.isActive()}
@@ -947,8 +947,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           </Feature>
         </div>
         <Actions
-          context="DEPLOY"
           {...this.props}
+          service="EDIT"
         />
       </div>
     )

@@ -369,7 +369,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
       case 'SETTINGS': {
         fragment = (
           <Settings
-            context="EDIT"
+            service="EDIT"
             {...this.props}
             onSyncLocalStyles={this.onSyncStyles}
             onSyncLocalVariables={this.onSyncVariables}

@@ -17,7 +17,6 @@ import { TextColorsThemeHexModel } from '../../types/models'
 import Feature from '../components/Feature'
 
 interface ContrastSettingsProps {
-  context: string
   textColorsTheme: TextColorsThemeHexModel
   isLast?: boolean
   planStatus: PlanStatus

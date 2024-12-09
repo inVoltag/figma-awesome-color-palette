@@ -129,8 +129,8 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
         />
         {fragment}
         <Actions
-          context="CREATE"
           {...this.props}
+          service="CREATE"
           onCreatePalette={
             this.props.sourceColors.length > 0
               ? this.props.onCreatePalette

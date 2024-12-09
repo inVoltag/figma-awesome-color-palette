@@ -717,7 +717,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         </div>
         <Actions
           {...this.props}
-          context="DEPLOY"
+          service="EDIT"
         />
       </div>
     )

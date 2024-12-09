@@ -506,8 +506,8 @@ export default class Themes extends PureComponent<ThemesProps> {
           )}
         </div>
         <Actions
-          context="DEPLOY"
           {...this.props}
+          service="EDIT"
         />
       </div>
     )

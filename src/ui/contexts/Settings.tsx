@@ -29,6 +29,7 @@ import Preview from '../modules/Preview'
 import ColorSettings from './ColorSettings'
 import ContrastSettings from './ContrastSettings'
 import GlobalSettings from './GlobalSettings'
+import SyncSettings from './SyncSettings'
 
 interface SettingsProps {
   context: string
@@ -70,6 +71,11 @@ export default class Settings extends PureComponent<SettingsProps> {
     SETTINGS_CONTRAST_MANAGEMENT: new FeatureStatus({
       features: features,
       featureName: 'SETTINGS_CONTRAST_MANAGEMENT',
+      planStatus: planStatus,
+    }),
+    SETTINGS_SYNC: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_SYNC',
       planStatus: planStatus,
     }),
     PREVIEW: new FeatureStatus({
@@ -403,6 +409,16 @@ export default class Settings extends PureComponent<SettingsProps> {
             ).SETTINGS_CONTRAST_MANAGEMENT.isActive()}
           >
             <ContrastSettings
+              {...this.props}
+              onChangeSettings={this.settingsHandler}
+            />
+          </Feature>
+          <Feature
+            isActive={Settings.features(
+              this.props.planStatus
+            ).SETTINGS_SYNC.isActive()}
+          >
+            <SyncSettings
               {...this.props}
               onChangeSettings={this.settingsHandler}
             />

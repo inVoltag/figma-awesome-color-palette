@@ -30,10 +30,18 @@ const createLocalVariables = async (palette: SceneNode) => {
           (collection) => collection.id === paletteData.collectionId
         )
       )
-      .then((collection) => {
+      .then(async (collection) => {
         if (collection === undefined) {
           collection = new LocalVariable().makeCollection(name)
           paletteData.collectionId = collection.id
+
+          figma.ui.postMessage({
+            type: 'NEW_VARIABLE_COLLECTION',
+            data: {
+              id: collection.id,
+              name: collection.name,
+            },
+          })
         }
         return collection
       })

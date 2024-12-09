@@ -175,6 +175,23 @@ const loadUI = async () => {
         palette !== null && scene.push(palette)
         figma.currentPage.selection = scene
       },
+      GET_VARIABLES_COLLECTIONS: async () => {
+        const collections =
+          await figma.variables.getLocalVariableCollectionsAsync()
+        const collectionId = JSON.parse(
+          palette.getPluginData('data')
+        ).collectionId
+        figma.ui.postMessage({
+          type: 'GET_VARIABLES_COLLECTIONS',
+          data: {
+            collections: collections.map((collections) => ({
+              id: collections.id,
+              name: collections.name,
+            })),
+            collectionId: collectionId,
+          },
+        })
+      },
       //
       GET_PRO_PLAN: async () => await getProPlan(),
       ENABLE_TRIAL: async () => {

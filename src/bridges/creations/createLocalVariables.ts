@@ -66,10 +66,15 @@ const createLocalVariables = async (palette: SceneNode) => {
           .forEach((theme) => {
             theme.colors.forEach((color) => {
               color.shades.forEach((shade) => {
+                let isRemoved = false
                 const boundVariable = localVariables.find(
                   (localVariable) => localVariable.id === shade.variableId
                 )
-                if (boundVariable === undefined) {
+                if (boundVariable?.variableCollectionId !== collection?.id) {
+                  boundVariable?.remove()
+                  isRemoved = true
+                }
+                if (boundVariable === undefined || isRemoved) {
                   const variable = new LocalVariable().makeVariable(
                     `${color.name}/${shade.name}`,
                     collection,

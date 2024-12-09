@@ -363,6 +363,19 @@ export default class Settings extends PureComponent<SettingsProps> {
         this.dispatch.textColorsTheme.on.status = true
     }
 
+    const updateVariablesCollection = () =>
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'UPDATE_VARIABLES_COLLECTION',
+            data: {
+              id: target.dataset.value,
+            },
+          },
+        },
+        '*'
+      )
+
     const actions: ActionsList = {
       RENAME_PALETTE: () => renamePalette(),
       UPDATE_DESCRIPTION: () => updateDescription(),

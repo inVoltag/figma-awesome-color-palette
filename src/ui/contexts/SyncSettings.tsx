@@ -102,9 +102,15 @@ export default class SyncSettings extends PureComponent<
         collectionId: e.data.pluginMessage.data.id,
       }))
 
+    const switchVariableCollection = () =>
+      this.setState({
+        collectionId: e.data.pluginMessage.data.id,
+      })
+
     const actions: ActionsList = {
       GET_VARIABLES_COLLECTIONS: () => getVariablesCollections(),
       NEW_VARIABLE_COLLECTION: () => newVariableCollection(),
+      SWITCH_VARIABLE_COLLECTION: () => switchVariableCollection(),
       DEFAULT: () => null,
     }
 

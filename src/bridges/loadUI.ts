@@ -22,6 +22,7 @@ import exportXml from './exports/exportXml'
 import getPalettesOnCurrentPage from './getPalettesOnCurrentPage'
 import getProPlan from './getProPlan'
 import processSelection from './processSelection'
+import updateVariablesCollection from './updates/updateVariablesCollection'
 import updateColors from './updates/updateColors'
 import updateGlobal from './updates/updateGlobal'
 import updateLocalStyles from './updates/updateLocalStyles'
@@ -91,7 +92,19 @@ const loadUI = async () => {
       UPDATE_VIEW: () => updateView(msg),
       UPDATE_COLORS: () => updateColors(msg),
       UPDATE_THEMES: () => updateThemes(msg),
+      UPDATE_SETTINGS: () => updateSettings(msg),
+      UPDATE_VARIABLES_COLLECTION: () => updateVariablesCollection(msg),
       UPDATE_GLOBAL: () => updateGlobal(msg),
+      UPDATE_SCREENSHOT: async () =>
+        figma.ui.postMessage({
+          type: 'UPDATE_SCREENSHOT',
+          data: await palette
+            .exportAsync({
+              format: 'PNG',
+              constraint: { type: 'SCALE', value: 0.25 },
+            })
+            .catch(() => null),
+        }),
       //
       CREATE_PALETTE: () => createPalette(msg),
       SYNC_LOCAL_STYLES: async () =>
@@ -127,7 +140,6 @@ const loadUI = async () => {
         msg.export === 'ANDROID_XML' && exportXml(palette)
         msg.export === 'CSV' && exportCsv(palette)
       },
-      UPDATE_SETTINGS: () => updateSettings(msg),
       //
       OPEN_IN_BROWSER: () => figma.openExternal(msg.url),
       //
@@ -142,26 +154,11 @@ const loadUI = async () => {
         msg.items.forEach(
           async (item: string) => await figma.clientStorage.deleteAsync(item)
         ),
-      //
       SET_DATA: () =>
         msg.items.forEach((item: { key: string; value: string }) =>
           palette.setPluginData(item.key, item.value)
         ),
-      UPDATE_SCREENSHOT: async () =>
-        figma.ui.postMessage({
-          type: 'UPDATE_SCREENSHOT',
-          data: await palette
-            .exportAsync({
-              format: 'PNG',
-              constraint: { type: 'SCALE', value: 0.25 },
-            })
-            .catch(() => null),
-        }),
-      UPDATE_PALETTE_DATE: async () =>
-        figma.ui.postMessage({
-          type: 'UPDATE_SCREENSHOT',
-          data: msg.data,
-        }),
+      //
       GET_PALETTES: async () => await getPalettesOnCurrentPage(),
       JUMP_TO_PALETTE: async () => {
         const scene: Array<SceneNode> = []

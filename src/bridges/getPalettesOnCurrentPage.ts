@@ -27,7 +27,7 @@ const getPalettesOnCurrentPage = async () => {
           colors: JSON.parse(palette.getPluginData('colors')),
           themes: JSON.parse(palette.getPluginData('themes')),
           screenshot: bytes,
-          devStatus: palette.devStatus !== null ? palette.devStatus.type : null,
+          devStatus: palette.devStatus !== null && palette.devStatus.type,
         }
       })
       return Promise.all(palettePromises)

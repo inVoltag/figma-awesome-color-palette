@@ -299,12 +299,10 @@ export default class Explore extends PureComponent<
       <ul
         className={[
           'rich-list',
-          this.state.colourLoversPalettesListStatus === 'LOADING'
-            ? 'rich-list--loading'
-            : null,
-          this.state.colourLoversPalettesListStatus === 'ERROR'
-            ? 'rich-list--message'
-            : null,
+          this.state.colourLoversPalettesListStatus === 'LOADING' &&
+            'rich-list--loading',
+          this.state.colourLoversPalettesListStatus === 'ERROR' &&
+            'rich-list--message',
         ]
           .filter((n) => n)
           .join(' ')}

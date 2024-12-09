@@ -101,9 +101,7 @@ const createLocalVariables = async (palette: SceneNode) => {
               if (collection?.modes[0].name === 'Mode 1') {
                 collection.renameMode(collection.defaultModeId, themeItem.name)
                 themeItem.id = collection.defaultModeId
-                theme !== undefined
-                  ? (theme.modeId = collection.defaultModeId)
-                  : null
+                theme !== undefined && (theme.modeId = collection.defaultModeId)
               } else if (
                 collection.modes.find(
                   (mode) => mode.modeId === themeItem.id

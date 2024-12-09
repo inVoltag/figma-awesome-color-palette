@@ -92,7 +92,7 @@ export default class Knob extends PureComponent<KnobProps, States> {
         className={[
           'slider__knob',
           this.props.id,
-          this.state.isStopInputOpen ? 'slider__knob--editing' : null,
+          this.state.isStopInputOpen && 'slider__knob--editing',
         ]
           .filter((n) => n)
           .join(' ')}

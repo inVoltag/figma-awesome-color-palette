@@ -114,12 +114,9 @@ const loadUI = async () => {
           }),
       EXPORT_PALETTE: () => {
         msg.export === 'TOKENS_GLOBAL' && exportJson(palette)
-        msg.export === 'TOKENS_AMZN_STYLE_DICTIONARY'
-          ? exportJsonAmznStyleDictionary(palette)
-          : null
-        msg.export === 'TOKENS_TOKENS_STUDIO'
-          ? exportJsonTokensStudio(palette)
-          : null
+        msg.export === 'TOKENS_AMZN_STYLE_DICTIONARY' &&
+          exportJsonAmznStyleDictionary(palette)
+        msg.export === 'TOKENS_TOKENS_STUDIO' && exportJsonTokensStudio(palette)
         msg.export === 'CSS' && exportCss(palette, msg.colorSpace)
         msg.export === 'TAILWIND' && exportTailwind(palette)
         msg.export === 'APPLE_SWIFTUI' && exportSwiftUI(palette)

@@ -392,8 +392,8 @@ export default class Slider extends Component<SliderProps> {
   render() {
     return (
       <div className="slider">
-        {this.props.type === 'EQUAL' ? <this.Equal /> : null}
-        {this.props.type === 'CUSTOM' ? <this.Custom /> : null}
+        {this.props.type === 'EQUAL' && <this.Equal />}
+        {this.props.type === 'CUSTOM' && <this.Custom />}
       </div>
     )
   }

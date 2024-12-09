@@ -459,17 +459,16 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
 
   // Direct actions
   setFirstPreview = () => {
-    this.counter === 0
-      ? parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              export: this.state.format.replace('EXPORT_', ''),
-            },
+    this.counter === 0 &&
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'EXPORT_PALETTE',
+            export: this.state.format.replace('EXPORT_', ''),
           },
-          '*'
-        )
-      : null
+        },
+        '*'
+      )
     this.counter = 1
   }
 

@@ -296,12 +296,11 @@ export default class MyPalettes extends PureComponent<
       <ul
         className={[
           'rich-list',
-          this.props.status === 'LOADING' ? 'rich-list--loading' : null,
-          this.props.status === 'ERROR' ||
-          this.props.status === 'EMPTY' ||
-          this.props.status === 'NO_RESULT'
-            ? 'rich-list--message'
-            : null,
+          this.props.status === 'LOADING' && 'rich-list--loading',
+          (this.props.status === 'ERROR' ||
+            this.props.status === 'EMPTY' ||
+            this.props.status === 'NO_RESULT') &&
+            'rich-list--message',
         ]
           .filter((n) => n)
           .join(' ')}

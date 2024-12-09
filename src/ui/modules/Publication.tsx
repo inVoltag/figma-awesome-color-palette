@@ -162,16 +162,15 @@ export default class Publication extends PureComponent<
   }
 
   uploadPaletteScreenshot = () => {
-    this.counter === 0
-      ? parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'UPDATE_SCREENSHOT',
-            },
+    this.counter === 0 &&
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'UPDATE_SCREENSHOT',
           },
-          '*'
-        )
-      : null
+        },
+        '*'
+      )
     this.counter = 1
   }
 

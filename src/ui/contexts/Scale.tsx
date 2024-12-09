@@ -835,7 +835,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 </Feature>
               </div>
             </div>
-            {this.state.isTipsOpen ? <this.KeyboardShortcuts /> : null}
+            {this.state.isTipsOpen && <this.KeyboardShortcuts />}
           </Feature>
         </div>
         <Actions
@@ -941,7 +941,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 </Feature>
               </div>
             </div>
-            {this.state.isTipsOpen ? <this.KeyboardShortcuts /> : null}
+            {this.state.isTipsOpen && <this.KeyboardShortcuts />}
           </Feature>
         </div>
         <Actions

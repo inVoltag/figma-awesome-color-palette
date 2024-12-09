@@ -157,63 +157,66 @@ export default class Actions extends PureComponent<ActionsProps> {
       <div className="actions">
         <div className="actions__right">
           {this.props.editorType === 'figma' ? (
-            <Menu
-              id="local-styles-variables"
-              label={locals[this.props.lang].actions.run}
-              type="PRIMARY"
-              options={[
-                {
-                  label: locals[this.props.lang].actions.createLocalStyles,
-                  value: 'LOCAL_STYLES',
-                  feature: 'SYNC_LOCAL_STYLES',
-                  type: 'OPTION',
-                  isActive: Actions.features(
+            <>
+              <Feature
+                isActive={Actions.features(
+                  this.props.planStatus ?? 'UNPAID'
+                ).PUBLISH_PALETTE.isActive()}
+              >
+                <Button
+                  type="secondary"
+                  label={this.publicationLabel()}
+                  feature="PUBLISH_PALETTE"
+                  isBlocked={Actions.features(
                     this.props.planStatus ?? 'UNPAID'
-                  ).SYNC_LOCAL_STYLES.isActive(),
-                  isBlocked: Actions.features(
+                  ).PUBLISH_PALETTE.isBlocked()}
+                  isNew={Actions.features(
                     this.props.planStatus ?? 'UNPAID'
-                  ).SYNC_LOCAL_STYLES.isBlocked(),
-                  isNew: Actions.features(
-                    this.props.planStatus ?? 'UNPAID'
-                  ).SYNC_LOCAL_STYLES.isNew(),
-                  action: (e) => this.props.onSyncLocalStyles?.(e),
-                },
-                {
-                  label: locals[this.props.lang].actions.createLocalVariables,
-                  value: 'LOCAL_VARIABLES',
-                  feature: 'SYNC_LOCAL_VARIABLES',
-                  type: 'OPTION',
-                  isActive: Actions.features(
-                    this.props.planStatus ?? 'UNPAID'
-                  ).SYNC_LOCAL_VARIABLES.isActive(),
-                  isBlocked: Actions.features(
-                    this.props.planStatus ?? 'UNPAID'
-                  ).SYNC_LOCAL_VARIABLES.isBlocked(),
-                  isNew: Actions.features(
-                    this.props.planStatus ?? 'UNPAID'
-                  ).SYNC_LOCAL_VARIABLES.isNew(),
-                  action: (e) => this.props.onSyncLocalVariables?.(e),
-                },
-                {
-                  type: 'SEPARATOR',
-                },
-                {
-                  ...this.publicationAction(),
-                  type: 'OPTION',
-                  isActive: Actions.features(
-                    this.props.planStatus ?? 'UNPAID'
-                  ).PUBLISH_PALETTE.isActive(),
-                  isBlocked: Actions.features(
-                    this.props.planStatus ?? 'UNPAID'
-                  ).PUBLISH_PALETTE.isBlocked(),
-                  isNew: Actions.features(
-                    this.props.planStatus ?? 'UNPAID'
-                  ).PUBLISH_PALETTE.isNew(),
-                  action: (e) => this.props.onPublishPalette?.(e),
-                } as DropdownOption,
-              ]}
-              alignment="TOP_RIGHT"
-            />
+                  ).PUBLISH_PALETTE.isNew()}
+                  action={this.props.onPublishPalette}
+                />
+              </Feature>
+              <Menu
+                id="local-styles-variables"
+                label={locals[this.props.lang].actions.run}
+                type="PRIMARY"
+                options={[
+                  {
+                    label: locals[this.props.lang].actions.createLocalStyles,
+                    value: 'LOCAL_STYLES',
+                    feature: 'SYNC_LOCAL_STYLES',
+                    type: 'OPTION',
+                    isActive: Actions.features(
+                      this.props.planStatus ?? 'UNPAID'
+                    ).SYNC_LOCAL_STYLES.isActive(),
+                    isBlocked: Actions.features(
+                      this.props.planStatus ?? 'UNPAID'
+                    ).SYNC_LOCAL_STYLES.isBlocked(),
+                    isNew: Actions.features(
+                      this.props.planStatus ?? 'UNPAID'
+                    ).SYNC_LOCAL_STYLES.isNew(),
+                    action: (e) => this.props.onSyncLocalStyles?.(e),
+                  },
+                  {
+                    label: locals[this.props.lang].actions.createLocalVariables,
+                    value: 'LOCAL_VARIABLES',
+                    feature: 'SYNC_LOCAL_VARIABLES',
+                    type: 'OPTION',
+                    isActive: Actions.features(
+                      this.props.planStatus ?? 'UNPAID'
+                    ).SYNC_LOCAL_VARIABLES.isActive(),
+                    isBlocked: Actions.features(
+                      this.props.planStatus ?? 'UNPAID'
+                    ).SYNC_LOCAL_VARIABLES.isBlocked(),
+                    isNew: Actions.features(
+                      this.props.planStatus ?? 'UNPAID'
+                    ).SYNC_LOCAL_VARIABLES.isNew(),
+                    action: (e) => this.props.onSyncLocalVariables?.(e),
+                  },
+                ]}
+                alignment="TOP_RIGHT"
+              />
+            </>
           ) : (
             <Feature
               isActive={Actions.features(
@@ -261,9 +264,9 @@ export default class Actions extends PureComponent<ActionsProps> {
   render() {
     return (
       <>
-        {this.props.context === 'CREATE' ? <this.Create /> : null}
-        {this.props.context === 'DEPLOY' ? <this.Deploy /> : null}
-        {this.props.context === 'EXPORT' ? <this.Export /> : null}
+        {this.props.context === 'CREATE' && <this.Create />}
+        {this.props.context === 'DEPLOY' && <this.Deploy />}
+        {this.props.context === 'EXPORT' && <this.Export />}
       </>
     )
   }

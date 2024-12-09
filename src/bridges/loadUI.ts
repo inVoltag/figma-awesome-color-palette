@@ -150,6 +150,16 @@ const loadUI = async () => {
             await figma.clientStorage.setAsync(item.key, item.value)
         )
       },
+      GET_ITEMS: async () => {
+        await Promise.all(
+          msg.items.map(async (item: string) =>
+            figma.ui.postMessage({
+              type: `GET_ITEM_${item.toUpperCase()}`,
+              value: await figma.clientStorage.getAsync(item),
+            })
+          )
+        )
+      },
       DELETE_ITEMS: () =>
         msg.items.forEach(
           async (item: string) => await figma.clientStorage.deleteAsync(item)

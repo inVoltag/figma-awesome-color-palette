@@ -4,6 +4,7 @@ import {
   FormItem,
   Section,
   SectionTitle,
+  Select,
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
@@ -32,6 +33,7 @@ interface SyncSettingsStates {
   collections: Array<VariableCollection>
   collectionId: string
   areCollectionsReady: boolean
+  areVariablesDeepSync: boolean
 }
 
 export default class SyncSettings extends PureComponent<
@@ -44,14 +46,14 @@ export default class SyncSettings extends PureComponent<
       featureName: 'SETTINGS_SYNC_VARIABLES_COLLECTIONS',
       planStatus: planStatus,
     }),
-    SETTINGS_SYNC_VARIABLES_BEVAHIOR: new FeatureStatus({
+    SETTINGS_SYNC_DEEP_VARIABLES: new FeatureStatus({
       features: features,
-      featureName: 'SETTINGS_SYNC_VARIABLES_BEVAHIOR',
+      featureName: 'SETTINGS_SYNC_DEEP_VARIABLES',
       planStatus: planStatus,
     }),
-    SETTINGS_SYNC_STYLES_BEHAVIOR: new FeatureStatus({
+    SETTINGS_SYNC_DEEP_STYLES: new FeatureStatus({
       features: features,
-      featureName: 'SETTINGS_SYNC_STYLES_BEHAVIOR',
+      featureName: 'SETTINGS_SYNC_DEEP_STYLES',
       planStatus: planStatus,
     }),
   })
@@ -62,6 +64,7 @@ export default class SyncSettings extends PureComponent<
       collections: [],
       collectionId: '',
       areCollectionsReady: false,
+      areVariablesDeepSync: false,
     }
   }
 
@@ -74,7 +77,15 @@ export default class SyncSettings extends PureComponent<
       },
       '*'
     )
-
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'GET_ITEMS',
+          items: ['can_deep_sync_variables'],
+        },
+      },
+      '*'
+    )
     window.addEventListener('message', this.handleMessage)
   }
 
@@ -107,10 +118,30 @@ export default class SyncSettings extends PureComponent<
         collectionId: e.data.pluginMessage.data.id,
       })
 
+    const deepSyncVariables = () => {
+      if (e.data.pluginMessage.value === undefined)
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'SET_ITEMS',
+              items: [
+                {
+                  key: 'can_deep_sync_variables',
+                  value: false,
+                },
+              ],
+            },
+          },
+          '*'
+        )
+      else this.setState({ areVariablesDeepSync: e.data.pluginMessage.value })
+    }
+
     const actions: ActionsList = {
       GET_VARIABLES_COLLECTIONS: () => getVariablesCollections(),
       NEW_VARIABLE_COLLECTION: () => newVariableCollection(),
       SWITCH_VARIABLE_COLLECTION: () => switchVariableCollection(),
+      GET_ITEM_CAN_DEEP_SYNC_VARIABLES: () => deepSyncVariables(),
       DEFAULT: () => null,
     }
 
@@ -175,6 +206,15 @@ export default class SyncSettings extends PureComponent<
     return this.state.collectionId
   }
 
+  collectionNameHandler = (): string => {
+    const matchCollection = this.state.collections.find(
+      (collection) => collection.id === this.state.collectionId
+    )
+
+    if (matchCollection === undefined) return ''
+    return matchCollection.name
+  }
+
   // Templates
   VariablesCollections = () => {
     if (this.state.areCollectionsReady)
@@ -216,6 +256,39 @@ export default class SyncSettings extends PureComponent<
       )
   }
 
+  VariablesDeepSync = () => {
+    return (
+      <Feature
+        isActive={SyncSettings.features(
+          this.props.planStatus
+        ).SETTINGS_SYNC_DEEP_VARIABLES.isActive()}
+      >
+        <Select
+          id="update-variables-sync-behavior"
+          type="SWITCH_BUTTON"
+          name="update-variables-sync-behavior"
+          label={
+            'Enable a deep synchronization with the variables in the collection'
+          }
+          isChecked={this.state.areVariablesDeepSync}
+          isBlocked={SyncSettings.features(
+            this.props.planStatus
+          ).SETTINGS_SYNC_DEEP_VARIABLES.isBlocked()}
+          isNew={SyncSettings.features(
+            this.props.planStatus
+          ).SETTINGS_SYNC_DEEP_VARIABLES.isNew()}
+          feature="UPDATE_VARIABLES_DEEP_SYNC"
+          onChange={(e) => {
+            this.setState({
+              areVariablesDeepSync: !this.state.areVariablesDeepSync,
+            })
+            this.props.onChangeSettings(e)
+          }}
+        />
+      </Feature>
+    )
+  }
+
   render() {
     return (
       <Section
@@ -228,6 +301,9 @@ export default class SyncSettings extends PureComponent<
         body={[
           {
             node: <this.VariablesCollections />,
+          },
+          {
+            node: <this.VariablesDeepSync />,
           },
         ]}
         border={undefined}

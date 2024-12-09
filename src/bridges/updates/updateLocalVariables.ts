@@ -5,6 +5,9 @@ import { PaletteData } from '../../types/data'
 
 const updateLocalVariables = async (palette: FrameNode) => {
   const paletteData: PaletteData = JSON.parse(palette.getPluginData('data'))
+  const canDeepSyncVariables = await figma.clientStorage.getAsync(
+    'can_deep_sync_variables'
+  )
 
   if (palette.children.length === 1) {
     const name =
@@ -35,7 +38,8 @@ const updateLocalVariables = async (palette: FrameNode) => {
             k = 0
           const messages: Array<string> = []
 
-          if (collection.name !== name) collection.name = name
+          if (collection.name !== name && (canDeepSyncVariables ?? false))
+            collection.name = name
           const workingThemes =
             paletteData.themes.filter((theme) => theme.type === 'custom theme')
               .length === 0
@@ -46,30 +50,32 @@ const updateLocalVariables = async (palette: FrameNode) => {
                   (theme) => theme.type === 'custom theme'
                 )
 
-          collection.modes.forEach((mode) => {
-            const themeMatch = workingThemes.find(
-              (theme) => theme.modeId === mode.modeId
-            )
-            if (themeMatch === undefined) {
-              collection.removeMode(mode.modeId)
-              j++
-            }
-          })
-          localVariables.forEach((localVariable) => {
-            const shadeMatch = workingThemes.find(
-              (theme) =>
-                theme.colors.find(
-                  (color) =>
-                    color.shades.find(
-                      (shade) => shade.variableId === localVariable.id
-                    ) !== undefined
-                ) !== undefined
-            )
-            if (shadeMatch === undefined) {
-              localVariable.remove()
-              i++
-            }
-          })
+          if (canDeepSyncVariables ?? false) {
+            collection.modes.forEach((mode) => {
+              const themeMatch = workingThemes.find(
+                (theme) => theme.modeId === mode.modeId
+              )
+              if (themeMatch === undefined) {
+                collection.removeMode(mode.modeId)
+                j++
+              }
+            })
+            localVariables.forEach((localVariable) => {
+              const shadeMatch = workingThemes.find(
+                (theme) =>
+                  theme.colors.find(
+                    (color) =>
+                      color.shades.find(
+                        (shade) => shade.variableId === localVariable.id
+                      ) !== undefined
+                  ) !== undefined
+              )
+              if (shadeMatch === undefined) {
+                localVariable.remove()
+                i++
+              }
+            })
+          }
 
           workingThemes.forEach((theme) => {
             const modeMatch = collection.modes.find(

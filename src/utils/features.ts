@@ -857,7 +857,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
     service: ['EDIT'],
   },
   {
-    name: 'SETTINGS_SYNC_VARIABLES_BEVAHIOR',
+    name: 'SETTINGS_SYNC_DEEP_VARIABLES',
     description: '',
     isActive: true,
     isPro: false,
@@ -866,7 +866,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
     service: ['EDIT'],
   },
   {
-    name: 'SETTINGS_SYNC_STYLES_BEHAVIOR',
+    name: 'SETTINGS_SYNC_DEEP_STYLES',
     description: '',
     isActive: true,
     isPro: false,

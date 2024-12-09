@@ -87,12 +87,13 @@ const loadUI = async () => {
       CHECK_USER_CONSENT: () => checkUserConsent(),
       CHECK_HIGHLIGHT_STATUS: () => checkHighlightStatus(msg.version),
       //
-      CREATE_PALETTE: () => createPalette(msg),
       UPDATE_SCALE: () => updateScale(msg),
       UPDATE_VIEW: () => updateView(msg),
       UPDATE_COLORS: () => updateColors(msg),
       UPDATE_THEMES: () => updateThemes(msg),
       UPDATE_GLOBAL: () => updateGlobal(msg),
+      //
+      CREATE_PALETTE: () => createPalette(msg),
       SYNC_LOCAL_STYLES: async () =>
         createLocalStyles(palette)
           .then(async (message) => [message, await updateLocalStyles(palette)])
@@ -112,6 +113,7 @@ const loadUI = async () => {
             figma.notify(locals[lang].error.generic)
             throw error
           }),
+      //
       EXPORT_PALETTE: () => {
         msg.export === 'TOKENS_GLOBAL' && exportJson(palette)
         msg.export === 'TOKENS_AMZN_STYLE_DICTIONARY' &&

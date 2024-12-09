@@ -447,15 +447,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
   DistributionEasing = () => {
     return (
       <FormItem
+        id="update-distribution-easing"
         label={locals[this.props.lang].scale.easing.label}
-        id="distribution-easing"
         shouldFill={false}
         isBlocked={Scale.features(
           this.props.planStatus
         ).SCALE_HELPER_DISTRIBUTION.isBlocked()}
       >
         <Dropdown
-          id="distribution-easing"
+          id="update-distribution-easing"
           options={[
             {
               label: locals[this.props.lang].scale.easing.linear,

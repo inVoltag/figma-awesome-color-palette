@@ -430,7 +430,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                     >
                       <div className="draggable-list__param">
                         <FormItem
-                          id="palette-background-color"
+                          id="update-palette-background-color"
                           label={
                             locals[this.props.lang].themes
                               .paletteBackgroundColor.label
@@ -441,7 +441,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                           ).THEMES_PARAMS.isBlocked()}
                         >
                           <Input
-                            id="palette-background-color"
+                            id="update-palette-background-color"
                             type="COLOR"
                             value={theme.paletteBackground}
                             feature="UPDATE_PALETTE_BACKGROUND"
@@ -469,14 +469,14 @@ export default class Themes extends PureComponent<ThemesProps> {
                   >
                     <div className="draggable-list__param">
                       <FormItem
-                        id="theme-description"
+                        id="update-theme-description"
                         label={locals[this.props.lang].global.description.label}
                         isBlocked={Themes.features(
                           this.props.planStatus
                         ).THEMES_DESCRIPTION.isBlocked()}
                       >
                         <Input
-                          id="theme-description"
+                          id="update-theme-description"
                           type="LONG_TEXT"
                           value={theme.description}
                           placeholder={

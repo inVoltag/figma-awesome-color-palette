@@ -601,14 +601,14 @@ export default class Colors extends PureComponent<ColorsProps> {
                   >
                     <div className="draggable-list__param">
                       <FormItem
-                        id="hue-shifting"
+                        id="shift-hue"
                         label={locals[this.props.lang].colors.hueShifting.label}
                         isBlocked={Colors.features(
                           this.props.planStatus
                         ).COLORS_HUE_SHIFTING.isBlocked()}
                       >
                         <Input
-                          id="hue-shifting"
+                          id="shift-hue"
                           type="NUMBER"
                           icon={{ type: 'LETTER', value: 'H' }}
                           unit="°"
@@ -639,7 +639,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                   >
                     <div className="draggable-list__param">
                       <FormItem
-                        id="chroma-shifting"
+                        id="shift-chroma"
                         label={
                           locals[this.props.lang].colors.chromaShifting.label
                         }
@@ -648,7 +648,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                         ).COLORS_CHROMA_SHIFTING.isBlocked()}
                       >
                         <Input
-                          id="chroma-shifting"
+                          id="shift-chroma"
                           type="NUMBER"
                           icon={{ type: 'LETTER', value: 'C' }}
                           unit="%"
@@ -679,14 +679,14 @@ export default class Colors extends PureComponent<ColorsProps> {
                   >
                     <div className="draggable-list__param">
                       <FormItem
-                        id="color-description"
+                        id="update-color-description"
                         label={locals[this.props.lang].global.description.label}
                         isBlocked={Colors.features(
                           this.props.planStatus
                         ).COLORS_DESCRIPTION.isBlocked()}
                       >
                         <Input
-                          id="color-description"
+                          id="update-color-description"
                           type="LONG_TEXT"
                           value={color.description}
                           placeholder={

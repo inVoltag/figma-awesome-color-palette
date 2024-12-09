@@ -364,10 +364,11 @@ export default class Overview extends PureComponent<
         >
           <div className="settings__item">
             <FormItem
-              id="coolors-palette-url"
+              id="update-coolors-url"
               helper={this.state.coolorsUrl.helper}
             >
               <Input
+                id="update-coolors-url"
                 type="TEXT"
                 state={this.state.coolorsUrl.state}
                 placeholder={
@@ -447,10 +448,11 @@ export default class Overview extends PureComponent<
         >
           <div className="settings__item">
             <FormItem
-              id="realtime-colors-url"
+              id="update-realtime-colors-url"
               helper={this.state.realtimeColorsUrl.helper}
             >
               <Input
+                id="update-realtime-colors-url"
                 type="TEXT"
                 state={this.state.realtimeColorsUrl.state}
                 placeholder={

@@ -321,13 +321,13 @@ export default class Explore extends PureComponent<
             <Bar
               leftPartSlot={
                 <FormItem
-                  id="explore__filters"
+                  id="explore-filters"
                   label={
                     locals[this.props.lang].source.colourLovers.filters.label
                   }
                 >
                   <Dropdown
-                    id="explore__filters"
+                    id="explore-filters"
                     options={this.setFilters()}
                     selected={
                       this.props.activeFilters.includes('ANY') &&

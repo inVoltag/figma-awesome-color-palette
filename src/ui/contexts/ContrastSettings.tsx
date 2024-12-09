@@ -51,10 +51,10 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
         ).SETTINGS_TEXT_COLORS_THEME.isActive()}
       >
         <FormItem
+          id="update-text-light-color"
           label={
             locals[this.props.lang].settings.contrast.textColors.textLightColor
           }
-          id="update-text-light-color"
           isBlocked={ContrastSettings.features(
             this.props.planStatus
           ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
@@ -76,10 +76,10 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
           />
         </FormItem>
         <FormItem
+          id="update-text-dark-color"
           label={
             locals[this.props.lang].settings.contrast.textColors.textDarkColor
           }
-          id="update-text-dark-color"
           isBlocked={ContrastSettings.features(
             this.props.planStatus
           ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}

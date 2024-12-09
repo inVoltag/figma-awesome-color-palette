@@ -395,12 +395,12 @@ export default class EditPalette extends PureComponent<
               ).THEMES.isActive()}
             >
               <FormItem
-                id="themes"
+                id="switch-theme"
                 label={locals[this.props.lang].themes.switchTheme.label}
                 shouldFill={false}
               >
                 <Dropdown
-                  id="themes"
+                  id="switch-theme"
                   options={this.setThemes()}
                   selected={
                     this.props.themes.find((theme) => theme.isEnabled)?.id

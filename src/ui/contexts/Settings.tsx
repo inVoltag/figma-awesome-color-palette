@@ -1,10 +1,16 @@
-import { ConsentConfiguration, HexModel } from '@a_ng_d/figmug-ui'
+import { Bar, ConsentConfiguration, HexModel, Tabs } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 
 import features from '../../config'
-import { EditorType, Language, PlanStatus } from '../../types/app'
+import {
+  Context,
+  ContextItem,
+  EditorType,
+  Language,
+  PlanStatus,
+} from '../../types/app'
 import {
   AlgorithmVersionConfiguration,
   ColorSpaceConfiguration,
@@ -21,6 +27,7 @@ import {
 } from '../../types/models'
 import { trackSettingsManagementEvent } from '../../utils/eventsTracker'
 import { palette } from '../../utils/palettePackage'
+import { setContexts } from '../../utils/setContexts'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import Actions from '../modules/Actions'
@@ -29,7 +36,7 @@ import Preview from '../modules/Preview'
 import ColorSettings from './ColorSettings'
 import ContrastSettings from './ContrastSettings'
 import GlobalSettings from './GlobalSettings'
-import SyncSettings from './SyncSettings'
+import SyncPreferences from './SyncPreferences'
 
 interface SettingsProps {
   context: string
@@ -53,9 +60,14 @@ interface SettingsProps {
   onPublishPalette?: () => void
 }
 
-export default class Settings extends PureComponent<SettingsProps> {
+interface SettingsStates {
+  context: Context | ''
+}
+
+export default class Settings extends PureComponent<SettingsProps, SettingsStates> {
   settingsMessage: SettingsMessage
   dispatch: { [key: string]: DispatchProcess }
+  contexts: Array<ContextItem>
 
   static features = (planStatus: PlanStatus) => ({
     SETTINGS_GLOBAL: new FeatureStatus({
@@ -102,6 +114,16 @@ export default class Settings extends PureComponent<SettingsProps> {
       },
       isEditedInRealTime: false,
     }
+    this.contexts = setContexts(
+      [
+        'SETTINGS_PALETTE',
+        this.props.context === 'EDIT' ? 'SETTINGS_PREFERENCES' : null,
+      ].filter(Boolean) as Context[],
+      props.planStatus
+    )
+    this.state = {
+      context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
+    }
     this.dispatch = {
       textColorsTheme: new Dispatcher(
         () => parent.postMessage({ pluginMessage: this.settingsMessage }, '*'),
@@ -110,7 +132,12 @@ export default class Settings extends PureComponent<SettingsProps> {
     }
   }
 
-  // Direct actions
+  // Handlers
+  navHandler = (e: Event) =>
+    this.setState({
+      context: (e.target as HTMLElement).dataset.feature as Context,
+    })
+
   settingsHandler = (e: Event) => {
     const target = e.target as HTMLInputElement,
       feature = target.dataset.feature ?? 'DEFAULT'
@@ -426,76 +453,105 @@ export default class Settings extends PureComponent<SettingsProps> {
     return actions[feature ?? 'DEFAULT']?.()
   }
 
+  // Templates
+  Palette = () => {
+    return (
+      <>
+        <Feature
+          isActive={Settings.features(
+            this.props.planStatus
+          ).SETTINGS_GLOBAL.isActive()}
+        >
+          <GlobalSettings
+            {...this.props}
+            onChangeSettings={this.settingsHandler}
+          />
+        </Feature>
+        <Feature
+          isActive={Settings.features(
+            this.props.planStatus
+          ).SETTINGS_COLOR_MANAGEMENT.isActive()}
+        >
+          <ColorSettings
+            {...this.props}
+            onChangeSettings={this.settingsHandler}
+          />
+        </Feature>
+        <Feature
+          isActive={Settings.features(
+            this.props.planStatus
+          ).SETTINGS_CONTRAST_MANAGEMENT.isActive()}
+        >
+          <ContrastSettings
+            {...this.props}
+            isLast={this.props.context === 'CREATE'}
+            onChangeSettings={this.settingsHandler}
+          />
+        </Feature>
+      </>
+    )
+  }
+
+  Preferences = () => {
+    return (
+      <Feature
+        isActive={Settings.features(
+          this.props.planStatus
+        ).SETTINGS_SYNC.isActive()}
+      >
+        <SyncPreferences
+          {...this.props}
+          onChangeSettings={this.settingsHandler}
+        />
+      </Feature>
+    )
+  }
+
   render() {
     return (
-      <div className="controls__control">
-        <div className="control__block control__block--no-padding">
-          <Feature
-            isActive={Settings.features(
-              this.props.planStatus
-            ).SETTINGS_GLOBAL.isActive()}
-          >
-            <GlobalSettings
-              {...this.props}
-              onChangeSettings={this.settingsHandler}
-            />
-          </Feature>
-          <Feature
-            isActive={Settings.features(
-              this.props.planStatus
-            ).SETTINGS_COLOR_MANAGEMENT.isActive()}
-          >
-            <ColorSettings
-              {...this.props}
-              onChangeSettings={this.settingsHandler}
-            />
-          </Feature>
-          <Feature
-            isActive={Settings.features(
-              this.props.planStatus
-            ).SETTINGS_CONTRAST_MANAGEMENT.isActive()}
-          >
-            <ContrastSettings
-              {...this.props}
-              isLast={this.props.context === 'CREATE'}
-              onChangeSettings={this.settingsHandler}
-            />
-          </Feature>
-          <Feature
-            isActive={
-              Settings.features(
-                this.props.planStatus
-              ).SETTINGS_SYNC.isActive() && this.props.context === 'EDIT'
+      <>
+        {this.contexts.length > 1 && (
+          <Bar
+            leftPartSlot={
+              <Tabs
+                tabs={this.contexts}
+                active={this.state.context ?? ''}
+                action={this.navHandler}
+              />
             }
-          >
-            <SyncSettings
-              {...this.props}
-              isLast={this.props.context === 'EDIT'}
-              onChangeSettings={this.settingsHandler}
-            />
-          </Feature>
-        </div>
-        {this.props.context === 'CREATE' ? (
-          <>
-            <Actions
-              {...this.props}
-              context="CREATE"
-            />
-            <Feature
-              isActive={Settings.features(
-                this.props.planStatus
-              ).PREVIEW.isActive()}
-            >
-              <Preview sourceColors={this.props.sourceColors} />
-            </Feature>
-          </>
-        ) : (
-          <Actions
-            {...this.props}
-            context="DEPLOY"
+            border={['BOTTOM']}
+            isOnlyText={true}
           />
         )}
-      </div>
+        <div className="controls__control">
+          <div className="control__block control__block--no-padding">
+            {this.state.context === 'SETTINGS_PALETTE' && <this.Palette />}
+            {this.state.context === 'SETTINGS_PREFERENCES' && (
+              <this.Preferences />
+            )}
+          </div>
+          {this.props.context === 'CREATE' ? (
+            <>
+              <Actions
+                {...this.props}
+                context="CREATE"
+              />
+              <Feature
+                isActive={Settings.features(
+                  this.props.planStatus
+                ).PREVIEW.isActive()}
+              >
+                <Preview sourceColors={this.props.sourceColors} />
+              </Feature>
+            </>
+          ) : (
+            <Actions
+              {...this.props}
+              context="DEPLOY"
+            />
+          )}
+        </div>
+      </>
     )
   }
 }

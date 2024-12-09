@@ -10,6 +10,9 @@ const updateLocalStyles = async (palette: FrameNode) => {
         .length === 0
         ? paletteData.themes.filter((theme) => theme.type === 'default theme')
         : paletteData.themes.filter((theme) => theme.type === 'custom theme')
+  const canDeepSyncStyles = await figma.clientStorage.getAsync(
+    'can_deep_sync_styles'
+  )
 
   if (palette.children.length === 1) {
     const updatedLocalStylesStatusMessage = figma
@@ -17,6 +20,24 @@ const updateLocalStyles = async (palette: FrameNode) => {
       .then((localStyles) => {
         let i = 0,
           j = 0
+
+        if (canDeepSyncStyles ?? false)
+          localStyles.forEach((localStyle) => {
+            const shadeMatch = workingThemes.find(
+              (theme) =>
+                theme.colors.find(
+                  (color) =>
+                    color.shades.find(
+                      (shade) => shade.styleId === localStyle.id
+                    ) !== undefined
+                ) !== undefined
+            )
+            if (shadeMatch === undefined) {
+              localStyle.remove()
+              i++
+            }
+          })
+
         workingThemes.forEach((theme: PaletteDataThemeItem) => {
           theme.colors.forEach((color) => {
             color.shades.forEach((shade) => {

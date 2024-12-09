@@ -20,6 +20,7 @@ interface SyncSettingsProps {
   name: string
   description: string
   view: string
+  isLast?: boolean
   planStatus: PlanStatus
   lang: Language
   onChangeSettings: (
@@ -34,6 +35,7 @@ interface SyncSettingsStates {
   collectionId: string
   areCollectionsReady: boolean
   areVariablesDeepSync: boolean
+  areStylesDeepSync: boolean
 }
 
 export default class SyncSettings extends PureComponent<
@@ -58,6 +60,10 @@ export default class SyncSettings extends PureComponent<
     }),
   })
 
+  static defaultProps = {
+    isLast: false,
+  }
+
   constructor(props: SyncSettingsProps) {
     super(props)
     this.state = {
@@ -65,6 +71,7 @@ export default class SyncSettings extends PureComponent<
       collectionId: '',
       areCollectionsReady: false,
       areVariablesDeepSync: false,
+      areStylesDeepSync: false,
     }
   }
 
@@ -81,7 +88,7 @@ export default class SyncSettings extends PureComponent<
       {
         pluginMessage: {
           type: 'GET_ITEMS',
-          items: ['can_deep_sync_variables'],
+          items: ['can_deep_sync_variables', 'can_deep_sync_styles'],
         },
       },
       '*'
@@ -137,11 +144,31 @@ export default class SyncSettings extends PureComponent<
       else this.setState({ areVariablesDeepSync: e.data.pluginMessage.value })
     }
 
+    const deepSyncStyles = () => {
+      if (e.data.pluginMessage.value === undefined)
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'SET_ITEMS',
+              items: [
+                {
+                  key: 'can_deep_sync_styles',
+                  value: false,
+                },
+              ],
+            },
+          },
+          '*'
+        )
+      else this.setState({ areStylesDeepSync: e.data.pluginMessage.value })
+    }
+
     const actions: ActionsList = {
       GET_VARIABLES_COLLECTIONS: () => getVariablesCollections(),
       NEW_VARIABLE_COLLECTION: () => newVariableCollection(),
       SWITCH_VARIABLE_COLLECTION: () => switchVariableCollection(),
       GET_ITEM_CAN_DEEP_SYNC_VARIABLES: () => deepSyncVariables(),
+      GET_ITEM_CAN_DEEP_SYNC_STYLES: () => deepSyncStyles(),
       DEFAULT: () => null,
     }
 
@@ -264,9 +291,9 @@ export default class SyncSettings extends PureComponent<
         ).SETTINGS_SYNC_DEEP_VARIABLES.isActive()}
       >
         <Select
-          id="update-variables-sync-behavior"
+          id="update-variables-deep-sync"
           type="SWITCH_BUTTON"
-          name="update-variables-sync-behavior"
+          name="update-variables-deep-sync"
           label={
             'Enable a deep synchronization with the variables in the collection'
           }
@@ -281,6 +308,39 @@ export default class SyncSettings extends PureComponent<
           onChange={(e) => {
             this.setState({
               areVariablesDeepSync: !this.state.areVariablesDeepSync,
+            })
+            this.props.onChangeSettings(e)
+          }}
+        />
+      </Feature>
+    )
+  }
+
+  StylesDeepSync = () => {
+    return (
+      <Feature
+        isActive={SyncSettings.features(
+          this.props.planStatus
+        ).SETTINGS_SYNC_DEEP_STYLES.isActive()}
+      >
+        <Select
+          id="update-styles-deep-sync"
+          type="SWITCH_BUTTON"
+          name="update-styles-deep-sync"
+          label={
+            'Enable a deep synchronization with the styles in the document'
+          }
+          isChecked={this.state.areStylesDeepSync}
+          isBlocked={SyncSettings.features(
+            this.props.planStatus
+          ).SETTINGS_SYNC_DEEP_STYLES.isBlocked()}
+          isNew={SyncSettings.features(
+            this.props.planStatus
+          ).SETTINGS_SYNC_DEEP_STYLES.isNew()}
+          feature="UPDATE_STYLES_DEEP_SYNC"
+          onChange={(e) => {
+            this.setState({
+              areStylesDeepSync: !this.state.areStylesDeepSync,
             })
             this.props.onChangeSettings(e)
           }}
@@ -305,8 +365,11 @@ export default class SyncSettings extends PureComponent<
           {
             node: <this.VariablesDeepSync />,
           },
+          {
+            node: <this.StylesDeepSync />,
+          },
         ]}
-        border={undefined}
+        border={this.props.isLast ? ['BOTTOM'] : undefined}
       />
     )
   }

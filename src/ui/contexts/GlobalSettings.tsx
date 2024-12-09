@@ -19,6 +19,7 @@ interface GlobalSettingsProps {
   name: string
   description: string
   view: string
+  isLast?: boolean
   planStatus: PlanStatus
   lang: Language
   onChangeSettings: (
@@ -61,6 +62,10 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
       planStatus: planStatus,
     }),
   })
+
+  static defaultProps = {
+    isLast: false,
+  }
 
   // Templates
   Name = () => {
@@ -240,7 +245,7 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
             node: <this.View />,
           },
         ]}
-        border={['BOTTOM']}
+        border={!this.props.isLast ? ['BOTTOM'] : undefined}
       />
     )
   }

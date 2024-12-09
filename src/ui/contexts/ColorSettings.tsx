@@ -26,6 +26,7 @@ interface ColorSettingsProps {
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   algorithmVersion?: AlgorithmVersionConfiguration
+  isLast?: boolean
   planStatus: PlanStatus
   lang: Language
   onChangeSettings: (
@@ -128,6 +129,10 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
       planStatus: planStatus,
     }),
   })
+
+  static defaultProps = {
+    isLast: false,
+  }
 
   // Templates
   ColorSpace = () => {
@@ -541,7 +546,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
               this.props.context === 'LOCAL_STYLES' && <this.NewAlgorithm />)(),
           },
         ]}
-        border={['BOTTOM']}
+        border={!this.props.isLast ? ['BOTTOM'] : undefined}
       />
     )
   }

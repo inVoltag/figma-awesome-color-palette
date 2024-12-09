@@ -17,7 +17,9 @@ import { TextColorsThemeHexModel } from '../../types/models'
 import Feature from '../components/Feature'
 
 interface ContrastSettingsProps {
+  context: string
   textColorsTheme: TextColorsThemeHexModel
+  isLast?: boolean
   planStatus: PlanStatus
   lang: Language
   onChangeSettings: (
@@ -35,6 +37,10 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
       planStatus: planStatus,
     }),
   })
+
+  static defaultProps = {
+    isLast: false,
+  }
 
   // Templates
   TextColorsTheme = () => {
@@ -123,7 +129,7 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
             node: <this.TextColorsTheme />,
           },
         ]}
-        border={['BOTTOM']}
+        border={!this.props.isLast ? ['BOTTOM'] : undefined}
       />
     )
   }

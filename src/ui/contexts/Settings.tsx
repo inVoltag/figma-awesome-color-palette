@@ -392,6 +392,22 @@ export default class Settings extends PureComponent<SettingsProps> {
         '*'
       )
 
+    const updateStylesDeepSync = () =>
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'SET_ITEMS',
+            items: [
+              {
+                key: 'can_deep_sync_styles',
+                value: target.checked,
+              },
+            ],
+          },
+        },
+        '*'
+      )
+
     const actions: ActionsList = {
       RENAME_PALETTE: () => renamePalette(),
       UPDATE_DESCRIPTION: () => updateDescription(),
@@ -403,6 +419,7 @@ export default class Settings extends PureComponent<SettingsProps> {
       UPDATE_TEXT_DARK_COLOR: () => updateTextDarkColor(),
       UPDATE_VARIABLES_COLLECTION: () => updateVariablesCollection(),
       UPDATE_VARIABLES_DEEP_SYNC: () => updateVariablesDeepSync(),
+      UPDATE_STYLES_DEEP_SYNC: () => updateStylesDeepSync(),
       DEFAULT: () => null,
     }
 
@@ -440,16 +457,21 @@ export default class Settings extends PureComponent<SettingsProps> {
           >
             <ContrastSettings
               {...this.props}
+              isLast={this.props.context === 'CREATE'}
               onChangeSettings={this.settingsHandler}
             />
           </Feature>
           <Feature
-            isActive={Settings.features(
-              this.props.planStatus
-            ).SETTINGS_SYNC.isActive()}
+            isActive={
+              Settings.features(
+                this.props.planStatus
+              ).SETTINGS_SYNC.isActive() &&
+              this.props.context === 'LOCAL_STYLES'
+            }
           >
             <SyncSettings
               {...this.props}
+              isLast={this.props.context === 'LOCAL_STYLES'}
               onChangeSettings={this.settingsHandler}
             />
           </Feature>

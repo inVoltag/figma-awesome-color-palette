@@ -394,19 +394,6 @@ export default class Settings extends PureComponent<
         this.dispatch.textColorsTheme.on.status = true
     }
 
-    const updateVariablesCollection = () =>
-      parent.postMessage(
-        {
-          pluginMessage: {
-            type: 'UPDATE_VARIABLES_COLLECTION',
-            data: {
-              id: target.dataset.value,
-            },
-          },
-        },
-        '*'
-      )
-
     const updateVariablesDeepSync = () =>
       parent.postMessage(
         {
@@ -448,7 +435,6 @@ export default class Settings extends PureComponent<
       UPDATE_ALGORITHM_VERSION: () => updateAlgorythmVersion(),
       UPDATE_TEXT_LIGHT_COLOR: () => updateTextLightColor(),
       UPDATE_TEXT_DARK_COLOR: () => updateTextDarkColor(),
-      UPDATE_VARIABLES_COLLECTION: () => updateVariablesCollection(),
       UPDATE_VARIABLES_DEEP_SYNC: () => updateVariablesDeepSync(),
       UPDATE_STYLES_DEEP_SYNC: () => updateStylesDeepSync(),
       DEFAULT: () => null,

@@ -22,7 +22,6 @@ import exportXml from './exports/exportXml'
 import getPalettesOnCurrentPage from './getPalettesOnCurrentPage'
 import getProPlan from './getProPlan'
 import processSelection from './processSelection'
-import updateVariablesCollection from './updates/updateVariablesCollection'
 import updateColors from './updates/updateColors'
 import updateGlobal from './updates/updateGlobal'
 import updateLocalStyles from './updates/updateLocalStyles'
@@ -93,7 +92,6 @@ const loadUI = async () => {
       UPDATE_COLORS: () => updateColors(msg),
       UPDATE_THEMES: () => updateThemes(msg),
       UPDATE_SETTINGS: () => updateSettings(msg),
-      UPDATE_VARIABLES_COLLECTION: () => updateVariablesCollection(msg),
       UPDATE_GLOBAL: () => updateGlobal(msg),
       UPDATE_SCREENSHOT: async () =>
         figma.ui.postMessage({
@@ -110,7 +108,9 @@ const loadUI = async () => {
       SYNC_LOCAL_STYLES: async () =>
         createLocalStyles(palette)
           .then(async (message) => [message, await updateLocalStyles(palette)])
-          .then((messages) => figma.notify(messages.join('・')))
+          .then((messages) =>
+            figma.notify(messages.join('・'), { timeout: 10000 })
+          )
           .catch((error) => {
             figma.notify(locals[lang].error.generic)
             throw error
@@ -121,7 +121,9 @@ const loadUI = async () => {
             message,
             await updateLocalVariables(palette),
           ])
-          .then((messages) => figma.notify(messages.join('・')))
+          .then((messages) =>
+            figma.notify(messages.join('・'), { timeout: 10000 })
+          )
           .catch((error) => {
             figma.notify(locals[lang].error.generic)
             throw error

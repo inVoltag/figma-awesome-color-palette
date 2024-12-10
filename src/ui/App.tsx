@@ -16,6 +16,7 @@ import {
   PriorityContext,
   Service,
   TrialStatus,
+  Easing,
 } from '../types/app'
 import {
   AlgorithmVersionConfiguration,
@@ -142,6 +143,7 @@ export default class App extends PureComponent<
       preset:
         presets.find((preset) => preset.id === 'MATERIAL') ?? defaultPreset,
       namingConvention: 'ONES',
+      distributionEasing: 'LINEAR',
       scale: {},
       colors: [],
       colorSpace: 'LCH',

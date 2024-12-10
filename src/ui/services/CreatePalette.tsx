@@ -7,6 +7,7 @@ import { uid } from 'uid'
 import {
   Context,
   ContextItem,
+  Easing,
   Language,
   NamingConvention,
   PlanStatus,

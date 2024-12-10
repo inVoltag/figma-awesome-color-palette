@@ -14,9 +14,14 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 
 import { locals } from '../../content/locals'
-import { Easing, EditorType, Language, PlanStatus } from '../../types/app'
 import {
-  NamingConventionConfiguration,
+  Easing,
+  EditorType,
+  Language,
+  NamingConvention,
+  PlanStatus,
+} from '../../types/app'
+import {
   PresetConfiguration,
   ScaleConfiguration,
   SourceColorConfiguration,
@@ -39,7 +44,8 @@ interface ScaleProps {
   sourceColors?: Array<SourceColorConfiguration>
   hasPreset: boolean
   preset: PresetConfiguration
-  namingConvention: NamingConventionConfiguration
+  namingConvention: NamingConvention
+  distributionEasing: Easing
   scale?: ScaleConfiguration
   actions?: string
   userIdentity: UserConfiguration
@@ -60,7 +66,6 @@ interface ScaleProps {
 }
 
 interface ScaleStates {
-  distributionEasing: Easing
   isTipsOpen: boolean
 }
 
@@ -70,6 +75,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
 
   static defaultProps: Partial<ScaleProps> = {
     namingConvention: 'ONES',
+    distributionEasing: 'LINEAR',
   }
 
   static features = (planStatus: PlanStatus) => ({
@@ -136,7 +142,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       ) as DispatchProcess,
     }
     this.state = {
-      distributionEasing: 'LINEAR',
       isTipsOpen: false,
     }
   }
@@ -501,7 +506,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               action: this.customHandler,
             },
           ]}
-          selected={this.state.distributionEasing}
+          selected={this.props.distributionEasing}
           parentClassName="controls"
           pin="BOTTOM"
           isBlocked={Scale.features(

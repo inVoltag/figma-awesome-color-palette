@@ -366,7 +366,7 @@ export const locals: { [key: string]: any } = {
     },
     actions: {
       createPalette: `Create a ${glossary.name}`,
-      run: 'Run',
+      sync: 'Sync',
       createLocalStyles: 'Sync with the local styles',
       createLocalVariables: 'Sync with the local variables',
       publishOrSyncPalette: 'Publish or Synchronize palette',

@@ -178,7 +178,7 @@ export default class Actions extends PureComponent<ActionsProps> {
               </Feature>
               <Menu
                 id="local-styles-variables"
-                label={locals[this.props.lang].actions.run}
+                label={locals[this.props.lang].actions.sync}
                 type="PRIMARY"
                 options={[
                   {

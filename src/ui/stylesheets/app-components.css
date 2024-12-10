@@ -127,11 +127,6 @@ div.slider .slider__knob--editing {
   outline: none;
 }
 
-div.slider .slider__knob:focus .slider__tooltip,
-div.slider .slider__knob--selected .slider__tooltip {
-  display: block !important;
-}
-
 div.slider .slider__knob:active .slider__label,
 div.slider .slider__knob:focus .slider__label,
 div.slider .slider__knob--selected .slider__label {
@@ -195,11 +190,6 @@ div.slider .slider__tooltip {
   top: calc(var(--size-xsmall) * -1);
   text-align: center;
   user-select: none;
-  display: none;
-}
-
-div.slider .slider__knob:hover .slider__tooltip {
-  display: block !important;
 }
 
 div.slider .slider__tooltip:after {

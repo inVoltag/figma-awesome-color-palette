@@ -26,7 +26,18 @@ interface SliderProps {
   onChange: (state: string, feature?: string) => void
 }
 
-export default class Slider extends Component<SliderProps> {
+interface SliderStates {
+  isTooltipDisplay: Array<boolean>
+}
+
+export default class Slider extends Component<SliderProps, SliderStates> {
+  constructor(props: SliderProps) {
+    super(props)
+    this.state = {
+      isTooltipDisplay: Array(this.props.stops?.length).fill(false),
+    }
+  }
+
   // Handlers
   validHandler = (
     stopId: string,
@@ -80,7 +91,7 @@ export default class Slider extends Component<SliderProps> {
       )
       stops.forEach((stop) =>
         this.updateLightnessScaleEntry(
-          stop.classList[1],
+          stop.dataset.lightness as string,
           parseFloat(stop.style.left.replace('%', ''))
         )
       )
@@ -171,17 +182,13 @@ export default class Slider extends Component<SliderProps> {
     }
 
     if (e.ctrlKey === false && e.metaKey === false && e.shiftKey === false)
-      stops.forEach(
-        (stop) => ((stop.children[0] as HTMLElement).style.display = 'none')
-      )
+      this.setState({
+        isTooltipDisplay: Array(stops.length).fill(false),
+      })
 
     stop.style.left = doMap(offset, 0, rangeWidth, 0, 100).toFixed(1) + '%'
 
     // Update lightness scale
-    this.updateStopTooltip(
-      tooltip,
-      parseFloat(doMap(offset, 0, rangeWidth, 0, 100).toFixed(1))
-    )
     update()
     this.props.onChange('UPDATING')
   }
@@ -195,9 +202,9 @@ export default class Slider extends Component<SliderProps> {
     document.onmouseup = null
     stop.onmouseup = null
     stop.style.zIndex = '1'
-    stops.forEach(
-      (stop) => ((stop.children[0] as HTMLElement).style.display = 'none')
-    )
+    this.setState({
+      isTooltipDisplay: Array(stops.length).fill(false),
+    })
 
     update()
     this.props.onChange('RELEASED')
@@ -248,13 +255,6 @@ export default class Slider extends Component<SliderProps> {
     palette.scale[key] = parseFloat(value.toFixed(1))
   }
 
-  updateStopTooltip = (tooltip: HTMLElement, value: number | string) => {
-    tooltip.style.display = 'block'
-    if (typeof value === 'string')
-      tooltip.textContent = value === '100.0' ? '100' : value
-    else tooltip.textContent = value === 100 ? '100' : value?.toFixed(1)
-  }
-
   distributeStops = (
     type: string,
     value: number,
@@ -270,13 +270,12 @@ export default class Slider extends Component<SliderProps> {
       true,
       this.props.distributionEasing
     )
-
     stops.forEach((stop) => {
-      stop.style.left = palette.scale[stop.classList[1]] + '%'
-      this.updateStopTooltip(
-        stop.childNodes[0] as HTMLElement,
-        parseFloat(palette.scale[stop.classList[1]].toFixed(1))
-      )
+      stop.style.left = palette.scale[stop.dataset.lightness as string] + '%'
+    })
+
+    this.setState({
+      isTooltipDisplay: Array(stops.length).fill(true),
     })
   }
 
@@ -291,10 +290,10 @@ export default class Slider extends Component<SliderProps> {
       if (stop !== src)
         stop.style.left =
           parseFloat(doMap(shift, 0, width, 0, 100).toFixed(1)) + '%'
-      this.updateStopTooltip(
-        stop.childNodes[0] as HTMLElement,
-        parseFloat(doMap(shift, 0, width, 0, 100).toFixed(1))
-      )
+    })
+
+    this.setState({
+      isTooltipDisplay: this.state.isTooltipDisplay.fill(true),
     })
   }
 
@@ -302,13 +301,14 @@ export default class Slider extends Component<SliderProps> {
   PreEdit = () => {
     return (
       <div className="slider__range">
-        {Object.entries(palette.scale).map((lightness) => (
+        {Object.entries(this.props.scale ?? {}).map((lightness, index) => (
           <Knob
             key={lightness[0]}
             id={lightness[0]}
             shortId={lightness[0].replace('lightness-', '')}
             value={lightness[1]}
             canBeTyped={false}
+            isDisplayed={this.state.isTooltipDisplay[index]}
             onMouseDown={(e: React.MouseEvent<HTMLElement>) => this.onGrab(e)}
           />
         ))}
@@ -337,7 +337,6 @@ export default class Slider extends Component<SliderProps> {
                   ? '100'
                   : (original[index - 1][1] - safeGap).toString()
               }
-              position={index}
               canBeTyped={!this.props.hasPreset}
               isDisplayed={this.state.isTooltipDisplay[index]}
               onShiftRight={(e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -395,6 +394,7 @@ export default class Slider extends Component<SliderProps> {
                   : (original[index - 1][1] - safeGap).toString()
               }
               canBeTyped={!this.props.hasPreset}
+              isDisplayed={this.state.isTooltipDisplay[index]}
               onShiftRight={(e: React.KeyboardEvent<HTMLInputElement>) => {
                 this.onShiftRight(e.target as HTMLElement, e.metaKey, e.ctrlKey)
               }}

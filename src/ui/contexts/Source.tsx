@@ -24,6 +24,7 @@ import Actions from '../modules/Actions'
 import Preview from '../modules/Preview'
 import Explore from './Explore'
 import Overview from './Overview'
+import { palette } from '../../utils/palettePackage'
 
 interface SourceProps {
   sourceColors: Array<SourceColorConfiguration>

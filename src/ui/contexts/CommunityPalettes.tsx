@@ -79,7 +79,6 @@ export default class CommunityPalettes extends PureComponent<
     return actions[this.props.status]?.()
   }
 
-  // Lifecycle
   componentDidUpdate = (prevProps: Readonly<CommunityPalettesProps>): void => {
     if (prevProps.palettesList.length !== this.props.palettesList.length)
       this.setState({

@@ -24,7 +24,6 @@ import {
 } from '../../types/configurations'
 import { TextColorsThemeHexModel } from '../../types/models'
 import { UserSession } from '../../types/user'
-import doLightnessScale from '../../utils/doLightnessScale'
 import { trackActionEvent } from '../../utils/eventsTracker'
 import { palette } from '../../utils/palettePackage'
 import { setContexts } from '../../utils/setContexts'
@@ -199,6 +198,7 @@ export default class CreatePalette extends PureComponent<
             onAddStop={this.props.onCustomPreset}
             onRemoveStop={this.props.onCustomPreset}
             onChangeNamingConvention={this.props.onCustomPreset}
+            onChangeDistributionEasing={this.props.onCustomPreset}
             onChangeScale={this.slideHandler}
             onCreatePalette={this.onCreatePalette}
           />

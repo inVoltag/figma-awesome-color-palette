@@ -59,6 +59,7 @@ import EditPalette from './services/EditPalette'
 import TransferPalette from './services/TransferPalette'
 import './stylesheets/app-components.css'
 import './stylesheets/app.css'
+import doLightnessScale from '../utils/doLightnessScale'
 
 export interface AppStates {
   service: Service
@@ -154,7 +155,7 @@ export default class App extends PureComponent<
         lightColor: '#FFFFFF',
         darkColor: '#000000',
       },
-      algorithmVersion: 'v1',
+      algorithmVersion: 'v2',
       screenshot: null,
       dates: {
         createdAt: '',
@@ -211,6 +212,15 @@ export default class App extends PureComponent<
 
   componentDidMount = async () => {
     setTimeout(() => this.setState({ isLoaded: true }), 1000)
+    this.setState({
+      scale: doLightnessScale(
+        this.state.preset.scale,
+        this.state.preset.min,
+        this.state.preset.max,
+        this.state.preset.isDistributed,
+        this.props.distributionEasing
+      ),
+    })
     fetch(
       `${announcementsWorkerUrl}/?action=get_version&database_id=${process.env.REACT_APP_NOTION_ANNOUNCEMENTS_ID}`
     )
@@ -354,74 +364,23 @@ export default class App extends PureComponent<
           })
 
         const updateWhileEmptySelection = () => {
-          this.setState({
-            service: 'CREATE',
-            sourceColors: this.state.sourceColors.filter(
-              (sourceColor: SourceColorConfiguration) =>
-                sourceColor.source !== 'CANVAS'
-            ),
-            id: '',
-            name: '',
-            description: '',
-            preset:
-              presets.find((preset) => preset.id === 'MATERIAL') ??
-              defaultPreset,
-            namingConvention: 'ONES',
-            scale: {},
-            colorSpace: 'LCH',
-            visionSimulationMode: 'NONE',
-            view: 'PALETTE_WITH_PROPERTIES',
-            textColorsTheme: {
-              lightColor: '#FFFFFF',
-              darkColor: '#000000',
-            },
-            algorithmVersion: 'v1',
-            screenshot: null,
-            dates: {
-              createdAt: '',
-              updatedAt: '',
-              publishedAt: '',
-            },
-            publicationStatus: {
-              isPublished: false,
-              isShared: false,
-            },
-            creatorIdentity: {
-              creatorFullName: '',
-              creatorAvatar: '',
-              creatorId: '',
-            },
-            priorityContainerContext: (() => {
-              if (this.state.priorityContainerContext === 'PUBLICATION')
-                return 'EMPTY'
-              else return this.state.priorityContainerContext
-            })(),
-            onGoingStep: 'selection empty',
-          })
-          palette.name = ''
-          palette.description = ''
-          palette.preset = defaultPreset
-          palette.colorSpace = 'LCH'
-          palette.visionSimulationMode = 'NONE'
-          palette.view = 'PALETTE_WITH_PROPERTIES'
-          palette.textColorsTheme = {
-            lightColor: '#FFFFFF',
-            darkColor: '#000000',
-          }
-          isPaletteSelected = false
-        }
-
-        const updateWhileColorSelected = () => {
           if (isPaletteSelected) {
+            const preset =
+              presets.find((preset) => preset.id === 'MATERIAL') ??
+              defaultPreset
+
             this.setState({
               id: '',
               name: '',
               description: '',
-              preset:
-                presets.find((preset) => preset.id === 'MATERIAL') ??
-                defaultPreset,
-              namingConvention: 'ONES',
-              scale: {},
+              preset: preset,
+              scale: doLightnessScale(
+                preset.scale,
+                preset.min,
+                preset.max,
+                preset.isDistributed,
+                this.props.distributionEasing
+              ),
               colorSpace: 'LCH',
               visionSimulationMode: 'NONE',
               view: 'PALETTE_WITH_PROPERTIES',
@@ -429,7 +388,80 @@ export default class App extends PureComponent<
                 lightColor: '#FFFFFF',
                 darkColor: '#000000',
               },
-              algorithmVersion: 'v1',
+              algorithmVersion: 'v2',
+              screenshot: null,
+              dates: {
+                createdAt: '',
+                updatedAt: '',
+                publishedAt: '',
+              },
+              publicationStatus: {
+                isPublished: false,
+                isShared: false,
+              },
+              creatorIdentity: {
+                creatorFullName: '',
+                creatorAvatar: '',
+                creatorId: '',
+              },
+              priorityContainerContext: (() => {
+                if (this.state.priorityContainerContext === 'PUBLICATION')
+                  return 'EMPTY'
+                else return this.state.priorityContainerContext
+              })(),
+              onGoingStep: 'selection empty',
+            })
+            palette.name = ''
+            palette.description = ''
+            palette.preset = defaultPreset
+            palette.colorSpace = 'LCH'
+            palette.visionSimulationMode = 'NONE'
+            palette.view = 'PALETTE_WITH_PROPERTIES'
+            palette.textColorsTheme = {
+              lightColor: '#FFFFFF',
+              darkColor: '#000000',
+            }
+          }
+          this.setState({
+            service: 'CREATE',
+            sourceColors: this.state.sourceColors.filter(
+              (sourceColor: SourceColorConfiguration) =>
+                sourceColor.source !== 'CANVAS'
+            ),
+            onGoingStep: 'selection empty',
+          })
+
+          isPaletteSelected = false
+        }
+
+        const updateWhileColorSelected = () => {
+          if (isPaletteSelected) {
+            const preset =
+              presets.find((preset) => preset.id === 'MATERIAL') ??
+              defaultPreset
+
+            this.setState({
+              id: '',
+              name: '',
+              description: '',
+              preset:
+                presets.find((preset) => preset.id === 'MATERIAL') ??
+                defaultPreset,
+              scale: doLightnessScale(
+                preset.scale,
+                preset.min,
+                preset.max,
+                preset.isDistributed,
+                this.props.distributionEasing
+              ),
+              colorSpace: 'LCH',
+              visionSimulationMode: 'NONE',
+              view: 'PALETTE_WITH_PROPERTIES',
+              textColorsTheme: {
+                lightColor: '#FFFFFF',
+                darkColor: '#000000',
+              },
+              algorithmVersion: 'v2',
               screenshot: null,
               dates: {
                 createdAt: '',

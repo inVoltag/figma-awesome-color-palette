@@ -1,18 +1,22 @@
 import chroma from 'chroma-js'
 import * as blinder from 'color-blind'
 import { Hsluv } from 'hsluv'
-import { PureComponent } from 'preact/compat'
+import { Component } from 'preact/compat'
 import React from 'react'
 
-import { SourceColorConfiguration } from '../../types/configurations'
+import {
+  ScaleConfiguration,
+  SourceColorConfiguration,
+} from '../../types/configurations'
 import { RgbModel } from '../../types/models'
 import { palette } from '../../utils/palettePackage'
 
 interface PreviewProps {
   sourceColors: Array<SourceColorConfiguration> | []
+  scale: ScaleConfiguration
 }
 
-export default class Preview extends PureComponent<PreviewProps> {
+export default class Preview extends Component<PreviewProps> {
   static defaultProps = {
     sourceColors: [],
   }
@@ -82,7 +86,7 @@ export default class Preview extends PureComponent<PreviewProps> {
             className="preview__row"
             key={index}
           >
-            {Object.values(palette.scale)
+            {Object.values(this.props.scale)
               .reverse()
               .map((scale, index) => (
                 <div

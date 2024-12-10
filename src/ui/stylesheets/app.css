@@ -223,5 +223,5 @@ div.about__links {
 .preview__cell {
   flex: 1;
   overflow: hidden;
-  height: var(--size-xxxsmall);
+  height: var(--size-medium);
 }

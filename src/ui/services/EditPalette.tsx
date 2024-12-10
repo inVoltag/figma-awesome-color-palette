@@ -75,7 +75,10 @@ interface EditPaletteStates {
   }
 }
 
-export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteStates> {
+export default class EditPalette extends PureComponent<
+  EditPaletteProps,
+  EditPaletteStates
+> {
   themesMessage: ThemesMessage
   contexts: Array<ContextItem>
   themesRef: React.RefObject<Themes>

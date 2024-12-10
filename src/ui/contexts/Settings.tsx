@@ -531,7 +531,10 @@ export default class Settings extends PureComponent<
                   this.props.planStatus
                 ).PREVIEW.isActive()}
               >
-                <Preview sourceColors={this.props.sourceColors} />
+                <Preview
+                  sourceColors={this.props.sourceColors}
+                  scale={palette.scale}
+                />
               </Feature>
             </>
           ) : (

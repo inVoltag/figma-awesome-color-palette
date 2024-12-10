@@ -1,7 +1,7 @@
 import { Consent, ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import 'figma-plugin-ds/dist/figma-plugin-ds.css'
-import { PureComponent } from 'preact/compat'
+import { Component, PureComponent } from 'preact/compat'
 import React from 'react'
 
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
@@ -101,10 +101,7 @@ export interface AppStates {
 
 let isPaletteSelected = false
 
-export default class App extends PureComponent<
-  Record<string, never>,
-  AppStates
-> {
+export default class App extends Component<Record<string, never>, AppStates> {
   static features = (planStatus: PlanStatus) => ({
     CREATE: new FeatureStatus({
       features: features,

@@ -751,38 +751,17 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               this.props.planStatus
             ).SCALE_CONFIGURATION.isActive()}
           >
-            {this.props.preset.isDistributed &&
-            Object.keys(this.props.scale ?? {}).length === 0 ? (
-              <Slider
-                type="EQUAL"
-                hasPreset={this.props.hasPreset}
-                presetName={this.props.preset.name}
-                stops={this.props.preset.scale}
-                min={palette.min}
-                max={palette.max}
-                distributionEasing={this.state.distributionEasing}
-                onChange={this.slideHandler}
-              />
-            ) : (
-              <Slider
-                type="CUSTOM"
-                hasPreset={this.props.hasPreset}
-                presetName={this.props.preset.name}
-                stops={this.props.preset.scale}
-                scale={
-                  Object.keys(this.props.scale ?? {}).length === 0
-                    ? doLightnessScale(
-                        this.props.preset.scale,
-                        this.props.preset.min,
-                        this.props.preset.max,
-                        false
-                      )
-                    : this.props.scale
-                }
-                distributionEasing={this.state.distributionEasing}
-                onChange={this.slideHandler}
-              />
-            )}
+            <Slider
+              type="PRE_EDIT"
+              hasPreset={this.props.hasPreset}
+              presetName={this.props.preset.name}
+              stops={this.props.preset.scale}
+              scale={this.props.scale}
+              min={palette.min}
+              max={palette.max}
+              distributionEasing={this.props.distributionEasing}
+              onChange={this.slideHandler}
+            />
           </Feature>
           <Feature
             isActive={Scale.features(
@@ -880,15 +859,27 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               this.props.planStatus
             ).SCALE_CONFIGURATION.isActive()}
           >
-            <Slider
-              type="CUSTOM"
-              hasPreset={this.props.hasPreset}
-              presetName={this.props.preset.name}
-              stops={this.props.preset.scale}
-              scale={this.props.scale}
-              distributionEasing={this.state.distributionEasing}
-              onChange={this.slideHandler}
-            />
+            {this.props.preset.id === 'CUSTOM' ? (
+              <Slider
+                type="FULLY_EDIT"
+                hasPreset={this.props.hasPreset}
+                presetName={this.props.preset.name}
+                stops={this.props.preset.scale}
+                scale={this.props.scale}
+                distributionEasing={this.props.distributionEasing}
+                onChange={this.slideHandler}
+              />
+            ) : (
+              <Slider
+                type="EDIT"
+                hasPreset={this.props.hasPreset}
+                presetName={this.props.preset.name}
+                stops={this.props.preset.scale}
+                scale={this.props.scale}
+                distributionEasing={this.props.distributionEasing}
+                onChange={this.slideHandler}
+              />
+            )}
           </Feature>
           <Feature
             isActive={Scale.features(

@@ -18,7 +18,7 @@ interface SliderProps {
   stops: Array<number>
   hasPreset: boolean
   presetName: string
-  type: 'EQUAL' | 'CUSTOM'
+  type: 'PRE_EDIT' | 'EDIT' | 'FULLY_EDIT'
   min?: number
   max?: number
   scale?: ScaleConfiguration
@@ -299,16 +299,7 @@ export default class Slider extends Component<SliderProps> {
   }
 
   // Templates
-  Equal = () => {
-    palette.min = this.props.min
-    palette.max = this.props.max
-    palette.scale = doLightnessScale(
-      this.props.stops,
-      palette.min ?? 0,
-      palette.max ?? 100,
-      true,
-      this.props.distributionEasing
-    )
+  PreEdit = () => {
     return (
       <div className="slider__range">
         {Object.entries(palette.scale).map((lightness) => (
@@ -325,7 +316,49 @@ export default class Slider extends Component<SliderProps> {
     )
   }
 
-  Custom = () => {
+  Edit = () => {
+    palette.scale = this.props.scale ?? {}
+    return (
+      <div className="slider__range">
+        {Object.entries(this.props.scale ?? {}).map(
+          (lightness, index, original) => (
+            <Knob
+              key={lightness[0]}
+              id={lightness[0]}
+              shortId={lightness[0].replace('lightness-', '')}
+              value={lightness[1]}
+              min={
+                original[index + 1] === undefined
+                  ? '0'
+                  : (original[index + 1][1] + safeGap).toString()
+              }
+              max={
+                original[index - 1] === undefined
+                  ? '100'
+                  : (original[index - 1][1] - safeGap).toString()
+              }
+              position={index}
+              canBeTyped={!this.props.hasPreset}
+              isDisplayed={this.state.isTooltipDisplay[index]}
+              onShiftRight={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                this.onShiftRight(e.target as HTMLElement, e.metaKey, e.ctrlKey)
+              }}
+              onShiftLeft={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                this.onShiftLeft(e.target as HTMLElement, e.metaKey, e.ctrlKey)
+              }}
+              onMouseDown={(e: React.MouseEvent<HTMLElement>) => {
+                this.onGrab(e)
+                ;(e.target as HTMLElement).focus()
+              }}
+              onValidStopValue={(stopId, e) => this.validHandler(stopId, e)}
+            />
+          )
+        )}
+      </div>
+    )
+  }
+
+  FullyEdit = () => {
     palette.scale = this.props.scale ?? {}
     return (
       <div
@@ -392,8 +425,9 @@ export default class Slider extends Component<SliderProps> {
   render() {
     return (
       <div className="slider">
-        {this.props.type === 'EQUAL' && <this.Equal />}
-        {this.props.type === 'CUSTOM' && <this.Custom />}
+        {this.props.type === 'PRE_EDIT' && <this.PreEdit />}
+        {this.props.type === 'EDIT' && <this.Edit />}
+        {this.props.type === 'FULLY_EDIT' && <this.FullyEdit />}
       </div>
     )
   }

@@ -158,14 +158,6 @@ export default class CreatePalette extends PureComponent<
 
   // Renders
   render() {
-    palette.preset = this.props.preset
-    palette.min = this.props.preset.min
-    palette.max = this.props.preset.max
-    palette.scale = doLightnessScale(
-      this.props.preset.scale,
-      this.props.preset.min ?? 0,
-      this.props.preset.max ?? 100
-    )
     let fragment
 
     switch (this.state.context) {

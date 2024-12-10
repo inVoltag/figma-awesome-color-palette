@@ -11,6 +11,7 @@ import {
   EditorType,
   HighlightDigest,
   Language,
+  NamingConvention,
   PlanStatus,
   PriorityContext,
   Service,
@@ -24,7 +25,6 @@ import {
   DatesConfiguration,
   ExportConfiguration,
   ExtractOfPaletteConfiguration,
-  NamingConventionConfiguration,
   PresetConfiguration,
   PublicationConfiguration,
   ScaleConfiguration,
@@ -66,7 +66,8 @@ export interface AppStates {
   name: string
   description: string
   preset: PresetConfiguration
-  namingConvention: NamingConventionConfiguration
+  namingConvention: NamingConvention
+  distributionEasing: Easing
   scale: ScaleConfiguration
   colors: Array<ColorConfiguration>
   colorSpace: ColorSpaceConfiguration

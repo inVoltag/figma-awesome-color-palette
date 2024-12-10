@@ -1,8 +1,5 @@
-import { Easing, EditorType } from './app'
-import {
-  ColorSpaceConfiguration,
-  NamingConventionConfiguration,
-} from './configurations'
+import { Easing, EditorType, NamingConvention } from './app'
+import { ColorSpaceConfiguration } from './configurations'
 
 export interface EditorEvent {
   editor: EditorType
@@ -43,7 +40,7 @@ export interface ScaleEvent {
     | 'SWITCH_BASE'
     | 'SWITCH_CUSTOM'
     | 'OPEN_KEYBOARD_SHORTCUTS'
-    | NamingConventionConfiguration
+    | NamingConvention
     | Easing
 }
 

@@ -8,12 +8,12 @@ import {
   Context,
   ContextItem,
   Language,
+  NamingConvention,
   PlanStatus,
   ThirdParty,
 } from '../../types/app'
 import {
   ColorSpaceConfiguration,
-  NamingConventionConfiguration,
   PresetConfiguration,
   ScaleConfiguration,
   SourceColorConfiguration,
@@ -38,7 +38,8 @@ interface CreatePaletteProps {
   name: string
   description: string
   preset: PresetConfiguration
-  namingConvention: NamingConventionConfiguration
+  namingConvention: NamingConvention
+  distributionEasing: Easing
   scale: ScaleConfiguration
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration

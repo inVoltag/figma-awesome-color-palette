@@ -451,7 +451,6 @@ export default class Shortcuts extends PureComponent<
                     },
                     {
                       label: locals[this.props.lang].shortcuts.email,
-                      position: 0,
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus

@@ -159,7 +159,6 @@ export default class Explore extends PureComponent<
           ],
         value: filter,
         feature: 'EDIT_FILTER',
-        position: 0,
         type: 'OPTION',
         isActive: true,
         isBlocked: false,
@@ -337,11 +336,12 @@ export default class Explore extends PureComponent<
                             .join(', ')
                         : this.props.activeFilters.join(', ')
                     }
+                    parentClassName="ui"
+                    pin="TOP"
                     isDisabled={
                       this.state.colourLoversPalettesListStatus === 'LOADING' ||
                       this.state.colourLoversPalettesListStatus === 'ERROR'
                     }
-                    parentClassName="ui"
                   />
                 </FormItem>
               }

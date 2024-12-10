@@ -162,7 +162,6 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
                 label: locals[this.props.lang].settings.global.views.detailed,
                 value: 'PALETTE_WITH_PROPERTIES',
                 feature: 'UPDATE_VIEW',
-                position: 0,
                 type: 'OPTION',
                 isActive: GlobalSettings.features(
                   this.props.planStatus
@@ -179,7 +178,6 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
                 label: locals[this.props.lang].settings.global.views.simple,
                 value: 'PALETTE',
                 feature: 'UPDATE_VIEW',
-                position: 1,
                 type: 'OPTION',
                 isActive: GlobalSettings.features(
                   this.props.planStatus
@@ -196,7 +194,6 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
                 label: locals[this.props.lang].settings.global.views.sheet,
                 value: 'SHEET',
                 feature: 'UPDATE_VIEW',
-                position: 2,
                 type: 'OPTION',
                 isActive: GlobalSettings.features(
                   this.props.planStatus

@@ -205,7 +205,6 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                 label: locals[this.props.lang].export.colorSpace.rgb,
                 value: 'EXPORT_CSS_RGB',
                 feature: 'SELECT_COLOR_SPACE',
-                position: 0,
                 type: 'OPTION',
                 isActive: Export.features(
                   this.props.planStatus
@@ -222,7 +221,6 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                 label: locals[this.props.lang].export.colorSpace.hex,
                 value: 'EXPORT_CSS_HEX',
                 feature: 'SELECT_COLOR_SPACE',
-                position: 1,
                 type: 'OPTION',
                 isActive: Export.features(
                   this.props.planStatus
@@ -239,7 +237,6 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                 label: locals[this.props.lang].export.colorSpace.hsl,
                 value: 'EXPORT_CSS_HSL',
                 feature: 'SELECT_COLOR_SPACE',
-                position: 2,
                 type: 'OPTION',
                 isActive: Export.features(
                   this.props.planStatus
@@ -256,7 +253,6 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                 label: locals[this.props.lang].export.colorSpace.lch,
                 value: 'EXPORT_CSS_LCH',
                 feature: 'SELECT_COLOR_SPACE',
-                position: 3,
                 type: 'OPTION',
                 isActive: Export.features(
                   this.props.planStatus
@@ -273,7 +269,6 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                 label: locals[this.props.lang].export.colorSpace.p3,
                 value: 'EXPORT_CSS_P3',
                 feature: 'SELECT_COLOR_SPACE',
-                position: 4,
                 type: 'OPTION',
                 isActive: Export.features(
                   this.props.planStatus
@@ -716,6 +711,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                 selected={this.state.format ?? ''}
                 parentClassName="controls"
                 alignment="RIGHT"
+                pin="TOP"
               />
               {this.state.format === 'EXPORT_CSS' && (
                 <Menu

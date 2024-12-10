@@ -156,7 +156,6 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 label: locals[this.props.lang].settings.color.colorSpace.lch,
                 value: 'LCH',
                 feature: 'UPDATE_COLOR_SPACE',
-                position: 0,
                 type: 'OPTION',
                 isActive: ColorSettings.features(
                   this.props.planStatus
@@ -173,7 +172,6 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 label: locals[this.props.lang].settings.color.colorSpace.oklch,
                 value: 'OKLCH',
                 feature: 'UPDATE_COLOR_SPACE',
-                position: 1,
                 type: 'OPTION',
                 isActive: ColorSettings.features(
                   this.props.planStatus
@@ -190,7 +188,6 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 label: locals[this.props.lang].settings.color.colorSpace.lab,
                 value: 'LAB',
                 feature: 'UPDATE_COLOR_SPACE',
-                position: 2,
                 type: 'OPTION',
                 isActive: ColorSettings.features(
                   this.props.planStatus
@@ -207,7 +204,6 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 label: locals[this.props.lang].settings.color.colorSpace.oklab,
                 value: 'OKLAB',
                 feature: 'UPDATE_COLOR_SPACE',
-                position: 3,
                 type: 'OPTION',
                 isActive: ColorSettings.features(
                   this.props.planStatus
@@ -224,7 +220,6 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 label: locals[this.props.lang].settings.color.colorSpace.hsl,
                 value: 'HSL',
                 feature: 'UPDATE_COLOR_SPACE',
-                position: 4,
                 type: 'OPTION',
                 isActive: ColorSettings.features(
                   this.props.planStatus
@@ -241,7 +236,6 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 label: locals[this.props.lang].settings.color.colorSpace.hsluv,
                 value: 'HSLUV',
                 feature: 'UPDATE_COLOR_SPACE',
-                position: 5,
                 type: 'OPTION',
                 isActive: ColorSettings.features(
                   this.props.planStatus
@@ -299,7 +293,6 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                     .none,
                 value: 'NONE',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
-                position: 0,
                 type: 'OPTION',
                 isActive: ColorSettings.features(
                   this.props.planStatus
@@ -313,14 +306,12 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 action: this.props.onChangeSettings,
               },
               {
-                position: 1,
                 type: 'SEPARATOR',
               },
               {
                 label:
                   locals[this.props.lang].settings.color.visionSimulationMode
                     .colorBlind,
-                position: 2,
                 type: 'TITLE',
               },
               {
@@ -329,7 +320,6 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                     .protanomaly,
                 value: 'PROTANOMALY',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
-                position: 3,
                 type: 'OPTION',
                 isActive: ColorSettings.features(
                   this.props.planStatus
@@ -348,7 +338,6 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                     .protanopia,
                 value: 'PROTANOPIA',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
-                position: 4,
                 type: 'OPTION',
                 isActive: ColorSettings.features(
                   this.props.planStatus
@@ -367,7 +356,6 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                     .deuteranomaly,
                 value: 'DEUTERANOMALY',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
-                position: 5,
                 type: 'OPTION',
                 isActive: ColorSettings.features(
                   this.props.planStatus
@@ -386,7 +374,6 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                     .deuteranopia,
                 value: 'DEUTERANOPIA',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
-                position: 6,
                 type: 'OPTION',
                 isActive: ColorSettings.features(
                   this.props.planStatus
@@ -405,7 +392,6 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                     .tritanomaly,
                 value: 'TRITANOMALY',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
-                position: 7,
                 type: 'OPTION',
                 isActive: ColorSettings.features(
                   this.props.planStatus
@@ -424,7 +410,6 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                     .tritanopia,
                 value: 'TRITANOPIA',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
-                position: 8,
                 type: 'OPTION',
                 isActive: ColorSettings.features(
                   this.props.planStatus
@@ -443,7 +428,6 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                     .achromatomaly,
                 value: 'ACHROMATOMALY',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
-                position: 9,
                 type: 'OPTION',
                 isActive: ColorSettings.features(
                   this.props.planStatus
@@ -462,7 +446,6 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                     .achromatopsia,
                 value: 'ACHROMATOPSIA',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
-                position: 10,
                 type: 'OPTION',
                 isActive: ColorSettings.features(
                   this.props.planStatus

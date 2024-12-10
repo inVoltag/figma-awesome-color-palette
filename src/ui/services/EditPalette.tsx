@@ -282,7 +282,6 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
     })
     const actions: Array<DropdownOption> = [
       {
-        position: themes.length,
         type: 'SEPARATOR',
       },
       {
@@ -407,6 +406,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
                   }
                   parentClassName="ui"
                   alignment="RIGHT"
+                  pin="TOP"
                 />
               </FormItem>
             </Feature>

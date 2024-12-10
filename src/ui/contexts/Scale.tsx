@@ -461,7 +461,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               label: locals[this.props.lang].scale.easing.linear,
               value: 'LINEAR',
               feature: 'UPDATE_DISTRIBUTION_EASING',
-              position: 4,
               type: 'OPTION',
               isActive: true,
               isBlocked: false,
@@ -469,14 +468,12 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               action: this.customHandler,
             },
             {
-              position: 1,
               type: 'SEPARATOR',
             },
             {
               label: locals[this.props.lang].scale.easing.easeIn,
               value: 'EASE_IN',
               feature: 'UPDATE_DISTRIBUTION_EASING',
-              position: 4,
               type: 'OPTION',
               isActive: true,
               isBlocked: false,
@@ -487,7 +484,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               label: locals[this.props.lang].scale.easing.easeOut,
               value: 'EASE_OUT',
               feature: 'UPDATE_DISTRIBUTION_EASING',
-              position: 4,
               type: 'OPTION',
               isActive: true,
               isBlocked: false,
@@ -498,7 +494,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               label: locals[this.props.lang].scale.easing.easeInOut,
               value: 'EASE_IN_OUT',
               feature: 'UPDATE_DISTRIBUTION_EASING',
-              position: 4,
               type: 'OPTION',
               isActive: true,
               isBlocked: false,
@@ -508,6 +503,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           ]}
           selected={this.state.distributionEasing}
           parentClassName="controls"
+          pin="BOTTOM"
           isBlocked={Scale.features(
             this.props.planStatus
           ).SCALE_HELPER_DISTRIBUTION.isBlocked()}
@@ -558,6 +554,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
         selected={this.props.namingConvention}
         parentClassName="controls"
         alignment="RIGHT"
+        pin="TOP"
         isBlocked={Scale.features(
           this.props.planStatus
         ).SCALE_PRESETS_NAMING_CONVENTION.isBlocked()}
@@ -687,7 +684,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                       label: preset[1].name,
                       value: preset[1].id,
                       feature: 'UPDATE_PRESET',
-                      position: 0,
                       type: 'OPTION',
                       isActive: Scale.features(this.props.planStatus).PRESETS[
                         `PRESETS_${preset[1].id}`
@@ -704,6 +700,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                   selected={this.props.preset.id}
                   parentClassName="controls"
                   alignment="RIGHT"
+                  pin="TOP"
                 />
               </Feature>
               <Feature

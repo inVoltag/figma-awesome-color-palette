@@ -1,7 +1,7 @@
 import { Consent, ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import 'figma-plugin-ds/dist/figma-plugin-ds.css'
-import { Component, PureComponent } from 'preact/compat'
+import { Component } from 'preact/compat'
 import React from 'react'
 
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
@@ -365,19 +365,20 @@ export default class App extends Component<Record<string, never>, AppStates> {
             const preset =
               presets.find((preset) => preset.id === 'MATERIAL') ??
               defaultPreset
+            const scale = doLightnessScale(
+              preset.scale,
+              preset.min,
+              preset.max,
+              preset.isDistributed,
+              this.props.distributionEasing
+            )
 
             this.setState({
               id: '',
               name: '',
               description: '',
               preset: preset,
-              scale: doLightnessScale(
-                preset.scale,
-                preset.min,
-                preset.max,
-                preset.isDistributed,
-                this.props.distributionEasing
-              ),
+              scale: scale,
               colorSpace: 'LCH',
               visionSimulationMode: 'NONE',
               view: 'PALETTE_WITH_PROPERTIES',
@@ -411,6 +412,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
             palette.name = ''
             palette.description = ''
             palette.preset = defaultPreset
+            palette.scale = scale
             palette.colorSpace = 'LCH'
             palette.visionSimulationMode = 'NONE'
             palette.view = 'PALETTE_WITH_PROPERTIES'
@@ -436,6 +438,13 @@ export default class App extends Component<Record<string, never>, AppStates> {
             const preset =
               presets.find((preset) => preset.id === 'MATERIAL') ??
               defaultPreset
+            const scale = doLightnessScale(
+              preset.scale,
+              preset.min,
+              preset.max,
+              preset.isDistributed,
+              this.props.distributionEasing
+            )
 
             this.setState({
               id: '',
@@ -444,13 +453,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
               preset:
                 presets.find((preset) => preset.id === 'MATERIAL') ??
                 defaultPreset,
-              scale: doLightnessScale(
-                preset.scale,
-                preset.min,
-                preset.max,
-                preset.isDistributed,
-                this.props.distributionEasing
-              ),
+              scale: scale,
               colorSpace: 'LCH',
               visionSimulationMode: 'NONE',
               view: 'PALETTE_WITH_PROPERTIES',
@@ -485,6 +488,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
             palette.preset =
               presets.find((preset) => preset.id === 'MATERIAL') ??
               defaultPreset
+            palette.scale = scale
             palette.colorSpace = 'LCH'
             palette.visionSimulationMode = 'NONE'
             palette.view = 'PALETTE_WITH_PROPERTIES'

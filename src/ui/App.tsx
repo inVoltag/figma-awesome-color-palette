@@ -218,6 +218,13 @@ export default class App extends Component<Record<string, never>, AppStates> {
         this.props.distributionEasing
       ),
     })
+    palette.scale = doLightnessScale(
+      this.state.preset.scale,
+      this.state.preset.min,
+      this.state.preset.max,
+      this.state.preset.isDistributed,
+      this.props.distributionEasing
+    )
     fetch(
       `${announcementsWorkerUrl}/?action=get_version&database_id=${process.env.REACT_APP_NOTION_ANNOUNCEMENTS_ID}`
     )

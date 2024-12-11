@@ -6,6 +6,7 @@ import React from 'react'
 import { APCAcontrast, sRGBtoY } from 'apca-w3'
 
 import {
+  ColorConfiguration,
   ScaleConfiguration,
   SourceColorConfiguration,
 } from '../../types/configurations'
@@ -19,7 +20,7 @@ import features from '../../config'
 import { locals } from '../../content/locals'
 
 interface PreviewProps {
-  sourceColors: Array<SourceColorConfiguration> | []
+  colors: Array<SourceColorConfiguration> | Array<ColorConfiguration> | []
   scale: ScaleConfiguration
   planStatus: PlanStatus
   lang: Language
@@ -251,7 +252,7 @@ export default class Preview extends PureComponent<
 
   // Render
   render() {
-    if (!this.props.sourceColors.length || !this.state.isLoaded) return null
+    if (!this.props.colors.length || !this.state.isLoaded) return null
     return (
       <div className="preview">
         <Bar
@@ -351,7 +352,7 @@ export default class Preview extends PureComponent<
               )
             })}
         </div>
-        {this.props.sourceColors.map((sourceColor, index) => (
+        {this.props.colors.map((color, index) => (
           <div
             className="preview__row"
             key={index}
@@ -359,7 +360,7 @@ export default class Preview extends PureComponent<
             {Object.values(this.props.scale)
               .reverse()
               .map((scale, index) => {
-                const background = this.getColor(sourceColor.rgb, scale)
+                const background = this.getColor(color.rgb, scale)
                 const darkText = palette.textColorsTheme.darkColor
                 const lightText = palette.textColorsTheme.lightColor
 

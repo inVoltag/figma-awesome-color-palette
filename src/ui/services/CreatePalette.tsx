@@ -246,7 +246,7 @@ export default class CreatePalette extends PureComponent<
           <Preview
             {...this.props}
             key="preview"
-            sourceColors={this.props.sourceColors}
+            colors={this.props.sourceColors}
             scale={this.props.scale ?? {}}
           />
         </Feature>

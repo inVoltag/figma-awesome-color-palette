@@ -362,7 +362,7 @@ export default class Overview extends PureComponent<
             })
           }}
         >
-          <div className="settings__item">
+          <div style={{ padding: '0 var(--size-xsmall)' }}>
             <FormItem
               id="update-coolors-url"
               helper={this.state.coolorsUrl.helper}
@@ -446,7 +446,7 @@ export default class Overview extends PureComponent<
             })
           }}
         >
-          <div className="settings__item">
+          <div style={{ padding: '0 var(--size-xsmall)' }}>
             <FormItem
               id="update-realtime-colors-url"
               helper={this.state.realtimeColorsUrl.helper}

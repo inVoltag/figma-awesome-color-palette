@@ -19,12 +19,9 @@ import {
 import { ColourLovers } from '../../types/data'
 import features from '../../config'
 import { setContexts } from '../../utils/setContexts'
-import Feature from '../components/Feature'
 import Actions from '../modules/Actions'
-import Preview from '../modules/Preview'
 import Explore from './Explore'
 import Overview from './Overview'
-import { palette } from '../../utils/palettePackage'
 
 interface SourceProps {
   sourceColors: Array<SourceColorConfiguration>
@@ -138,15 +135,6 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
               : () => null
           }
         />
-        <Feature
-          isActive={Source.features(this.props.planStatus).PREVIEW.isActive()}
-        >
-          <Preview
-            {...this.props}
-            sourceColors={this.props.sourceColors}
-            scale={palette.scale}
-          />
-        </Feature>
       </>
     )
   }

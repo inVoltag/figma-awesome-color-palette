@@ -38,7 +38,6 @@ import Feature from '../components/Feature'
 import Slider from '../components/Slider'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
-import Preview from '../modules/Preview'
 
 interface ScaleProps {
   sourceColors?: Array<SourceColorConfiguration>
@@ -902,15 +901,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           {...this.props}
           service="CREATE"
         />
-        <Feature
-          isActive={Scale.features(this.props.planStatus).PREVIEW.isActive()}
-        >
-          <Preview
-            {...this.props}
-            sourceColors={this.props.sourceColors}
-            scale={this.props.scale ?? {}}
-          />
-        </Feature>
       </div>
     )
   }

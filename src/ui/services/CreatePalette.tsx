@@ -32,6 +32,10 @@ import Palettes from '../contexts/Palettes'
 import Scale from '../contexts/Scale'
 import Settings from '../contexts/Settings'
 import Source from '../contexts/Source'
+import Preview from '../modules/Preview'
+import Feature from '../components/Feature'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import features from '../../config'
 
 interface CreatePaletteProps {
   sourceColors: Array<SourceColorConfiguration> | []
@@ -67,6 +71,14 @@ export default class CreatePalette extends PureComponent<
   CreatePaletteStates
 > {
   contexts: Array<ContextItem>
+
+  static features = (planStatus: PlanStatus) => ({
+    PREVIEW: new FeatureStatus({
+      features: features,
+      featureName: 'PREVIEW_WCAG',
+      planStatus: planStatus,
+    }),
+  })
 
   constructor(props: CreatePaletteProps) {
     super(props)
@@ -225,6 +237,19 @@ export default class CreatePalette extends PureComponent<
         <section className="controller">
           <div className="controls">{fragment}</div>
         </section>
+        <Feature
+          isActive={
+            CreatePalette.features(this.props.planStatus).PREVIEW.isActive() &&
+            this.state.context !== 'PALETTES'
+          }
+        >
+          <Preview
+            {...this.props}
+            key="preview"
+            sourceColors={this.props.sourceColors}
+            scale={this.props.scale ?? {}}
+          />
+        </Feature>
       </>
     )
   }

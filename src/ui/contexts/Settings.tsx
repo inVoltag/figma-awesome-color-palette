@@ -33,7 +33,6 @@ import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
-import Preview from '../modules/Preview'
 import ColorSettings from './ColorSettings'
 import ContrastSettings from './ContrastSettings'
 import GlobalSettings from './GlobalSettings'
@@ -521,23 +520,10 @@ export default class Settings extends PureComponent<
             )}
           </div>
           {this.props.service === 'CREATE' ? (
-            <>
-              <Actions
-                {...this.props}
-                service="CREATE"
-              />
-              <Feature
-                isActive={Settings.features(
-                  this.props.planStatus
-                ).PREVIEW.isActive()}
-              >
-                <Preview
-                  {...this.props}
-                  sourceColors={this.props.sourceColors}
-                  scale={palette.scale}
-                />
-              </Feature>
-            </>
+            <Actions
+              {...this.props}
+              service="CREATE"
+            />
           ) : (
             <Actions
               {...this.props}

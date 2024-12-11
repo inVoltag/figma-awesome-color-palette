@@ -1,7 +1,7 @@
 import chroma from 'chroma-js'
 import * as blinder from 'color-blind'
 import { Hsluv } from 'hsluv'
-import { Component } from 'preact/compat'
+import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { APCAcontrast, sRGBtoY } from 'apca-w3'
 
@@ -26,11 +26,15 @@ interface PreviewProps {
 }
 
 interface PreviewStates {
+  isLoaded: boolean
   isWCAGDisplayed: boolean
   isAPCADisplayed: boolean
 }
 
-export default class Preview extends Component<PreviewProps, PreviewStates> {
+export default class Preview extends PureComponent<
+  PreviewProps,
+  PreviewStates
+> {
   static features = (planStatus: PlanStatus) => ({
     PREVIEW_WCAG: new FeatureStatus({
       features: features,
@@ -52,6 +56,7 @@ export default class Preview extends Component<PreviewProps, PreviewStates> {
   constructor(props: PreviewProps) {
     super(props)
     this.state = {
+      isLoaded: false,
       isWCAGDisplayed: true,
       isAPCADisplayed: true,
     }
@@ -93,7 +98,11 @@ export default class Preview extends Component<PreviewProps, PreviewStates> {
           },
           '*'
         )
-      else this.setState({ isWCAGDisplayed: e.data.pluginMessage.value })
+      else
+        this.setState({
+          isWCAGDisplayed: e.data.pluginMessage.value,
+          isLoaded: true,
+        })
     }
 
     const displayAPCAScore = () => {
@@ -112,7 +121,11 @@ export default class Preview extends Component<PreviewProps, PreviewStates> {
           },
           '*'
         )
-      else this.setState({ isAPCADisplayed: e.data.pluginMessage.value })
+      else
+        this.setState({
+          isAPCADisplayed: e.data.pluginMessage.value,
+          isLoaded: true,
+        })
     }
 
     const actions: ActionsList = {
@@ -238,7 +251,7 @@ export default class Preview extends Component<PreviewProps, PreviewStates> {
 
   // Render
   render() {
-    if (!this.props.sourceColors.length) return null
+    if (!this.props.sourceColors.length || !this.state.isLoaded) return null
     return (
       <div className="preview">
         <Bar

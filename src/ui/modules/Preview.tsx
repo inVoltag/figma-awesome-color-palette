@@ -1,23 +1,23 @@
+import { APCAcontrast, sRGBtoY } from 'apca-w3'
 import chroma from 'chroma-js'
-import * as blinder from 'color-blind'
-import { Hsluv } from 'hsluv'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
-import { APCAcontrast, sRGBtoY } from 'apca-w3'
 
+import { Bar, HexModel, layouts, Select, texts } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import features from '../../config'
+import { locals } from '../../content/locals'
+import { Language, PlanStatus } from '../../types/app'
 import {
   ColorConfiguration,
   ScaleConfiguration,
   SourceColorConfiguration,
 } from '../../types/configurations'
 import { ActionsList, RgbModel } from '../../types/models'
+import Color from '../../utils/Color'
+import Contrast from '../../utils/Contrast'
 import { palette } from '../../utils/palettePackage'
-import { Bar, HexModel, layouts, Select, texts } from '@a_ng_d/figmug-ui'
-import { Language, PlanStatus } from '../../types/app'
 import Feature from '../components/Feature'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import features from '../../config'
-import { locals } from '../../content/locals'
 
 interface PreviewProps {
   colors: Array<SourceColorConfiguration> | Array<ColorConfiguration> | []
@@ -139,59 +139,35 @@ export default class Preview extends PureComponent<
   }
 
   // Direct actions
-  getColor = (rgb: RgbModel, scale: number): HexModel => {
-    scale =
-      palette.colorSpace.includes('OK') || palette.colorSpace === 'HSL'
-        ? scale / 100
-        : scale
+  setColor = (color: RgbModel | HexModel, scale: number): HexModel => {
+    const colorData = {
+      sourceColor:
+        typeof color === 'string'
+          ? chroma(color).rgb()
+          : chroma([color.r * 255, color.g * 255, color.b * 255]).rgb(),
+      lightness: scale,
+      hueShifting: 0,
+      chromaShifting: 100,
+      algorithmVersion: palette.algorithmVersion,
+      visionSimulationMode: palette.visionSimulationMode,
+    }
 
-    if (palette.colorSpace === 'HSLUV')
-      return this.setVisionSimulation(this.setHsluv(rgb, scale))
-    else
-      return this.setVisionSimulation(
-        chroma(Object.values(rgb).map((value) => value * 255))
-          .set(`${palette.colorSpace.toLowerCase()}.l`, scale)
-          .hex()
-      )
-  }
-
-  setHsluv = (rgb: RgbModel, scale: number): HexModel => {
-    const hsluv = new Hsluv()
-
-    hsluv.rgb_r = rgb.r
-    hsluv.rgb_g = rgb.g
-    hsluv.rgb_b = rgb.b
-
-    hsluv.rgbToHsluv()
-
-    hsluv.hsluv_l = scale
-
-    if (Number.isNaN(hsluv.hsluv_s)) hsluv.hsluv_s = 0
-    if (Number.isNaN(hsluv.hsluv_h)) hsluv.hsluv_h = 0
-
-    hsluv.hsluvToHex()
-
-    return hsluv.hex
-  }
-
-  setVisionSimulation = (hex: HexModel): HexModel => {
-    if (palette.visionSimulationMode === 'PROTANOMALY')
-      return blinder.protanomaly(hex)
-    if (palette.visionSimulationMode === 'PROTANOPIA')
-      return blinder.protanopia(hex)
-    if (palette.visionSimulationMode === 'DEUTERANOMALY')
-      return blinder.deuteranomaly(hex)
-    if (palette.visionSimulationMode === 'DEUTERANOPIA')
-      return blinder.deuteranopia(hex)
-    if (palette.visionSimulationMode === 'TRITANOMALY')
-      return blinder.tritanomaly(hex)
-    if (palette.visionSimulationMode === 'TRITANOPIA')
-      return blinder.tritanopia(hex)
-    if (palette.visionSimulationMode === 'ACHROMATOMALY')
-      return blinder.achromatomaly(hex)
-    if (palette.visionSimulationMode === 'ACHROMATOPSIA')
-      return blinder.achromatopsia(hex)
-    return hex
+    switch (palette.colorSpace) {
+      case 'LCH':
+        return new Color(colorData).lch() as HexModel
+      case 'OKLCH':
+        return new Color(colorData).oklch() as HexModel
+      case 'LAB':
+        return new Color(colorData).lab() as HexModel
+      case 'OKLAB':
+        return new Color(colorData).oklab() as HexModel
+      case 'HSL':
+        return new Color(colorData).hsl() as HexModel
+      case 'HSLUV':
+        return new Color(colorData).hsluv() as HexModel
+      default:
+        return '#000000'
+    }
   }
 
   getWCAGScore = (background: HexModel, text: HexModel): number => {
@@ -360,9 +336,17 @@ export default class Preview extends PureComponent<
             {Object.values(this.props.scale)
               .reverse()
               .map((scale, index) => {
-                const background = this.getColor(color.rgb, scale)
-                const darkText = palette.textColorsTheme.darkColor
-                const lightText = palette.textColorsTheme.lightColor
+                const background: HexModel = this.setColor(color.rgb, scale)
+                const darkText = new Color({
+                  visionSimulationMode: palette.visionSimulationMode,
+                }).simulateColorBlindHex(
+                  chroma(palette.textColorsTheme.darkColor).rgb()
+                )
+                const lightText = new Color({
+                  visionSimulationMode: palette.visionSimulationMode,
+                }).simulateColorBlindHex(
+                  chroma(palette.textColorsTheme.lightColor).rgb()
+                )
 
                 return (
                   <div
@@ -375,25 +359,41 @@ export default class Preview extends PureComponent<
                     {this.state.isWCAGDisplayed && (
                       <this.wcagScoreTag
                         color={lightText}
-                        score={this.getWCAGScore(background, lightText)}
+                        score={new Contrast({
+                          backgroundColor: chroma(background).rgb(),
+                          textColor: lightText,
+                          visionSimulationMode: palette.visionSimulationMode,
+                        }).getWCAGContrast()}
                       />
                     )}
                     {this.state.isAPCADisplayed && (
                       <this.apcaScoreTag
                         color={lightText}
-                        score={this.getAPCAContrast(background, lightText)}
+                        score={new Contrast({
+                          backgroundColor: chroma(background).rgb(),
+                          textColor: lightText,
+                          visionSimulationMode: palette.visionSimulationMode,
+                        }).getAPCAContrast()}
                       />
                     )}
                     {this.state.isWCAGDisplayed && (
                       <this.wcagScoreTag
                         color={darkText}
-                        score={this.getWCAGScore(background, darkText)}
+                        score={new Contrast({
+                          backgroundColor: chroma(background).rgb(),
+                          textColor: darkText,
+                          visionSimulationMode: palette.visionSimulationMode,
+                        }).getWCAGContrast()}
                       />
                     )}
                     {this.state.isAPCADisplayed && (
                       <this.apcaScoreTag
                         color={darkText}
-                        score={this.getAPCAContrast(background, darkText)}
+                        score={new Contrast({
+                          backgroundColor: chroma(background).rgb(),
+                          textColor: darkText,
+                          visionSimulationMode: palette.visionSimulationMode,
+                        }).getAPCAContrast()}
                       />
                     )}
                   </div>

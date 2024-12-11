@@ -292,7 +292,7 @@ export default class Settings extends PureComponent<
       }
     }
 
-    const updateAlgorythmVersion = () => {
+    const updateAlgorithmVersion = () => {
       this.settingsMessage.data.name = this.props.name
       this.settingsMessage.data.description = this.props.description
       this.settingsMessage.data.colorSpace = this.props.colorSpace
@@ -431,7 +431,7 @@ export default class Settings extends PureComponent<
       UPDATE_VIEW: () => updateView(),
       UPDATE_COLOR_SPACE: () => updateColorSpace(),
       UPDATE_COLOR_BLIND_MODE: () => updatevisionSimulationMode(),
-      UPDATE_ALGORITHM_VERSION: () => updateAlgorythmVersion(),
+      UPDATE_ALGORITHM_VERSION: () => updateAlgorithmVersion(),
       UPDATE_TEXT_LIGHT_COLOR: () => updateTextLightColor(),
       UPDATE_TEXT_DARK_COLOR: () => updateTextDarkColor(),
       UPDATE_VARIABLES_DEEP_SYNC: () => updateVariablesDeepSync(),

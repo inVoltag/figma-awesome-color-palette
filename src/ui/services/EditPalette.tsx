@@ -40,6 +40,7 @@ import Export from '../contexts/Export'
 import Scale from '../contexts/Scale'
 import Settings from '../contexts/Settings'
 import Themes from '../contexts/Themes'
+import Preview from '../modules/Preview'
 
 interface EditPaletteProps {
   name: string
@@ -87,6 +88,11 @@ export default class EditPalette extends PureComponent<
     THEMES: new FeatureStatus({
       features: features,
       featureName: 'THEMES',
+      planStatus: planStatus,
+    }),
+    PREVIEW: new FeatureStatus({
+      features: features,
+      featureName: 'PREVIEW_WCAG',
       planStatus: planStatus,
     }),
   })
@@ -420,6 +426,19 @@ export default class EditPalette extends PureComponent<
         <section className="controller">
           <div className="controls">{fragment}</div>
         </section>
+        <Feature
+          isActive={
+            EditPalette.features(this.props.planStatus).PREVIEW.isActive() &&
+            this.state.context !== 'EXPORT'
+          }
+        >
+          <Preview
+            {...this.props}
+            key="preview"
+            colors={this.props.colors}
+            scale={this.props.scale ?? {}}
+          />
+        </Feature>
       </>
     )
   }

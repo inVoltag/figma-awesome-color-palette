@@ -9,20 +9,119 @@ import {
   ScaleConfiguration,
   SourceColorConfiguration,
 } from '../../types/configurations'
-import { RgbModel } from '../../types/models'
+import { ActionsList, RgbModel } from '../../types/models'
 import { palette } from '../../utils/palettePackage'
-import { HexModel, texts } from '@a_ng_d/figmug-ui'
-import { Language } from '../../types/app'
+import { Bar, HexModel, layouts, Select, texts } from '@a_ng_d/figmug-ui'
+import { Language, PlanStatus } from '../../types/app'
+import Feature from '../components/Feature'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import features from '../../config'
+import { locals } from '../../content/locals'
 
 interface PreviewProps {
   sourceColors: Array<SourceColorConfiguration> | []
   scale: ScaleConfiguration
+  planStatus: PlanStatus
   lang: Language
 }
 
-export default class Preview extends Component<PreviewProps> {
+interface PreviewStates {
+  isWCAGDisplayed: boolean
+  isAPCADisplayed: boolean
+}
+
+export default class Preview extends Component<PreviewProps, PreviewStates> {
+  static features = (planStatus: PlanStatus) => ({
+    PREVIEW_WCAG: new FeatureStatus({
+      features: features,
+      featureName: 'PREVIEW_WCAG',
+      planStatus: planStatus,
+    }),
+    PREVIEW_APCA: new FeatureStatus({
+      features: features,
+      featureName: 'PREVIEW_APCA',
+      planStatus: planStatus,
+    }),
+  })
+
   static defaultProps = {
     sourceColors: [],
+    scale: {},
+  }
+
+  constructor(props: PreviewProps) {
+    super(props)
+    this.state = {
+      isWCAGDisplayed: true,
+      isAPCADisplayed: true,
+    }
+  }
+
+  // Lifecycle
+  componentDidMount = (): void => {
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'GET_ITEMS',
+          items: ['is_wcag_displayed', 'is_apca_displayed'],
+        },
+      },
+      '*'
+    )
+    window.addEventListener('message', this.handleMessage)
+  }
+
+  componentWillUnmount = (): void => {
+    window.removeEventListener('message', this.handleMessage)
+  }
+
+  // Handlers
+  handleMessage = (e: MessageEvent) => {
+    const displayWCAGScore = () => {
+      if (e.data.pluginMessage.value === undefined)
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'SET_ITEMS',
+              items: [
+                {
+                  key: 'is_wcag_displayed',
+                  value: true,
+                },
+              ],
+            },
+          },
+          '*'
+        )
+      else this.setState({ isWCAGDisplayed: e.data.pluginMessage.value })
+    }
+
+    const displayAPCAScore = () => {
+      if (e.data.pluginMessage.value === undefined)
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'SET_ITEMS',
+              items: [
+                {
+                  key: 'is_apca_displayed',
+                  value: true,
+                },
+              ],
+            },
+          },
+          '*'
+        )
+      else this.setState({ isAPCADisplayed: e.data.pluginMessage.value })
+    }
+
+    const actions: ActionsList = {
+      GET_ITEM_IS_WCAG_DISPLAYED: () => displayWCAGScore(),
+      GET_ITEM_IS_APCA_DISPLAYED: () => displayAPCAScore(),
+      DEFAULT: () => null,
+    }
+
+    return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
   }
 
   // Direct actions
@@ -142,6 +241,89 @@ export default class Preview extends Component<PreviewProps> {
     if (!this.props.sourceColors.length) return null
     return (
       <div className="preview">
+        <Bar
+          leftPartSlot={
+            <div className={layouts['snackbar--tight']}>
+              <Feature
+                isActive={Preview.features(
+                  this.props.planStatus
+                ).PREVIEW_WCAG.isActive()}
+              >
+                <Select
+                  id="enable-wcag-score"
+                  type="SWITCH_BUTTON"
+                  name="enable-wcag-score"
+                  label={locals[this.props.lang].preview.wcag.label}
+                  isChecked={this.state.isWCAGDisplayed}
+                  isBlocked={Preview.features(
+                    this.props.planStatus
+                  ).PREVIEW_WCAG.isBlocked()}
+                  isNew={Preview.features(
+                    this.props.planStatus
+                  ).PREVIEW_WCAG.isNew()}
+                  onChange={() => {
+                    this.setState({
+                      isWCAGDisplayed: !this.state.isWCAGDisplayed,
+                    })
+                    parent.postMessage(
+                      {
+                        pluginMessage: {
+                          type: 'SET_ITEMS',
+                          items: [
+                            {
+                              key: 'is_wcag_displayed',
+                              value: !this.state.isWCAGDisplayed,
+                            },
+                          ],
+                        },
+                      },
+                      '*'
+                    )
+                  }}
+                />
+              </Feature>
+              <Feature
+                isActive={Preview.features(
+                  this.props.planStatus
+                ).PREVIEW_APCA.isActive()}
+              >
+                <Select
+                  id="enable-apca-score"
+                  type="SWITCH_BUTTON"
+                  name="enable-apca-score"
+                  label={locals[this.props.lang].preview.apca.label}
+                  isChecked={this.state.isAPCADisplayed}
+                  isBlocked={Preview.features(
+                    this.props.planStatus
+                  ).PREVIEW_APCA.isBlocked()}
+                  isNew={Preview.features(
+                    this.props.planStatus
+                  ).PREVIEW_APCA.isNew()}
+                  onChange={() => {
+                    this.setState({
+                      isAPCADisplayed: !this.state.isAPCADisplayed,
+                    })
+                    parent.postMessage(
+                      {
+                        pluginMessage: {
+                          type: 'SET_ITEMS',
+                          items: [
+                            {
+                              key: 'is_apca_displayed',
+                              value: !this.state.isAPCADisplayed,
+                            },
+                          ],
+                        },
+                      },
+                      '*'
+                    )
+                  }}
+                />
+              </Feature>
+            </div>
+          }
+          border={['BOTTOM']}
+        />
         <div className="preview__row">
           {Object.keys(this.props.scale)
             .reverse()
@@ -176,22 +358,30 @@ export default class Preview extends Component<PreviewProps> {
                       backgroundColor: background,
                     }}
                   >
-                    <this.wcagScoreTag
-                      color={lightText}
-                      score={this.getWCAGScore(background, lightText)}
-                    />
-                    <this.apcaScoreTag
-                      color={lightText}
-                      score={this.getAPCAContrast(background, lightText)}
-                    />
-                    <this.wcagScoreTag
-                      color={darkText}
-                      score={this.getWCAGScore(background, darkText)}
-                    />
-                    <this.apcaScoreTag
-                      color={darkText}
-                      score={this.getAPCAContrast(background, darkText)}
-                    />
+                    {this.state.isWCAGDisplayed && (
+                      <this.wcagScoreTag
+                        color={lightText}
+                        score={this.getWCAGScore(background, lightText)}
+                      />
+                    )}
+                    {this.state.isAPCADisplayed && (
+                      <this.apcaScoreTag
+                        color={lightText}
+                        score={this.getAPCAContrast(background, lightText)}
+                      />
+                    )}
+                    {this.state.isWCAGDisplayed && (
+                      <this.wcagScoreTag
+                        color={darkText}
+                        score={this.getWCAGScore(background, darkText)}
+                      />
+                    )}
+                    {this.state.isAPCADisplayed && (
+                      <this.apcaScoreTag
+                        color={darkText}
+                        score={this.getAPCAContrast(background, darkText)}
+                      />
+                    )}
                   </div>
                 )
               })}

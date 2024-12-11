@@ -339,6 +339,14 @@ export const locals: { [key: string]: any } = {
         },
       },
     },
+    preview: {
+      wcag: {
+        label: 'Display WCAG scores',
+      },
+      apca: {
+        label: 'Display APCA scores',
+      },
+    },
     report: {
       title: 'Report a bug',
       fullName: {
@@ -455,6 +463,8 @@ export const locals: { [key: string]: any } = {
       wcag: 'WCAG scores',
       apca: 'APCA scores',
       fontSize: 'Minimum font sizes',
+      pass: 'Pass',
+      fail: 'Fail',
       unknown: 'Unknown',
       avoid: 'Avoid',
       nonText: 'Non-text',

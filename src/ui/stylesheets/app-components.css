@@ -262,7 +262,7 @@ div.user__avatar img {
   width: var(--size-xxsmall);
   height: var(--size-xxsmall);
   border-radius: var(--size-small);
-  gap: var(--size-xxxsmall);
   flex: 0 0 var(--size-xxsmall);
-  outline: 1px solid var(--black1)
+  outline: 1px solid var(--black1);
+  outline-offset: -1px;
 }

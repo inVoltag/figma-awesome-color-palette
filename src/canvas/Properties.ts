@@ -91,7 +91,7 @@ export default class Properties {
     return result !== undefined ? result : '#000000'
   }
 
-  getWcagContrast = (textColor: string) => {
+  getWCAGContrast = (textColor: string) => {
     return chroma.contrast(
       chroma(this.rgb).hex(),
       textColor === 'DARK'
@@ -129,11 +129,11 @@ export default class Properties {
     )
   }
 
-  getWcagScore = (textColor: string) => {
-    return this.getWcagContrast(textColor) < 4.5
+  getWCAGScore = (textColor: string) => {
+    return this.getWCAGContrast(textColor) < 4.5
       ? 'A'
-      : this.getWcagContrast(textColor) >= 4.5 &&
-          this.getWcagContrast(textColor) < 7
+      : this.getWCAGContrast(textColor) >= 4.5 &&
+          this.getWCAGContrast(textColor) < 7
         ? 'AA'
         : 'AAA'
   }
@@ -322,12 +322,12 @@ export default class Properties {
 
     // Insert
     // WCAG
-    const wcagLightContrast = this.getWcagContrast('LIGHT').toFixed(2),
-      wcagDarkContrast = this.getWcagContrast('DARK').toFixed(2),
-      wcagLightScore = this.getWcagScore('LIGHT'),
-      wcagDarkScore = this.getWcagScore('DARK')
+    const wcagLightContrast = this.getWCAGContrast('LIGHT').toFixed(2),
+      wcagDarkContrast = this.getWCAGContrast('DARK').toFixed(2),
+      wcagLightScore = this.getWCAGScore('LIGHT'),
+      wcagDarkScore = this.getWCAGScore('DARK')
 
-    const nodeWcagLightProp = new Tag({
+    const nodeWCAGLightProp = new Tag({
         name: '_wcag21-light',
         content: wcagLightContrast,
         isCompact: true,
@@ -339,7 +339,7 @@ export default class Properties {
           )
         ).gl()
       ),
-      nodeWcagLightScore = new Tag({
+      nodeWCAGLightScore = new Tag({
         name: '_wcag21-light-score',
         content: wcagLightScore,
         backgroundColor: {
@@ -347,7 +347,7 @@ export default class Properties {
           alpha: 1,
         },
       }).makeNodeTag(),
-      nodeWcagDarkProp = new Tag({
+      nodeWCAGDarkProp = new Tag({
         name: '_wcag21-dark',
         content: wcagDarkContrast,
         isCompact: true,
@@ -359,7 +359,7 @@ export default class Properties {
           )
         ).gl()
       ),
-      nodeWcagDarkScore = new Tag({
+      nodeWCAGDarkScore = new Tag({
         name: '_wcag21-dark-score',
         content: wcagDarkScore,
         backgroundColor: {
@@ -368,8 +368,8 @@ export default class Properties {
         },
       }).makeNodeTag()
 
-    nodeWcagLightProp.appendChild(nodeWcagLightScore)
-    nodeWcagDarkProp.appendChild(nodeWcagDarkScore)
+    nodeWCAGLightProp.appendChild(nodeWCAGLightScore)
+    nodeWCAGDarkProp.appendChild(nodeWCAGDarkScore)
 
     // APCA
     const apcaLightContrast = this.getAPCAContrast('LIGHT').toFixed(1),
@@ -377,7 +377,7 @@ export default class Properties {
       apcaDarkContrast = this.getAPCAContrast('DARK').toFixed(1),
       apcaDarkRecommendation = this.getRecommendedUsage('DARK')
 
-    const nodeApcaLightProp = new Tag({
+    const nodeAPCALightProp = new Tag({
         name: '_apca-light',
         content: `Lc ${apcaLightContrast}`,
         isCompact: true,
@@ -389,7 +389,7 @@ export default class Properties {
           )
         ).gl()
       ),
-      nodeApcaLightScore = new Tag({
+      nodeAPCALightScore = new Tag({
         name: '_apca-light-score',
         content: apcaLightRecommendation,
         backgroundColor: {
@@ -397,7 +397,7 @@ export default class Properties {
           alpha: 1,
         },
       }).makeNodeTag(),
-      nodeApcaDarkProp = new Tag({
+      nodeAPCADarkProp = new Tag({
         name: '_apca-dark',
         content: `Lc ${apcaDarkContrast}`,
         isCompact: true,
@@ -409,7 +409,7 @@ export default class Properties {
           )
         ).gl()
       ),
-      nodeApcaDarkScore = new Tag({
+      nodeAPCADarkScore = new Tag({
         name: '_apca-dark-score',
         content: apcaDarkRecommendation,
         backgroundColor: {
@@ -418,13 +418,13 @@ export default class Properties {
         },
       }).makeNodeTag()
 
-    nodeApcaLightProp.appendChild(nodeApcaLightScore)
-    nodeApcaDarkProp.appendChild(nodeApcaDarkScore)
+    nodeAPCALightProp.appendChild(nodeAPCALightScore)
+    nodeAPCADarkProp.appendChild(nodeAPCADarkScore)
 
-    this.nodeContrastScoresProps.appendChild(nodeWcagLightProp)
-    this.nodeContrastScoresProps.appendChild(nodeApcaLightProp)
-    this.nodeContrastScoresProps.appendChild(nodeWcagDarkProp)
-    this.nodeContrastScoresProps.appendChild(nodeApcaDarkProp)
+    this.nodeContrastScoresProps.appendChild(nodeWCAGLightProp)
+    this.nodeContrastScoresProps.appendChild(nodeAPCALightProp)
+    this.nodeContrastScoresProps.appendChild(nodeWCAGDarkProp)
+    this.nodeContrastScoresProps.appendChild(nodeAPCADarkProp)
 
     return this.nodeContrastScoresProps
   }
@@ -518,12 +518,12 @@ export default class Properties {
     this.nodeDetailedWCAGScoresProps.itemSpacing = 4
 
     // Insert
-    const wcagLightContrast = this.getWcagContrast('LIGHT').toFixed(2),
-      wcagDarkContrast = this.getWcagContrast('DARK').toFixed(2),
-      wcagLightScore = this.getWcagScore('LIGHT'),
-      wcagDarkScore = this.getWcagScore('DARK')
+    const wcagLightContrast = this.getWCAGContrast('LIGHT').toFixed(2),
+      wcagDarkContrast = this.getWCAGContrast('DARK').toFixed(2),
+      wcagLightScore = this.getWCAGScore('LIGHT'),
+      wcagDarkScore = this.getWCAGScore('DARK')
 
-    const nodeWcagLightProp = new Tag({
+    const nodeWCAGLightProp = new Tag({
         name: '_wcag21-light',
         content: wcagLightContrast,
         isCompact: true,
@@ -535,7 +535,7 @@ export default class Properties {
           )
         ).gl()
       ),
-      nodeWcagLightScore = new Tag({
+      nodeWCAGLightScore = new Tag({
         name: '_wcag21-light-score',
         content: wcagLightScore,
         backgroundColor: {
@@ -543,7 +543,7 @@ export default class Properties {
           alpha: 1,
         },
       }).makeNodeTag(),
-      nodeWcagDarkProp = new Tag({
+      nodeWCAGDarkProp = new Tag({
         name: '_wcag21-dark',
         content: wcagDarkContrast,
         isCompact: true,
@@ -555,7 +555,7 @@ export default class Properties {
           )
         ).gl()
       ),
-      nodeWcagDarkScore = new Tag({
+      nodeWCAGDarkScore = new Tag({
         name: '_wcag21-dark-score',
         content: wcagDarkScore,
         backgroundColor: {
@@ -564,8 +564,8 @@ export default class Properties {
         },
       }).makeNodeTag()
 
-    nodeWcagLightProp.appendChild(nodeWcagLightScore)
-    nodeWcagDarkProp.appendChild(nodeWcagDarkScore)
+    nodeWCAGLightProp.appendChild(nodeWCAGLightScore)
+    nodeWCAGDarkProp.appendChild(nodeWCAGDarkScore)
 
     this.nodeDetailedWCAGScoresProps.appendChild(
       new Tag({
@@ -574,8 +574,8 @@ export default class Properties {
         fontSize: 10,
       }).makeNodeTag()
     )
-    this.nodeDetailedWCAGScoresProps.appendChild(nodeWcagLightProp)
-    this.nodeDetailedWCAGScoresProps.appendChild(nodeWcagDarkProp)
+    this.nodeDetailedWCAGScoresProps.appendChild(nodeWCAGLightProp)
+    this.nodeDetailedWCAGScoresProps.appendChild(nodeWCAGDarkProp)
 
     return this.nodeDetailedWCAGScoresProps
   }
@@ -602,7 +602,7 @@ export default class Properties {
       apcaDarkContrast = this.getAPCAContrast('DARK').toFixed(1),
       apcaDarkRecommendation = this.getRecommendedUsage('DARK')
 
-    const nodeApcaLightProp = new Tag({
+    const nodeAPCALightProp = new Tag({
         name: '_apca-light',
         content: `Lc ${apcaLightContrast}`,
         isCompact: true,
@@ -614,7 +614,7 @@ export default class Properties {
           )
         ).gl()
       ),
-      nodeApcaLightScore = new Tag({
+      nodeAPCALightScore = new Tag({
         name: '_apca-light-score',
         content: apcaLightRecommendation,
         backgroundColor: {
@@ -622,7 +622,7 @@ export default class Properties {
           alpha: 1,
         },
       }).makeNodeTag(),
-      nodeApcaDarkProp = new Tag({
+      nodeAPCADarkProp = new Tag({
         name: '_apca-dark',
         content: `Lc ${apcaDarkContrast}`,
         isCompact: true,
@@ -634,7 +634,7 @@ export default class Properties {
           )
         ).gl()
       ),
-      nodeApcaDarkScore = new Tag({
+      nodeAPCADarkScore = new Tag({
         name: '_apca-dark-score',
         content: apcaDarkRecommendation,
         backgroundColor: {
@@ -643,8 +643,8 @@ export default class Properties {
         },
       }).makeNodeTag()
 
-    nodeApcaLightProp.appendChild(nodeApcaLightScore)
-    nodeApcaDarkProp.appendChild(nodeApcaDarkScore)
+    nodeAPCALightProp.appendChild(nodeAPCALightScore)
+    nodeAPCADarkProp.appendChild(nodeAPCADarkScore)
 
     this.nodeDetailedAPCAScoresProps.appendChild(
       new Tag({
@@ -656,7 +656,7 @@ export default class Properties {
     this.nodeDetailedAPCAScoresProps.appendChild(
       this.makeNodeColumns(
         [
-          nodeApcaLightProp,
+          nodeAPCALightProp,
           new Tag({
             name: '_minimum-font-sizes',
             content: locals[lang].paletteProperties.fontSize,
@@ -687,7 +687,7 @@ export default class Properties {
           }).makeNodeTag(),
         ],
         [
-          nodeApcaDarkProp,
+          nodeAPCADarkProp,
           new Tag({
             name: '_minimum-font-sizes',
             content: locals[lang].paletteProperties.fontSize,

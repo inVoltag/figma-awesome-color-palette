@@ -532,6 +532,7 @@ export default class Settings extends PureComponent<
                 ).PREVIEW.isActive()}
               >
                 <Preview
+                  {...this.props}
                   sourceColors={this.props.sourceColors}
                   scale={palette.scale}
                 />

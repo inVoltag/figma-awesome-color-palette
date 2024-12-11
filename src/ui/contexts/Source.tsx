@@ -142,6 +142,7 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
           isActive={Source.features(this.props.planStatus).PREVIEW.isActive()}
         >
           <Preview
+            {...this.props}
             sourceColors={this.props.sourceColors}
             scale={palette.scale}
           />

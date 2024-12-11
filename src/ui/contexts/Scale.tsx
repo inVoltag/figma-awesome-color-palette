@@ -906,6 +906,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           isActive={Scale.features(this.props.planStatus).PREVIEW.isActive()}
         >
           <Preview
+            {...this.props}
             sourceColors={this.props.sourceColors}
             scale={this.props.scale ?? {}}
           />

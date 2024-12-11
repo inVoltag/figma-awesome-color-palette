@@ -211,17 +211,20 @@ div.about__links {
 .preview {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  border-top: 1px solid var(--figma-color-border);
 }
 
 .preview__row {
   display: flex;
   flex: 1;
-  overflow: hidden;
 }
 
 .preview__cell {
   flex: 1;
   overflow: hidden;
-  height: var(--size-medium);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: var(--size-xxxsmall);
+  gap: var(--size-xxxsmall);
 }

@@ -212,7 +212,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
         {`${score.toFixed(1)} : 1`}
       </span>
       <span className={'preview__tag__obs type'}>
-        {score < 4.5 ? '✘' : '✔'}
+        {score <= 4.5 ? '✘' : '✔'}
       </span>
     </div>
   )
@@ -229,7 +229,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
         className={`preview__tag__score type ${texts['type--truncated']}`}
       >{`Lc ${score.toFixed(1)}`}</span>
       <span className={'preview__tag__obs type'}>
-        {score < 15 ? '✘' : '✔'}
+        {score <= 45 ? '✘' : '✔'}
       </span>
     </div>
   )

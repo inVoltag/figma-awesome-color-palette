@@ -38,6 +38,7 @@ import Feature from '../components/Feature'
 import Slider from '../components/Slider'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
+import { $isPaletteDeepSync } from '../../stores/preferences'
 
 interface ScaleProps {
   sourceColors?: Array<SourceColorConfiguration>
@@ -67,11 +68,13 @@ interface ScaleProps {
 
 interface ScaleStates {
   isTipsOpen: boolean
+  isPaletteDeepSync: boolean
 }
 
 export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
-  scaleMessage: ScaleMessage
-  dispatch: { [key: string]: DispatchProcess }
+  private scaleMessage: ScaleMessage
+  private dispatch: { [key: string]: DispatchProcess }
+  private unsubscribe: (() => void) | undefined
 
   static defaultProps: Partial<ScaleProps> = {
     namingConvention: 'ONES',
@@ -143,6 +146,20 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     }
     this.state = {
       isTipsOpen: false,
+      isPaletteDeepSync: false,
+    }
+  }
+
+  // Lifecycle
+  componentDidMount() {
+    this.unsubscribe = $isPaletteDeepSync.subscribe((value) => {
+      this.setState({ isPaletteDeepSync: value })
+    })
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe()
     }
   }
 
@@ -177,7 +194,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     const onUpdatingStop = () => {
       this.scaleMessage.isEditedInRealTime = true
       this.props.onChangeScale()
-      // if (!this.props.hasPreset) this.dispatch.scale.on.status = true
+      if (!this.props.hasPreset && this.state.isPaletteDeepSync)
+        this.dispatch.scale.on.status = true
     }
 
     const actions: ActionsList = {

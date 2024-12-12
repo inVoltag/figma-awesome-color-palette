@@ -328,6 +328,9 @@ export const locals: { [key: string]: any } = {
           title: 'Synchronization',
           message:
             'A deep synchronization means that the palette and the local variables/styles are synchronized in both directions',
+          palette: {
+            label: 'Enable a deep synchronization with the palette',
+          },
           variables: {
             label:
               'Enable a deep synchronization with the local variables in the collection',

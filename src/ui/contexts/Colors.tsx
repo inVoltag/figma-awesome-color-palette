@@ -29,6 +29,7 @@ import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
+import { $isPaletteDeepSync } from '../../stores/preferences'
 
 interface ColorsProps {
   colors: Array<ColorConfiguration>
@@ -43,9 +44,14 @@ interface ColorsProps {
   onPublishPalette: () => void
 }
 
-export default class Colors extends PureComponent<ColorsProps> {
-  colorsMessage: ColorsMessage
-  dispatch: { [key: string]: DispatchProcess }
+interface ColorsStates {
+  isPaletteDeepSync: boolean
+}
+
+export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
+  private colorsMessage: ColorsMessage
+  private dispatch: { [key: string]: DispatchProcess }
+  private unsubscribe: (() => void) | null = null
 
   static features = (planStatus: PlanStatus) => ({
     COLORS_NAME: new FeatureStatus({
@@ -87,6 +93,22 @@ export default class Colors extends PureComponent<ColorsProps> {
         () => parent.postMessage({ pluginMessage: this.colorsMessage }, '*'),
         500
       ) as DispatchProcess,
+    }
+    this.state = {
+      isPaletteDeepSync: false,
+    }
+  }
+
+  // Lifecycle
+  componentDidMount() {
+    this.unsubscribe = $isPaletteDeepSync.subscribe((value) => {
+      this.setState({ isPaletteDeepSync: value })
+    })
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe()
     }
   }
 
@@ -211,7 +233,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         )
       } else {
         this.colorsMessage.isEditedInRealTime = true
-        // this.dispatch.colors.on.status = true
+        if (this.state.isPaletteDeepSync) this.dispatch.colors.on.status = true
       }
     }
 

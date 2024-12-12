@@ -399,6 +399,22 @@ export default class Settings extends PureComponent<
         this.dispatch.textColorsTheme.on.status = true
     }
 
+    const updatePaletteDeepSync = () =>
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'SET_ITEMS',
+            items: [
+              {
+                key: 'can_deep_sync_palette',
+                value: target.checked,
+              },
+            ],
+          },
+        },
+        '*'
+      )
+
     const updateVariablesDeepSync = () =>
       parent.postMessage(
         {
@@ -440,6 +456,7 @@ export default class Settings extends PureComponent<
       UPDATE_ALGORITHM_VERSION: () => updateAlgorithmVersion(),
       UPDATE_TEXT_LIGHT_COLOR: () => updateTextLightColor(),
       UPDATE_TEXT_DARK_COLOR: () => updateTextDarkColor(),
+      UPDATE_PALETTE_DEEP_SYNC: () => updatePaletteDeepSync(),
       UPDATE_VARIABLES_DEEP_SYNC: () => updateVariablesDeepSync(),
       UPDATE_STYLES_DEEP_SYNC: () => updateStylesDeepSync(),
       DEFAULT: () => null,

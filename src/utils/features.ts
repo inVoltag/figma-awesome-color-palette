@@ -875,6 +875,15 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
     service: ['EDIT'],
   },
   {
+    name: 'SETTINGS_SYNC_DEEP_PALETTE',
+    description: '',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    service: ['EDIT'],
+  },
+  {
     name: 'SETTINGS_SYNC_DEEP_VARIABLES',
     description: '',
     isActive: true,

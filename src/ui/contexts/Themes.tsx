@@ -29,6 +29,7 @@ import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
+import { $isPaletteDeepSync } from '../../stores/preferences'
 
 interface ThemesProps {
   preset: PresetConfiguration
@@ -45,9 +46,14 @@ interface ThemesProps {
   onPublishPalette: () => void
 }
 
-export default class Themes extends PureComponent<ThemesProps> {
-  themesMessage: ThemesMessage
-  dispatch: { [key: string]: DispatchProcess }
+interface ThemesStates {
+  isPaletteDeepSync: boolean
+}
+
+export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
+  private themesMessage: ThemesMessage
+  private dispatch: { [key: string]: DispatchProcess }
+  private unsubscribe: (() => void) | null = null
 
   static features = (planStatus: PlanStatus) => ({
     THEMES: new FeatureStatus({
@@ -84,6 +90,19 @@ export default class Themes extends PureComponent<ThemesProps> {
         () => parent.postMessage({ pluginMessage: this.themesMessage }, '*'),
         500
       ) as DispatchProcess,
+    }
+  }
+
+  // Lifecycle
+  componentDidMount() {
+    this.unsubscribe = $isPaletteDeepSync.subscribe((value) => {
+      this.setState({ isPaletteDeepSync: value })
+    })
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe()
     }
   }
 
@@ -208,7 +227,7 @@ export default class Themes extends PureComponent<ThemesProps> {
         )
       } else {
         this.themesMessage.isEditedInRealTime = true
-        // this.dispatch.themes.on.status = true
+        if (this.state.isPaletteDeepSync) this.dispatch.themes.on.status = true
       }
     }
 

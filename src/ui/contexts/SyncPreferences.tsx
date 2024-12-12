@@ -8,6 +8,11 @@ import {
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
+import {
+  $isPaletteDeepSync,
+  $areVariablesDeepSync,
+  $areStylesDeepSync,
+} from '../../stores/preferences'
 
 import features from '../../config'
 import { locals } from '../../content/locals'
@@ -26,6 +31,7 @@ interface SyncPreferencesProps {
 }
 
 interface SyncPreferencesStates {
+  isPaletteDeepSync: boolean
   areVariablesDeepSync: boolean
   areStylesDeepSync: boolean
 }
@@ -34,7 +40,16 @@ export default class SyncPreferences extends PureComponent<
   SyncPreferencesProps,
   SyncPreferencesStates
 > {
+  private unsubscribePalette: (() => void) | undefined
+  private unsubscribeVariables: (() => void) | undefined
+  private unsubscribeStyles: (() => void) | undefined
+
   static features = (planStatus: PlanStatus) => ({
+    SETTINGS_SYNC_DEEP_PALETTE: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_SYNC_DEEP_PALETTE',
+      planStatus: planStatus,
+    }),
     SETTINGS_SYNC_DEEP_VARIABLES: new FeatureStatus({
       features: features,
       featureName: 'SETTINGS_SYNC_DEEP_VARIABLES',
@@ -54,6 +69,7 @@ export default class SyncPreferences extends PureComponent<
   constructor(props: SyncPreferencesProps) {
     super(props)
     this.state = {
+      isPaletteDeepSync: false,
       areVariablesDeepSync: false,
       areStylesDeepSync: false,
     }
@@ -86,6 +102,37 @@ export default class SyncPreferences extends PureComponent<
   }
 
   // Templates
+  PaletteDeepSync = () => {
+    return (
+      <Feature
+        isActive={SyncPreferences.features(
+          this.props.planStatus
+        ).SETTINGS_SYNC_DEEP_PALETTE.isActive()}
+      >
+        <Select
+          id="update-palette-deep-sync"
+          type="SWITCH_BUTTON"
+          name="update-palette-deep-sync"
+          label={
+            locals[this.props.lang].settings.preferences.sync.palette.label
+          }
+          isChecked={this.state.isPaletteDeepSync}
+          isBlocked={SyncPreferences.features(
+            this.props.planStatus
+          ).SETTINGS_SYNC_DEEP_PALETTE.isBlocked()}
+          isNew={SyncPreferences.features(
+            this.props.planStatus
+          ).SETTINGS_SYNC_DEEP_PALETTE.isNew()}
+          feature="UPDATE_PALETTE_DEEP_SYNC"
+          onChange={(e) => {
+            $isPaletteDeepSync.set(!this.state.isPaletteDeepSync)
+            this.props.onChangeSettings(e)
+          }}
+        />
+      </Feature>
+    )
+  }
+
   VariablesDeepSync = () => {
     return (
       <Feature
@@ -160,6 +207,9 @@ export default class SyncPreferences extends PureComponent<
           />
         }
         body={[
+          {
+            node: <this.PaletteDeepSync />,
+          },
           {
             node: (
               <SemanticMessage

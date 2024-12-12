@@ -60,6 +60,11 @@ import TransferPalette from './services/TransferPalette'
 import './stylesheets/app-components.css'
 import './stylesheets/app.css'
 import doLightnessScale from '../utils/doLightnessScale'
+import {
+  $isPaletteDeepSync,
+  $areVariablesDeepSync,
+  $areStylesDeepSync,
+} from '../stores/preferences'
 
 export interface AppStates {
   service: Service
@@ -329,6 +334,14 @@ export default class App extends Component<Record<string, never>, AppStates> {
             mustUserConsent: e.data.pluginMessage.mustUserConsent,
             userConsent: e.data.pluginMessage.userConsent,
           })
+
+        const checkUserPreferences = () => {
+          $isPaletteDeepSync.set(e.data.pluginMessage.data.canDeepSyncPalette)
+          $areVariablesDeepSync.set(
+            e.data.pluginMessage.data.canDeepSyncVariables
+          )
+          $areStylesDeepSync.set(e.data.pluginMessage.data.canDeepSyncStyles)
+        }
 
         const checkEditorType = () => {
           this.setState({ editorType: e.data.pluginMessage.data })
@@ -831,6 +844,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
         const actions: ActionsList = {
           CHECK_USER_AUTHENTICATION: () => checkUserAuthentication(),
           CHECK_USER_CONSENT: () => checkUserConsent(),
+          CHECK_USER_PREFERENCES: () => checkUserPreferences(),
           CHECK_EDITOR_TYPE: () => checkEditorType(),
           PUSH_HIGHLIGHT_STATUS: () => handleHighlight(),
           CHECK_PLAN_STATUS: () => checkPlanStatus(),

@@ -327,6 +327,20 @@ export default class Preview extends PureComponent<
                   type="icon"
                   icon="trash"
                   action={this.props.onResetSourceColors}
+                  isDisabled={
+                    this.props.colors.some(
+                      (color) =>
+                        (color as SourceColorConfiguration).source ===
+                          'COOLORS' ||
+                        (color as SourceColorConfiguration).source ===
+                          'REALTIME_COLORS' ||
+                        (color as SourceColorConfiguration).source ===
+                          'COLOUR_LOVERS'
+                    )
+                      ? false
+                      : true
+                  }
+                  helper={locals[this.props.lang].preview.reset.helper}
                 />
               )}
             </>

@@ -346,6 +346,9 @@ export const locals: { [key: string]: any } = {
       apca: {
         label: 'Display APCA scores',
       },
+      reset: {
+        helper: 'Reset the imported colors',
+      },
     },
     report: {
       title: 'Report a bug',

@@ -43,12 +43,12 @@ interface PreviewStates {
   isLoaded: boolean
   isWCAGDisplayed: boolean
   isAPCADisplayed: boolean
+  drawerHeight: string
 }
 
-export default class Preview extends PureComponent<
-  PreviewProps,
-  PreviewStates
-> {
+export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
+  drawerRef: React.RefObject<HTMLDivElement>
+
   static features = (planStatus: PlanStatus) => ({
     PREVIEW_WCAG: new FeatureStatus({
       features: features,
@@ -73,7 +73,9 @@ export default class Preview extends PureComponent<
       isLoaded: false,
       isWCAGDisplayed: true,
       isAPCADisplayed: true,
+      drawerHeight: 'auto',
     }
+    this.drawerRef = React.createRef()
   }
 
   // Lifecycle
@@ -92,6 +94,14 @@ export default class Preview extends PureComponent<
 
   componentWillUnmount = (): void => {
     window.removeEventListener('message', this.handleMessage)
+  }
+
+  componentDidUpdate = (): void => {
+    if (this.props.colors.length === 0) {
+      this.setState({
+        drawerHeight: 'auto',
+      })
+    }
   }
 
   // Handlers
@@ -186,6 +196,44 @@ export default class Preview extends PureComponent<
     }
   }
 
+  onGrab = () => {
+    document.body.style.cursor = 'ns-resize'
+    document.addEventListener('mousemove', this.onDrag)
+  }
+
+  onDrag = (e: MouseEvent) => {
+    const { drawerRef } = this
+    const { clientY } = e
+    const bottom = drawerRef.current
+      ? drawerRef.current.getBoundingClientRect().bottom
+      : 0
+    const topLimit = 144
+    const minheight = 149
+
+    const delta = bottom - clientY
+    let drawerHeight
+
+    if (clientY >= topLimit) drawerHeight = delta
+    if (delta < minheight) drawerHeight = minheight
+
+    this.setState({
+      drawerHeight: `${drawerHeight}px`,
+    })
+
+    document.body.style.cursor = 'ns-resize'
+    document.addEventListener('mouseup', () => {
+      document.body.style.cursor = ''
+      document.removeEventListener('mousemove', this.onDrag)
+    })
+  }
+
+  clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.detail === 2)
+      this.setState({
+        drawerHeight: this.state.drawerHeight === 'auto' ? '100%' : 'auto',
+      })
+  }
+
   // Templates
   stopTag = ({ stop }: { stop: string }) => (
     <div className="preview__tag">
@@ -233,7 +281,18 @@ export default class Preview extends PureComponent<
   render() {
     if (!this.props.colors.length || !this.state.isLoaded) return null
     return (
-      <div className="preview">
+      <div
+        className="preview"
+        style={{
+          height: this.state.drawerHeight,
+        }}
+        ref={this.drawerRef}
+      >
+        <div
+          className="preview__knob-spot"
+          onMouseDown={this.onGrab}
+          onClick={this.clickHandler}
+        />
         <Bar
           leftPartSlot={
             <div className={layouts['snackbar--tight']}>

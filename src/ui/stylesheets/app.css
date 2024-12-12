@@ -15,7 +15,6 @@ li {
 
 div#app {
   height: 100%;
-  cursor: default;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -212,16 +211,33 @@ div.about__links {
   display: flex;
   flex-direction: column;
   border-top: 1px solid var(--figma-color-border);
-  overflow: hidden;
+  position: relative;
+  max-height: calc(100% - 185px);
+}
+
+.preview__knob-spot {
+  position: absolute;
+  width: 100%;
+  height: var(--size-xxsmall);
+  z-index: 2;
+  top: -4px;
+  cursor: ns-resize;
 }
 
 .preview__rows {
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
-.preview__row, .preview__header {
+.preview__row {
   display: flex;
   flex: 1;
+}
+
+.preview__header {
+  display: flex;
 }
 
 .preview__cell {

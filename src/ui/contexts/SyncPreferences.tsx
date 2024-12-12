@@ -12,7 +12,6 @@ import React from 'react'
 import features from '../../config'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
-import { ActionsList } from '../../types/models'
 import Feature from '../components/Feature'
 
 interface SyncPreferencesProps {
@@ -60,70 +59,30 @@ export default class SyncPreferences extends PureComponent<
     }
   }
 
-  componentDidMount = (): void => {
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: 'GET_ITEMS',
-          items: ['can_deep_sync_variables', 'can_deep_sync_styles'],
-        },
-      },
-      '*'
-    )
-    window.addEventListener('message', this.handleMessage)
+  // Lifecycle
+  componentDidMount() {
+    this.unsubscribePalette = $isPaletteDeepSync.subscribe((value) => {
+      this.setState({ isPaletteDeepSync: value })
+      console.log('PaletteDeepSync', value)
+    })
+    this.unsubscribeVariables = $areVariablesDeepSync.subscribe((value) => {
+      this.setState({ areVariablesDeepSync: value })
+    })
+    this.unsubscribeStyles = $areStylesDeepSync.subscribe((value) => {
+      this.setState({ areStylesDeepSync: value })
+    })
   }
 
-  componentWillUnmount = (): void => {
-    window.removeEventListener('message', this.handleMessage)
-  }
-
-  // Handlers
-  handleMessage = (e: MessageEvent) => {
-    const deepSyncVariables = () => {
-      if (e.data.pluginMessage.value === undefined)
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'SET_ITEMS',
-              items: [
-                {
-                  key: 'can_deep_sync_variables',
-                  value: false,
-                },
-              ],
-            },
-          },
-          '*'
-        )
-      else this.setState({ areVariablesDeepSync: e.data.pluginMessage.value })
+  componentWillUnmount() {
+    if (this.unsubscribePalette) {
+      this.unsubscribePalette()
     }
-
-    const deepSyncStyles = () => {
-      if (e.data.pluginMessage.value === undefined)
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'SET_ITEMS',
-              items: [
-                {
-                  key: 'can_deep_sync_styles',
-                  value: false,
-                },
-              ],
-            },
-          },
-          '*'
-        )
-      else this.setState({ areStylesDeepSync: e.data.pluginMessage.value })
+    if (this.unsubscribeVariables) {
+      this.unsubscribeVariables()
     }
-
-    const actions: ActionsList = {
-      GET_ITEM_CAN_DEEP_SYNC_VARIABLES: () => deepSyncVariables(),
-      GET_ITEM_CAN_DEEP_SYNC_STYLES: () => deepSyncStyles(),
-      DEFAULT: () => null,
+    if (this.unsubscribeStyles) {
+      this.unsubscribeStyles()
     }
-
-    return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
   }
 
   // Templates
@@ -150,9 +109,7 @@ export default class SyncPreferences extends PureComponent<
           ).SETTINGS_SYNC_DEEP_VARIABLES.isNew()}
           feature="UPDATE_VARIABLES_DEEP_SYNC"
           onChange={(e) => {
-            this.setState({
-              areVariablesDeepSync: !this.state.areVariablesDeepSync,
-            })
+            $areVariablesDeepSync.set(!this.state.areVariablesDeepSync)
             this.props.onChangeSettings(e)
           }}
         />
@@ -181,9 +138,7 @@ export default class SyncPreferences extends PureComponent<
           ).SETTINGS_SYNC_DEEP_STYLES.isNew()}
           feature="UPDATE_STYLES_DEEP_SYNC"
           onChange={(e) => {
-            this.setState({
-              areStylesDeepSync: !this.state.areStylesDeepSync,
-            })
+            $areStylesDeepSync.set(!this.state.areStylesDeepSync)
             this.props.onChangeSettings(e)
           }}
         />

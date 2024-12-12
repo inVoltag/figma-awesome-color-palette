@@ -1,4 +1,3 @@
-import { APCAcontrast, sRGBtoY } from 'apca-w3'
 import chroma from 'chroma-js'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
@@ -40,7 +39,10 @@ interface PreviewStates {
   isAPCADisplayed: boolean
 }
 
-export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
+export default class Preview extends PureComponent<
+  PreviewProps,
+  PreviewStates
+> {
   static features = (planStatus: PlanStatus) => ({
     PREVIEW_WCAG: new FeatureStatus({
       features: features,
@@ -151,7 +153,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
     const isString = typeof color === 'string'
     const colorData = new Color({
       sourceColor: isString
-        ? chroma(color).rgb()
+        ? chroma(color).rgb(false)
         : [color.rgb.r * 255, color.rgb.g * 255, color.rgb.b * 255],
       lightness: scale,
       hueShifting: isString ? 0 : color.hueShifting,
@@ -178,19 +180,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
     }
   }
 
-  getWCAGScore = (background: HexModel, text: HexModel): number => {
-    return chroma.contrast(background, text)
-  }
-
-  getAPCAContrast = (background: HexModel, textColor: HexModel) => {
-    return Math.abs(
-      APCAcontrast(
-        sRGBtoY(chroma(background).rgb()),
-        sRGBtoY(chroma(textColor).rgb())
-      )
-    )
-  }
-
   // Templates
   stopTag = ({ stop }: { stop: string }) => (
     <div className="preview__tag">
@@ -209,7 +198,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
         }}
       />
       <span className={`preview__tag__score type ${texts['type--truncated']}`}>
-        {`${score.toFixed(1)} : 1`}
+        {`${score.toFixed(2)} : 1`}
       </span>
       <span className={'preview__tag__obs type'}>
         {score <= 4.5 ? '✘' : '✔'}
@@ -374,12 +363,12 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                   const darkText = new Color({
                     visionSimulationMode: palette.visionSimulationMode,
                   }).simulateColorBlindHex(
-                    chroma(palette.textColorsTheme.darkColor).rgb()
+                    chroma(palette.textColorsTheme.darkColor).rgb(false)
                   )
                   const lightText = new Color({
                     visionSimulationMode: palette.visionSimulationMode,
                   }).simulateColorBlindHex(
-                    chroma(palette.textColorsTheme.lightColor).rgb()
+                    chroma(palette.textColorsTheme.lightColor).rgb(false)
                   )
 
                   return (
@@ -394,7 +383,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                         <this.wcagScoreTag
                           color={lightText}
                           score={new Contrast({
-                            backgroundColor: chroma(background).rgb(),
+                            backgroundColor: chroma(background).rgb(false),
                             textColor: lightText,
                           }).getWCAGContrast()}
                         />
@@ -403,7 +392,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                         <this.apcaScoreTag
                           color={lightText}
                           score={new Contrast({
-                            backgroundColor: chroma(background).rgb(),
+                            backgroundColor: chroma(background).rgb(false),
                             textColor: lightText,
                           }).getAPCAContrast()}
                         />
@@ -412,7 +401,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                         <this.wcagScoreTag
                           color={darkText}
                           score={new Contrast({
-                            backgroundColor: chroma(background).rgb(),
+                            backgroundColor: chroma(background).rgb(false),
                             textColor: darkText,
                           }).getWCAGContrast()}
                         />
@@ -421,7 +410,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                         <this.apcaScoreTag
                           color={darkText}
                           score={new Contrast({
-                            backgroundColor: chroma(background).rgb(),
+                            backgroundColor: chroma(background).rgb(false),
                             textColor: darkText,
                           }).getAPCAContrast()}
                         />

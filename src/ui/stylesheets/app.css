@@ -227,5 +227,9 @@ div.about__links {
   align-items: flex-end;
   padding: var(--size-xxxsmall);
   gap: var(--size-xxxsmall);
-  min-height: var(--size-medium);
+  min-height: 44px;
+}
+
+.preview__cell--no-height {
+  min-height: unset;
 }

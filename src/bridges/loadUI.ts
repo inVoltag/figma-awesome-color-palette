@@ -5,6 +5,7 @@ import checkEditorType from './checks/checkEditorType'
 import checkHighlightStatus from './checks/checkHighlightStatus'
 import checkPlanStatus from './checks/checkPlanStatus'
 import checkUserConsent from './checks/checkUserConsent'
+import checkUserPreferences from './checks/checkUserPreferences'
 import createLocalStyles from './creations/createLocalStyles'
 import createLocalVariables from './creations/createLocalVariables'
 import createPalette from './creations/createPalette'
@@ -48,6 +49,7 @@ const loadUI = async () => {
   checkUserConsent()
     .then(() => checkEditorType())
     .then(() => checkPlanStatus())
+    .then(() => checkUserPreferences())
     .then(() => processSelection())
 
   // Canvas > UI

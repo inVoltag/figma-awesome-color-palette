@@ -15,19 +15,25 @@ import features from '../../config'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
 import {
+  AlgorithmVersionConfiguration,
   ColorConfiguration,
+  ColorSpaceConfiguration,
   ScaleConfiguration,
   SourceColorConfiguration,
+  VisionSimulationModeConfiguration,
 } from '../../types/configurations'
-import { ActionsList } from '../../types/models'
+import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
 import Color from '../../utils/Color'
 import Contrast from '../../utils/Contrast'
-import { palette } from '../../utils/palettePackage'
 import Feature from '../components/Feature'
 
 interface PreviewProps {
   colors: Array<SourceColorConfiguration> | Array<ColorConfiguration> | []
   scale: ScaleConfiguration
+  colorSpace: ColorSpaceConfiguration
+  visionSimulationMode: VisionSimulationModeConfiguration
+  algorithmVersion: AlgorithmVersionConfiguration
+  textColorsTheme: TextColorsThemeHexModel
   planStatus: PlanStatus
   lang: Language
   onResetSourceColors?: () => void
@@ -158,11 +164,11 @@ export default class Preview extends PureComponent<
       lightness: scale,
       hueShifting: isString ? 0 : color.hueShifting,
       chromaShifting: isString ? 100 : color.chromaShifting,
-      algorithmVersion: palette.algorithmVersion,
-      visionSimulationMode: palette.visionSimulationMode,
+      algorithmVersion: this.props.algorithmVersion,
+      visionSimulationMode: this.props.visionSimulationMode,
     })
 
-    switch (palette.colorSpace) {
+    switch (this.props.colorSpace) {
       case 'LCH':
         return colorData.lch() as HexModel
       case 'OKLCH':
@@ -361,14 +367,14 @@ export default class Preview extends PureComponent<
                 .map((lightness, index) => {
                   const background: HexModel = this.setColor(color, lightness)
                   const darkText = new Color({
-                    visionSimulationMode: palette.visionSimulationMode,
+                    visionSimulationMode: this.props.visionSimulationMode,
                   }).simulateColorBlindHex(
-                    chroma(palette.textColorsTheme.darkColor).rgb(false)
+                    chroma(this.props.textColorsTheme.darkColor).rgb(false)
                   )
                   const lightText = new Color({
-                    visionSimulationMode: palette.visionSimulationMode,
+                    visionSimulationMode: this.props.visionSimulationMode,
                   }).simulateColorBlindHex(
-                    chroma(palette.textColorsTheme.lightColor).rgb(false)
+                    chroma(this.props.textColorsTheme.lightColor).rgb(false)
                   )
 
                   return (

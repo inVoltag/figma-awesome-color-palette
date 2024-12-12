@@ -257,7 +257,7 @@ export default class CreatePalette extends PureComponent<
             {...this.props}
             key="preview"
             colors={this.props.sourceColors}
-            scale={this.props.scale ?? {}}
+            algorithmVersion="v2"
             onResetSourceColors={this.resetSourceColorsHandler}
           />
         </Feature>

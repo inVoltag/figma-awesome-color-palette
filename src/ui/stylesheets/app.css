@@ -212,9 +212,14 @@ div.about__links {
   display: flex;
   flex-direction: column;
   border-top: 1px solid var(--figma-color-border);
+  overflow: hidden;
 }
 
-.preview__row {
+.preview__rows {
+  overflow-y: auto;
+}
+
+.preview__row, .preview__header {
   display: flex;
   flex: 1;
 }

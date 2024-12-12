@@ -20,7 +20,7 @@ import {
   ScaleConfiguration,
   SourceColorConfiguration,
 } from '../../types/configurations'
-import { ActionsList, RgbModel } from '../../types/models'
+import { ActionsList } from '../../types/models'
 import Color from '../../utils/Color'
 import Contrast from '../../utils/Contrast'
 import { palette } from '../../utils/palettePackage'
@@ -40,10 +40,7 @@ interface PreviewStates {
   isAPCADisplayed: boolean
 }
 
-export default class Preview extends PureComponent<
-  PreviewProps,
-  PreviewStates
-> {
+export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
   static features = (planStatus: PlanStatus) => ({
     PREVIEW_WCAG: new FeatureStatus({
       features: features,
@@ -147,15 +144,18 @@ export default class Preview extends PureComponent<
   }
 
   // Direct actions
-  setColor = (color: RgbModel | HexModel, scale: number): HexModel => {
+  setColor = (
+    color: ColorConfiguration | SourceColorConfiguration | HexModel,
+    scale: number
+  ): HexModel => {
+    const isString = typeof color === 'string'
     const colorData = new Color({
-      sourceColor:
-        typeof color === 'string'
-          ? chroma(color).rgb()
-          : chroma([color.r * 255, color.g * 255, color.b * 255]).rgb(),
+      sourceColor: isString
+        ? chroma(color).rgb()
+        : [color.rgb.r * 255, color.rgb.g * 255, color.rgb.b * 255],
       lightness: scale,
-      hueShifting: 0,
-      chromaShifting: 100,
+      hueShifting: isString ? 0 : color.hueShifting,
+      chromaShifting: isString ? 100 : color.chromaShifting,
       algorithmVersion: palette.algorithmVersion,
       visionSimulationMode: palette.visionSimulationMode,
     })
@@ -347,7 +347,7 @@ export default class Preview extends PureComponent<
           }
           border={['BOTTOM']}
         />
-        <div className="preview__row">
+        <div className="preview__header">
           {Object.keys(this.props.scale)
             .reverse()
             .map((scale, index) => {
@@ -361,75 +361,77 @@ export default class Preview extends PureComponent<
               )
             })}
         </div>
-        {this.props.colors.map((color, index) => (
-          <div
-            className="preview__row"
-            key={index}
-          >
-            {Object.values(this.props.scale)
-              .reverse()
-              .map((lightness, index) => {
-                const background: HexModel = this.setColor(color.rgb, lightness)
-                const darkText = new Color({
-                  visionSimulationMode: palette.visionSimulationMode,
-                }).simulateColorBlindHex(
-                  chroma(palette.textColorsTheme.darkColor).rgb()
-                )
-                const lightText = new Color({
-                  visionSimulationMode: palette.visionSimulationMode,
-                }).simulateColorBlindHex(
-                  chroma(palette.textColorsTheme.lightColor).rgb()
-                )
+        <div className="preview__rows">
+          {this.props.colors.map((color, index) => (
+            <div
+              className="preview__row"
+              key={index}
+            >
+              {Object.values(this.props.scale)
+                .reverse()
+                .map((lightness, index) => {
+                  const background: HexModel = this.setColor(color, lightness)
+                  const darkText = new Color({
+                    visionSimulationMode: palette.visionSimulationMode,
+                  }).simulateColorBlindHex(
+                    chroma(palette.textColorsTheme.darkColor).rgb()
+                  )
+                  const lightText = new Color({
+                    visionSimulationMode: palette.visionSimulationMode,
+                  }).simulateColorBlindHex(
+                    chroma(palette.textColorsTheme.lightColor).rgb()
+                  )
 
-                return (
-                  <div
-                    className="preview__cell"
-                    key={index}
-                    style={{
-                      backgroundColor: background,
-                    }}
-                  >
-                    {this.state.isWCAGDisplayed && (
-                      <this.wcagScoreTag
-                        color={lightText}
-                        score={new Contrast({
-                          backgroundColor: chroma(background).rgb(),
-                          textColor: lightText,
-                        }).getWCAGContrast()}
-                      />
-                    )}
-                    {this.state.isAPCADisplayed && (
-                      <this.apcaScoreTag
-                        color={lightText}
-                        score={new Contrast({
-                          backgroundColor: chroma(background).rgb(),
-                          textColor: lightText,
-                        }).getAPCAContrast()}
-                      />
-                    )}
-                    {this.state.isWCAGDisplayed && (
-                      <this.wcagScoreTag
-                        color={darkText}
-                        score={new Contrast({
-                          backgroundColor: chroma(background).rgb(),
-                          textColor: darkText,
-                        }).getWCAGContrast()}
-                      />
-                    )}
-                    {this.state.isAPCADisplayed && (
-                      <this.apcaScoreTag
-                        color={darkText}
-                        score={new Contrast({
-                          backgroundColor: chroma(background).rgb(),
-                          textColor: darkText,
-                        }).getAPCAContrast()}
-                      />
-                    )}
-                  </div>
-                )
-              })}
-          </div>
-        ))}
+                  return (
+                    <div
+                      className="preview__cell"
+                      key={index}
+                      style={{
+                        backgroundColor: background,
+                      }}
+                    >
+                      {this.state.isWCAGDisplayed && (
+                        <this.wcagScoreTag
+                          color={lightText}
+                          score={new Contrast({
+                            backgroundColor: chroma(background).rgb(),
+                            textColor: lightText,
+                          }).getWCAGContrast()}
+                        />
+                      )}
+                      {this.state.isAPCADisplayed && (
+                        <this.apcaScoreTag
+                          color={lightText}
+                          score={new Contrast({
+                            backgroundColor: chroma(background).rgb(),
+                            textColor: lightText,
+                          }).getAPCAContrast()}
+                        />
+                      )}
+                      {this.state.isWCAGDisplayed && (
+                        <this.wcagScoreTag
+                          color={darkText}
+                          score={new Contrast({
+                            backgroundColor: chroma(background).rgb(),
+                            textColor: darkText,
+                          }).getWCAGContrast()}
+                        />
+                      )}
+                      {this.state.isAPCADisplayed && (
+                        <this.apcaScoreTag
+                          color={darkText}
+                          score={new Contrast({
+                            backgroundColor: chroma(background).rgb(),
+                            textColor: darkText,
+                          }).getAPCAContrast()}
+                        />
+                      )}
+                    </div>
+                  )
+                })}
+            </div>
+          ))}
+        </div>
       </div>
     )
   }

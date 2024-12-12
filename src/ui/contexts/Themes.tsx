@@ -406,7 +406,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                         this.props.planStatus
                       ).THEMES_NAME.isActive()}
                     >
-                      <div className="draggable-list__param--compact">
+                      <div className="draggable-item__param--compact">
                         <Input
                           type="TEXT"
                           value={theme.name}
@@ -428,7 +428,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                         this.props.planStatus
                       ).THEMES_PARAMS.isActive()}
                     >
-                      <div className="draggable-list__param">
+                      <div className="draggable-item__param">
                         <FormItem
                           id="update-palette-background-color"
                           label={
@@ -467,7 +467,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                       this.props.planStatus
                     ).THEMES_DESCRIPTION.isActive()}
                   >
-                    <div className="draggable-list__param">
+                    <div className="draggable-item__param">
                       <FormItem
                         id="update-theme-description"
                         label={locals[this.props.lang].global.description.label}

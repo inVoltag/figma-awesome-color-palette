@@ -211,7 +211,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         )
       } else {
         this.colorsMessage.isEditedInRealTime = true
-        this.dispatch.colors.on.status = true
+        // this.dispatch.colors.on.status = true
       }
     }
 
@@ -504,7 +504,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                         this.props.planStatus
                       ).COLORS_NAME.isActive()}
                     >
-                      <div className="draggable-list__param--compact">
+                      <div className="draggable-item__param--compact">
                         <Input
                           type="TEXT"
                           value={color.name}
@@ -527,7 +527,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                       ).COLORS_PARAMS.isActive()}
                     >
                       <>
-                        <div className="draggable-list__param--compact">
+                        <div className="draggable-item__param--compact">
                           <Input
                             type="COLOR"
                             value={hex}
@@ -544,7 +544,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                         </div>
                         <InputsBar
                           label={locals[this.props.lang].colors.lch.label}
-                          customClassName="draggable-list__param"
+                          customClassName="draggable-item__param"
                         >
                           <Input
                             type="NUMBER"
@@ -599,7 +599,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                       this.props.planStatus
                     ).COLORS_HUE_SHIFTING.isActive()}
                   >
-                    <div className="draggable-list__param">
+                    <div className="draggable-item__param">
                       <FormItem
                         id="shift-hue"
                         label={locals[this.props.lang].colors.hueShifting.label}
@@ -637,7 +637,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                       this.props.planStatus
                     ).COLORS_CHROMA_SHIFTING.isActive()}
                   >
-                    <div className="draggable-list__param">
+                    <div className="draggable-item__param">
                       <FormItem
                         id="shift-chroma"
                         label={
@@ -677,7 +677,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                       this.props.planStatus
                     ).COLORS_DESCRIPTION.isActive()}
                   >
-                    <div className="draggable-list__param">
+                    <div className="draggable-item__param">
                       <FormItem
                         id="update-color-description"
                         label={locals[this.props.lang].global.description.label}

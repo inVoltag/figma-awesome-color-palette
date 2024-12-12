@@ -43,10 +43,10 @@ interface SettingsProps {
   sourceColors?: Array<SourceColorConfiguration>
   name: string
   description: string
-  textColorsTheme: TextColorsThemeHexModel
+  view: ViewConfiguration
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
-  view: string
+  textColorsTheme: TextColorsThemeHexModel
   algorithmVersion?: AlgorithmVersionConfiguration
   userIdentity: UserConfiguration
   userConsent: Array<ConsentConfiguration>

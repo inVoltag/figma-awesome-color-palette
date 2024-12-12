@@ -44,10 +44,7 @@ interface OverviewStates {
   isColourLoversImportOpen: boolean
 }
 
-export default class Overview extends PureComponent<
-  OverviewProps,
-  OverviewStates
-> {
+export default class Overview extends PureComponent<OverviewProps, OverviewStates> {
   static features = (planStatus: PlanStatus) => ({
     SOURCE_CANVAS: new FeatureStatus({
       features: features,
@@ -120,6 +117,24 @@ export default class Overview extends PureComponent<
         helper: undefined,
       },
     })
+  }
+
+  componentDidUpdate(previousProps: Readonly<OverviewProps>): void {
+    if (previousProps.sourceColors !== this.props.sourceColors) {
+      this.setState({
+        isCoolorsImportOpen:
+          this.props.sourceColors.filter((color) => color.source === 'COOLORS')
+            .length > 0,
+        isRealtimeColorsImportOpen:
+          this.props.sourceColors.filter(
+            (color) => color.source === 'REALTIME_COLORS'
+          ).length > 0,
+        isColourLoversImportOpen:
+          this.props.sourceColors.filter(
+            (color) => color.source === 'COLOUR_LOVERS'
+          ).length > 0,
+      })
+    }
   }
 
   // Handlers

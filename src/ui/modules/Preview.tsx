@@ -3,7 +3,14 @@ import chroma from 'chroma-js'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 
-import { Bar, HexModel, layouts, Select, texts } from '@a_ng_d/figmug-ui'
+import {
+  Bar,
+  Button,
+  HexModel,
+  layouts,
+  Select,
+  texts,
+} from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import features from '../../config'
 import { locals } from '../../content/locals'
@@ -24,6 +31,7 @@ interface PreviewProps {
   scale: ScaleConfiguration
   planStatus: PlanStatus
   lang: Language
+  onResetSourceColors?: () => void
 }
 
 interface PreviewStates {
@@ -311,6 +319,17 @@ export default class Preview extends PureComponent<
                 />
               </Feature>
             </div>
+          }
+          rightPartSlot={
+            <>
+              {this.props.onResetSourceColors && (
+                <Button
+                  type="icon"
+                  icon="trash"
+                  action={this.props.onResetSourceColors}
+                />
+              )}
+            </>
           }
           border={['BOTTOM']}
         />

@@ -916,6 +916,9 @@ export default class App extends Component<Record<string, never>, AppStates> {
               onChangeColorsFromImport={(e) =>
                 this.setState({ ...this.state, ...e })
               }
+              onResetSourceColors={(e) =>
+                this.setState({ ...this.state, ...e })
+              }
               onChangeScale={(e) => this.setState({ ...this.state, ...e })}
               onChangePreset={(e) => this.setState({ ...this.state, ...e })}
               onCustomPreset={(e) => this.setState({ ...this.state, ...e })}

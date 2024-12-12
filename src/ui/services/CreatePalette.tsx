@@ -60,6 +60,7 @@ interface CreatePaletteProps {
   onCustomPreset: React.Dispatch<Partial<AppStates>>
   onChangeSettings: React.Dispatch<Partial<AppStates>>
   onConfigureExternalSourceColors: React.Dispatch<Partial<AppStates>>
+  onResetSourceColors: React.Dispatch<Partial<AppStates>>
 }
 
 interface CreatePaletteStates {
@@ -108,6 +109,15 @@ export default class CreatePalette extends PureComponent<
             sourceColors.source !== source
         )
         .concat(sourceColorsFromImport),
+    })
+  }
+
+  resetSourceColorsHandler = () => {
+    this.props.onResetSourceColors({
+      sourceColors: this.props.sourceColors.filter(
+        (sourceColors: SourceColorConfiguration) =>
+          sourceColors.source === 'CANVAS'
+      ),
     })
   }
 
@@ -248,6 +258,7 @@ export default class CreatePalette extends PureComponent<
             key="preview"
             colors={this.props.sourceColors}
             scale={this.props.scale ?? {}}
+            onResetSourceColors={this.resetSourceColorsHandler}
           />
         </Feature>
       </>

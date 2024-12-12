@@ -140,7 +140,7 @@ export default class Preview extends PureComponent<
 
   // Direct actions
   setColor = (color: RgbModel | HexModel, scale: number): HexModel => {
-    const colorData = {
+    const colorData = new Color({
       sourceColor:
         typeof color === 'string'
           ? chroma(color).rgb()
@@ -150,21 +150,21 @@ export default class Preview extends PureComponent<
       chromaShifting: 100,
       algorithmVersion: palette.algorithmVersion,
       visionSimulationMode: palette.visionSimulationMode,
-    }
+    })
 
     switch (palette.colorSpace) {
       case 'LCH':
-        return new Color(colorData).lch() as HexModel
+        return colorData.lch() as HexModel
       case 'OKLCH':
-        return new Color(colorData).oklch() as HexModel
+        return colorData.oklch() as HexModel
       case 'LAB':
-        return new Color(colorData).lab() as HexModel
+        return colorData.lab() as HexModel
       case 'OKLAB':
-        return new Color(colorData).oklab() as HexModel
+        return colorData.oklab() as HexModel
       case 'HSL':
-        return new Color(colorData).hsl() as HexModel
+        return colorData.hsl() as HexModel
       case 'HSLUV':
-        return new Color(colorData).hsluv() as HexModel
+        return colorData.hsluv() as HexModel
       default:
         return '#000000'
     }
@@ -335,8 +335,8 @@ export default class Preview extends PureComponent<
           >
             {Object.values(this.props.scale)
               .reverse()
-              .map((scale, index) => {
-                const background: HexModel = this.setColor(color.rgb, scale)
+              .map((lightness, index) => {
+                const background: HexModel = this.setColor(color.rgb, lightness)
                 const darkText = new Color({
                   visionSimulationMode: palette.visionSimulationMode,
                 }).simulateColorBlindHex(

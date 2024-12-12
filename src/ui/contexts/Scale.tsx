@@ -177,7 +177,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     const onUpdatingStop = () => {
       this.scaleMessage.isEditedInRealTime = true
       this.props.onChangeScale()
-      if (!this.props.hasPreset) this.dispatch.scale.on.status = true
+      // if (!this.props.hasPreset) this.dispatch.scale.on.status = true
     }
 
     const actions: ActionsList = {

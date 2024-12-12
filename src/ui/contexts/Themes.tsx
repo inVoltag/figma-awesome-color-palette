@@ -208,7 +208,7 @@ export default class Themes extends PureComponent<ThemesProps> {
         )
       } else {
         this.themesMessage.isEditedInRealTime = true
-        this.dispatch.themes.on.status = true
+        // this.dispatch.themes.on.status = true
       }
     }
 

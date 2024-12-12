@@ -4,7 +4,7 @@ import chroma from 'chroma-js'
 import { Hsluv } from 'hsluv'
 
 import { lang, locals } from '../content/locals'
-import { VisionSimulationModeConfiguration } from '../types/configurations'
+import { RgbModel } from '../types/models'
 
 export default class Contrast {
   backgroundColor: [number, number, number]
@@ -21,11 +21,11 @@ export default class Contrast {
     this.visionSimulationMode = data.visionSimulationMode
   }
 
-  getWCAGContrast = () => {
+  getWCAGContrast = (): number => {
     return chroma.contrast(chroma(this.backgroundColor).hex(), this.textColor)
   }
 
-  getAPCAContrast = () => {
+  getAPCAContrast = (): number => {
     return Math.abs(
       APCAcontrast(
         sRGBtoY(chroma(this.textColor).rgb()),
@@ -34,7 +34,7 @@ export default class Contrast {
     )
   }
 
-  getWCAGScore = () => {
+  getWCAGScore = (): 'A' | 'AA' | 'AAA' => {
     return this.getWCAGContrast() < 4.5
       ? 'A'
       : this.getWCAGContrast() >= 4.5 && this.getWCAGContrast() < 7
@@ -61,11 +61,11 @@ export default class Contrast {
     }
   }
 
-  getMinFontSizes = () => {
+  getMinFontSizes = (): Array<string | number> => {
     return fontLookupAPCA(this.getAPCAContrast())
   }
 
-  getRecommendedUsage = () => {
+  getRecommendedUsage = (): string => {
     if (this.getAPCAContrast() >= 90)
       return locals[lang].paletteProperties.fluentText
     if (this.getAPCAContrast() >= 75 && this.getAPCAContrast() < 90)

@@ -362,7 +362,6 @@ export default class Preview extends PureComponent<
                         score={new Contrast({
                           backgroundColor: chroma(background).rgb(),
                           textColor: lightText,
-                          visionSimulationMode: palette.visionSimulationMode,
                         }).getWCAGContrast()}
                       />
                     )}
@@ -372,7 +371,6 @@ export default class Preview extends PureComponent<
                         score={new Contrast({
                           backgroundColor: chroma(background).rgb(),
                           textColor: lightText,
-                          visionSimulationMode: palette.visionSimulationMode,
                         }).getAPCAContrast()}
                       />
                     )}
@@ -382,7 +380,6 @@ export default class Preview extends PureComponent<
                         score={new Contrast({
                           backgroundColor: chroma(background).rgb(),
                           textColor: darkText,
-                          visionSimulationMode: palette.visionSimulationMode,
                         }).getWCAGContrast()}
                       />
                     )}
@@ -392,7 +389,6 @@ export default class Preview extends PureComponent<
                         score={new Contrast({
                           backgroundColor: chroma(background).rgb(),
                           textColor: darkText,
-                          visionSimulationMode: palette.visionSimulationMode,
                         }).getAPCAContrast()}
                       />
                     )}

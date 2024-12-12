@@ -1,7 +1,6 @@
 import { HexModel } from '@a_ng_d/figmug-ui'
 import { APCAcontrast, fontLookupAPCA, sRGBtoY } from 'apca-w3'
 import chroma from 'chroma-js'
-import { Hsluv } from 'hsluv'
 
 import { lang, locals } from '../content/locals'
 import { RgbModel } from '../types/models'
@@ -9,16 +8,13 @@ import { RgbModel } from '../types/models'
 export default class Contrast {
   backgroundColor: [number, number, number]
   textColor: HexModel
-  visionSimulationMode: VisionSimulationModeConfiguration
 
   constructor(data: {
     backgroundColor: [number, number, number]
     textColor: HexModel
-    visionSimulationMode: VisionSimulationModeConfiguration
   }) {
     this.backgroundColor = data.backgroundColor
     this.textColor = data.textColor
-    this.visionSimulationMode = data.visionSimulationMode
   }
 
   getWCAGContrast = (): number => {

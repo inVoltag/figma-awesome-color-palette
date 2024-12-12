@@ -1,15 +1,14 @@
 import { HexModel } from '@a_ng_d/figmug-ui'
-import { APCAcontrast, fontLookupAPCA, sRGBtoY } from 'apca-w3'
 import chroma from 'chroma-js'
-import * as blinder from 'color-blind'
-import { Hsluv } from 'hsluv'
 
 import { lang, locals } from '../content/locals'
 import {
   ColorSpaceConfiguration,
   VisionSimulationModeConfiguration,
 } from '../types/configurations'
-import { ActionsList, TextColorsThemeHexModel } from '../types/models'
+import { TextColorsThemeHexModel } from '../types/models'
+import Color from '../utils/Color'
+import Contrast from '../utils/Contrast'
 import Tag from './Tag'
 
 export default class Properties {
@@ -37,6 +36,10 @@ export default class Properties {
   nodeLeftColumn: FrameNode | null
   nodeRightColumn: FrameNode | null
   node: FrameNode | null
+  lightTextColor: [number, number, number]
+  darkTextColor: [number, number, number]
+  lightTextColorContrast: Contrast
+  darkTextColorContrast: Contrast
 
   constructor(
     name: string,
@@ -56,7 +59,10 @@ export default class Properties {
     this.lab = chroma(rgb).lab()
     this.oklab = chroma(rgb).oklab()
     this.hsl = chroma(rgb).hsl()
-    this.hsluv = this.getHsluv(rgb)
+    this.hsluv = new Color({
+      sourceColor: rgb,
+      visionSimulationMode: this.visionSimulationMode,
+    }).getHsluv()
     this.nodeTopProps = null
     this.nodeBottomProps = null
     this.nodeBaseProps = null
@@ -69,137 +75,20 @@ export default class Properties {
     this.nodeLeftColumn = null
     this.nodeRightColumn = null
     this.node = null
-  }
-
-  simulateColorBlind = (
-    sourceColor: string,
-    visionSimulationMode: VisionSimulationModeConfiguration
-  ): string => {
-    const actions: ActionsList = {
-      NONE: () => sourceColor,
-      PROTANOMALY: () => chroma(blinder.protanomaly(sourceColor)),
-      PROTANOPIA: () => chroma(blinder.protanopia(sourceColor)),
-      DEUTERANOMALY: () => chroma(blinder.deuteranomaly(sourceColor)),
-      DEUTERANOPIA: () => chroma(blinder.deuteranopia(sourceColor)),
-      TRITANOMALY: () => chroma(blinder.tritanomaly(sourceColor)),
-      TRITANOPIA: () => chroma(blinder.tritanopia(sourceColor)),
-      ACHROMATOMALY: () => chroma(blinder.achromatomaly(sourceColor)),
-      ACHROMATOPSIA: () => chroma(blinder.achromatopsia(sourceColor)),
-    }
-
-    const result = actions[visionSimulationMode]?.()
-    return result !== undefined ? result : '#000000'
-  }
-
-  getWCAGContrast = (textColor: string) => {
-    return chroma.contrast(
-      chroma(this.rgb).hex(),
-      textColor === 'DARK'
-        ? this.simulateColorBlind(
-            this.textColorsTheme.darkColor,
-            this.visionSimulationMode
-          )
-        : this.simulateColorBlind(
-            this.textColorsTheme.lightColor,
-            this.visionSimulationMode
-          )
-    )
-  }
-
-  getAPCAContrast = (textColor: string) => {
-    return Math.abs(
-      APCAcontrast(
-        sRGBtoY(
-          textColor === 'DARK'
-            ? chroma(
-                this.simulateColorBlind(
-                  this.textColorsTheme.darkColor,
-                  this.visionSimulationMode
-                )
-              ).rgb()
-            : chroma(
-                this.simulateColorBlind(
-                  this.textColorsTheme.lightColor,
-                  this.visionSimulationMode
-                )
-              ).rgb()
-        ),
-        sRGBtoY(this.rgb)
-      )
-    )
-  }
-
-  getWCAGScore = (textColor: string) => {
-    return this.getWCAGContrast(textColor) < 4.5
-      ? 'A'
-      : this.getWCAGContrast(textColor) >= 4.5 &&
-          this.getWCAGContrast(textColor) < 7
-        ? 'AA'
-        : 'AAA'
-  }
-
-  getScoreColor = (score: string) => {
-    if (score !== 'A' && score !== locals[lang].paletteProperties.avoid)
-      return {
-        r: 0.5294117647,
-        g: 0.8156862745,
-        b: 0.6941176471,
-      }
-    else {
-      return {
-        r: 0.8274509804,
-        g: 0.7019607843,
-        b: 0.7803921569,
-      }
-    }
-  }
-
-  getMinFontSizes = (textColor: string) => {
-    return fontLookupAPCA(this.getAPCAContrast(textColor))
-  }
-
-  getRecommendedUsage = (textColor: string) => {
-    if (this.getAPCAContrast(textColor) >= 90)
-      return locals[lang].paletteProperties.fluentText
-    if (
-      this.getAPCAContrast(textColor) >= 75 &&
-      this.getAPCAContrast(textColor) < 90
-    )
-      return locals[lang].paletteProperties.contentText
-    if (
-      this.getAPCAContrast(textColor) >= 60 &&
-      this.getAPCAContrast(textColor) < 75
-    )
-      return locals[lang].paletteProperties.bodyText
-    if (
-      this.getAPCAContrast(textColor) >= 45 &&
-      this.getAPCAContrast(textColor) < 60
-    )
-      return locals[lang].paletteProperties.headlines
-    if (
-      this.getAPCAContrast(textColor) >= 30 &&
-      this.getAPCAContrast(textColor) < 45
-    )
-      return locals[lang].paletteProperties.spotText
-    if (
-      this.getAPCAContrast(textColor) >= 15 &&
-      this.getAPCAContrast(textColor) < 30
-    )
-      return locals[lang].paletteProperties.nonText
-    if (this.getAPCAContrast(textColor) < 15)
-      return locals[lang].paletteProperties.avoid
-
-    return locals[lang].paletteProperties.unknown
-  }
-
-  getHsluv = (rgb: [number, number, number]) => {
-    const hsluv = new Hsluv()
-    hsluv.rgb_r = rgb[0] / 255
-    hsluv.rgb_g = rgb[1] / 255
-    hsluv.rgb_b = rgb[2] / 255
-    hsluv.rgbToHsluv()
-
-    return [hsluv.hsluv_h, hsluv.hsluv_s, hsluv.hsluv_l]
+    this.lightTextColor = new Color({
+      visionSimulationMode: this.visionSimulationMode,
+    }).simulateColorBlindRgb(chroma(this.textColorsTheme.lightColor).rgb())
+    this.darkTextColor = new Color({
+      visionSimulationMode: this.visionSimulationMode,
+    }).simulateColorBlindRgb(chroma(this.textColorsTheme.darkColor).rgb())
+    this.lightTextColorContrast = new Contrast({
+      backgroundColor: this.rgb,
+      textColor: chroma(this.lightTextColor).hex(),
+    })
+    this.darkTextColorContrast = new Contrast({
+      backgroundColor: this.rgb,
+      textColor: chroma(this.darkTextColor).hex(),
+    })
   }
 
   makeNodeTopProps = () => {
@@ -322,28 +211,25 @@ export default class Properties {
 
     // Insert
     // WCAG
-    const wcagLightContrast = this.getWCAGContrast('LIGHT').toFixed(2),
-      wcagDarkContrast = this.getWCAGContrast('DARK').toFixed(2),
-      wcagLightScore = this.getWCAGScore('LIGHT'),
-      wcagDarkScore = this.getWCAGScore('DARK')
+    const wcagLightContrast = this.lightTextColorContrast
+        .getWCAGContrast()
+        .toFixed(2),
+      wcagDarkContrast = this.darkTextColorContrast
+        .getWCAGContrast()
+        .toFixed(2),
+      wcagLightScore = this.lightTextColorContrast.getWCAGScore(),
+      wcagDarkScore = this.darkTextColorContrast.getWCAGScore()
 
     const nodeWCAGLightProp = new Tag({
         name: '_wcag21-light',
         content: wcagLightContrast,
         isCompact: true,
-      }).makeNodeTagwithIndicator(
-        chroma(
-          this.simulateColorBlind(
-            this.textColorsTheme.lightColor,
-            this.visionSimulationMode
-          )
-        ).gl()
-      ),
+      }).makeNodeTagwithIndicator(chroma(this.lightTextColor).gl()),
       nodeWCAGLightScore = new Tag({
         name: '_wcag21-light-score',
         content: wcagLightScore,
         backgroundColor: {
-          rgb: this.getScoreColor(wcagLightScore),
+          rgb: this.lightTextColorContrast.getWCAGScoreColor(),
           alpha: 1,
         },
       }).makeNodeTag(),
@@ -351,19 +237,12 @@ export default class Properties {
         name: '_wcag21-dark',
         content: wcagDarkContrast,
         isCompact: true,
-      }).makeNodeTagwithIndicator(
-        chroma(
-          this.simulateColorBlind(
-            this.textColorsTheme.darkColor,
-            this.visionSimulationMode
-          )
-        ).gl()
-      ),
+      }).makeNodeTagwithIndicator(chroma(this.darkTextColor).gl()),
       nodeWCAGDarkScore = new Tag({
         name: '_wcag21-dark-score',
         content: wcagDarkScore,
         backgroundColor: {
-          rgb: this.getScoreColor(wcagDarkScore),
+          rgb: this.darkTextColorContrast.getWCAGScoreColor(),
           alpha: 1,
         },
       }).makeNodeTag()
@@ -372,28 +251,26 @@ export default class Properties {
     nodeWCAGDarkProp.appendChild(nodeWCAGDarkScore)
 
     // APCA
-    const apcaLightContrast = this.getAPCAContrast('LIGHT').toFixed(1),
-      apcaLightRecommendation = this.getRecommendedUsage('LIGHT'),
-      apcaDarkContrast = this.getAPCAContrast('DARK').toFixed(1),
-      apcaDarkRecommendation = this.getRecommendedUsage('DARK')
+    const apcaLightContrast = this.lightTextColorContrast
+        .getAPCAContrast()
+        .toFixed(1),
+      apcaLightRecommendation =
+        this.lightTextColorContrast.getRecommendedUsage(),
+      apcaDarkContrast = this.darkTextColorContrast
+        .getAPCAContrast()
+        .toFixed(1),
+      apcaDarkRecommendation = this.darkTextColorContrast.getRecommendedUsage()
 
     const nodeAPCALightProp = new Tag({
         name: '_apca-light',
         content: `Lc ${apcaLightContrast}`,
         isCompact: true,
-      }).makeNodeTagwithIndicator(
-        chroma(
-          this.simulateColorBlind(
-            this.textColorsTheme.lightColor,
-            this.visionSimulationMode
-          )
-        ).gl()
-      ),
+      }).makeNodeTagwithIndicator(chroma(this.lightTextColor).gl()),
       nodeAPCALightScore = new Tag({
         name: '_apca-light-score',
         content: apcaLightRecommendation,
         backgroundColor: {
-          rgb: this.getScoreColor(apcaLightRecommendation),
+          rgb: this.lightTextColorContrast.getAPCAScoreColor(),
           alpha: 1,
         },
       }).makeNodeTag(),
@@ -401,19 +278,12 @@ export default class Properties {
         name: '_apca-dark',
         content: `Lc ${apcaDarkContrast}`,
         isCompact: true,
-      }).makeNodeTagwithIndicator(
-        chroma(
-          this.simulateColorBlind(
-            this.textColorsTheme.darkColor,
-            this.visionSimulationMode
-          )
-        ).gl()
-      ),
+      }).makeNodeTagwithIndicator(chroma(this.darkTextColor).gl()),
       nodeAPCADarkScore = new Tag({
         name: '_apca-dark-score',
         content: apcaDarkRecommendation,
         backgroundColor: {
-          rgb: this.getScoreColor(apcaDarkRecommendation),
+          rgb: this.darkTextColorContrast.getAPCAScoreColor(),
           alpha: 1,
         },
       }).makeNodeTag()
@@ -518,28 +388,25 @@ export default class Properties {
     this.nodeDetailedWCAGScoresProps.itemSpacing = 4
 
     // Insert
-    const wcagLightContrast = this.getWCAGContrast('LIGHT').toFixed(2),
-      wcagDarkContrast = this.getWCAGContrast('DARK').toFixed(2),
-      wcagLightScore = this.getWCAGScore('LIGHT'),
-      wcagDarkScore = this.getWCAGScore('DARK')
+    const wcagLightContrast = this.lightTextColorContrast
+        .getWCAGContrast()
+        .toFixed(2),
+      wcagDarkContrast = this.darkTextColorContrast
+        .getWCAGContrast()
+        .toFixed(2),
+      wcagLightScore = this.lightTextColorContrast.getWCAGScore(),
+      wcagDarkScore = this.darkTextColorContrast.getWCAGScore()
 
     const nodeWCAGLightProp = new Tag({
         name: '_wcag21-light',
         content: wcagLightContrast,
         isCompact: true,
-      }).makeNodeTagwithIndicator(
-        chroma(
-          this.simulateColorBlind(
-            this.textColorsTheme.lightColor,
-            this.visionSimulationMode
-          )
-        ).gl()
-      ),
+      }).makeNodeTagwithIndicator(chroma(this.lightTextColor).gl()),
       nodeWCAGLightScore = new Tag({
         name: '_wcag21-light-score',
         content: wcagLightScore,
         backgroundColor: {
-          rgb: this.getScoreColor(wcagLightScore),
+          rgb: this.lightTextColorContrast.getWCAGScoreColor(),
           alpha: 1,
         },
       }).makeNodeTag(),
@@ -547,19 +414,12 @@ export default class Properties {
         name: '_wcag21-dark',
         content: wcagDarkContrast,
         isCompact: true,
-      }).makeNodeTagwithIndicator(
-        chroma(
-          this.simulateColorBlind(
-            this.textColorsTheme.darkColor,
-            this.visionSimulationMode
-          )
-        ).gl()
-      ),
+      }).makeNodeTagwithIndicator(chroma(this.darkTextColor).gl()),
       nodeWCAGDarkScore = new Tag({
         name: '_wcag21-dark-score',
         content: wcagDarkScore,
         backgroundColor: {
-          rgb: this.getScoreColor(wcagDarkScore),
+          rgb: this.darkTextColorContrast.getWCAGScoreColor(),
           alpha: 1,
         },
       }).makeNodeTag()
@@ -585,9 +445,9 @@ export default class Properties {
     this.nodeDetailedAPCAScoresProps.name = '_apca-scores'
     this.nodeDetailedAPCAScoresProps.fills = []
     const minimumDarkFontSize: Array<string | number> =
-        this.getMinFontSizes('DARK'),
+        this.darkTextColorContrast.getMinFontSizes(),
       minimumLightFontSize: Array<string | number> =
-        this.getMinFontSizes('LIGHT')
+        this.lightTextColorContrast.getMinFontSizes()
 
     // Layout
     this.nodeDetailedAPCAScoresProps.layoutMode = 'VERTICAL'
@@ -597,28 +457,26 @@ export default class Properties {
     this.nodeDetailedAPCAScoresProps.itemSpacing = 4
 
     // Insert
-    const apcaLightContrast = this.getAPCAContrast('LIGHT').toFixed(1),
-      apcaLightRecommendation = this.getRecommendedUsage('LIGHT'),
-      apcaDarkContrast = this.getAPCAContrast('DARK').toFixed(1),
-      apcaDarkRecommendation = this.getRecommendedUsage('DARK')
+    const apcaLightContrast = this.lightTextColorContrast
+        .getAPCAContrast()
+        .toFixed(1),
+      apcaLightRecommendation =
+        this.lightTextColorContrast.getRecommendedUsage(),
+      apcaDarkContrast = this.darkTextColorContrast
+        .getAPCAContrast()
+        .toFixed(1),
+      apcaDarkRecommendation = this.darkTextColorContrast.getRecommendedUsage()
 
     const nodeAPCALightProp = new Tag({
         name: '_apca-light',
         content: `Lc ${apcaLightContrast}`,
         isCompact: true,
-      }).makeNodeTagwithIndicator(
-        chroma(
-          this.simulateColorBlind(
-            this.textColorsTheme.lightColor,
-            this.visionSimulationMode
-          )
-        ).gl()
-      ),
+      }).makeNodeTagwithIndicator(chroma(this.lightTextColor).gl()),
       nodeAPCALightScore = new Tag({
         name: '_apca-light-score',
         content: apcaLightRecommendation,
         backgroundColor: {
-          rgb: this.getScoreColor(apcaLightRecommendation),
+          rgb: this.lightTextColorContrast.getAPCAScoreColor(),
           alpha: 1,
         },
       }).makeNodeTag(),
@@ -626,19 +484,12 @@ export default class Properties {
         name: '_apca-dark',
         content: `Lc ${apcaDarkContrast}`,
         isCompact: true,
-      }).makeNodeTagwithIndicator(
-        chroma(
-          this.simulateColorBlind(
-            this.textColorsTheme.darkColor,
-            this.visionSimulationMode
-          )
-        ).gl()
-      ),
+      }).makeNodeTagwithIndicator(chroma(this.darkTextColor).gl()),
       nodeAPCADarkScore = new Tag({
         name: '_apca-dark-score',
         content: apcaDarkRecommendation,
         backgroundColor: {
-          rgb: this.getScoreColor(apcaDarkRecommendation),
+          rgb: this.darkTextColorContrast.getAPCAScoreColor(),
           alpha: 1,
         },
       }).makeNodeTag()

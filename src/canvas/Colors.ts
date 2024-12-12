@@ -1,19 +1,15 @@
 import chroma from 'chroma-js'
-import * as blinder from 'color-blind'
 import { Hsluv } from 'hsluv'
 
 import { lang, locals } from '../content/locals'
-import {
-  ScaleConfiguration,
-  VisionSimulationModeConfiguration,
-} from '../types/configurations'
+import { ScaleConfiguration } from '../types/configurations'
 import {
   PaletteData,
   PaletteDataColorItem,
   PaletteDataThemeItem,
 } from '../types/data'
-import { ActionsList } from '../types/models'
 import { PaletteNode } from '../types/nodes'
+import Color from '../utils/Color'
 import Header from './Header'
 import Sample from './Sample'
 import Signature from './Signature'
@@ -62,245 +58,6 @@ export default class Colors {
     this.nodeEmpty = null
     this.nodeShades = null
     this.node = null
-  }
-
-  getShadeColorFromLch = (
-    sourceColor: [number, number, number],
-    lightness: number,
-    hueShifting: number,
-    chromaShifting: number,
-    algorithmVersion: string
-  ) => {
-    const lch = chroma(sourceColor).lch(),
-      newColor = chroma
-        .lch(
-          lightness,
-          algorithmVersion === 'v2'
-            ? Math.sin((lightness / 100) * Math.PI) *
-                lch[1] *
-                (chromaShifting / 100)
-            : lch[1] * (chromaShifting / 100),
-          lch[2] + hueShifting < 0
-            ? 0
-            : lch[2] + hueShifting > 360
-              ? 360
-              : lch[2] + hueShifting
-        )
-        .rgb()
-
-    return this.simulateColorBlind(newColor, this.parent.visionSimulationMode)
-  }
-
-  getShadeColorFromOklch = (
-    sourceColor: [number, number, number],
-    lightness: number,
-    hueShifting: number,
-    chromaShifting: number,
-    algorithmVersion: string
-  ) => {
-    const oklch = chroma(sourceColor).oklch(),
-      newColor = chroma
-        .oklch(
-          lightness / 100,
-          algorithmVersion === 'v2'
-            ? Math.sin((lightness / 100) * Math.PI) *
-                oklch[1] *
-                (chromaShifting / 100)
-            : oklch[1] * (chromaShifting / 100),
-          oklch[2] + hueShifting < 0
-            ? 0
-            : oklch[2] + hueShifting > 360
-              ? 360
-              : oklch[2] + hueShifting
-        )
-        .rgb()
-
-    return this.simulateColorBlind(newColor, this.parent.visionSimulationMode)
-  }
-
-  getShadeColorFromLab = (
-    sourceColor: [number, number, number],
-    lightness: number,
-    hueShifting: number,
-    chromaShifting: number,
-    algorithmVersion: string
-  ) => {
-    const labA = chroma(sourceColor).get('lab.a'),
-      labB = chroma(sourceColor).get('lab.b'),
-      chr = Math.sqrt(labA ** 2 + labB ** 2) * (chromaShifting / 100)
-    let h = Math.atan(labB / labA) + hueShifting * (Math.PI / 180)
-
-    if (h > Math.PI) h = Math.PI
-    else if (h < -Math.PI) h = Math.PI
-
-    let newLabA = chr * Math.cos(h),
-      newLabB = chr * Math.sin(h)
-
-    if (Math.sign(labA) === -1 && Math.sign(labB) === 1) {
-      newLabA *= -1
-      newLabB *= -1
-    }
-    if (Math.sign(labA) === -1 && Math.sign(labB) === -1) {
-      newLabA *= -1
-      newLabB *= -1
-    }
-
-    const newColor = chroma
-      .lab(
-        lightness,
-        algorithmVersion === 'v2'
-          ? Math.sin((lightness / 100) * Math.PI) * newLabA
-          : newLabA,
-        algorithmVersion === 'v2'
-          ? Math.sin((lightness / 100) * Math.PI) * newLabB
-          : newLabB
-      )
-      .rgb()
-
-    return this.simulateColorBlind(newColor, this.parent.visionSimulationMode)
-  }
-
-  getShadeColorFromOklab = (
-    sourceColor: [number, number, number],
-    lightness: number,
-    hueShifting: number,
-    chromaShifting: number,
-    algorithmVersion: string
-  ) => {
-    const labA = chroma(sourceColor).get('oklab.a'),
-      labB = chroma(sourceColor).get('oklab.b'),
-      chr = Math.sqrt(labA ** 2 + labB ** 2) * (chromaShifting / 100)
-    let h = Math.atan(labB / labA) + hueShifting * (Math.PI / 180)
-
-    if (h > Math.PI) h = Math.PI
-    else if (h < -Math.PI) h = Math.PI
-
-    let newLabA = chr * Math.cos(h),
-      newLabB = chr * Math.sin(h)
-
-    if (Math.sign(labA) === -1 && Math.sign(labB) === 1) {
-      newLabA *= -1
-      newLabB *= -1
-    }
-    if (Math.sign(labA) === -1 && Math.sign(labB) === -1) {
-      newLabA *= -1
-      newLabB *= -1
-    }
-
-    if (Number.isNaN(newLabA)) newLabA = 0
-    if (Number.isNaN(newLabB)) newLabB = 0
-
-    const newColor = chroma
-      .oklab(
-        lightness / 100,
-        algorithmVersion === 'v2'
-          ? Math.sin((lightness / 100) * Math.PI) * newLabA
-          : newLabA,
-        algorithmVersion === 'v2'
-          ? Math.sin((lightness / 100) * Math.PI) * newLabB
-          : newLabB
-      )
-      .rgb()
-
-    return this.simulateColorBlind(newColor, this.parent.visionSimulationMode)
-  }
-
-  getShadeColorFromHsl = (
-    sourceColor: [number, number, number],
-    lightness: number,
-    hueShifting: number,
-    chromaShifting: number,
-    algorithmVersion: string
-  ) => {
-    const hsl = chroma(sourceColor).hsl(),
-      newColor = chroma
-        .hsl(
-          hsl[0] + hueShifting < 0
-            ? 0
-            : hsl[0] + hueShifting > 360
-              ? 360
-              : hsl[0] + hueShifting,
-          algorithmVersion === 'v2'
-            ? Math.sin((lightness / 100) * Math.PI) *
-                hsl[1] *
-                (chromaShifting / 100)
-            : hsl[1] * (chromaShifting / 100),
-          lightness / 100
-        )
-        .rgb()
-
-    return this.simulateColorBlind(newColor, this.parent.visionSimulationMode)
-  }
-
-  getShadeColorFromHsluv = (
-    sourceColor: [number, number, number],
-    lightness: number,
-    hueShifting: number,
-    chromaShifting: number,
-    algorithmVersion: string
-  ) => {
-    const hsluv = new Hsluv()
-
-    hsluv.rgb_r = sourceColor[0] / 255
-    hsluv.rgb_g = sourceColor[1] / 255
-    hsluv.rgb_b = sourceColor[2] / 255
-
-    hsluv.rgbToHsluv()
-
-    hsluv.hsluv_l = lightness
-    hsluv.hsluv_s =
-      algorithmVersion === 'v2'
-        ? Math.sin((lightness / 100) * Math.PI) *
-          hsluv.hsluv_s *
-          (chromaShifting / 100)
-        : hsluv.hsluv_s * (chromaShifting / 100)
-    hsluv.hsluv_h =
-      hsluv.hsluv_h + hueShifting < 0
-        ? 0
-        : hsluv.hsluv_h + hueShifting > 360
-          ? 360
-          : hsluv.hsluv_h + hueShifting
-
-    if (Number.isNaN(hsluv.hsluv_s)) hsluv.hsluv_s = 0
-    if (Number.isNaN(hsluv.hsluv_h)) hsluv.hsluv_h = 0
-
-    hsluv.hsluvToRgb()
-
-    const newColor: [number, number, number] = [
-      hsluv.rgb_r * 255,
-      hsluv.rgb_g * 255,
-      hsluv.rgb_b * 255,
-    ]
-
-    return this.simulateColorBlind(newColor, this.parent.visionSimulationMode)
-  }
-
-  simulateColorBlind = (
-    sourceColor: [number, number, number],
-    visionSimulationMode: VisionSimulationModeConfiguration
-  ): [number, number, number] => {
-    const actions: ActionsList = {
-      NONE: () => sourceColor,
-      PROTANOMALY: () =>
-        chroma(blinder.protanomaly(chroma(sourceColor).hex())).rgb(false),
-      PROTANOPIA: () =>
-        chroma(blinder.protanopia(chroma(sourceColor).hex())).rgb(false),
-      DEUTERANOMALY: () =>
-        chroma(blinder.deuteranomaly(chroma(sourceColor).hex())).rgb(false),
-      DEUTERANOPIA: () =>
-        chroma(blinder.deuteranopia(chroma(sourceColor).hex())).rgb(false),
-      TRITANOMALY: () =>
-        chroma(blinder.tritanomaly(chroma(sourceColor).hex())).rgb(false),
-      TRITANOPIA: () =>
-        chroma(blinder.tritanopia(chroma(sourceColor).hex())).rgb(false),
-      ACHROMATOMALY: () =>
-        chroma(blinder.achromatomaly(chroma(sourceColor).hex())).rgb(false),
-      ACHROMATOPSIA: () =>
-        chroma(blinder.achromatopsia(chroma(sourceColor).hex())).rgb(false),
-    }
-
-    const result = actions[visionSimulationMode]?.()
-    return result !== undefined ? result : [0, 0, 0]
   }
 
   makeEmptyCase = () => {
@@ -459,55 +216,28 @@ export default class Colors {
           .reverse()
           .forEach((lightness: number) => {
             let newColor: [number, number, number] = [0, 0, 0]
+            const colorData = new Color({
+              render: 'RGB' as 'HEX' | 'RGB',
+              sourceColor: sourceColor,
+              lightness: lightness,
+              hueShifting: color.hueShifting ?? 0,
+              chromaShifting: color.chromaShifting ?? 100,
+              algorithmVersion: this.parent.algorithmVersion,
+              visionSimulationMode: this.parent.visionSimulationMode,
+            })
 
             if (this.parent.colorSpace === 'LCH')
-              newColor = this.getShadeColorFromLch(
-                sourceColor,
-                lightness,
-                color.hueShifting ?? 0,
-                color.chromaShifting ?? 100,
-                this.parent.algorithmVersion
-              )
+              newColor = colorData.lch() as [number, number, number]
             else if (this.parent.colorSpace === 'OKLCH')
-              newColor = this.getShadeColorFromOklch(
-                sourceColor,
-                lightness,
-                color.hueShifting ?? 0,
-                color.chromaShifting ?? 100,
-                this.parent.algorithmVersion
-              )
+              newColor = colorData.oklch() as [number, number, number]
             else if (this.parent.colorSpace === 'LAB')
-              newColor = this.getShadeColorFromLab(
-                sourceColor,
-                lightness,
-                color.hueShifting ?? 0,
-                color.chromaShifting ?? 100,
-                this.parent.algorithmVersion
-              )
+              newColor = colorData.lab() as [number, number, number]
             else if (this.parent.colorSpace === 'OKLAB')
-              newColor = this.getShadeColorFromOklab(
-                sourceColor,
-                lightness,
-                color.hueShifting ?? 0,
-                color.chromaShifting ?? 100,
-                this.parent.algorithmVersion
-              )
+              newColor = colorData.oklab() as [number, number, number]
             else if (this.parent.colorSpace === 'HSL')
-              newColor = this.getShadeColorFromHsl(
-                sourceColor,
-                lightness,
-                color.hueShifting ?? 0,
-                color.chromaShifting ?? 100,
-                this.parent.algorithmVersion
-              )
+              newColor = colorData.hsl() as [number, number, number]
             else if (this.parent.colorSpace === 'HSLUV')
-              newColor = this.getShadeColorFromHsluv(
-                sourceColor,
-                lightness,
-                color.hueShifting ?? 0,
-                color.chromaShifting ?? 100,
-                this.parent.algorithmVersion
-              )
+              newColor = colorData.hsluv() as [number, number, number]
 
             const scaleName: string =
               Object.keys(theme.scale)
@@ -660,54 +390,28 @@ export default class Colors {
         .forEach((lightness: number) => {
           let newColor: [number, number, number] = [0, 0, 0]
 
+          const colorData = new Color({
+            render: 'RGB' as 'HEX' | 'RGB',
+            sourceColor: sourceColor,
+            lightness: lightness,
+            hueShifting: color.hueShifting ?? 0,
+            chromaShifting: color.chromaShifting ?? 100,
+            algorithmVersion: this.parent.algorithmVersion,
+            visionSimulationMode: this.parent.visionSimulationMode,
+          })
+
           if (this.parent.colorSpace === 'LCH')
-            newColor = this.getShadeColorFromLch(
-              sourceColor,
-              lightness,
-              color.hueShifting ?? 0,
-              color.chromaShifting ?? 100,
-              this.parent.algorithmVersion
-            )
+            newColor = colorData.lch() as [number, number, number]
           else if (this.parent.colorSpace === 'OKLCH')
-            newColor = this.getShadeColorFromOklch(
-              sourceColor,
-              lightness,
-              color.hueShifting ?? 0,
-              color.chromaShifting ?? 100,
-              this.parent.algorithmVersion
-            )
+            newColor = colorData.oklch() as [number, number, number]
           else if (this.parent.colorSpace === 'LAB')
-            newColor = this.getShadeColorFromLab(
-              sourceColor,
-              lightness,
-              color.hueShifting ?? 0,
-              color.chromaShifting ?? 100,
-              this.parent.algorithmVersion
-            )
+            newColor = colorData.lab() as [number, number, number]
           else if (this.parent.colorSpace === 'OKLAB')
-            newColor = this.getShadeColorFromOklab(
-              sourceColor,
-              lightness,
-              color.hueShifting ?? 0,
-              color.chromaShifting ?? 100,
-              this.parent.algorithmVersion
-            )
+            newColor = colorData.oklab() as [number, number, number]
           else if (this.parent.colorSpace === 'HSL')
-            newColor = this.getShadeColorFromHsl(
-              sourceColor,
-              lightness,
-              color.hueShifting ?? 0,
-              color.chromaShifting ?? 100,
-              this.parent.algorithmVersion
-            )
+            newColor = colorData.hsl() as [number, number, number]
           else if (this.parent.colorSpace === 'HSLUV')
-            newColor = this.getShadeColorFromHsluv(
-              sourceColor,
-              lightness,
-              color.hueShifting ?? 0,
-              color.chromaShifting ?? 100,
-              this.parent.algorithmVersion
-            )
+            newColor = colorData.hsluv() as [number, number, number]
 
           const distance: number = chroma.distance(
             chroma(sourceColor).hex(),

@@ -217,6 +217,16 @@ export default class Color {
     return this.simulateColorBlindRgb(newColor)
   }
 
+  getHsluv = (): [number, number, number] => {
+    const hsluv = new Hsluv()
+    hsluv.rgb_r = this.sourceColor[0] / 255
+    hsluv.rgb_g = this.sourceColor[1] / 255
+    hsluv.rgb_b = this.sourceColor[2] / 255
+    hsluv.rgbToHsluv()
+
+    return [hsluv.hsluv_h, hsluv.hsluv_s, hsluv.hsluv_l]
+  }
+
   simulateColorBlindRgb = (
     sourceColor: [number, number, number]
   ): [number, number, number] => {

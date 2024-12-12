@@ -38,11 +38,24 @@ export default class Contrast {
         : 'AAA'
   }
 
-  getScoreColor = () => {
-    if (
-      this.getWCAGScore() !== 'A' &&
-      this.getWCAGScore() !== locals[lang].paletteProperties.avoid
-    )
+  getWCAGScoreColor = (): RgbModel => {
+    if (this.getWCAGScore() !== 'A')
+      return {
+        r: 0.5294117647,
+        g: 0.8156862745,
+        b: 0.6941176471,
+      }
+    else {
+      return {
+        r: 0.8274509804,
+        g: 0.7019607843,
+        b: 0.7803921569,
+      }
+    }
+  }
+
+  getAPCAScoreColor = (): RgbModel => {
+    if (this.getRecommendedUsage() !== locals[lang].paletteProperties.avoid)
       return {
         r: 0.5294117647,
         g: 0.8156862745,
@@ -77,15 +90,5 @@ export default class Contrast {
     if (this.getAPCAContrast() < 15) return locals[lang].paletteProperties.avoid
 
     return locals[lang].paletteProperties.unknown
-  }
-
-  getHsluv = () => {
-    const hsluv = new Hsluv()
-    hsluv.rgb_r = this.backgroundColor[0] / 255
-    hsluv.rgb_g = this.backgroundColor[1] / 255
-    hsluv.rgb_b = this.backgroundColor[2] / 255
-    hsluv.rgbToHsluv()
-
-    return [hsluv.hsluv_h, hsluv.hsluv_s, hsluv.hsluv_l]
   }
 }

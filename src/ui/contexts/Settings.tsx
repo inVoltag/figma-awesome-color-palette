@@ -147,6 +147,7 @@ export default class Settings extends PureComponent<
 
     const renamePalette = () => {
       palette.name = target.value
+
       this.settingsMessage.data.name = target.value
       this.settingsMessage.data.description = this.props.description
       this.settingsMessage.data.colorSpace = this.props.colorSpace
@@ -179,6 +180,7 @@ export default class Settings extends PureComponent<
 
     const updateDescription = () => {
       palette.description = target.value
+
       this.settingsMessage.data.name = this.props.name
       this.settingsMessage.data.description = target.value
       this.settingsMessage.data.colorSpace = this.props.colorSpace
@@ -234,6 +236,7 @@ export default class Settings extends PureComponent<
 
     const updateColorSpace = () => {
       palette.colorSpace = target.dataset.value as ColorSpaceConfiguration
+
       this.settingsMessage.data.name = this.props.name
       this.settingsMessage.data.description = this.props.description
       this.settingsMessage.data.colorSpace = target.dataset
@@ -265,6 +268,7 @@ export default class Settings extends PureComponent<
     const updatevisionSimulationMode = () => {
       palette.visionSimulationMode = target.dataset
         .value as VisionSimulationModeConfiguration
+
       this.settingsMessage.data.name = this.props.name
       this.settingsMessage.data.description = this.props.description
       this.settingsMessage.data.colorSpace = this.props.colorSpace
@@ -293,6 +297,8 @@ export default class Settings extends PureComponent<
     }
 
     const updateAlgorithmVersion = () => {
+      palette.algorithmVersion = !target.checked ? 'v1' : 'v2'
+
       this.settingsMessage.data.name = this.props.name
       this.settingsMessage.data.description = this.props.description
       this.settingsMessage.data.colorSpace = this.props.colorSpace

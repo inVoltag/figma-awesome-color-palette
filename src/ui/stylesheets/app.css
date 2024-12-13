@@ -15,7 +15,6 @@ li {
 
 div#app {
   height: 100%;
-  cursor: default;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -114,7 +113,8 @@ div.control__block--no-padding {
 
 div.control__block--distributed {
   justify-content: space-between;
-  overflow-y: revert;
+  overflow-y: hidden;
+  gap: var(--size-xsmall);
 }
 
 div.controls__control--horizontal div.control__block {
@@ -211,17 +211,48 @@ div.about__links {
 .preview {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  border-top: 1px solid var(--figma-color-border);
+  position: relative;
+  max-height: calc(100% - 96px);
+  min-height: 149px;
+}
+
+.preview__knob-spot {
+  position: absolute;
+  width: 100%;
+  height: var(--size-xxsmall);
+  z-index: 2;
+  top: -4px;
+  cursor: ns-resize;
+}
+
+.preview__rows {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .preview__row {
   display: flex;
   flex: 1;
-  overflow: hidden;
+}
+
+.preview__header {
+  display: flex;
 }
 
 .preview__cell {
   flex: 1;
   overflow: hidden;
-  height: var(--size-xxxsmall);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: var(--size-xxxsmall);
+  gap: var(--size-xxxsmall);
+  min-height: 44px;
+}
+
+.preview__cell--no-height {
+  min-height: unset;
 }

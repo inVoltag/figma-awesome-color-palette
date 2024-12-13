@@ -1,21 +1,21 @@
 import { RgbModel } from '../types/models'
 
 export default class Tag {
-  name: string
-  content: string
-  fontSize: number
-  url: string | null
-  backgroundColor: {
+  private name: string
+  private content: string
+  private fontSize: number
+  private url: string | null
+  private backgroundColor: {
     rgb: RgbModel
     alpha: number
   }
-  isCompact: boolean
-  nodeTag: FrameNode | null
-  nodeTagWithAvatar: FrameNode | null
-  nodeTagwithIndicator: FrameNode | null
-  nodeText: TextNode | null
-  nodeIndicator: EllipseNode | null
-  nodeAvatar: EllipseNode | null
+  private isCompact: boolean
+  private nodeTag: FrameNode | null
+  private nodeTagWithAvatar: FrameNode | null
+  private nodeTagwithIndicator: FrameNode | null
+  private nodeText: TextNode | null
+  private nodeIndicator: EllipseNode | null
+  private nodeAvatar: EllipseNode | null
 
   constructor(options: {
     name: string

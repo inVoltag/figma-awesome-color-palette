@@ -70,6 +70,8 @@ export type PriorityContext =
 
 export type ThirdParty = 'COOLORS' | 'REALTIME_COLORS' | 'COLOUR_LOVERS'
 
+export type NamingConvention = 'ONES' | 'TENS' | 'HUNDREDS'
+
 export type Easing = 'LINEAR' | 'EASE_IN' | 'EASE_OUT' | 'EASE_IN_OUT'
 
 export interface ImportUrl {

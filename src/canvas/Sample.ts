@@ -10,20 +10,20 @@ import Property from './Property'
 import Status from './Status'
 
 export default class Sample {
-  name: string
-  source: { [key: string]: number } | null
-  scale: string | null
-  rgb: [number, number, number]
-  colorSpace: ColorSpaceConfiguration
-  visionSimulationMode: VisionSimulationModeConfiguration
-  view: ViewConfiguration
-  textColorsTheme: TextColorsThemeHexModel
-  status: {
+  private name: string
+  private source: { [key: string]: number } | null
+  private scale: string | null
+  private rgb: [number, number, number]
+  private colorSpace: ColorSpaceConfiguration
+  private visionSimulationMode: VisionSimulationModeConfiguration
+  private view: ViewConfiguration
+  private textColorsTheme: TextColorsThemeHexModel
+  private status: {
     isClosestToRef: boolean
   }
-  nodeColor: FrameNode | null
-  node: FrameNode | null
-  children: FrameNode | null
+  private nodeColor: FrameNode | null
+  private node: FrameNode | null
+  private children: FrameNode | null
 
   constructor(
     name: string,

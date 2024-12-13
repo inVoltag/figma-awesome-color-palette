@@ -641,7 +641,7 @@ export default class MyPalettes extends PureComponent<
                         (e.target as HTMLInputElement).value
                       )
                     }}
-                    onCleared={(e) => {
+                    onClear={(e) => {
                       this.props.onChangeSearchQuery(e)
                       this.props.onChangeStatus('LOADING')
                       this.props.onChangeCurrentPage(1)

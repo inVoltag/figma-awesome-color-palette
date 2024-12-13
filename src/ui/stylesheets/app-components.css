@@ -57,13 +57,6 @@ div.callout--centered {
   margin: auto;
 }
 
-div.onboarding__actions {
-  display: flex;
-  gap: var(--size-xxsmall);
-  justify-content: center;
-  padding: 0 calc(var(--size-xsmall) + var(--size-xxxsmall));
-}
-
 /* Slider */
 div.slider {
   display: flex;
@@ -125,11 +118,6 @@ div.slider .slider__knob--selected,
 div.slider .slider__knob--editing {
   z-index: 2 !important;
   outline: none;
-}
-
-div.slider .slider__knob:focus .slider__tooltip,
-div.slider .slider__knob--selected .slider__tooltip {
-  display: block !important;
 }
 
 div.slider .slider__knob:active .slider__label,
@@ -195,11 +183,6 @@ div.slider .slider__tooltip {
   top: calc(var(--size-xsmall) * -1);
   text-align: center;
   user-select: none;
-  display: none;
-}
-
-div.slider .slider__knob:hover .slider__tooltip {
-  display: block !important;
 }
 
 div.slider .slider__tooltip:after {
@@ -255,4 +238,25 @@ div.user__avatar {
 div.user__avatar img {
   width: 100%;
   height: 100%;
+}
+
+/* Tag */ 
+.preview__tag {
+  max-width: 100%;
+  padding: 0 var(--size-xxxsmall);
+  border-radius: var(--border-radius-small);
+  background: var(--white4);
+  display: flex;
+  gap: var(--size-xxxsmall);
+  align-items: center;
+  overflow: hidden;
+}
+
+.preview__tag__color {
+  width: var(--size-xxsmall);
+  height: var(--size-xxsmall);
+  border-radius: var(--size-small);
+  flex: 0 0 var(--size-xxsmall);
+  outline: 1px solid var(--black1);
+  outline-offset: -1px;
 }

@@ -482,7 +482,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
         <Select
           id="update-algorithm"
           type="SWITCH_BUTTON"
-          name="algorythm"
+          name="update-algorithm"
           label={locals[this.props.lang].settings.color.newAlgorithm.label}
           isChecked={this.props.algorithmVersion === 'v2' ? true : false}
           isBlocked={ColorSettings.features(

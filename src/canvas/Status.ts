@@ -2,9 +2,9 @@ import { lang, locals } from '../content/locals'
 import Tag from './Tag'
 
 export default class Status {
-  status: { isClosestToRef: boolean }
-  source: { [key: string]: number }
-  node: FrameNode | null
+  private status: { isClosestToRef: boolean }
+  private source: { [key: string]: number }
+  private node: FrameNode | null
 
   constructor(
     status: { isClosestToRef: boolean },

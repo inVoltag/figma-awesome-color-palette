@@ -11,6 +11,7 @@ interface KnobProps {
   min?: string
   max?: string
   canBeTyped: boolean
+  isDisplayed: boolean
   onShiftRight?: React.KeyboardEventHandler<HTMLInputElement>
   onShiftLeft?: React.KeyboardEventHandler<HTMLInputElement>
   onDelete?: React.KeyboardEventHandler<HTMLInputElement>
@@ -23,16 +24,18 @@ interface KnobProps {
   ) => void
 }
 
-interface States {
+interface KnobStates {
   isStopInputOpen: boolean
+  isTooltipOpen: boolean
   stopInputValue: string | number
 }
 
-export default class Knob extends PureComponent<KnobProps, States> {
+export default class Knob extends PureComponent<KnobProps, KnobStates> {
   constructor(props: KnobProps) {
     super(props)
     this.state = {
       isStopInputOpen: false,
+      isTooltipOpen: false,
       stopInputValue: this.props.value,
     }
   }
@@ -91,12 +94,12 @@ export default class Knob extends PureComponent<KnobProps, States> {
       <div
         className={[
           'slider__knob',
-          this.props.id,
           this.state.isStopInputOpen && 'slider__knob--editing',
         ]
           .filter((n) => n)
           .join(' ')}
         style={{ left: `${this.props.value}%` }}
+        data-lightness={this.props.id}
         tabIndex={0}
         onKeyDown={(e) =>
           this.keyboardHandler(
@@ -105,11 +108,21 @@ export default class Knob extends PureComponent<KnobProps, States> {
           )
         }
         onMouseDown={this.props.onMouseDown}
+        onMouseEnter={() => this.setState({ isTooltipOpen: true })}
+        onMouseLeave={(e) => {
+          const isFocused = document.activeElement === e.target
+          if (isFocused) this.setState({ isTooltipOpen: true })
+          else this.setState({ isTooltipOpen: false })
+        }}
+        onFocus={() => this.setState({ isTooltipOpen: true })}
+        onBlur={() => this.setState({ isTooltipOpen: false })}
         onClick={(e) => this.clickHandler(e)}
       >
-        <div className={`type ${texts.type} type--inverse slider__tooltip`}>
-          {this.transformStopValue(this.props.value)}
-        </div>
+        {(this.props.isDisplayed || this.state.isTooltipOpen) && (
+          <div className={`type ${texts.type} type--inverse slider__tooltip`}>
+            {this.transformStopValue(this.props.value)}
+          </div>
+        )}
         {this.state.isStopInputOpen && (
           <div className="slider__input">
             <Input

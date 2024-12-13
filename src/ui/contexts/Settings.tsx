@@ -33,7 +33,6 @@ import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
-import Preview from '../modules/Preview'
 import ColorSettings from './ColorSettings'
 import ContrastSettings from './ContrastSettings'
 import GlobalSettings from './GlobalSettings'
@@ -44,10 +43,10 @@ interface SettingsProps {
   sourceColors?: Array<SourceColorConfiguration>
   name: string
   description: string
-  textColorsTheme: TextColorsThemeHexModel
+  view: ViewConfiguration
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
-  view: string
+  textColorsTheme: TextColorsThemeHexModel
   algorithmVersion?: AlgorithmVersionConfiguration
   userIdentity: UserConfiguration
   userConsent: Array<ConsentConfiguration>
@@ -65,13 +64,10 @@ interface SettingsStates {
   context: Context | ''
 }
 
-export default class Settings extends PureComponent<
-  SettingsProps,
-  SettingsStates
-> {
-  settingsMessage: SettingsMessage
-  dispatch: { [key: string]: DispatchProcess }
-  contexts: Array<ContextItem>
+export default class Settings extends PureComponent<SettingsProps, SettingsStates> {
+  private settingsMessage: SettingsMessage
+  private dispatch: { [key: string]: DispatchProcess }
+  private contexts: Array<ContextItem>
 
   static features = (planStatus: PlanStatus) => ({
     SETTINGS_GLOBAL: new FeatureStatus({
@@ -148,6 +144,7 @@ export default class Settings extends PureComponent<
 
     const renamePalette = () => {
       palette.name = target.value
+
       this.settingsMessage.data.name = target.value
       this.settingsMessage.data.description = this.props.description
       this.settingsMessage.data.colorSpace = this.props.colorSpace
@@ -180,6 +177,7 @@ export default class Settings extends PureComponent<
 
     const updateDescription = () => {
       palette.description = target.value
+
       this.settingsMessage.data.name = this.props.name
       this.settingsMessage.data.description = target.value
       this.settingsMessage.data.colorSpace = this.props.colorSpace
@@ -235,6 +233,7 @@ export default class Settings extends PureComponent<
 
     const updateColorSpace = () => {
       palette.colorSpace = target.dataset.value as ColorSpaceConfiguration
+
       this.settingsMessage.data.name = this.props.name
       this.settingsMessage.data.description = this.props.description
       this.settingsMessage.data.colorSpace = target.dataset
@@ -266,6 +265,7 @@ export default class Settings extends PureComponent<
     const updatevisionSimulationMode = () => {
       palette.visionSimulationMode = target.dataset
         .value as VisionSimulationModeConfiguration
+
       this.settingsMessage.data.name = this.props.name
       this.settingsMessage.data.description = this.props.description
       this.settingsMessage.data.colorSpace = this.props.colorSpace
@@ -293,7 +293,9 @@ export default class Settings extends PureComponent<
       }
     }
 
-    const updateAlgorythmVersion = () => {
+    const updateAlgorithmVersion = () => {
+      palette.algorithmVersion = !target.checked ? 'v1' : 'v2'
+
       this.settingsMessage.data.name = this.props.name
       this.settingsMessage.data.description = this.props.description
       this.settingsMessage.data.colorSpace = this.props.colorSpace
@@ -394,6 +396,22 @@ export default class Settings extends PureComponent<
         this.dispatch.textColorsTheme.on.status = true
     }
 
+    const updatePaletteDeepSync = () =>
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'SET_ITEMS',
+            items: [
+              {
+                key: 'can_deep_sync_palette',
+                value: target.checked,
+              },
+            ],
+          },
+        },
+        '*'
+      )
+
     const updateVariablesDeepSync = () =>
       parent.postMessage(
         {
@@ -432,9 +450,10 @@ export default class Settings extends PureComponent<
       UPDATE_VIEW: () => updateView(),
       UPDATE_COLOR_SPACE: () => updateColorSpace(),
       UPDATE_COLOR_BLIND_MODE: () => updatevisionSimulationMode(),
-      UPDATE_ALGORITHM_VERSION: () => updateAlgorythmVersion(),
+      UPDATE_ALGORITHM_VERSION: () => updateAlgorithmVersion(),
       UPDATE_TEXT_LIGHT_COLOR: () => updateTextLightColor(),
       UPDATE_TEXT_DARK_COLOR: () => updateTextDarkColor(),
+      UPDATE_PALETTE_DEEP_SYNC: () => updatePaletteDeepSync(),
       UPDATE_VARIABLES_DEEP_SYNC: () => updateVariablesDeepSync(),
       UPDATE_STYLES_DEEP_SYNC: () => updateStylesDeepSync(),
       DEFAULT: () => null,
@@ -521,19 +540,10 @@ export default class Settings extends PureComponent<
             )}
           </div>
           {this.props.service === 'CREATE' ? (
-            <>
-              <Actions
-                {...this.props}
-                service="CREATE"
-              />
-              <Feature
-                isActive={Settings.features(
-                  this.props.planStatus
-                ).PREVIEW.isActive()}
-              >
-                <Preview sourceColors={this.props.sourceColors} />
-              </Feature>
-            </>
+            <Actions
+              {...this.props}
+              service="CREATE"
+            />
           ) : (
             <Actions
               {...this.props}

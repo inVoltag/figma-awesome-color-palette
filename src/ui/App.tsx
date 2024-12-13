@@ -1,7 +1,7 @@
 import { Consent, ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import 'figma-plugin-ds/dist/figma-plugin-ds.css'
-import { PureComponent } from 'preact/compat'
+import { Component } from 'preact/compat'
 import React from 'react'
 
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
@@ -11,10 +11,12 @@ import {
   EditorType,
   HighlightDigest,
   Language,
+  NamingConvention,
   PlanStatus,
   PriorityContext,
   Service,
   TrialStatus,
+  Easing,
 } from '../types/app'
 import {
   AlgorithmVersionConfiguration,
@@ -24,7 +26,6 @@ import {
   DatesConfiguration,
   ExportConfiguration,
   ExtractOfPaletteConfiguration,
-  NamingConventionConfiguration,
   PresetConfiguration,
   PublicationConfiguration,
   ScaleConfiguration,
@@ -58,6 +59,14 @@ import EditPalette from './services/EditPalette'
 import TransferPalette from './services/TransferPalette'
 import './stylesheets/app-components.css'
 import './stylesheets/app.css'
+import doLightnessScale from '../utils/doLightnessScale'
+import {
+  $canPaletteDeepSync,
+  $canVariablesDeepSync,
+  $canStylesDeepSync,
+  $isWCAGDisplayed,
+  $isAPCADisplayed,
+} from '../stores/preferences'
 
 export interface AppStates {
   service: Service
@@ -66,7 +75,8 @@ export interface AppStates {
   name: string
   description: string
   preset: PresetConfiguration
-  namingConvention: NamingConventionConfiguration
+  namingConvention: NamingConvention
+  distributionEasing: Easing
   scale: ScaleConfiguration
   colors: Array<ColorConfiguration>
   colorSpace: ColorSpaceConfiguration
@@ -98,10 +108,7 @@ export interface AppStates {
 
 let isPaletteSelected = false
 
-export default class App extends PureComponent<
-  Record<string, never>,
-  AppStates
-> {
+export default class App extends Component<Record<string, never>, AppStates> {
   static features = (planStatus: PlanStatus) => ({
     CREATE: new FeatureStatus({
       features: features,
@@ -141,6 +148,7 @@ export default class App extends PureComponent<
       preset:
         presets.find((preset) => preset.id === 'MATERIAL') ?? defaultPreset,
       namingConvention: 'ONES',
+      distributionEasing: 'LINEAR',
       scale: {},
       colors: [],
       colorSpace: 'LCH',
@@ -151,7 +159,7 @@ export default class App extends PureComponent<
         lightColor: '#FFFFFF',
         darkColor: '#000000',
       },
-      algorithmVersion: 'v1',
+      algorithmVersion: 'v2',
       screenshot: null,
       dates: {
         createdAt: '',
@@ -208,6 +216,22 @@ export default class App extends PureComponent<
 
   componentDidMount = async () => {
     setTimeout(() => this.setState({ isLoaded: true }), 1000)
+    this.setState({
+      scale: doLightnessScale(
+        this.state.preset.scale,
+        this.state.preset.min,
+        this.state.preset.max,
+        this.state.preset.isDistributed,
+        this.props.distributionEasing
+      ),
+    })
+    palette.scale = doLightnessScale(
+      this.state.preset.scale,
+      this.state.preset.min,
+      this.state.preset.max,
+      this.state.preset.isDistributed,
+      this.props.distributionEasing
+    )
     fetch(
       `${announcementsWorkerUrl}/?action=get_version&database_id=${process.env.REACT_APP_NOTION_ANNOUNCEMENTS_ID}`
     )
@@ -313,6 +337,16 @@ export default class App extends PureComponent<
             userConsent: e.data.pluginMessage.userConsent,
           })
 
+        const checkUserPreferences = () => {
+          $isWCAGDisplayed.set(e.data.pluginMessage.data.isWCAGDisplayed)
+          $isAPCADisplayed.set(e.data.pluginMessage.data.isAPCADisplayed)
+          $canPaletteDeepSync.set(e.data.pluginMessage.data.canDeepSyncPalette)
+          $canVariablesDeepSync.set(
+            e.data.pluginMessage.data.canDeepSyncVariables
+          )
+          $canStylesDeepSync.set(e.data.pluginMessage.data.canDeepSyncStyles)
+        }
+
         const checkEditorType = () => {
           this.setState({ editorType: e.data.pluginMessage.data })
           setTimeout(
@@ -351,74 +385,24 @@ export default class App extends PureComponent<
           })
 
         const updateWhileEmptySelection = () => {
-          this.setState({
-            service: 'CREATE',
-            sourceColors: this.state.sourceColors.filter(
-              (sourceColor: SourceColorConfiguration) =>
-                sourceColor.source !== 'CANVAS'
-            ),
-            id: '',
-            name: '',
-            description: '',
-            preset:
-              presets.find((preset) => preset.id === 'MATERIAL') ??
-              defaultPreset,
-            namingConvention: 'ONES',
-            scale: {},
-            colorSpace: 'LCH',
-            visionSimulationMode: 'NONE',
-            view: 'PALETTE_WITH_PROPERTIES',
-            textColorsTheme: {
-              lightColor: '#FFFFFF',
-              darkColor: '#000000',
-            },
-            algorithmVersion: 'v1',
-            screenshot: null,
-            dates: {
-              createdAt: '',
-              updatedAt: '',
-              publishedAt: '',
-            },
-            publicationStatus: {
-              isPublished: false,
-              isShared: false,
-            },
-            creatorIdentity: {
-              creatorFullName: '',
-              creatorAvatar: '',
-              creatorId: '',
-            },
-            priorityContainerContext: (() => {
-              if (this.state.priorityContainerContext === 'PUBLICATION')
-                return 'EMPTY'
-              else return this.state.priorityContainerContext
-            })(),
-            onGoingStep: 'selection empty',
-          })
-          palette.name = ''
-          palette.description = ''
-          palette.preset = defaultPreset
-          palette.colorSpace = 'LCH'
-          palette.visionSimulationMode = 'NONE'
-          palette.view = 'PALETTE_WITH_PROPERTIES'
-          palette.textColorsTheme = {
-            lightColor: '#FFFFFF',
-            darkColor: '#000000',
-          }
-          isPaletteSelected = false
-        }
-
-        const updateWhileColorSelected = () => {
           if (isPaletteSelected) {
+            const preset =
+              presets.find((preset) => preset.id === 'MATERIAL') ??
+              defaultPreset
+            const scale = doLightnessScale(
+              preset.scale,
+              preset.min,
+              preset.max,
+              preset.isDistributed,
+              this.props.distributionEasing
+            )
+
             this.setState({
               id: '',
               name: '',
               description: '',
-              preset:
-                presets.find((preset) => preset.id === 'MATERIAL') ??
-                defaultPreset,
-              namingConvention: 'ONES',
-              scale: {},
+              preset: preset,
+              scale: scale,
               colorSpace: 'LCH',
               visionSimulationMode: 'NONE',
               view: 'PALETTE_WITH_PROPERTIES',
@@ -426,7 +410,82 @@ export default class App extends PureComponent<
                 lightColor: '#FFFFFF',
                 darkColor: '#000000',
               },
-              algorithmVersion: 'v1',
+              algorithmVersion: 'v2',
+              screenshot: null,
+              dates: {
+                createdAt: '',
+                updatedAt: '',
+                publishedAt: '',
+              },
+              publicationStatus: {
+                isPublished: false,
+                isShared: false,
+              },
+              creatorIdentity: {
+                creatorFullName: '',
+                creatorAvatar: '',
+                creatorId: '',
+              },
+              priorityContainerContext: (() => {
+                if (this.state.priorityContainerContext === 'PUBLICATION')
+                  return 'EMPTY'
+                else return this.state.priorityContainerContext
+              })(),
+              onGoingStep: 'selection empty',
+            })
+            palette.name = ''
+            palette.description = ''
+            palette.preset = defaultPreset
+            palette.scale = scale
+            palette.colorSpace = 'LCH'
+            palette.visionSimulationMode = 'NONE'
+            palette.view = 'PALETTE_WITH_PROPERTIES'
+            palette.textColorsTheme = {
+              lightColor: '#FFFFFF',
+              darkColor: '#000000',
+            }
+          }
+          this.setState({
+            service: 'CREATE',
+            sourceColors: this.state.sourceColors.filter(
+              (sourceColor: SourceColorConfiguration) =>
+                sourceColor.source !== 'CANVAS'
+            ),
+            onGoingStep: 'selection empty',
+          })
+
+          isPaletteSelected = false
+        }
+
+        const updateWhileColorSelected = () => {
+          if (isPaletteSelected) {
+            const preset =
+              presets.find((preset) => preset.id === 'MATERIAL') ??
+              defaultPreset
+            const scale = doLightnessScale(
+              preset.scale,
+              preset.min,
+              preset.max,
+              preset.isDistributed,
+              this.props.distributionEasing
+            )
+
+            this.setState({
+              id: '',
+              name: '',
+              description: '',
+              preset:
+                presets.find((preset) => preset.id === 'MATERIAL') ??
+                defaultPreset,
+              scale: scale,
+              colorSpace: 'LCH',
+              visionSimulationMode: 'NONE',
+              view: 'PALETTE_WITH_PROPERTIES',
+              textColorsTheme: {
+                lightColor: '#FFFFFF',
+                darkColor: '#000000',
+              },
+              algorithmVersion: 'v2',
               screenshot: null,
               dates: {
                 createdAt: '',
@@ -453,6 +512,7 @@ export default class App extends PureComponent<
             palette.preset =
               presets.find((preset) => preset.id === 'MATERIAL') ??
               defaultPreset
+            palette.scale = scale
             palette.colorSpace = 'LCH'
             palette.visionSimulationMode = 'NONE'
             palette.view = 'PALETTE_WITH_PROPERTIES'
@@ -788,6 +848,7 @@ export default class App extends PureComponent<
         const actions: ActionsList = {
           CHECK_USER_AUTHENTICATION: () => checkUserAuthentication(),
           CHECK_USER_CONSENT: () => checkUserConsent(),
+          CHECK_USER_PREFERENCES: () => checkUserPreferences(),
           CHECK_EDITOR_TYPE: () => checkEditorType(),
           PUSH_HIGHLIGHT_STATUS: () => handleHighlight(),
           CHECK_PLAN_STATUS: () => checkPlanStatus(),
@@ -871,6 +932,9 @@ export default class App extends PureComponent<
             <CreatePalette
               {...this.state}
               onChangeColorsFromImport={(e) =>
+                this.setState({ ...this.state, ...e })
+              }
+              onResetSourceColors={(e) =>
                 this.setState({ ...this.state, ...e })
               }
               onChangeScale={(e) => this.setState({ ...this.state, ...e })}

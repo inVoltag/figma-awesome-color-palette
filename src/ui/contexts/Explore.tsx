@@ -54,11 +54,8 @@ interface ExploreStates {
   isLoadMoreActionLoading: boolean
 }
 
-export default class Explore extends PureComponent<
-  ExploreProps,
-  ExploreStates
-> {
-  filters: Array<FilterOptions>
+export default class Explore extends PureComponent<ExploreProps, ExploreStates> {
+  private filters: Array<FilterOptions>
 
   constructor(props: ExploreProps) {
     super(props)

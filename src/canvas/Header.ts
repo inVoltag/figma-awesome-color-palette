@@ -4,10 +4,10 @@ import { PaletteNode } from '../types/nodes'
 import Sample from './Sample'
 
 export default class Header {
-  parent: PaletteNode
-  currentScale: ScaleConfiguration
-  sampleSize: number
-  node: FrameNode | null
+  private parent: PaletteNode
+  private currentScale: ScaleConfiguration
+  private sampleSize: number
+  private node: FrameNode | null
 
   constructor(parent: PaletteNode, size: number) {
     this.parent = parent

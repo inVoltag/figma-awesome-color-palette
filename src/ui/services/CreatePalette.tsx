@@ -7,13 +7,14 @@ import { uid } from 'uid'
 import {
   Context,
   ContextItem,
+  Easing,
   Language,
+  NamingConvention,
   PlanStatus,
   ThirdParty,
 } from '../../types/app'
 import {
   ColorSpaceConfiguration,
-  NamingConventionConfiguration,
   PresetConfiguration,
   ScaleConfiguration,
   SourceColorConfiguration,
@@ -23,7 +24,6 @@ import {
 } from '../../types/configurations'
 import { TextColorsThemeHexModel } from '../../types/models'
 import { UserSession } from '../../types/user'
-import doLightnessScale from '../../utils/doLightnessScale'
 import { trackActionEvent } from '../../utils/eventsTracker'
 import { palette } from '../../utils/palettePackage'
 import { setContexts } from '../../utils/setContexts'
@@ -32,13 +32,18 @@ import Palettes from '../contexts/Palettes'
 import Scale from '../contexts/Scale'
 import Settings from '../contexts/Settings'
 import Source from '../contexts/Source'
+import Preview from '../modules/Preview'
+import Feature from '../components/Feature'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import features from '../../config'
 
 interface CreatePaletteProps {
   sourceColors: Array<SourceColorConfiguration> | []
   name: string
   description: string
   preset: PresetConfiguration
-  namingConvention: NamingConventionConfiguration
+  namingConvention: NamingConvention
+  distributionEasing: Easing
   scale: ScaleConfiguration
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
@@ -55,6 +60,7 @@ interface CreatePaletteProps {
   onCustomPreset: React.Dispatch<Partial<AppStates>>
   onChangeSettings: React.Dispatch<Partial<AppStates>>
   onConfigureExternalSourceColors: React.Dispatch<Partial<AppStates>>
+  onResetSourceColors: React.Dispatch<Partial<AppStates>>
 }
 
 interface CreatePaletteStates {
@@ -65,7 +71,15 @@ export default class CreatePalette extends PureComponent<
   CreatePaletteProps,
   CreatePaletteStates
 > {
-  contexts: Array<ContextItem>
+  private contexts: Array<ContextItem>
+
+  static features = (planStatus: PlanStatus) => ({
+    PREVIEW: new FeatureStatus({
+      features: features,
+      featureName: 'PREVIEW_WCAG',
+      planStatus: planStatus,
+    }),
+  })
 
   constructor(props: CreatePaletteProps) {
     super(props)
@@ -95,6 +109,15 @@ export default class CreatePalette extends PureComponent<
             sourceColors.source !== source
         )
         .concat(sourceColorsFromImport),
+    })
+  }
+
+  resetSourceColorsHandler = () => {
+    this.props.onResetSourceColors({
+      sourceColors: this.props.sourceColors.filter(
+        (sourceColors: SourceColorConfiguration) =>
+          sourceColors.source === 'CANVAS'
+      ),
     })
   }
 
@@ -157,14 +180,6 @@ export default class CreatePalette extends PureComponent<
 
   // Renders
   render() {
-    palette.preset = this.props.preset
-    palette.min = this.props.preset.min
-    palette.max = this.props.preset.max
-    palette.scale = doLightnessScale(
-      this.props.preset.scale,
-      this.props.preset.min ?? 0,
-      this.props.preset.max ?? 100
-    )
     let fragment
 
     switch (this.state.context) {
@@ -197,6 +212,7 @@ export default class CreatePalette extends PureComponent<
             onAddStop={this.props.onCustomPreset}
             onRemoveStop={this.props.onCustomPreset}
             onChangeNamingConvention={this.props.onCustomPreset}
+            onChangeDistributionEasing={this.props.onCustomPreset}
             onChangeScale={this.slideHandler}
             onCreatePalette={this.onCreatePalette}
           />
@@ -231,6 +247,20 @@ export default class CreatePalette extends PureComponent<
         <section className="controller">
           <div className="controls">{fragment}</div>
         </section>
+        <Feature
+          isActive={
+            CreatePalette.features(this.props.planStatus).PREVIEW.isActive() &&
+            this.state.context !== 'PALETTES'
+          }
+        >
+          <Preview
+            {...this.props}
+            key="preview"
+            colors={this.props.sourceColors}
+            algorithmVersion="v2"
+            onResetSourceColors={this.resetSourceColorsHandler}
+          />
+        </Feature>
       </>
     )
   }

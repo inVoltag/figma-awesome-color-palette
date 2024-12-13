@@ -50,8 +50,6 @@ export interface ScaleConfiguration {
   [key: string]: number
 }
 
-export type NamingConventionConfiguration = 'ONES' | 'TENS' | 'HUNDREDS'
-
 export interface ColorConfiguration {
   name: string
   description: string

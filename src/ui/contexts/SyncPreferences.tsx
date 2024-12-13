@@ -8,11 +8,15 @@ import {
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
+import {
+  $canPaletteDeepSync,
+  $canVariablesDeepSync,
+  $canStylesDeepSync,
+} from '../../stores/preferences'
 
 import features from '../../config'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus } from '../../types/app'
-import { ActionsList } from '../../types/models'
 import Feature from '../components/Feature'
 
 interface SyncPreferencesProps {
@@ -27,15 +31,25 @@ interface SyncPreferencesProps {
 }
 
 interface SyncPreferencesStates {
-  areVariablesDeepSync: boolean
-  areStylesDeepSync: boolean
+  canPaletteDeepSync: boolean
+  canVariablesDeepSync: boolean
+  canStylesDeepSync: boolean
 }
 
 export default class SyncPreferences extends PureComponent<
   SyncPreferencesProps,
   SyncPreferencesStates
 > {
+  private unsubscribePalette: (() => void) | undefined
+  private unsubscribeVariables: (() => void) | undefined
+  private unsubscribeStyles: (() => void) | undefined
+
   static features = (planStatus: PlanStatus) => ({
+    SETTINGS_SYNC_DEEP_PALETTE: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_SYNC_DEEP_PALETTE',
+      planStatus: planStatus,
+    }),
     SETTINGS_SYNC_DEEP_VARIABLES: new FeatureStatus({
       features: features,
       featureName: 'SETTINGS_SYNC_DEEP_VARIABLES',
@@ -55,78 +69,69 @@ export default class SyncPreferences extends PureComponent<
   constructor(props: SyncPreferencesProps) {
     super(props)
     this.state = {
-      areVariablesDeepSync: false,
-      areStylesDeepSync: false,
+      canPaletteDeepSync: false,
+      canVariablesDeepSync: false,
+      canStylesDeepSync: false,
     }
   }
 
-  componentDidMount = (): void => {
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: 'GET_ITEMS',
-          items: ['can_deep_sync_variables', 'can_deep_sync_styles'],
-        },
-      },
-      '*'
-    )
-    window.addEventListener('message', this.handleMessage)
+  // Lifecycle
+  componentDidMount() {
+    this.unsubscribePalette = $canPaletteDeepSync.subscribe((value) => {
+      this.setState({ canPaletteDeepSync: value })
+    })
+    this.unsubscribeVariables = $canVariablesDeepSync.subscribe((value) => {
+      this.setState({ canVariablesDeepSync: value })
+    })
+    this.unsubscribeStyles = $canStylesDeepSync.subscribe((value) => {
+      this.setState({ canStylesDeepSync: value })
+    })
   }
 
-  componentWillUnmount = (): void => {
-    window.removeEventListener('message', this.handleMessage)
-  }
-
-  // Handlers
-  handleMessage = (e: MessageEvent) => {
-    const deepSyncVariables = () => {
-      if (e.data.pluginMessage.value === undefined)
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'SET_ITEMS',
-              items: [
-                {
-                  key: 'can_deep_sync_variables',
-                  value: false,
-                },
-              ],
-            },
-          },
-          '*'
-        )
-      else this.setState({ areVariablesDeepSync: e.data.pluginMessage.value })
+  componentWillUnmount() {
+    if (this.unsubscribePalette) {
+      this.unsubscribePalette()
     }
-
-    const deepSyncStyles = () => {
-      if (e.data.pluginMessage.value === undefined)
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'SET_ITEMS',
-              items: [
-                {
-                  key: 'can_deep_sync_styles',
-                  value: false,
-                },
-              ],
-            },
-          },
-          '*'
-        )
-      else this.setState({ areStylesDeepSync: e.data.pluginMessage.value })
+    if (this.unsubscribeVariables) {
+      this.unsubscribeVariables()
     }
-
-    const actions: ActionsList = {
-      GET_ITEM_CAN_DEEP_SYNC_VARIABLES: () => deepSyncVariables(),
-      GET_ITEM_CAN_DEEP_SYNC_STYLES: () => deepSyncStyles(),
-      DEFAULT: () => null,
+    if (this.unsubscribeStyles) {
+      this.unsubscribeStyles()
     }
-
-    return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
   }
 
   // Templates
+  PaletteDeepSync = () => {
+    return (
+      <Feature
+        isActive={SyncPreferences.features(
+          this.props.planStatus
+        ).SETTINGS_SYNC_DEEP_PALETTE.isActive()}
+      >
+        <Select
+          id="update-palette-deep-sync"
+          type="SWITCH_BUTTON"
+          name="update-palette-deep-sync"
+          label={
+            locals[this.props.lang].settings.preferences.sync.palette.label
+          }
+          isChecked={this.state.canPaletteDeepSync}
+          isBlocked={SyncPreferences.features(
+            this.props.planStatus
+          ).SETTINGS_SYNC_DEEP_PALETTE.isBlocked()}
+          isNew={SyncPreferences.features(
+            this.props.planStatus
+          ).SETTINGS_SYNC_DEEP_PALETTE.isNew()}
+          feature="UPDATE_PALETTE_DEEP_SYNC"
+          onChange={(e) => {
+            $canPaletteDeepSync.set(!this.state.canPaletteDeepSync)
+            this.props.onChangeSettings(e)
+          }}
+        />
+      </Feature>
+    )
+  }
+
   VariablesDeepSync = () => {
     return (
       <Feature
@@ -141,7 +146,7 @@ export default class SyncPreferences extends PureComponent<
           label={
             locals[this.props.lang].settings.preferences.sync.variables.label
           }
-          isChecked={this.state.areVariablesDeepSync}
+          isChecked={this.state.canVariablesDeepSync}
           isBlocked={SyncPreferences.features(
             this.props.planStatus
           ).SETTINGS_SYNC_DEEP_VARIABLES.isBlocked()}
@@ -150,9 +155,7 @@ export default class SyncPreferences extends PureComponent<
           ).SETTINGS_SYNC_DEEP_VARIABLES.isNew()}
           feature="UPDATE_VARIABLES_DEEP_SYNC"
           onChange={(e) => {
-            this.setState({
-              areVariablesDeepSync: !this.state.areVariablesDeepSync,
-            })
+            $canVariablesDeepSync.set(!this.state.canVariablesDeepSync)
             this.props.onChangeSettings(e)
           }}
         />
@@ -172,7 +175,7 @@ export default class SyncPreferences extends PureComponent<
           type="SWITCH_BUTTON"
           name="update-styles-deep-sync"
           label={locals[this.props.lang].settings.preferences.sync.styles.label}
-          isChecked={this.state.areStylesDeepSync}
+          isChecked={this.state.canStylesDeepSync}
           isBlocked={SyncPreferences.features(
             this.props.planStatus
           ).SETTINGS_SYNC_DEEP_STYLES.isBlocked()}
@@ -181,9 +184,7 @@ export default class SyncPreferences extends PureComponent<
           ).SETTINGS_SYNC_DEEP_STYLES.isNew()}
           feature="UPDATE_STYLES_DEEP_SYNC"
           onChange={(e) => {
-            this.setState({
-              areStylesDeepSync: !this.state.areStylesDeepSync,
-            })
+            $canStylesDeepSync.set(!this.state.canStylesDeepSync)
             this.props.onChangeSettings(e)
           }}
         />
@@ -205,6 +206,9 @@ export default class SyncPreferences extends PureComponent<
           />
         }
         body={[
+          {
+            node: <this.PaletteDeepSync />,
+          },
           {
             node: (
               <SemanticMessage

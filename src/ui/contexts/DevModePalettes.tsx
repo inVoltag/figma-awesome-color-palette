@@ -16,7 +16,7 @@ interface DevModePalettesProps {
 }
 
 export default class DevModePalettes extends PureComponent<DevModePalettesProps> {
-  hasPalettes: boolean
+  private hasPalettes: boolean
 
   constructor(props: DevModePalettesProps) {
     super(props)

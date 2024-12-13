@@ -14,9 +14,14 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 
 import { locals } from '../../content/locals'
-import { Easing, EditorType, Language, PlanStatus } from '../../types/app'
 import {
-  NamingConventionConfiguration,
+  Easing,
+  EditorType,
+  Language,
+  NamingConvention,
+  PlanStatus,
+} from '../../types/app'
+import {
   PresetConfiguration,
   ScaleConfiguration,
   SourceColorConfiguration,
@@ -27,19 +32,20 @@ import { ActionsList, DispatchProcess } from '../../types/models'
 import features from '../../config'
 import doLightnessScale from '../../utils/doLightnessScale'
 import { trackScaleManagementEvent } from '../../utils/eventsTracker'
-import { palette, presets } from '../../utils/palettePackage'
+import { defaultPreset, palette, presets } from '../../utils/palettePackage'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import Slider from '../components/Slider'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
-import Preview from '../modules/Preview'
+import { $canPaletteDeepSync } from '../../stores/preferences'
 
 interface ScaleProps {
   sourceColors?: Array<SourceColorConfiguration>
   hasPreset: boolean
   preset: PresetConfiguration
-  namingConvention: NamingConventionConfiguration
+  namingConvention: NamingConvention
+  distributionEasing: Easing
   scale?: ScaleConfiguration
   actions?: string
   userIdentity: UserConfiguration
@@ -53,6 +59,7 @@ interface ScaleProps {
   onAddStop?: React.Dispatch<Partial<AppStates>>
   onRemoveStop?: React.Dispatch<Partial<AppStates>>
   onChangeNamingConvention?: React.Dispatch<Partial<AppStates>>
+  onChangeDistributionEasing?: React.Dispatch<Partial<AppStates>>
   onCreatePalette?: () => void
   onSyncLocalStyles?: () => void
   onSyncLocalVariables?: () => void
@@ -60,16 +67,18 @@ interface ScaleProps {
 }
 
 interface ScaleStates {
-  distributionEasing: Easing
   isTipsOpen: boolean
+  canPaletteDeepSync: boolean
 }
 
 export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
-  scaleMessage: ScaleMessage
-  dispatch: { [key: string]: DispatchProcess }
+  private scaleMessage: ScaleMessage
+  private dispatch: { [key: string]: DispatchProcess }
+  private unsubscribe: (() => void) | undefined
 
   static defaultProps: Partial<ScaleProps> = {
     namingConvention: 'ONES',
+    distributionEasing: 'LINEAR',
   }
 
   static features = (planStatus: PlanStatus) => ({
@@ -136,8 +145,21 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       ) as DispatchProcess,
     }
     this.state = {
-      distributionEasing: 'LINEAR',
       isTipsOpen: false,
+      canPaletteDeepSync: false,
+    }
+  }
+
+  // Lifecycle
+  componentDidMount() {
+    this.unsubscribe = $canPaletteDeepSync.subscribe((value) => {
+      this.setState({ canPaletteDeepSync: value })
+    })
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe()
     }
   }
 
@@ -171,7 +193,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
 
     const onUpdatingStop = () => {
       this.scaleMessage.isEditedInRealTime = true
-      if (!this.props.hasPreset) this.dispatch.scale.on.status = true
+      this.props.onChangeScale()
+      if (!this.props.hasPreset && this.state.canPaletteDeepSync)
+        this.dispatch.scale.on.status = true
     }
 
     const actions: ActionsList = {
@@ -185,10 +209,25 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
   }
 
   presetsHandler = (e: Event) => {
+    const scale = (preset: PresetConfiguration) =>
+      doLightnessScale(
+        preset.scale ?? [],
+        preset.min ?? 0,
+        preset.max ?? 100,
+        preset.isDistributed ?? true,
+        this.props.distributionEasing
+      )
+
     const setMaterialDesignPreset = () => {
+      const preset =
+        presets.find((preset) => preset.id === 'MATERIAL') ?? defaultPreset
+
+      palette.preset = preset
+      palette.scale = scale(preset)
+
       this.props.onChangePreset?.({
-        preset: presets.find((preset) => preset.id === 'MATERIAL'),
-        scale: {},
+        preset: preset,
+        scale: scale(preset),
         onGoingStep: 'preset changed',
       })
 
@@ -203,9 +242,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     }
 
     const setMaterial3Preset = () => {
+      const preset =
+        presets.find((preset) => preset.id === 'MATERIAL_3') ?? defaultPreset
+
+      palette.preset = preset
+      palette.scale = scale(preset)
+
       this.props.onChangePreset?.({
-        preset: presets.find((preset) => preset.id === 'MATERIAL_3'),
-        scale: {},
+        preset: preset,
+        scale: scale(preset),
         onGoingStep: 'preset changed',
       })
 
@@ -220,9 +265,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     }
 
     const setTailwindPreset = () => {
+      const preset =
+        presets.find((preset) => preset.id === 'TAILWIND') ?? defaultPreset
+
+      palette.preset = preset
+      palette.scale = scale(preset)
+
       this.props.onChangePreset?.({
-        preset: presets.find((preset) => preset.id === 'TAILWIND'),
-        scale: {},
+        preset: preset,
+        scale: scale(preset),
         onGoingStep: 'preset changed',
       })
 
@@ -237,9 +288,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     }
 
     const setAntDesignPreset = () => {
+      const preset =
+        presets.find((preset) => preset.id === 'ANT') ?? defaultPreset
+
+      palette.preset = preset
+      palette.scale = scale(preset)
+
       this.props.onChangePreset?.({
-        preset: presets.find((preset) => preset.id === 'ANT'),
-        scale: {},
+        preset: preset,
+        scale: scale(preset),
         onGoingStep: 'preset changed',
       })
 
@@ -254,9 +311,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     }
 
     const setAdsPreset = () => {
+      const preset =
+        presets.find((preset) => preset.id === 'ADS') ?? defaultPreset
+
+      palette.preset = preset
+      palette.scale = scale(preset)
+
       this.props.onChangePreset?.({
-        preset: presets.find((preset) => preset.id === 'ADS'),
-        scale: {},
+        preset: preset,
+        scale: scale(preset),
         onGoingStep: 'preset changed',
       })
 
@@ -271,9 +334,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     }
 
     const setAdsNeutralPreset = () => {
+      const preset =
+        presets.find((preset) => preset.id === 'ADS_NEUTRAL') ?? defaultPreset
+
+      palette.preset = preset
+      palette.scale = scale(preset)
+
       this.props.onChangePreset?.({
-        preset: presets.find((preset) => preset.id === 'ADS_NEUTRAL'),
-        scale: {},
+        preset: preset,
+        scale: scale(preset),
         onGoingStep: 'preset changed',
       })
 
@@ -288,9 +357,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     }
 
     const setCarbonPreset = () => {
+      const preset =
+        presets.find((preset) => preset.id === 'CARBON') ?? defaultPreset
+
+      palette.preset = preset
+      palette.scale = scale(preset)
+
       this.props.onChangePreset?.({
-        preset: presets.find((preset) => preset.id === 'CARBON'),
-        scale: {},
+        preset: preset,
+        scale: scale(preset),
         onGoingStep: 'preset changed',
       })
 
@@ -305,9 +380,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     }
 
     const setBasePreset = () => {
+      const preset =
+        presets.find((preset) => preset.id === 'BASE') ?? defaultPreset
+
+      palette.preset = preset
+      palette.scale = scale(preset)
+
       this.props.onChangePreset?.({
-        preset: presets.find((preset) => preset.id === 'BASE'),
-        scale: {},
+        preset: preset,
+        scale: scale(preset),
         onGoingStep: 'preset changed',
       })
 
@@ -322,9 +403,24 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     }
 
     const setCustomPreset = () => {
+      const preset =
+        presets.find((preset) => preset.id === 'CUSTOM') ?? defaultPreset
+      const newScale = preset?.scale.map((stop, index) => {
+        if (this.props.namingConvention === 'TENS') return (index + 1) * 10
+        else if (this.props.namingConvention === 'HUNDREDS')
+          return (index + 1) * 100
+        return (index + 1) * 1
+      })
+
+      preset.scale = newScale ?? []
+      palette.preset = preset
+      palette.min = preset.min
+      palette.max = preset.max
+      palette.scale = scale(preset)
+
       this.props.onChangePreset?.({
-        preset: presets.find((preset) => preset.id === 'CUSTOM'),
-        scale: {},
+        preset: preset,
+        scale: scale(preset),
         onGoingStep: 'preset changed',
       })
 
@@ -355,68 +451,71 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
   }
 
   customHandler = (e: Event) => {
-    const scale = this.props.preset?.['scale'] ?? [1, 2]
+    const stops = this.props.preset?.['scale'] ?? [1, 2]
+    const preset =
+      presets.find((preset) => preset.id === 'CUSTOM') ?? defaultPreset
+    const scale = (stps = stops) =>
+      doLightnessScale(
+        stps,
+        palette.min ?? 0,
+        palette.max ?? 100,
+        true,
+        this.props.distributionEasing
+      )
 
     const addStop = () => {
-      if (scale.length < 24) {
-        scale.push(scale.slice(-1)[0] + scale[0])
+      if (stops.length < 24) {
+        stops.push(stops.slice(-1)[0] + stops[0])
+        preset.scale = stops
+        palette.scale = scale()
+
         this.props.onAddStop?.({
-          preset: {
-            name: presets.find((preset) => preset.id === 'CUSTOM')?.name ?? '',
-            scale: scale,
-            min: palette.min ?? 0,
-            max: palette.max ?? 100,
-            isDistributed: true,
-            id: 'CUSTOM',
-          },
-          scale: {},
+          preset: preset,
+          scale: scale(),
         })
       }
     }
 
     const removeStop = () => {
-      if (scale.length > 2) {
-        scale.pop()
+      if (stops.length > 2) {
+        stops.pop()
+        preset.scale = stops
+        palette.scale = scale()
+
         this.props.onRemoveStop?.({
-          preset: {
-            name: presets.find((preset) => preset.id === 'CUSTOM')?.name ?? '',
-            scale: scale,
-            min: palette.min ?? 0,
-            max: palette.max ?? 100,
-            isDistributed: true,
-            id: 'CUSTOM',
-          },
-          scale: {},
+          preset: preset,
+          scale: scale(),
         })
       }
     }
 
     const changeNamingConvention = () => {
+      const preset =
+        presets.find((preset) => preset.id === 'CUSTOM') ?? defaultPreset
       const option = (e.target as HTMLInputElement).dataset
-        .value as NamingConventionConfiguration
+        .value as NamingConvention
+      const newStops = stops.map((stop, index) => {
+        if (option === 'TENS') return (index + 1) * 10
+        else if (option === 'HUNDREDS') return (index + 1) * 100
+        return (index + 1) * 1
+      })
+
+      preset.scale = newStops
+      palette.scale = scale(newStops)
+      palette.preset = preset
 
       this.props.onChangeNamingConvention?.({
         namingConvention: option,
-        preset: {
-          name: presets.find((preset) => preset.id === 'CUSTOM')?.name ?? '',
-          scale: scale.map((stop, index) => {
-            if (option === 'TENS') return (index + 1) * 10
-            else if (option === 'HUNDREDS') return (index + 1) * 100
-            return (index + 1) * 1
-          }),
-          min: palette.min ?? 0,
-          max: palette.max ?? 100,
-          isDistributed: true,
-          id: 'CUSTOM',
-        },
-        scale: {},
+        preset: preset,
+        scale: scale(newStops),
       })
     }
 
     const changeDistributionEasing = () => {
-      const value = (e.target as HTMLElement).dataset.value as Easing
+      const value =
+        ((e.target as HTMLElement).dataset.value as Easing) ?? 'LINEAR'
 
-      this.setState({
+      this.props.onChangeDistributionEasing?.({
         distributionEasing: value,
       })
 
@@ -501,7 +600,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               action: this.customHandler,
             },
           ]}
-          selected={this.state.distributionEasing}
+          selected={this.props.distributionEasing}
           parentClassName="controls"
           pin="BOTTOM"
           isBlocked={Scale.features(
@@ -746,38 +845,17 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               this.props.planStatus
             ).SCALE_CONFIGURATION.isActive()}
           >
-            {this.props.preset.isDistributed &&
-            Object.keys(this.props.scale ?? {}).length === 0 ? (
-              <Slider
-                type="EQUAL"
-                hasPreset={this.props.hasPreset}
-                presetName={this.props.preset.name}
-                stops={this.props.preset.scale}
-                min={palette.min}
-                max={palette.max}
-                distributionEasing={this.state.distributionEasing}
-                onChange={this.slideHandler}
-              />
-            ) : (
-              <Slider
-                type="CUSTOM"
-                hasPreset={this.props.hasPreset}
-                presetName={this.props.preset.name}
-                stops={this.props.preset.scale}
-                scale={
-                  Object.keys(this.props.scale ?? {}).length === 0
-                    ? doLightnessScale(
-                        this.props.preset.scale,
-                        this.props.preset.min,
-                        this.props.preset.max,
-                        false
-                      )
-                    : this.props.scale
-                }
-                distributionEasing={this.state.distributionEasing}
-                onChange={this.slideHandler}
-              />
-            )}
+            <Slider
+              type="PRE_EDIT"
+              hasPreset={this.props.hasPreset}
+              presetName={this.props.preset.name}
+              stops={this.props.preset.scale}
+              scale={this.props.scale}
+              min={palette.min}
+              max={palette.max}
+              distributionEasing={this.props.distributionEasing}
+              onChange={this.slideHandler}
+            />
           </Feature>
           <Feature
             isActive={Scale.features(
@@ -841,11 +919,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           {...this.props}
           service="CREATE"
         />
-        <Feature
-          isActive={Scale.features(this.props.planStatus).PREVIEW.isActive()}
-        >
-          <Preview sourceColors={this.props.sourceColors} />
-        </Feature>
       </div>
     )
   }
@@ -875,15 +948,27 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               this.props.planStatus
             ).SCALE_CONFIGURATION.isActive()}
           >
-            <Slider
-              type="CUSTOM"
-              hasPreset={this.props.hasPreset}
-              presetName={this.props.preset.name}
-              stops={this.props.preset.scale}
-              scale={this.props.scale}
-              distributionEasing={this.state.distributionEasing}
-              onChange={this.slideHandler}
-            />
+            {this.props.preset.id === 'CUSTOM' ? (
+              <Slider
+                type="FULLY_EDIT"
+                hasPreset={this.props.hasPreset}
+                presetName={this.props.preset.name}
+                stops={this.props.preset.scale}
+                scale={this.props.scale}
+                distributionEasing={this.props.distributionEasing}
+                onChange={this.slideHandler}
+              />
+            ) : (
+              <Slider
+                type="EDIT"
+                hasPreset={this.props.hasPreset}
+                presetName={this.props.preset.name}
+                stops={this.props.preset.scale}
+                scale={this.props.scale}
+                distributionEasing={this.props.distributionEasing}
+                onChange={this.slideHandler}
+              />
+            )}
           </Feature>
           <Feature
             isActive={Scale.features(

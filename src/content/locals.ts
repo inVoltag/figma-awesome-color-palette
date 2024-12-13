@@ -328,6 +328,9 @@ export const locals: { [key: string]: any } = {
           title: 'Synchronization',
           message:
             'A deep synchronization means that the palette and the local variables/styles are synchronized in both directions',
+          palette: {
+            label: 'Enable a deep synchronization with the palette',
+          },
           variables: {
             label:
               'Enable a deep synchronization with the local variables in the collection',
@@ -337,6 +340,17 @@ export const locals: { [key: string]: any } = {
               'Enable a deep synchronization with the local styles in the document',
           },
         },
+      },
+    },
+    preview: {
+      wcag: {
+        label: 'Display WCAG scores',
+      },
+      apca: {
+        label: 'Display APCA scores',
+      },
+      reset: {
+        helper: 'Reset the imported colors',
       },
     },
     report: {
@@ -455,6 +469,8 @@ export const locals: { [key: string]: any } = {
       wcag: 'WCAG scores',
       apca: 'APCA scores',
       fontSize: 'Minimum font sizes',
+      pass: 'Pass',
+      fail: 'Fail',
       unknown: 'Unknown',
       avoid: 'Avoid',
       nonText: 'Non-text',

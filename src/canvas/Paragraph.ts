@@ -1,11 +1,11 @@
 export default class Paragraph {
-  name: string
-  content: string
-  fontSize: number
-  type: 'FILL' | 'FIXED'
-  width?: number
-  nodeText: TextNode | null
-  node: FrameNode | null
+  private name: string
+  private content: string
+  private fontSize: number
+  private type: 'FILL' | 'FIXED'
+  private width?: number
+  private nodeText: TextNode | null
+  private node: FrameNode | null
 
   constructor(
     name: string,

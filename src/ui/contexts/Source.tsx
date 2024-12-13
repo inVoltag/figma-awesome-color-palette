@@ -19,9 +19,7 @@ import {
 import { ColourLovers } from '../../types/data'
 import features from '../../config'
 import { setContexts } from '../../utils/setContexts'
-import Feature from '../components/Feature'
 import Actions from '../modules/Actions'
-import Preview from '../modules/Preview'
 import Explore from './Explore'
 import Overview from './Overview'
 
@@ -46,7 +44,7 @@ interface SourceStates {
 }
 
 export default class Source extends PureComponent<SourceProps, SourceStates> {
-  contexts: Array<ContextItem>
+  private contexts: Array<ContextItem>
 
   static features = (planStatus: PlanStatus) => ({
     PREVIEW: new FeatureStatus({
@@ -137,11 +135,6 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
               : () => null
           }
         />
-        <Feature
-          isActive={Source.features(this.props.planStatus).PREVIEW.isActive()}
-        >
-          <Preview sourceColors={this.props.sourceColors} />
-        </Feature>
       </>
     )
   }

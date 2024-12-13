@@ -27,7 +27,7 @@
     "eqeqeq": ["error", "always", { "null": "ignore" }],
     "@figma/figma-plugins/dynamic-page-find-method-advice": "off",
     "@figma/figma-plugins/ban-deprecated-id-params": "off",
-    "curly": ["off", "multi"],
+    "curly": ["warn", "multi"],
     "prefer-const": "warn"
   },
   "root": true,

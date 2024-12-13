@@ -124,9 +124,7 @@ const updateLocalVariables = async (palette: FrameNode) => {
                     k++
                   }
                 }
-                if (k > 0) {
-                  i++
-                }
+                if (k > 0) i++
                 k = 0
               })
             })

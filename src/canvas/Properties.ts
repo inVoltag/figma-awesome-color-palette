@@ -140,49 +140,48 @@ export default class Properties {
 
     let basePropViaColorSpace
 
-    if (this.colorSpace === 'LCH') {
+    if (this.colorSpace === 'LCH')
       basePropViaColorSpace = new Tag({
         name: '_lch',
         content: `L ${Math.floor(this.lch[0])} • C ${Math.floor(
           this.lch[1]
         )} • H ${Math.floor(this.lch[2])}`,
       }).makeNodeTag()
-    } else if (this.colorSpace === 'OKLCH') {
+    else if (this.colorSpace === 'OKLCH')
       basePropViaColorSpace = new Tag({
         name: '_oklch',
         content: `L ${parseFloat(this.oklch[0].toFixed(2))} • C ${parseFloat(
           this.oklch[1].toFixed(2)
         )} • H ${Math.floor(this.oklch[2])}`,
       }).makeNodeTag()
-    } else if (this.colorSpace === 'LAB') {
+    else if (this.colorSpace === 'LAB')
       basePropViaColorSpace = new Tag({
         name: '_lab',
         content: `L ${Math.floor(this.lab[0])} • A ${Math.floor(
           this.lab[1]
         )} • B ${Math.floor(this.lab[2])}`,
       }).makeNodeTag()
-    } else if (this.colorSpace === 'OKLAB') {
+    else if (this.colorSpace === 'OKLAB')
       basePropViaColorSpace = new Tag({
         name: '_oklab',
         content: `L ${parseFloat(this.oklab[0].toFixed(2))} • A ${parseFloat(
           this.oklab[1].toFixed(2)
         )} • B ${parseFloat(this.oklab[2].toFixed(2))}`,
       }).makeNodeTag()
-    } else if (this.colorSpace === 'HSL') {
+    else if (this.colorSpace === 'HSL')
       basePropViaColorSpace = new Tag({
         name: '_hsl',
         content: `H ${Math.floor(this.hsl[0])} • S ${Math.floor(
           this.hsl[1] * 100
         )} • L ${Math.floor(this.hsl[2] * 100)}`,
       }).makeNodeTag()
-    } else if (this.colorSpace === 'HSLUV') {
+    else if (this.colorSpace === 'HSLUV')
       basePropViaColorSpace = new Tag({
         name: '_hsluv',
         content: `H ${Math.floor(this.hsluv[0])} • S ${Math.floor(
           this.hsluv[1]
         )} • L ${Math.floor(this.hsluv[2])}`,
       }).makeNodeTag()
-    }
 
     // Insert
     this.nodeBaseProps.appendChild(
@@ -313,49 +312,48 @@ export default class Properties {
 
     let basePropViaColorSpace
 
-    if (this.colorSpace === 'LCH') {
+    if (this.colorSpace === 'LCH')
       basePropViaColorSpace = new Tag({
         name: '_lch',
         content: `L ${Math.floor(this.lch[0])} • C ${Math.floor(
           this.lch[1]
         )} • H ${Math.floor(this.lch[2])}`,
       }).makeNodeTag()
-    } else if (this.colorSpace === 'OKLCH') {
+    else if (this.colorSpace === 'OKLCH')
       basePropViaColorSpace = new Tag({
         name: '_oklch',
         content: `L ${parseFloat(this.oklch[0].toFixed(2))} • C ${parseFloat(
           this.oklch[1].toFixed(2)
         )} • H ${Math.floor(this.oklch[2])}`,
       }).makeNodeTag()
-    } else if (this.colorSpace === 'LAB') {
+    else if (this.colorSpace === 'LAB')
       basePropViaColorSpace = new Tag({
         name: '_lab',
         content: `L ${Math.floor(this.lab[0])} • A ${Math.floor(
           this.lab[1]
         )} • B ${Math.floor(this.lab[2])}`,
       }).makeNodeTag()
-    } else if (this.colorSpace === 'OKLAB') {
+    else if (this.colorSpace === 'OKLAB')
       basePropViaColorSpace = new Tag({
         name: '_oklab',
         content: `L ${parseFloat(this.oklab[0].toFixed(2))} • A ${parseFloat(
           this.oklab[1].toFixed(2)
         )} • B ${parseFloat(this.oklab[2].toFixed(2))}`,
       }).makeNodeTag()
-    } else if (this.colorSpace === 'HSL') {
+    else if (this.colorSpace === 'HSL')
       basePropViaColorSpace = new Tag({
         name: '_lab',
         content: `H ${Math.floor(this.hsl[0])} • S ${Math.floor(
           this.hsl[1] * 100
         )} • L ${Math.floor(this.hsl[2] * 100)}`,
       }).makeNodeTag()
-    } else if (this.colorSpace === 'HSLUV') {
+    else if (this.colorSpace === 'HSLUV')
       basePropViaColorSpace = new Tag({
         name: '_hsluv',
         content: `H ${Math.floor(this.hsluv[0])} • S ${Math.floor(
           this.hsluv[1]
         )} • L ${Math.floor(this.hsluv[2])}`,
       }).makeNodeTag()
-    }
 
     // Insert
     this.nodeDetailedBaseProps.appendChild(

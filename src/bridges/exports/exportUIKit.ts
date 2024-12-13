@@ -30,15 +30,13 @@ const exportUIKit = (palette: FrameNode) => {
         UIColors.unshift('')
       })
       UIColors.shift()
-      if (workingThemes[0].type === 'custom theme') {
+      if (workingThemes[0].type === 'custom theme')
         swift.push(
           `struct ${new Case(theme.name).doPascalCase()} {\n    ${UIColors.reverse().join(
             '\n    '
           )}\n  }`
         )
-      } else {
-        swift.push(`${UIColors.reverse().join('\n  ')}`)
-      }
+      else swift.push(`${UIColors.reverse().join('\n  ')}`)
     })
 
     figma.ui.postMessage({

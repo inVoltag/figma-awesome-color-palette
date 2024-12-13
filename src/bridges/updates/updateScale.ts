@@ -67,7 +67,7 @@ const updateScale = async (msg: ScaleMessage) => {
 
     if (msg.feature === 'ADD_STOP' || msg.feature === 'DELETE_STOP')
       themes.forEach((theme) => {
-        if (!theme.isEnabled) {
+        if (!theme.isEnabled)
           theme.scale = doLightnessScale(
             Object.keys(msg.data.scale).map((stop) => {
               return parseFloat(stop.replace('lightness-', ''))
@@ -77,7 +77,6 @@ const updateScale = async (msg: ScaleMessage) => {
             ],
             theme.scale[Object.keys(theme.scale)[0]]
           )
-        }
       })
     palette.setPluginData('themes', JSON.stringify(themes))
 

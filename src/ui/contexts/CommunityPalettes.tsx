@@ -174,7 +174,7 @@ export default class CommunityPalettes extends PureComponent<
       .select('*')
       .eq('palette_id', id)
 
-    if (!error && data.length > 0) {
+    if (!error && data.length > 0)
       try {
         parent.postMessage(
           {
@@ -242,14 +242,14 @@ export default class CommunityPalettes extends PureComponent<
       } catch {
         throw error
       }
-    } else throw error
+    else throw error
   }
 
   // Templates
   ExternalPalettesList = () => {
     let fragment
 
-    if (this.props.status === 'LOADED') {
+    if (this.props.status === 'LOADED')
       fragment = (
         <Button
           type="secondary"
@@ -267,7 +267,7 @@ export default class CommunityPalettes extends PureComponent<
           }}
         />
       )
-    } else if (this.props.status === 'COMPLETE')
+    else if (this.props.status === 'COMPLETE')
       fragment = (
         <Message
           icon="check"

@@ -259,7 +259,7 @@ export default class Tag {
     this.nodeAvatar.resize(24, 24)
     this.nodeAvatar.name = '_avatar'
 
-    if (image !== null && image !== undefined) {
+    if (image !== null && image !== undefined)
       this.nodeAvatar.fills = [
         {
           type: 'IMAGE',
@@ -267,7 +267,6 @@ export default class Tag {
           imageHash: image.hash,
         },
       ]
-    }
 
     return this.nodeAvatar
   }

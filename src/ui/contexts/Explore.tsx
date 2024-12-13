@@ -81,24 +81,19 @@ export default class Explore extends PureComponent<
   // Lifecycle
   componentDidMount = () => {
     if (this.props.colourLoversPaletteList.length === 0) this.callUICPAgent()
-    else {
+    else
       this.setState({
         colourLoversPalettesListStatus: 'LOADED',
       })
-    }
   }
 
   componentDidUpdate = (
     prevProps: Readonly<ExploreProps>,
     prevState: Readonly<ExploreStates>
   ): void => {
-    if (prevState.currentPage !== this.state.currentPage) {
-      this.callUICPAgent()
-    }
+    if (prevState.currentPage !== this.state.currentPage) this.callUICPAgent()
 
-    if (this.state.colourLoversPalettesListStatus === 'ERROR') {
-      return
-    }
+    if (this.state.colourLoversPalettesListStatus === 'ERROR') return
 
     if (this.props.activeFilters !== prevProps.activeFilters) {
       this.setState({
@@ -187,7 +182,7 @@ export default class Explore extends PureComponent<
     if (
       this.state.colourLoversPalettesListStatus === 'LOADED' ||
       this.state.colourLoversPalettesListStatus === 'COMPLETE'
-    ) {
+    )
       fragment = (
         <>
           {this.props.colourLoversPaletteList.map((palette, index: number) => (
@@ -277,7 +272,7 @@ export default class Explore extends PureComponent<
           </div>
         </>
       )
-    } else if (this.state.colourLoversPalettesListStatus === 'ERROR')
+    else if (this.state.colourLoversPalettesListStatus === 'ERROR')
       fragment = (
         <div className="callout--centered">
           <SemanticMessage

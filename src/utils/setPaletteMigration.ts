@@ -135,7 +135,7 @@ const setPaletteMigration = async (palette: BaseNode) => {
   }
 
   // TextColorsTheme
-  if (textColorsTheme === '') {
+  if (textColorsTheme === '')
     palette.setPluginData(
       'textColorsTheme',
       JSON.stringify({
@@ -143,7 +143,6 @@ const setPaletteMigration = async (palette: BaseNode) => {
         darkColor: '#000000',
       })
     )
-  }
 
   // Algorithm
   if (algorithmVersion === '') palette.setPluginData('algorithmVersion', 'v1')

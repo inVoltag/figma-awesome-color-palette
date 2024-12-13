@@ -107,9 +107,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
   }
 
   componentWillUnmount() {
-    if (this.unsubscribe) {
-      this.unsubscribe()
-    }
+    if (this.unsubscribe) this.unsubscribe()
   }
 
   // Handlers

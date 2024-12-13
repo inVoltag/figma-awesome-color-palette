@@ -93,20 +93,16 @@ export default class Preview extends PureComponent<
   }
 
   componentWillUnmount = (): void => {
-    if (this.unsubscribeWCAG) {
-      this.unsubscribeWCAG()
-    }
-    if (this.unsubscribeAPCA) {
-      this.unsubscribeAPCA()
-    }
+    if (this.unsubscribeWCAG) this.unsubscribeWCAG()
+
+    if (this.unsubscribeAPCA) this.unsubscribeAPCA()
   }
 
   componentDidUpdate = (): void => {
-    if (this.props.colors.length === 0) {
+    if (this.props.colors.length === 0)
       this.setState({
         drawerHeight: 'auto',
       })
-    }
   }
 
   // Direct actions

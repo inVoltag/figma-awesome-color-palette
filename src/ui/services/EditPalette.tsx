@@ -249,9 +249,9 @@ export default class EditPalette extends PureComponent<
           )
         )
         .catch(() => locals[this.props.lang].error.generic)
-    } else if (this.props.export.format === 'TAILWIND') {
+    } else if (this.props.export.format === 'TAILWIND')
       FileSaver.saveAs(blob, 'tailwind.config.js')
-    } else if (this.props.export.format === 'SWIFT') {
+    else if (this.props.export.format === 'SWIFT')
       FileSaver.saveAs(
         blob,
         `${
@@ -260,7 +260,7 @@ export default class EditPalette extends PureComponent<
             : new Case(this.props.name).doSnakeCase()
         }.swift`
       )
-    } else if (this.props.export.format === 'KT') {
+    else if (this.props.export.format === 'KT')
       FileSaver.saveAs(
         blob,
         `${
@@ -269,14 +269,13 @@ export default class EditPalette extends PureComponent<
             : new Case(this.props.name).doSnakeCase()
         }.kt`
       )
-    } else {
+    else
       FileSaver.saveAs(
         blob,
         this.props.name === ''
           ? new Case(locals[this.props.lang].name).doSnakeCase()
           : new Case(this.props.name).doSnakeCase()
       )
-    }
   }
 
   setThemes = (): Array<DropdownOption> => {

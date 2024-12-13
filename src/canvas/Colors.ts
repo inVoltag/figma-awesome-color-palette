@@ -424,7 +424,7 @@ export default class Colors {
               .find((key) => this.currentScale[key] === lightness)
               ?.substr(10) ?? '0'
 
-          if (this.parent.view.includes('PALETTE')) {
+          if (this.parent.view.includes('PALETTE'))
             this.nodeRowShades?.appendChild(
               new Sample(
                 color.name,
@@ -442,34 +442,32 @@ export default class Colors {
                 scaleName
               )
             )
-          } else {
-            if (this.nodeRowShades !== null) {
-              this.nodeRowShades.layoutSizingHorizontal = 'FIXED'
-              this.nodeRowShades.layoutWrap = 'WRAP'
-              this.nodeRowShades.itemSpacing = this.gap
-              this.nodeRowShades.resize(
-                this.sampleSize * this.sampleScale * 4 + this.gap * 3,
-                100
+          else if (this.nodeRowShades !== null) {
+            this.nodeRowShades.layoutSizingHorizontal = 'FIXED'
+            this.nodeRowShades.layoutWrap = 'WRAP'
+            this.nodeRowShades.itemSpacing = this.gap
+            this.nodeRowShades.resize(
+              this.sampleSize * this.sampleScale * 4 + this.gap * 3,
+              100
+            )
+            this.nodeRowShades.layoutSizingVertical = 'HUG'
+            this.nodeRowShades.appendChild(
+              new Sample(
+                color.name,
+                color.rgb,
+                scaleName,
+                [newColor[0], newColor[1], newColor[2]],
+                this.parent.colorSpace,
+                this.parent.visionSimulationMode,
+                this.parent.view,
+                this.parent.textColorsTheme,
+                { isClosestToRef: distance < 4 ? true : false }
+              ).makeNodeRichShade(
+                this.sampleSize * this.sampleScale,
+                this.sampleSize * this.sampleRatio * this.sampleScale,
+                scaleName
               )
-              this.nodeRowShades.layoutSizingVertical = 'HUG'
-              this.nodeRowShades.appendChild(
-                new Sample(
-                  color.name,
-                  color.rgb,
-                  scaleName,
-                  [newColor[0], newColor[1], newColor[2]],
-                  this.parent.colorSpace,
-                  this.parent.visionSimulationMode,
-                  this.parent.view,
-                  this.parent.textColorsTheme,
-                  { isClosestToRef: distance < 4 ? true : false }
-                ).makeNodeRichShade(
-                  this.sampleSize * this.sampleScale,
-                  this.sampleSize * this.sampleRatio * this.sampleScale,
-                  scaleName
-                )
-              )
-            }
+            )
           }
         })
 

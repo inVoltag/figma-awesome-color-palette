@@ -27,12 +27,13 @@ const shiftRightStop = (
     newLightnessScale[stopsList[selectedKnobIndex]] = 100
   else if (currentStopValue === 100 && (meta || ctrl))
     newLightnessScale[stopsList[selectedKnobIndex]] = 100
-  else
+  else {
     meta || ctrl
       ? (newLightnessScale[stopsList[selectedKnobIndex]] = parseFloat(
           (newLightnessScale[stopsList[selectedKnobIndex]] + 0.1).toFixed(1)
         ))
       : newLightnessScale[stopsList[selectedKnobIndex]]++
+  }
 
   palette.scale = newLightnessScale
 }

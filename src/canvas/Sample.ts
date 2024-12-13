@@ -70,9 +70,8 @@ export default class Sample {
       this.node.counterAxisSizingMode = 'FIXED'
       this.node.layoutGrow = 1
       this.children = new Property('_large-label', this.name, 16).makeNode()
-    } else if (mode === 'FIXED') {
+    } else if (mode === 'FIXED')
       this.children = new Property('_label', this.name, 10).makeNode()
-    }
 
     // Insert
     this.node.appendChild(this.children as FrameNode)
@@ -114,7 +113,7 @@ export default class Sample {
     this.node.itemSpacing = 8
 
     // Insert
-    if (this.view.includes('PALETTE_WITH_PROPERTIES') && !isColorName) {
+    if (this.view.includes('PALETTE_WITH_PROPERTIES') && !isColorName)
       this.node.appendChild(
         new Properties(
           this.scale ?? '0',
@@ -124,7 +123,7 @@ export default class Sample {
           this.textColorsTheme
         ).makeNode()
       )
-    } else if (isColorName)
+    else if (isColorName)
       this.node.appendChild(new Property('_label', this.name, 10).makeNode())
     if (this.status.isClosestToRef)
       this.node.appendChild(

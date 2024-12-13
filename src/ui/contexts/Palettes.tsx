@@ -71,11 +71,10 @@ export default class Palettes extends PureComponent<
       prevProps.userSession.connectionStatus !==
         this.props.userSession.connectionStatus &&
       this.state.selfPalettesList.length === 0
-    ) {
+    )
       this.setState({
         selfPalettesListStatus: 'LOADING',
       })
-    }
   }
 
   // Handlers

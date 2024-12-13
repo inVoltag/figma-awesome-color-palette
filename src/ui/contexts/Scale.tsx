@@ -158,9 +158,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
   }
 
   componentWillUnmount() {
-    if (this.unsubscribe) {
-      this.unsubscribe()
-    }
+    if (this.unsubscribe) this.unsubscribe()
   }
 
   // Handlers

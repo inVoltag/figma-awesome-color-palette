@@ -104,7 +104,7 @@ const createLocalVariables = async (palette: SceneNode) => {
           })
 
         // Create modes
-        if (themesList.length > 0) {
+        if (themesList.length > 0)
           themesList.forEach((themeItem) => {
             if (themeItem !== undefined && collection !== undefined) {
               const theme = paletteData.themes.find(
@@ -118,7 +118,7 @@ const createLocalVariables = async (palette: SceneNode) => {
                 collection.modes.find(
                   (mode) => mode.modeId === themeItem.id
                 ) === undefined
-              ) {
+              )
                 try {
                   const modeId = collection.addMode(themeItem.name)
                   themeItem.id = modeId
@@ -127,10 +127,8 @@ const createLocalVariables = async (palette: SceneNode) => {
                 } catch {
                   figma.notify(locals[lang].warning.tooManyThemesToCreateModes)
                 }
-              }
             }
           })
-        }
 
         // Set values
         themesList.forEach((themeItem) => {
@@ -145,9 +143,8 @@ const createLocalVariables = async (palette: SceneNode) => {
                 ?.shades.find(
                   (shade) => shade.name === variable.name.split('/')[1]
                 )
-              if (rightShade !== undefined && collection !== undefined) {
+              if (rightShade !== undefined && collection !== undefined)
                 rightShade.variableId = variable.id
-              }
             })
           }
         })

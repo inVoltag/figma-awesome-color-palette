@@ -101,9 +101,7 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
   }
 
   componentWillUnmount() {
-    if (this.unsubscribe) {
-      this.unsubscribe()
-    }
+    if (this.unsubscribe) this.unsubscribe()
   }
 
   // Handlers

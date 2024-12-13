@@ -89,9 +89,9 @@ export default class MyPalettes extends PureComponent<
       prevProps.userSession.connectionStatus !==
         this.props.userSession.connectionStatus &&
       this.props.palettesList.length === 0
-    ) {
+    )
       this.callUICPAgent(1, '')
-    }
+
     if (prevProps.palettesList.length !== this.props.palettesList.length)
       this.setState({
         isAddToFileActionLoading: Array(this.props.palettesList.length).fill(
@@ -189,7 +189,7 @@ export default class MyPalettes extends PureComponent<
       .select('*')
       .eq('palette_id', id)
 
-    if (!error && data.length > 0) {
+    if (!error && data.length > 0)
       try {
         parent.postMessage(
           {
@@ -259,14 +259,14 @@ export default class MyPalettes extends PureComponent<
       } catch {
         throw error
       }
-    } else throw error
+    else throw error
   }
 
   // Templates
   ExternalPalettesList = () => {
     let fragment
 
-    if (this.props.status === 'LOADED') {
+    if (this.props.status === 'LOADED')
       fragment = (
         <Button
           type="secondary"
@@ -284,7 +284,7 @@ export default class MyPalettes extends PureComponent<
           }}
         />
       )
-    } else if (this.props.status === 'COMPLETE')
+    else if (this.props.status === 'COMPLETE')
       fragment = (
         <Message
           icon="check"
@@ -568,9 +568,9 @@ export default class MyPalettes extends PureComponent<
   render() {
     let fragment
 
-    if (this.props.status !== 'SIGN_IN_FIRST') {
+    if (this.props.status !== 'SIGN_IN_FIRST')
       fragment = <this.ExternalPalettesList />
-    } else {
+    else
       fragment = (
         <div className="callout--centered">
           <SemanticMessage
@@ -608,7 +608,6 @@ export default class MyPalettes extends PureComponent<
           />
         </div>
       )
-    }
 
     return (
       <div className="controls__control">

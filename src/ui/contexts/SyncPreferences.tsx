@@ -89,15 +89,11 @@ export default class SyncPreferences extends PureComponent<
   }
 
   componentWillUnmount() {
-    if (this.unsubscribePalette) {
-      this.unsubscribePalette()
-    }
-    if (this.unsubscribeVariables) {
-      this.unsubscribeVariables()
-    }
-    if (this.unsubscribeStyles) {
-      this.unsubscribeStyles()
-    }
+    if (this.unsubscribePalette) this.unsubscribePalette()
+
+    if (this.unsubscribeVariables) this.unsubscribeVariables()
+
+    if (this.unsubscribeStyles) this.unsubscribeStyles()
   }
 
   // Templates

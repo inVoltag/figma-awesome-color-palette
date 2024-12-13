@@ -45,13 +45,12 @@ export default class Contrast {
         g: 0.8156862745,
         b: 0.6941176471,
       }
-    else {
+    else
       return {
         r: 0.8274509804,
         g: 0.7019607843,
         b: 0.7803921569,
       }
-    }
   }
 
   getAPCAScoreColor = (): RgbModel => {
@@ -61,13 +60,12 @@ export default class Contrast {
         g: 0.8156862745,
         b: 0.6941176471,
       }
-    else {
+    else
       return {
         r: 0.8274509804,
         g: 0.7019607843,
         b: 0.7803921569,
       }
-    }
   }
 
   getMinFontSizes = (): Array<string | number> => {

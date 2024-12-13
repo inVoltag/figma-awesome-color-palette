@@ -123,7 +123,7 @@ export default class Overview extends PureComponent<
   }
 
   componentDidUpdate(previousProps: Readonly<OverviewProps>): void {
-    if (previousProps.sourceColors !== this.props.sourceColors) {
+    if (previousProps.sourceColors !== this.props.sourceColors)
       this.setState({
         isCoolorsImportOpen:
           this.props.sourceColors.filter((color) => color.source === 'COOLORS')
@@ -137,7 +137,6 @@ export default class Overview extends PureComponent<
             (color) => color.source === 'COLOUR_LOVERS'
           ).length > 0,
       })
-    }
   }
 
   // Handlers
@@ -395,14 +394,12 @@ export default class Overview extends PureComponent<
                 value={this.state.coolorsUrl.value}
                 onChange={this.isTypingCoolorsUrlHandler}
                 onConfirm={() => {
-                  if (this.state.coolorsUrl.canBeSubmitted) {
+                  if (this.state.coolorsUrl.canBeSubmitted)
                     this.importColorsFromCoolorsHandler()
-                  }
                 }}
                 onBlur={() => {
-                  if (this.state.coolorsUrl.canBeSubmitted) {
+                  if (this.state.coolorsUrl.canBeSubmitted)
                     this.importColorsFromCoolorsHandler()
-                  }
                 }}
               />
             </FormItem>
@@ -479,14 +476,12 @@ export default class Overview extends PureComponent<
                 value={this.state.realtimeColorsUrl.value}
                 onChange={this.isTypingRealtimeColorsUrlHandler}
                 onConfirm={() => {
-                  if (this.state.realtimeColorsUrl.canBeSubmitted) {
+                  if (this.state.realtimeColorsUrl.canBeSubmitted)
                     this.importColorsFromRealtimeColorsHandler()
-                  }
                 }}
                 onBlur={() => {
-                  if (this.state.realtimeColorsUrl.canBeSubmitted) {
+                  if (this.state.realtimeColorsUrl.canBeSubmitted)
                     this.importColorsFromRealtimeColorsHandler()
-                  }
                 }}
               />
             </FormItem>

@@ -168,7 +168,7 @@ export default class Slider extends Component<SliderProps, SliderStates> {
       )
 
     // Link every stop
-    if (e.ctrlKey || e.metaKey) {
+    if (e.ctrlKey || e.metaKey)
       if (
         offset <
           stop.offsetLeft - (range.lastChild as HTMLElement).offsetLeft ||
@@ -179,7 +179,6 @@ export default class Slider extends Component<SliderProps, SliderStates> {
       )
         offset = stop.offsetLeft
       else this.linkStops(offset, stop, stops, rangeWidth)
-    }
 
     if (e.ctrlKey === false && e.metaKey === false && e.shiftKey === false)
       this.setState({

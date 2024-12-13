@@ -409,9 +409,8 @@ export default class PriorityContainer extends PureComponent<
             primary: {
               label: locals[this.props.lang].report.cta,
               state: (() => {
-                if (this.state.userMessage === '') {
-                  return 'DISABLED'
-                }
+                if (this.state.userMessage === '') return 'DISABLED'
+
                 if (this.state.isPrimaryActionLoading) return 'LOADING'
                 return 'DEFAULT'
               })(),

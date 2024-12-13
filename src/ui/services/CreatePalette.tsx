@@ -5,7 +5,7 @@ import React from 'react'
 import { uid } from 'uid'
 
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import features from '../../config'
+import features, { algorithmVersion } from '../../config'
 import {
   Context,
   ContextItem,
@@ -137,7 +137,7 @@ export default class CreatePalette extends PureComponent<
             sourceColors: this.props.sourceColors,
             palette: {
               ...palette,
-              algoritmVersion: 'v2',
+              algoritmVersion: algorithmVersion,
             },
           },
         },
@@ -257,7 +257,7 @@ export default class CreatePalette extends PureComponent<
             {...this.props}
             key="preview"
             colors={this.props.sourceColors}
-            algorithmVersion="v2"
+            algorithmVersion={algorithmVersion}
             onResetSourceColors={this.resetSourceColorsHandler}
           />
         </Feature>

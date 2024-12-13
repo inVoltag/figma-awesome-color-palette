@@ -3,6 +3,7 @@ import createPalette from './bridges/creations/createPalette'
 import loadParameters from './bridges/loadParameters'
 import loadUI from './bridges/loadUI'
 import processSelection from './bridges/processSelection'
+import { algorithmVersion } from './config'
 import { PaletteConfiguration } from './types/configurations'
 import doLightnessScale from './utils/doLightnessScale'
 import { presets } from './utils/palettePackage'
@@ -73,7 +74,7 @@ figma.on('run', async ({ parameters }: RunEvent) => {
             lightColor: '#FFFFFF',
             darkColor: '#000000',
           },
-          algorithmVersion: 'v2',
+          algorithmVersion: algorithmVersion,
         } as PaletteConfiguration,
       },
     })

@@ -8,6 +8,7 @@ export const pageSize = 20
 // Versions
 export const userConsentVersion = '2024.01'
 export const trialVersion = '2024.03'
+export const algorithmVersion = 'v3'
 
 // URLs
 export const authWorkerUrl =

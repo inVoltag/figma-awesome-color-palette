@@ -8,6 +8,7 @@ import {
   VisionSimulationModeConfiguration,
 } from '../types/configurations'
 import { ActionsList } from '../types/models'
+import { algorithmVersion } from '../config'
 
 export default class Color {
   private render: 'HEX' | 'RGB'
@@ -32,8 +33,29 @@ export default class Color {
     this.lightness = data.lightness ?? 100
     this.hueShifting = data.hueShifting ?? 0
     this.chromaShifting = data.chromaShifting ?? 100
-    this.algorithmVersion = data.algorithmVersion ?? 'v2'
+    this.algorithmVersion = data.algorithmVersion ?? algorithmVersion
     this.visionSimulationMode = data.visionSimulationMode
+  }
+
+  adjustHue = (hue: number): number => {
+    if (hue + this.hueShifting < 0) return hue + this.hueShifting + 360
+    if (hue + this.hueShifting > 360) return hue + this.hueShifting - 360
+    return hue + this.hueShifting
+  }
+
+  adjustChroma = (chroma: number): number => {
+    if (this.algorithmVersion === 'v1') return chroma
+    if (this.algorithmVersion === 'v2')
+      return Math.sin((this.lightness / 100) * Math.PI) * chroma
+    if (this.algorithmVersion === 'v3') {
+      const lightnessFactor = this.lightness / 100
+      const sinComponent = Math.sin(lightnessFactor * Math.PI)
+      const tanhComponent = Math.tanh(lightnessFactor * Math.PI)
+      const weightedComponent = sinComponent * 0.5 + tanhComponent * 0.5
+      const smoothedComponent = Math.pow(weightedComponent, 0.5) // Pour adoucir la variation
+      return smoothedComponent * chroma
+    }
+    return chroma
   }
 
   lch = (): HexModel | [number, number, number] => {
@@ -41,16 +63,8 @@ export default class Color {
       newColor = chroma
         .lch(
           this.lightness,
-          this.algorithmVersion === 'v2'
-            ? Math.sin((this.lightness / 100) * Math.PI) *
-                lch[1] *
-                (this.chromaShifting / 100)
-            : lch[1] * (this.chromaShifting / 100),
-          lch[2] + this.hueShifting < 0
-            ? 0
-            : lch[2] + this.hueShifting > 360
-              ? 360
-              : lch[2] + this.hueShifting
+          this.adjustChroma(lch[1] * (this.chromaShifting / 100)),
+          this.adjustHue(lch[2])
         )
         .rgb()
 
@@ -63,16 +77,8 @@ export default class Color {
       newColor = chroma
         .oklch(
           this.lightness / 100,
-          this.algorithmVersion === 'v2'
-            ? Math.sin((this.lightness / 100) * Math.PI) *
-                oklch[1] *
-                (this.chromaShifting / 100)
-            : oklch[1] * (this.chromaShifting / 100),
-          oklch[2] + this.hueShifting < 0
-            ? 0
-            : oklch[2] + this.hueShifting > 360
-              ? 360
-              : oklch[2] + this.hueShifting
+          this.adjustChroma(oklch[1] * (this.chromaShifting / 100)),
+          this.adjustHue(oklch[2])
         )
         .rgb()
 
@@ -104,12 +110,8 @@ export default class Color {
     const newColor = chroma
       .lab(
         this.lightness,
-        this.algorithmVersion === 'v2'
-          ? Math.sin((this.lightness / 100) * Math.PI) * newLabA
-          : newLabA,
-        this.algorithmVersion === 'v2'
-          ? Math.sin((this.lightness / 100) * Math.PI) * newLabB
-          : newLabB
+        this.adjustChroma(newLabA),
+        this.adjustChroma(newLabB)
       )
       .rgb()
 
@@ -144,12 +146,8 @@ export default class Color {
     const newColor = chroma
       .oklab(
         this.lightness / 100,
-        this.algorithmVersion === 'v2'
-          ? Math.sin((this.lightness / 100) * Math.PI) * newLabA
-          : newLabA,
-        this.algorithmVersion === 'v2'
-          ? Math.sin((this.lightness / 100) * Math.PI) * newLabB
-          : newLabB
+        this.adjustChroma(newLabA),
+        this.adjustChroma(newLabB)
       )
       .rgb()
 
@@ -161,16 +159,8 @@ export default class Color {
     const hsl = chroma(this.sourceColor).hsl(),
       newColor = chroma
         .hsl(
-          hsl[0] + this.hueShifting < 0
-            ? 0
-            : hsl[0] + this.hueShifting > 360
-              ? 360
-              : hsl[0] + this.hueShifting,
-          this.algorithmVersion === 'v2'
-            ? Math.sin((this.lightness / 100) * Math.PI) *
-                hsl[1] *
-                (this.chromaShifting / 100)
-            : hsl[1] * (this.chromaShifting / 100),
+          this.adjustHue(hsl[0]),
+          this.adjustChroma(hsl[1] * (this.chromaShifting / 100)),
           this.lightness / 100
         )
         .rgb()
@@ -189,18 +179,10 @@ export default class Color {
     hsluv.rgbToHsluv()
 
     hsluv.hsluv_l = this.lightness
-    hsluv.hsluv_s =
-      this.algorithmVersion === 'v2'
-        ? Math.sin((this.lightness / 100) * Math.PI) *
-          hsluv.hsluv_s *
-          (this.chromaShifting / 100)
-        : hsluv.hsluv_s * (this.chromaShifting / 100)
-    hsluv.hsluv_h =
-      hsluv.hsluv_h + this.hueShifting < 0
-        ? 0
-        : hsluv.hsluv_h + this.hueShifting > 360
-          ? 360
-          : hsluv.hsluv_h + this.hueShifting
+    hsluv.hsluv_s = this.adjustChroma(
+      hsluv.hsluv_s * (this.chromaShifting / 100)
+    )
+    hsluv.hsluv_h = this.adjustHue(hsluv.hsluv_h)
 
     if (Number.isNaN(hsluv.hsluv_s)) hsluv.hsluv_s = 0
     if (Number.isNaN(hsluv.hsluv_h)) hsluv.hsluv_h = 0
@@ -230,24 +212,25 @@ export default class Color {
   simulateColorBlindRgb = (
     sourceColor: [number, number, number]
   ): [number, number, number] => {
+    const v3Color = this.algorithmVersion === 'v3' ? sourceColor : sourceColor
     const actions: ActionsList = {
-      NONE: () => sourceColor,
+      NONE: () => v3Color,
       PROTANOMALY: () =>
-        chroma(blinder.protanomaly(chroma(sourceColor).hex())).rgb(false),
+        chroma(blinder.protanomaly(chroma(v3Color).hex())).rgb(false),
       PROTANOPIA: () =>
-        chroma(blinder.protanopia(chroma(sourceColor).hex())).rgb(false),
+        chroma(blinder.protanopia(chroma(v3Color).hex())).rgb(false),
       DEUTERANOMALY: () =>
-        chroma(blinder.deuteranomaly(chroma(sourceColor).hex())).rgb(false),
+        chroma(blinder.deuteranomaly(chroma(v3Color).hex())).rgb(false),
       DEUTERANOPIA: () =>
-        chroma(blinder.deuteranopia(chroma(sourceColor).hex())).rgb(false),
+        chroma(blinder.deuteranopia(chroma(v3Color).hex())).rgb(false),
       TRITANOMALY: () =>
-        chroma(blinder.tritanomaly(chroma(sourceColor).hex())).rgb(false),
+        chroma(blinder.tritanomaly(chroma(v3Color).hex())).rgb(false),
       TRITANOPIA: () =>
-        chroma(blinder.tritanopia(chroma(sourceColor).hex())).rgb(false),
+        chroma(blinder.tritanopia(chroma(v3Color).hex())).rgb(false),
       ACHROMATOMALY: () =>
-        chroma(blinder.achromatomaly(chroma(sourceColor).hex())).rgb(false),
+        chroma(blinder.achromatomaly(chroma(v3Color).hex())).rgb(false),
       ACHROMATOPSIA: () =>
-        chroma(blinder.achromatopsia(chroma(sourceColor).hex())).rgb(false),
+        chroma(blinder.achromatopsia(chroma(v3Color).hex())).rgb(false),
     }
 
     const result = actions[this.visionSimulationMode]?.()
@@ -255,19 +238,55 @@ export default class Color {
   }
 
   simulateColorBlindHex = (sourceColor: [number, number, number]): HexModel => {
+    const v3Color = this.algorithmVersion === 'v3' ? sourceColor : sourceColor
     const actions: ActionsList = {
-      NONE: () => chroma(sourceColor).hex(),
-      PROTANOMALY: () => blinder.protanomaly(chroma(sourceColor).hex()),
-      PROTANOPIA: () => blinder.protanopia(chroma(sourceColor).hex()),
-      DEUTERANOMALY: () => blinder.deuteranomaly(chroma(sourceColor).hex()),
-      DEUTERANOPIA: () => blinder.deuteranopia(chroma(sourceColor).hex()),
-      TRITANOMALY: () => blinder.tritanomaly(chroma(sourceColor).hex()),
-      TRITANOPIA: () => blinder.tritanopia(chroma(sourceColor).hex()),
-      ACHROMATOMALY: () => blinder.achromatomaly(chroma(sourceColor).hex()),
-      ACHROMATOPSIA: () => blinder.achromatopsia(chroma(sourceColor).hex()),
+      NONE: () => chroma(v3Color).hex(),
+      PROTANOMALY: () => blinder.protanomaly(chroma(v3Color).hex()),
+      PROTANOPIA: () => blinder.protanopia(chroma(v3Color).hex()),
+      DEUTERANOMALY: () => blinder.deuteranomaly(chroma(v3Color).hex()),
+      DEUTERANOPIA: () => blinder.deuteranopia(chroma(v3Color).hex()),
+      TRITANOMALY: () => blinder.tritanomaly(chroma(v3Color).hex()),
+      TRITANOPIA: () => blinder.tritanopia(chroma(v3Color).hex()),
+      ACHROMATOMALY: () => blinder.achromatomaly(chroma(v3Color).hex()),
+      ACHROMATOPSIA: () => blinder.achromatopsia(chroma(v3Color).hex()),
     }
 
     const result = actions[this.visionSimulationMode]?.()
     return result !== undefined ? result : '#000000'
+  }
+
+  toSRGB = (
+    sourceColor: [number, number, number]
+  ): [number, number, number] => {
+    const linearRgb = sourceColor.map((value) => {
+      const normalized = value / 255
+      return Math.pow((normalized + 0.055) / 1.055, 2.4)
+    }) as [number, number, number]
+
+    // Calculate luminance
+    const luminance =
+      0.2126 * linearRgb[0] + 0.7152 * linearRgb[1] + 0.0722 * linearRgb[2]
+    const targetLuminance = this.lightness / 100
+
+    // Scale the linear RGB values to match the target luminance
+    const scale = targetLuminance / luminance
+    const adjustedLinearRgb = linearRgb.map((value) => value * scale) as [
+      number,
+      number,
+      number,
+    ]
+
+    // Convert adjusted linear RGB back to sRGB
+    const adjustedRgb = adjustedLinearRgb.map((value) => {
+      return (1.055 * Math.pow(value, 1 / 2.4) - 0.055) * 255
+    }) as [number, number, number]
+
+    // Apply a soft adjustment to preserve saturation
+    const finalRgb = adjustedRgb.map((value, index) => {
+      const originalValue = sourceColor[index]
+      return originalValue + (value - originalValue) * 0.5
+    }) as [number, number, number]
+
+    return finalRgb
   }
 }

@@ -3,7 +3,6 @@ import {
   FormItem,
   Section,
   SectionTitle,
-  Select,
   SemanticMessage,
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
@@ -123,9 +122,24 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
       planStatus: planStatus,
     }),
-    SETTINGS_NEW_ALGORITHM: new FeatureStatus({
+    SETTINGS_ALGORITHM: new FeatureStatus({
       features: features,
-      featureName: 'SETTINGS_NEW_ALGORITHM',
+      featureName: 'SETTINGS_ALGORITHM',
+      planStatus: planStatus,
+    }),
+    SETTINGS_ALGORITHM_V1: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_ALGORITHM_V1',
+      planStatus: planStatus,
+    }),
+    SETTINGS_ALGORITHM_V2: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_ALGORITHM_V2',
+      planStatus: planStatus,
+    }),
+    SETTINGS_ALGORITHM_V3: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_ALGORITHM_V3',
       planStatus: planStatus,
     }),
   })
@@ -477,29 +491,79 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
       <Feature
         isActive={ColorSettings.features(
           this.props.planStatus
-        ).SETTINGS_NEW_ALGORITHM.isActive()}
+        ).SETTINGS_ALGORITHM.isActive()}
       >
-        <Select
+        <FormItem
           id="update-algorithm"
-          type="SWITCH_BUTTON"
-          name="update-algorithm"
-          label={locals[this.props.lang].settings.color.newAlgorithm.label}
-          isChecked={this.props.algorithmVersion === 'v2' ? true : false}
+          label={locals[this.props.lang].settings.color.algorithmVersion.label}
           isBlocked={ColorSettings.features(
             this.props.planStatus
-          ).SETTINGS_NEW_ALGORITHM.isBlocked()}
-          isNew={ColorSettings.features(
-            this.props.planStatus
-          ).SETTINGS_NEW_ALGORITHM.isNew()}
-          feature="UPDATE_ALGORITHM_VERSION"
-          onChange={this.props.onChangeSettings}
-        />
-        <SemanticMessage
-          type="INFO"
-          message={
-            locals[this.props.lang].settings.color.newAlgorithm.description
-          }
-        />
+          ).SETTINGS_ALGORITHM.isBlocked()}
+        >
+          <Dropdown
+            id="update-algorithm"
+            options={[
+              {
+                label:
+                  locals[this.props.lang].settings.color.algorithmVersion.v1,
+                value: 'v1',
+                feature: 'UPDATE_ALGORITHM_VERSION',
+                type: 'OPTION',
+                isActive: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_ALGORITHM_V1.isActive(),
+                isBlocked: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_ALGORITHM_V1.isBlocked(),
+                isNew: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_ALGORITHM_V1.isNew(),
+                action: this.props.onChangeSettings,
+              },
+              {
+                label:
+                  locals[this.props.lang].settings.color.algorithmVersion.v2,
+                value: 'v2',
+                feature: 'UPDATE_ALGORITHM_VERSION',
+                type: 'OPTION',
+                isActive: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_ALGORITHM_V2.isActive(),
+                isBlocked: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_ALGORITHM_V2.isBlocked(),
+                isNew: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_ALGORITHM_V2.isNew(),
+                action: this.props.onChangeSettings,
+              },
+              {
+                label:
+                  locals[this.props.lang].settings.color.algorithmVersion.v3,
+                value: 'v3',
+                feature: 'UPDATE_ALGORITHM_VERSION',
+                type: 'OPTION',
+                isActive: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_ALGORITHM_V3.isActive(),
+                isBlocked: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_ALGORITHM_V3.isBlocked(),
+                isNew: ColorSettings.features(
+                  this.props.planStatus
+                ).SETTINGS_ALGORITHM_V3.isNew(),
+                action: this.props.onChangeSettings,
+              },
+            ]}
+            selected={this.props.algorithmVersion}
+            isBlocked={ColorSettings.features(
+              this.props.planStatus
+            ).SETTINGS_ALGORITHM.isBlocked()}
+            isNew={ColorSettings.features(
+              this.props.planStatus
+            ).SETTINGS_ALGORITHM.isNew()}
+          />
+        </FormItem>
       </Feature>
     )
   }

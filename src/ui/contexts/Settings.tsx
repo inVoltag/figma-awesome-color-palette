@@ -3,7 +3,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 
-import features from '../../config'
+import features, { algorithmVersion } from '../../config'
 import {
   Context,
   ContextItem,
@@ -113,7 +113,7 @@ export default class Settings extends PureComponent<
           lightColor: '#FFFFFF',
           darkColor: '#000000',
         },
-        algorithmVersion: 'v2',
+        algorithmVersion: algorithmVersion,
       },
       isEditedInRealTime: false,
     }
@@ -155,7 +155,7 @@ export default class Settings extends PureComponent<
         this.props.visionSimulationMode
       this.settingsMessage.data.textColorsTheme = this.props.textColorsTheme
       this.settingsMessage.data.algorithmVersion =
-        this.props.algorithmVersion ?? 'v2'
+        this.props.algorithmVersion ?? algorithmVersion
 
       this.props.onChangeSettings({
         name: this.settingsMessage.data.name,
@@ -188,7 +188,7 @@ export default class Settings extends PureComponent<
         this.props.visionSimulationMode
       this.settingsMessage.data.textColorsTheme = this.props.textColorsTheme
       this.settingsMessage.data.algorithmVersion =
-        this.props.algorithmVersion ?? 'v2'
+        this.props.algorithmVersion ?? algorithmVersion
 
       this.props.onChangeSettings({
         description: this.settingsMessage.data.description,
@@ -245,7 +245,7 @@ export default class Settings extends PureComponent<
         this.props.visionSimulationMode
       this.settingsMessage.data.textColorsTheme = this.props.textColorsTheme
       this.settingsMessage.data.algorithmVersion =
-        this.props.algorithmVersion ?? 'v2'
+        this.props.algorithmVersion ?? algorithmVersion
 
       this.props.onChangeSettings({
         colorSpace: this.settingsMessage.data.colorSpace,
@@ -276,7 +276,7 @@ export default class Settings extends PureComponent<
         .value as VisionSimulationModeConfiguration
       this.settingsMessage.data.textColorsTheme = this.props.textColorsTheme
       this.settingsMessage.data.algorithmVersion =
-        this.props.algorithmVersion ?? 'v2'
+        this.props.algorithmVersion ?? algorithmVersion
 
       this.props.onChangeSettings({
         visionSimulationMode: this.settingsMessage.data.visionSimulationMode,
@@ -297,7 +297,8 @@ export default class Settings extends PureComponent<
     }
 
     const updateAlgorithmVersion = () => {
-      palette.algorithmVersion = !target.checked ? 'v1' : 'v2'
+      palette.algorithmVersion = target.dataset
+        .value as AlgorithmVersionConfiguration
 
       this.settingsMessage.data.name = this.props.name
       this.settingsMessage.data.description = this.props.description
@@ -305,7 +306,8 @@ export default class Settings extends PureComponent<
       this.settingsMessage.data.visionSimulationMode =
         this.props.visionSimulationMode
       this.settingsMessage.data.textColorsTheme = this.props.textColorsTheme
-      this.settingsMessage.data.algorithmVersion = !target.checked ? 'v1' : 'v2'
+      this.settingsMessage.data.algorithmVersion = target.dataset
+        .value as AlgorithmVersionConfiguration
 
       this.props.onChangeSettings({
         algorithmVersion: this.settingsMessage.data.algorithmVersion,
@@ -338,7 +340,7 @@ export default class Settings extends PureComponent<
         this.settingsMessage.data.textColorsTheme.darkColor =
           this.props.textColorsTheme.darkColor
         this.settingsMessage.data.algorithmVersion =
-          this.props.algorithmVersion ?? 'v2'
+          this.props.algorithmVersion ?? algorithmVersion
       }
 
       this.props.onChangeSettings({
@@ -376,7 +378,7 @@ export default class Settings extends PureComponent<
         this.settingsMessage.data.textColorsTheme.darkColor = code
         palette.textColorsTheme.darkColor = code
         this.settingsMessage.data.algorithmVersion =
-          this.props.algorithmVersion ?? 'v2'
+          this.props.algorithmVersion ?? algorithmVersion
       }
 
       this.props.onChangeSettings({

@@ -129,7 +129,7 @@ export type ViewConfiguration =
   | 'SHEET'
   | 'SHEET_SAFE_MODE'
 
-export type AlgorithmVersionConfiguration = 'v1' | 'v2'
+export type AlgorithmVersionConfiguration = 'v1' | 'v2' | 'v3'
 
 export interface DatesConfiguration {
   createdAt: Date | string

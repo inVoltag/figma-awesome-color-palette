@@ -317,10 +317,11 @@ export const locals: { [key: string]: any } = {
           achromatomaly: 'Achromatomaly (total color-weak)',
           achromatopsia: 'Achromatopsia (total color-blind)',
         },
-        newAlgorithm: {
-          label: 'Enable the new algorithm for creating color shades',
-          description:
-            'The Chroma values are harmonized to ensure consistent lightness across all shades, but this may make the colors look desaturated.',
+        algorithmVersion: {
+          label: 'Chroma adjustment',
+          v1: 'Linear',
+          v2: 'Sinusoidal',
+          v3: 'Sinusoidal and hyperbolic',
         },
       },
       preferences: {

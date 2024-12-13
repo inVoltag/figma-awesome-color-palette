@@ -7,6 +7,7 @@ import React from 'react'
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
 import { supabase } from '../bridges/publication/authentication'
 import features, {
+  algorithmVersion,
   announcementsWorkerUrl,
   trialTime,
   userConsentVersion,
@@ -159,7 +160,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
         lightColor: '#FFFFFF',
         darkColor: '#000000',
       },
-      algorithmVersion: 'v2',
+      algorithmVersion: algorithmVersion,
       screenshot: null,
       dates: {
         createdAt: '',
@@ -410,7 +411,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
                 lightColor: '#FFFFFF',
                 darkColor: '#000000',
               },
-              algorithmVersion: 'v2',
+              algorithmVersion: algorithmVersion,
               screenshot: null,
               dates: {
                 createdAt: '',
@@ -485,7 +486,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
                 lightColor: '#FFFFFF',
                 darkColor: '#000000',
               },
-              algorithmVersion: 'v2',
+              algorithmVersion: algorithmVersion,
               screenshot: null,
               dates: {
                 createdAt: '',

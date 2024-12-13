@@ -170,6 +170,12 @@ export const locals: { [key: string]: any } = {
         easeIn: 'Ease in',
         easeOut: 'Ease out',
         easeInOut: 'Ease in and out',
+        fastEaseIn: 'Fast ease in',
+        fastEaseOut: 'Fast ease out',
+        fastEaseInOut: 'Fast ease in and out',
+        slowEaseIn: 'Slow ease in',
+        slowEaseOut: 'Slow ease out',
+        slowEaseInOut: 'Slow ease in and out',
       },
       namingConvention: {
         ones: '1 - 24',

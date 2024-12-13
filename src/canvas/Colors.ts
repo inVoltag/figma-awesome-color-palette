@@ -16,21 +16,21 @@ import Signature from './Signature'
 import Title from './Title'
 
 export default class Colors {
-  parent: PaletteNode
-  palette: FrameNode | undefined
-  paletteData: PaletteData
-  currentScale: ScaleConfiguration
-  paletteBackgroundGl: Array<number>
-  sampleScale: number
-  sampleRatio: number
-  sampleSize: number
-  gap: number
-  nodeRow: FrameNode | null
-  nodeRowSource: FrameNode | null
-  nodeRowShades: FrameNode | null
-  nodeEmpty: FrameNode | null
-  nodeShades: FrameNode | null
-  node: FrameNode | null
+  private parent: PaletteNode
+  private palette: FrameNode | undefined
+  private paletteData: PaletteData
+  private currentScale: ScaleConfiguration
+  private paletteBackgroundGl: Array<number>
+  private sampleScale: number
+  private sampleRatio: number
+  private sampleSize: number
+  private gap: number
+  private nodeRow: FrameNode | null
+  private nodeRowSource: FrameNode | null
+  private nodeRowShades: FrameNode | null
+  private nodeEmpty: FrameNode | null
+  private nodeShades: FrameNode | null
+  private node: FrameNode | null
 
   constructor(parent?: PaletteNode, palette?: FrameNode | undefined) {
     this.parent = parent as PaletteNode

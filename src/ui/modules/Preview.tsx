@@ -47,7 +47,7 @@ interface PreviewStates {
 }
 
 export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
-  drawerRef: React.RefObject<HTMLDivElement>
+  private drawerRef: React.RefObject<HTMLDivElement>
 
   static features = (planStatus: PlanStatus) => ({
     PREVIEW_WCAG: new FeatureStatus({

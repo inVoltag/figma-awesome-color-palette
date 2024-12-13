@@ -67,11 +67,8 @@ interface PublicationActions {
   secondary: PublicationAction | undefined
 }
 
-export default class Publication extends PureComponent<
-  PublicationProps,
-  PublicationStates
-> {
-  counter: number
+export default class Publication extends PureComponent<PublicationProps, PublicationStates> {
+  private counter: number
 
   constructor(props: PublicationProps) {
     super(props)

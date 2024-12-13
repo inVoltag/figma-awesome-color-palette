@@ -6,8 +6,8 @@ import { lang, locals } from '../content/locals'
 import { RgbModel } from '../types/models'
 
 export default class Contrast {
-  backgroundColor: [number, number, number]
-  textColor: HexModel
+  private backgroundColor: [number, number, number]
+  private textColor: HexModel
 
   constructor(data: {
     backgroundColor: [number, number, number]

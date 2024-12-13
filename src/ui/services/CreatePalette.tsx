@@ -71,7 +71,7 @@ export default class CreatePalette extends PureComponent<
   CreatePaletteProps,
   CreatePaletteStates
 > {
-  contexts: Array<ContextItem>
+  private contexts: Array<ContextItem>
 
   static features = (planStatus: PlanStatus) => ({
     PREVIEW: new FeatureStatus({

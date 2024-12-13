@@ -76,13 +76,10 @@ interface EditPaletteStates {
   }
 }
 
-export default class EditPalette extends PureComponent<
-  EditPaletteProps,
-  EditPaletteStates
-> {
-  themesMessage: ThemesMessage
-  contexts: Array<ContextItem>
-  themesRef: React.RefObject<Themes>
+export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteStates> {
+  private themesMessage: ThemesMessage
+  private contexts: Array<ContextItem>
+  private themesRef: React.RefObject<Themes>
 
   static features = (planStatus: PlanStatus) => ({
     THEMES: new FeatureStatus({

@@ -2,10 +2,10 @@ import { lang, locals } from '../content/locals'
 import Tag from './Tag'
 
 export default class Signature {
-  nodeInfo: FrameNode | null
-  nodeLogotype: FrameNode | null
-  nodeVector: VectorNode | null
-  node: FrameNode | null
+  private nodeInfo: FrameNode | null
+  private nodeLogotype: FrameNode | null
+  private nodeVector: VectorNode | null
+  private node: FrameNode | null
 
   constructor() {
     this.nodeInfo = null

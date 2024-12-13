@@ -1,10 +1,10 @@
 import { RgbModel } from '../types/models'
 
 export default class LocalStyle {
-  name: string
-  description: string
-  rgb: RgbModel
-  paintStyle: PaintStyle | null
+  private name: string
+  private description: string
+  private rgb: RgbModel
+  private paintStyle: PaintStyle | null
 
   constructor(name: string, description: string, rgb: RgbModel) {
     this.name = name

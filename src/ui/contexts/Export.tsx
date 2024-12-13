@@ -38,7 +38,7 @@ interface ExportStates {
 }
 
 export default class Export extends PureComponent<ExportProps, ExportStates> {
-  counter: number
+  private counter: number
 
   static defaultProps = {
     exportPreview: '',

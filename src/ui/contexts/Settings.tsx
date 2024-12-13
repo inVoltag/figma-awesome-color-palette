@@ -64,13 +64,10 @@ interface SettingsStates {
   context: Context | ''
 }
 
-export default class Settings extends PureComponent<
-  SettingsProps,
-  SettingsStates
-> {
-  settingsMessage: SettingsMessage
-  dispatch: { [key: string]: DispatchProcess }
-  contexts: Array<ContextItem>
+export default class Settings extends PureComponent<SettingsProps, SettingsStates> {
+  private settingsMessage: SettingsMessage
+  private dispatch: { [key: string]: DispatchProcess }
+  private contexts: Array<ContextItem>
 
   static features = (planStatus: PlanStatus) => ({
     SETTINGS_GLOBAL: new FeatureStatus({

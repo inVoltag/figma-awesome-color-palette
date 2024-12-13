@@ -41,7 +41,7 @@ interface PalettesStates {
 }
 
 export default class Palettes extends PureComponent<PalettesProps, PalettesStates> {
-  contexts: Array<ContextItem>
+  private contexts: Array<ContextItem>
 
   constructor(props: PalettesProps) {
     super(props)

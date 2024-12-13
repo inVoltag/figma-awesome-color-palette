@@ -1,5 +1,5 @@
 export default class LocalVariable {
-  variable: Variable | undefined
+  private variable: Variable | undefined
 
   constructor(variable?: Variable) {
     this.variable = variable

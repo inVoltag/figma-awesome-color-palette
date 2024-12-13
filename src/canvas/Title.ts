@@ -4,11 +4,11 @@ import Paragraph from './Paragraph'
 import Tag from './Tag'
 
 export default class Title {
-  parent: PaletteNode
-  nodeGlobalInfo: FrameNode | null
-  nodeDescriptions: FrameNode | null
-  nodeProps: FrameNode | null
-  node: FrameNode | null
+  private parent: PaletteNode
+  private nodeGlobalInfo: FrameNode | null
+  private nodeDescriptions: FrameNode | null
+  private nodeProps: FrameNode | null
+  private node: FrameNode | null
 
   constructor(parent: PaletteNode) {
     this.parent = parent

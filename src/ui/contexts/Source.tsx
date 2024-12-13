@@ -44,7 +44,7 @@ interface SourceStates {
 }
 
 export default class Source extends PureComponent<SourceProps, SourceStates> {
-  contexts: Array<ContextItem>
+  private contexts: Array<ContextItem>
 
   static features = (planStatus: PlanStatus) => ({
     PREVIEW: new FeatureStatus({

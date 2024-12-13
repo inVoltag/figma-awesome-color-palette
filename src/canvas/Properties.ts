@@ -12,34 +12,34 @@ import Contrast from '../utils/Contrast'
 import Tag from './Tag'
 
 export default class Properties {
-  name: string
-  rgb: [number, number, number]
-  colorSpace: ColorSpaceConfiguration
-  visionSimulationMode: VisionSimulationModeConfiguration
-  textColorsTheme: TextColorsThemeHexModel
-  hex: HexModel
-  lch: Array<number>
-  oklch: Array<number>
-  lab: Array<number>
-  oklab: Array<number>
-  hsl: Array<number>
-  hsluv: Array<number>
-  nodeTopProps: FrameNode | null
-  nodeBottomProps: FrameNode | null
-  nodeBaseProps: FrameNode | null
-  nodeContrastScoresProps: FrameNode | null
-  nodeProperties: TextNode | null
-  nodeDetailedBaseProps: FrameNode | null
-  nodeDetailedWCAGScoresProps: FrameNode | null
-  nodeDetailedAPCAScoresProps: FrameNode | null
-  nodeColumns: FrameNode | null
-  nodeLeftColumn: FrameNode | null
-  nodeRightColumn: FrameNode | null
-  node: FrameNode | null
-  lightTextColor: [number, number, number]
-  darkTextColor: [number, number, number]
-  lightTextColorContrast: Contrast
-  darkTextColorContrast: Contrast
+  private name: string
+  private rgb: [number, number, number]
+  private colorSpace: ColorSpaceConfiguration
+  private visionSimulationMode: VisionSimulationModeConfiguration
+  private textColorsTheme: TextColorsThemeHexModel
+  private hex: HexModel
+  private lch: Array<number>
+  private oklch: Array<number>
+  private lab: Array<number>
+  private oklab: Array<number>
+  private hsl: Array<number>
+  private hsluv: Array<number>
+  private nodeTopProps: FrameNode | null
+  private nodeBottomProps: FrameNode | null
+  private nodeBaseProps: FrameNode | null
+  private nodeContrastScoresProps: FrameNode | null
+  private nodeProperties: TextNode | null
+  private nodeDetailedBaseProps: FrameNode | null
+  private nodeDetailedWCAGScoresProps: FrameNode | null
+  private nodeDetailedAPCAScoresProps: FrameNode | null
+  private nodeColumns: FrameNode | null
+  private nodeLeftColumn: FrameNode | null
+  private nodeRightColumn: FrameNode | null
+  private node: FrameNode | null
+  private lightTextColor: [number, number, number]
+  private darkTextColor: [number, number, number]
+  private lightTextColorContrast: Contrast
+  private darkTextColorContrast: Contrast
 
   constructor(
     name: string,

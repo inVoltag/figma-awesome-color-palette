@@ -10,13 +10,13 @@ import {
 import { ActionsList } from '../types/models'
 
 export default class Color {
-  render: 'HEX' | 'RGB'
-  sourceColor: [number, number, number]
-  lightness: number
-  hueShifting: number
-  chromaShifting: number
-  algorithmVersion: AlgorithmVersionConfiguration
-  visionSimulationMode: VisionSimulationModeConfiguration
+  private render: 'HEX' | 'RGB'
+  private sourceColor: [number, number, number]
+  private lightness: number
+  private hueShifting: number
+  private chromaShifting: number
+  private algorithmVersion: AlgorithmVersionConfiguration
+  private visionSimulationMode: VisionSimulationModeConfiguration
 
   constructor(data: {
     render?: 'HEX' | 'RGB'

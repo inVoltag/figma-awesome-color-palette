@@ -1,10 +1,10 @@
 import Tag from './Tag'
 
 export default class Property {
-  name: string
-  content: string
-  size: number
-  node: FrameNode | null
+  private name: string
+  private content: string
+  private size: number
+  private node: FrameNode | null
 
   constructor(name: string, content: string, size: number) {
     this.name = name

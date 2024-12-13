@@ -59,7 +59,7 @@ export default class PriorityContainer extends PureComponent<
   PriorityContainerProps,
   PriorityContainerStates
 > {
-  counter: number
+  private counter: number
 
   static features = (planStatus: PlanStatus) => ({
     GET_PRO_PLAN: new FeatureStatus({

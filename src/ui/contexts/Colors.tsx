@@ -29,7 +29,7 @@ import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
-import { $isPaletteDeepSync } from '../../stores/preferences'
+import { $canPaletteDeepSync } from '../../stores/preferences'
 
 interface ColorsProps {
   colors: Array<ColorConfiguration>
@@ -45,7 +45,7 @@ interface ColorsProps {
 }
 
 interface ColorsStates {
-  isPaletteDeepSync: boolean
+  canPaletteDeepSync: boolean
 }
 
 export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
@@ -95,14 +95,14 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
       ) as DispatchProcess,
     }
     this.state = {
-      isPaletteDeepSync: false,
+      canPaletteDeepSync: false,
     }
   }
 
   // Lifecycle
   componentDidMount() {
-    this.unsubscribe = $isPaletteDeepSync.subscribe((value) => {
-      this.setState({ isPaletteDeepSync: value })
+    this.unsubscribe = $canPaletteDeepSync.subscribe((value) => {
+      this.setState({ canPaletteDeepSync: value })
     })
   }
 
@@ -233,7 +233,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
         )
       } else {
         this.colorsMessage.isEditedInRealTime = true
-        if (this.state.isPaletteDeepSync) this.dispatch.colors.on.status = true
+        if (this.state.canPaletteDeepSync) this.dispatch.colors.on.status = true
       }
     }
 

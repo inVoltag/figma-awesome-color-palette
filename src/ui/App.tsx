@@ -61,9 +61,9 @@ import './stylesheets/app-components.css'
 import './stylesheets/app.css'
 import doLightnessScale from '../utils/doLightnessScale'
 import {
-  $isPaletteDeepSync,
-  $areVariablesDeepSync,
-  $areStylesDeepSync,
+  $canPaletteDeepSync,
+  $canVariablesDeepSync,
+  $canStylesDeepSync,
   $isWCAGDisplayed,
   $isAPCADisplayed,
 } from '../stores/preferences'
@@ -340,11 +340,11 @@ export default class App extends Component<Record<string, never>, AppStates> {
         const checkUserPreferences = () => {
           $isWCAGDisplayed.set(e.data.pluginMessage.data.isWCAGDisplayed)
           $isAPCADisplayed.set(e.data.pluginMessage.data.isAPCADisplayed)
-          $isPaletteDeepSync.set(e.data.pluginMessage.data.canDeepSyncPalette)
-          $areVariablesDeepSync.set(
+          $canPaletteDeepSync.set(e.data.pluginMessage.data.canDeepSyncPalette)
+          $canVariablesDeepSync.set(
             e.data.pluginMessage.data.canDeepSyncVariables
           )
-          $areStylesDeepSync.set(e.data.pluginMessage.data.canDeepSyncStyles)
+          $canStylesDeepSync.set(e.data.pluginMessage.data.canDeepSyncStyles)
         }
 
         const checkEditorType = () => {

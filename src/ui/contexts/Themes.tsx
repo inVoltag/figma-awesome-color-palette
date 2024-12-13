@@ -29,7 +29,7 @@ import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
-import { $isPaletteDeepSync } from '../../stores/preferences'
+import { $canPaletteDeepSync } from '../../stores/preferences'
 
 interface ThemesProps {
   preset: PresetConfiguration
@@ -47,7 +47,7 @@ interface ThemesProps {
 }
 
 interface ThemesStates {
-  isPaletteDeepSync: boolean
+  canPaletteDeepSync: boolean
 }
 
 export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
@@ -95,8 +95,8 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
 
   // Lifecycle
   componentDidMount() {
-    this.unsubscribe = $isPaletteDeepSync.subscribe((value) => {
-      this.setState({ isPaletteDeepSync: value })
+    this.unsubscribe = $canPaletteDeepSync.subscribe((value) => {
+      this.setState({ canPaletteDeepSync: value })
     })
   }
 
@@ -227,7 +227,7 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
         )
       } else {
         this.themesMessage.isEditedInRealTime = true
-        if (this.state.isPaletteDeepSync) this.dispatch.themes.on.status = true
+        if (this.state.canPaletteDeepSync) this.dispatch.themes.on.status = true
       }
     }
 

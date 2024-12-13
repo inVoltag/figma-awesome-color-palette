@@ -38,7 +38,7 @@ import Feature from '../components/Feature'
 import Slider from '../components/Slider'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
-import { $isPaletteDeepSync } from '../../stores/preferences'
+import { $canPaletteDeepSync } from '../../stores/preferences'
 
 interface ScaleProps {
   sourceColors?: Array<SourceColorConfiguration>
@@ -68,7 +68,7 @@ interface ScaleProps {
 
 interface ScaleStates {
   isTipsOpen: boolean
-  isPaletteDeepSync: boolean
+  canPaletteDeepSync: boolean
 }
 
 export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
@@ -146,14 +146,14 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     }
     this.state = {
       isTipsOpen: false,
-      isPaletteDeepSync: false,
+      canPaletteDeepSync: false,
     }
   }
 
   // Lifecycle
   componentDidMount() {
-    this.unsubscribe = $isPaletteDeepSync.subscribe((value) => {
-      this.setState({ isPaletteDeepSync: value })
+    this.unsubscribe = $canPaletteDeepSync.subscribe((value) => {
+      this.setState({ canPaletteDeepSync: value })
     })
   }
 
@@ -194,7 +194,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     const onUpdatingStop = () => {
       this.scaleMessage.isEditedInRealTime = true
       this.props.onChangeScale()
-      if (!this.props.hasPreset && this.state.isPaletteDeepSync)
+      if (!this.props.hasPreset && this.state.canPaletteDeepSync)
         this.dispatch.scale.on.status = true
     }
 

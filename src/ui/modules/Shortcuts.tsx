@@ -10,6 +10,14 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { signIn, signOut } from '../../bridges/publication/authentication'
+import features, {
+  documentationUrl,
+  feedbackUrl,
+  networkUrl,
+  repositoryUrl,
+  requestsUrl,
+  supportEmail,
+} from '../../config'
 import { locals } from '../../content/locals'
 import {
   HighlightDigest,
@@ -19,14 +27,6 @@ import {
 } from '../../types/app'
 import { UserConfiguration } from '../../types/configurations'
 import { UserSession } from '../../types/user'
-import features, {
-  documentationUrl,
-  feedbackUrl,
-  networkUrl,
-  repositoryUrl,
-  requestsUrl,
-  supportEmail,
-} from '../../config'
 import { trackSignInEvent, trackSignOutEvent } from '../../utils/eventsTracker'
 import Feature from '../components/Feature'
 import TrialControls from './TrialControls'

@@ -6,8 +6,21 @@ import React from 'react'
 
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
 import { supabase } from '../bridges/publication/authentication'
+import features, {
+  announcementsWorkerUrl,
+  trialTime,
+  userConsentVersion,
+} from '../config'
 import { locals } from '../content/locals'
 import {
+  $canPaletteDeepSync,
+  $canStylesDeepSync,
+  $canVariablesDeepSync,
+  $isAPCADisplayed,
+  $isWCAGDisplayed,
+} from '../stores/preferences'
+import {
+  Easing,
   EditorType,
   HighlightDigest,
   Language,
@@ -16,7 +29,6 @@ import {
   PriorityContext,
   Service,
   TrialStatus,
-  Easing,
 } from '../types/app'
 import {
   AlgorithmVersionConfiguration,
@@ -37,11 +49,7 @@ import {
 } from '../types/configurations'
 import { ActionsList, TextColorsThemeHexModel } from '../types/models'
 import { UserSession } from '../types/user'
-import features, {
-  announcementsWorkerUrl,
-  trialTime,
-  userConsentVersion,
-} from '../config'
+import doLightnessScale from '../utils/doLightnessScale'
 import {
   trackEditorEvent,
   trackExportEvent,
@@ -59,14 +67,6 @@ import EditPalette from './services/EditPalette'
 import TransferPalette from './services/TransferPalette'
 import './stylesheets/app-components.css'
 import './stylesheets/app.css'
-import doLightnessScale from '../utils/doLightnessScale'
-import {
-  $canPaletteDeepSync,
-  $canVariablesDeepSync,
-  $canStylesDeepSync,
-  $isWCAGDisplayed,
-  $isAPCADisplayed,
-} from '../stores/preferences'
 
 export interface AppStates {
   service: Service

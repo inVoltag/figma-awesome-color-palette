@@ -1,9 +1,9 @@
 import { Dialog, Icon, SemanticMessage, texts } from '@a_ng_d/figmug-ui'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
+import { announcementsWorkerUrl } from '../../config'
 import { locals } from '../../content/locals'
 import { HighlightDigest, Language } from '../../types/app'
-import { announcementsWorkerUrl } from '../../config'
 
 interface HighlightProps {
   highlight: HighlightDigest

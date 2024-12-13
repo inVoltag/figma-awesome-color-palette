@@ -1,9 +1,9 @@
 import { Button, layouts, texts } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import React, { PureComponent } from 'react'
+import features, { trialFeedbackUrl } from '../../config'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, TrialStatus } from '../../types/app'
-import features, { trialFeedbackUrl } from '../../config'
 import Feature from '../components/Feature'
 
 interface TrialControlsProps {

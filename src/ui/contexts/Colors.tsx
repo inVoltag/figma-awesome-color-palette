@@ -15,7 +15,9 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { uid } from 'uid'
 
+import features from '../../config'
 import { locals } from '../../content/locals'
+import { $canPaletteDeepSync } from '../../stores/preferences'
 import { EditorType, Language, PlanStatus } from '../../types/app'
 import {
   ColorConfiguration,
@@ -23,13 +25,11 @@ import {
 } from '../../types/configurations'
 import { ColorsMessage } from '../../types/messages'
 import { ActionsList, DispatchProcess } from '../../types/models'
-import features from '../../config'
 import { trackSourceColorsManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
-import { $canPaletteDeepSync } from '../../stores/preferences'
 
 interface ColorsProps {
   colors: Array<ColorConfiguration>

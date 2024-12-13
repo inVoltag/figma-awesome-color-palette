@@ -13,7 +13,9 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 
+import features from '../../config'
 import { locals } from '../../content/locals'
+import { $canPaletteDeepSync } from '../../stores/preferences'
 import {
   Easing,
   EditorType,
@@ -29,7 +31,6 @@ import {
 } from '../../types/configurations'
 import { ScaleMessage } from '../../types/messages'
 import { ActionsList, DispatchProcess } from '../../types/models'
-import features from '../../config'
 import doLightnessScale from '../../utils/doLightnessScale'
 import { trackScaleManagementEvent } from '../../utils/eventsTracker'
 import { defaultPreset, palette, presets } from '../../utils/palettePackage'
@@ -38,7 +39,6 @@ import Feature from '../components/Feature'
 import Slider from '../components/Slider'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
-import { $canPaletteDeepSync } from '../../stores/preferences'
 
 interface ScaleProps {
   sourceColors?: Array<SourceColorConfiguration>

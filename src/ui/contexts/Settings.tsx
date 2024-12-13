@@ -64,7 +64,10 @@ interface SettingsStates {
   context: Context | ''
 }
 
-export default class Settings extends PureComponent<SettingsProps, SettingsStates> {
+export default class Settings extends PureComponent<
+  SettingsProps,
+  SettingsStates
+> {
   private settingsMessage: SettingsMessage
   private dispatch: { [key: string]: DispatchProcess }
   private contexts: Array<ContextItem>

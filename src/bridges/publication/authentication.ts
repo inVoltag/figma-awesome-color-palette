@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 
-import { lang, locals } from '../../content/locals'
 import { authUrl, authWorkerUrl, databaseUrl } from '../../config'
+import { lang, locals } from '../../content/locals'
 import checkConnectionStatus from '../checks/checkConnectionStatus'
 
 let isAuthenticated = false

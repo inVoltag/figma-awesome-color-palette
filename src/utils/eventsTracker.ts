@@ -1,6 +1,7 @@
 import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import mixpanel from 'mixpanel-figma'
 
+import { userConsentVersion } from '../config'
 import {
   ActionEvent,
   ColorThemeEvent,
@@ -13,7 +14,6 @@ import {
   SourceColorEvent,
   TrialEvent,
 } from '../types/events'
-import { userConsentVersion } from '../config'
 
 const eventsRecurringProperties = {
   Env: process.env.NODE_ENV === 'development' ? 'Dev' : 'Prod',

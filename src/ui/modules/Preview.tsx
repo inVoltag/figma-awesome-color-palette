@@ -13,6 +13,7 @@ import {
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import features from '../../config'
 import { locals } from '../../content/locals'
+import { $isAPCADisplayed, $isWCAGDisplayed } from '../../stores/preferences'
 import { Language, PlanStatus } from '../../types/app'
 import {
   AlgorithmVersionConfiguration,
@@ -26,7 +27,6 @@ import { TextColorsThemeHexModel } from '../../types/models'
 import Color from '../../utils/Color'
 import Contrast from '../../utils/Contrast'
 import Feature from '../components/Feature'
-import { $isAPCADisplayed, $isWCAGDisplayed } from '../../stores/preferences'
 
 interface PreviewProps {
   colors: Array<SourceColorConfiguration> | Array<ColorConfiguration> | []

@@ -12,7 +12,9 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import React, { PureComponent } from 'react'
 import { uid } from 'uid'
 
+import features from '../../config'
 import { locals } from '../../content/locals'
+import { $canPaletteDeepSync } from '../../stores/preferences'
 import { EditorType, Language, PlanStatus } from '../../types/app'
 import {
   PresetConfiguration,
@@ -22,14 +24,12 @@ import {
 } from '../../types/configurations'
 import { ThemesMessage } from '../../types/messages'
 import { ActionsList, DispatchProcess } from '../../types/models'
-import features from '../../config'
 import doLightnessScale from '../../utils/doLightnessScale'
 import { trackColorThemesManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
-import { $canPaletteDeepSync } from '../../stores/preferences'
 
 interface ThemesProps {
   preset: PresetConfiguration

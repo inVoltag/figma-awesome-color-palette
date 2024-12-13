@@ -10,8 +10,8 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import {
   $canPaletteDeepSync,
-  $canVariablesDeepSync,
   $canStylesDeepSync,
+  $canVariablesDeepSync,
 } from '../../stores/preferences'
 
 import features from '../../config'

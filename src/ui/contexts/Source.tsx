@@ -3,6 +3,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 
+import features from '../../config'
 import {
   Context,
   ContextItem,
@@ -17,7 +18,6 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { ColourLovers } from '../../types/data'
-import features from '../../config'
 import { setContexts } from '../../utils/setContexts'
 import Actions from '../modules/Actions'
 import Explore from './Explore'

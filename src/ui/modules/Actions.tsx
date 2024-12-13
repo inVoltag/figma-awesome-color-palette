@@ -4,13 +4,13 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 
 import { UserSession } from 'src/types/user'
+import features from '../../config'
 import { locals } from '../../content/locals'
 import { EditorType, Language, PlanStatus, Service } from '../../types/app'
 import {
   CreatorConfiguration,
   SourceColorConfiguration,
 } from '../../types/configurations'
-import features from '../../config'
 import Feature from '../components/Feature'
 
 interface ActionsProps {

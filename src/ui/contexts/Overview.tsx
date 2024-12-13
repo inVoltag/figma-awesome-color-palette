@@ -13,13 +13,13 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { uid } from 'uid'
 
+import features from '../../config'
 import { locals } from '../../content/locals'
 import { ImportUrl, Language, PlanStatus, ThirdParty } from '../../types/app'
 import {
   SourceColorConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
-import features from '../../config'
 import { trackImportEvent } from '../../utils/eventsTracker'
 import Feature from '../components/Feature'
 
@@ -44,7 +44,10 @@ interface OverviewStates {
   isColourLoversImportOpen: boolean
 }
 
-export default class Overview extends PureComponent<OverviewProps, OverviewStates> {
+export default class Overview extends PureComponent<
+  OverviewProps,
+  OverviewStates
+> {
   static features = (planStatus: PlanStatus) => ({
     SOURCE_CANVAS: new FeatureStatus({
       features: features,

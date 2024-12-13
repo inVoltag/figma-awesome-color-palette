@@ -1,5 +1,5 @@
-import type { AppStates } from '../../ui/App'
 import { palettesDbTableName, palettesStorageName } from '../../config'
+import type { AppStates } from '../../ui/App'
 import { supabase } from './authentication'
 
 const pushPalette = async (

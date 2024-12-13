@@ -6,6 +6,7 @@ import JSZip from 'jszip'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 
+import features from '../../config'
 import { locals } from '../../content/locals'
 import {
   Context,
@@ -28,7 +29,6 @@ import {
 } from '../../types/configurations'
 import { ThemesMessage } from '../../types/messages'
 import { TextColorsThemeHexModel } from '../../types/models'
-import features from '../../config'
 import doLightnessScale from '../../utils/doLightnessScale'
 import { trackActionEvent } from '../../utils/eventsTracker'
 import { palette } from '../../utils/palettePackage'
@@ -76,7 +76,10 @@ interface EditPaletteStates {
   }
 }
 
-export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteStates> {
+export default class EditPalette extends PureComponent<
+  EditPaletteProps,
+  EditPaletteStates
+> {
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>
   private themesRef: React.RefObject<Themes>

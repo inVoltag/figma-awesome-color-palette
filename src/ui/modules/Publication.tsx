@@ -15,9 +15,9 @@ import publishPalette from '../../bridges/publication/publishPalette'
 import pullPalette from '../../bridges/publication/pullPalette'
 import pushPalette from '../../bridges/publication/pushPalette'
 import unpublishPalette from '../../bridges/publication/unpublishPalette'
+import { palettesDbTableName } from '../../config'
 import { locals } from '../../content/locals'
 import { Language } from '../../types/app'
-import { palettesDbTableName } from '../../config'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 
@@ -67,7 +67,10 @@ interface PublicationActions {
   secondary: PublicationAction | undefined
 }
 
-export default class Publication extends PureComponent<PublicationProps, PublicationStates> {
+export default class Publication extends PureComponent<
+  PublicationProps,
+  PublicationStates
+> {
   private counter: number
 
   constructor(props: PublicationProps) {

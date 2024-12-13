@@ -40,7 +40,10 @@ interface PalettesStates {
   communityPalettesList: Array<ExternalPalettes>
 }
 
-export default class Palettes extends PureComponent<PalettesProps, PalettesStates> {
+export default class Palettes extends PureComponent<
+  PalettesProps,
+  PalettesStates
+> {
   private contexts: Array<ContextItem>
 
   constructor(props: PalettesProps) {

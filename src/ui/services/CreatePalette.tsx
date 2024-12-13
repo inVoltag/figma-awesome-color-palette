@@ -4,6 +4,8 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { uid } from 'uid'
 
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import features from '../../config'
 import {
   Context,
   ContextItem,
@@ -28,14 +30,12 @@ import { trackActionEvent } from '../../utils/eventsTracker'
 import { palette } from '../../utils/palettePackage'
 import { setContexts } from '../../utils/setContexts'
 import type { AppStates } from '../App'
+import Feature from '../components/Feature'
 import Palettes from '../contexts/Palettes'
 import Scale from '../contexts/Scale'
 import Settings from '../contexts/Settings'
 import Source from '../contexts/Source'
 import Preview from '../modules/Preview'
-import Feature from '../components/Feature'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import features from '../../config'
 
 interface CreatePaletteProps {
   sourceColors: Array<SourceColorConfiguration> | []

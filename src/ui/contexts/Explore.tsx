@@ -15,6 +15,7 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { uid } from 'uid'
 
+import { pageSize } from '../../config'
 import { locals } from '../../content/locals'
 import {
   FetchStatus,
@@ -27,7 +28,6 @@ import {
   UserConfiguration,
 } from '../../types/configurations'
 import { ColourLovers } from '../../types/data'
-import { pageSize } from '../../config'
 import { trackImportEvent } from '../../utils/eventsTracker'
 
 interface ExploreProps {
@@ -54,7 +54,10 @@ interface ExploreStates {
   isLoadMoreActionLoading: boolean
 }
 
-export default class Explore extends PureComponent<ExploreProps, ExploreStates> {
+export default class Explore extends PureComponent<
+  ExploreProps,
+  ExploreStates
+> {
   private filters: Array<FilterOptions>
 
   constructor(props: ExploreProps) {

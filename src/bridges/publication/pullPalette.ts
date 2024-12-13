@@ -1,5 +1,5 @@
-import type { AppStates } from '../../ui/App'
 import { palettesDbTableName } from '../../config'
+import type { AppStates } from '../../ui/App'
 import { supabase } from './authentication'
 
 const pullPalette = async (rawData: AppStates): Promise<Partial<AppStates>> => {

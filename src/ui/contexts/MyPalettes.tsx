@@ -15,6 +15,7 @@ import React from 'react'
 import { signIn, supabase } from '../../bridges/publication/authentication'
 import sharePalette from '../../bridges/publication/sharePalette'
 import unpublishPalette from '../../bridges/publication/unpublishPalette'
+import { pageSize, palettesDbTableName } from '../../config'
 import { locals } from '../../content/locals'
 import { Context, FetchStatus, Language, PlanStatus } from '../../types/app'
 import {
@@ -28,7 +29,6 @@ import {
 import { ExternalPalettes } from '../../types/data'
 import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
-import { pageSize, palettesDbTableName } from '../../config'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
 
 interface MyPalettesProps {

@@ -1,11 +1,11 @@
 import { uid } from 'uid'
 
-import type { AppStates } from '../../ui/App'
 import {
   databaseUrl,
   palettesDbTableName,
   palettesStorageName,
 } from '../../config'
+import type { AppStates } from '../../ui/App'
 import { supabase } from './authentication'
 
 const publishPalette = async (

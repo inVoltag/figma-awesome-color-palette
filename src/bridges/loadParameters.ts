@@ -1,6 +1,6 @@
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { lang, locals } from '../content/locals'
 import features from '../config'
+import { lang, locals } from '../content/locals'
 import { presets } from '../utils/palettePackage'
 import checkPlanStatus from './checks/checkPlanStatus'
 
@@ -8,7 +8,7 @@ const loadParameters = async ({ key, result }: ParameterInputEvent) => {
   switch (key) {
     case 'preset': {
       const planStatus = (await checkPlanStatus('PARAMETERS')) ?? 'UNPAID'
-      
+
       const filteredPresets = await Promise.all(
         presets.map(async (preset) => {
           const isBlocked = new FeatureStatus({

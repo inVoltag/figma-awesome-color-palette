@@ -9,6 +9,7 @@ const shiftLeftStop = (
   gap: number
 ) => {
   const stopsList: Array<string> = []
+  const shiftValue = meta || ctrl ? 0.1 : 1
 
   Object.keys(scale).forEach((stop) => {
     stopsList.push(stop)
@@ -19,20 +20,16 @@ const shiftLeftStop = (
     ),
     newLightnessScale = scale,
     currentStopValue: number = newLightnessScale[stopsList[selectedKnobIndex]],
-    nextStopValue: number =
-      newLightnessScale[stopsList[selectedKnobIndex + 1]] + gap
+    nextStopValue: number = newLightnessScale[stopsList[selectedKnobIndex + 1]]
 
-  if (currentStopValue <= nextStopValue) null
+  if (currentStopValue + gap - shiftValue <= nextStopValue) nextStopValue + gap
   else if (currentStopValue <= 1 && (!meta || ctrl))
     newLightnessScale[stopsList[selectedKnobIndex]] = 0
   else if (currentStopValue === 0 && (meta || ctrl))
     newLightnessScale[stopsList[selectedKnobIndex]] = 0
   else
-    meta || ctrl
-      ? (newLightnessScale[stopsList[selectedKnobIndex]] = parseFloat(
-          (newLightnessScale[stopsList[selectedKnobIndex]] - 0.1).toFixed(1)
-        ))
-      : newLightnessScale[stopsList[selectedKnobIndex]]--
+    newLightnessScale[stopsList[selectedKnobIndex]] =
+      newLightnessScale[stopsList[selectedKnobIndex]] - shiftValue
 
   palette.scale = newLightnessScale
 }

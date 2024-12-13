@@ -177,6 +177,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       this.scaleMessage.isEditedInRealTime = false
       this.scaleMessage.feature = feature
       this.props.onChangeStop?.()
+      this.props.onChangeScale()
       if (!this.props.hasPreset)
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
     }
@@ -185,6 +186,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       this.scaleMessage.data = palette
       this.scaleMessage.isEditedInRealTime = false
       this.props.onChangeStop?.()
+      this.props.onChangeScale()
       if (!this.props.hasPreset)
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
     }
@@ -712,25 +714,21 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 label={locals[this.props.lang].scale.tips.navNext}
                 shortcuts={[['⇥ Tab']]}
               />
-              {!this.props.hasPreset && (
-                <>
-                  <KeyboardShortcutItem
-                    label={locals[this.props.lang].scale.tips.type}
-                    shortcuts={[['db click'], ['↩︎ Enter']]}
-                    separator="or"
-                  />
-                  <KeyboardShortcutItem
-                    label={locals[this.props.lang].scale.tips.shiftLeft}
-                    shortcuts={[['←'], [isMacOrWinKeyboard, '←']]}
-                    separator="or"
-                  />
-                  <KeyboardShortcutItem
-                    label={locals[this.props.lang].scale.tips.shiftRight}
-                    shortcuts={[['→'], [isMacOrWinKeyboard, '→']]}
-                    separator="or"
-                  />
-                </>
-              )}
+              <KeyboardShortcutItem
+                label={locals[this.props.lang].scale.tips.type}
+                shortcuts={[['db click'], ['↩︎ Enter']]}
+                separator="or"
+              />
+              <KeyboardShortcutItem
+                label={locals[this.props.lang].scale.tips.shiftLeft}
+                shortcuts={[['←'], [isMacOrWinKeyboard, '←']]}
+                separator="or"
+              />
+              <KeyboardShortcutItem
+                label={locals[this.props.lang].scale.tips.shiftRight}
+                shortcuts={[['→'], [isMacOrWinKeyboard, '→']]}
+                separator="or"
+              />
             </ul>
           </div>
           {!this.props.hasPreset && (

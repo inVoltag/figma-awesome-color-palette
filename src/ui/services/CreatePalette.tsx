@@ -88,7 +88,10 @@ export default class CreatePalette extends PureComponent<
       props.planStatus
     )
     this.state = {
-      context: this.contexts[0] !== undefined ? this.contexts[1].id : '',
+      context:
+        this.contexts[0] !== undefined
+          ? this.contexts[this.props.sourceColors.length === 0 ? 1 : 2].id
+          : '',
     }
   }
 

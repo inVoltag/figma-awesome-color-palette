@@ -251,9 +251,7 @@ export default class Preview extends PureComponent<
                     this.props.planStatus
                   ).PREVIEW_WCAG.isNew()}
                   onChange={() => {
-                    this.setState({
-                      isWCAGDisplayed: !this.state.isWCAGDisplayed,
-                    })
+                    $isWCAGDisplayed.set(!this.state.isWCAGDisplayed)
                     parent.postMessage(
                       {
                         pluginMessage: {
@@ -289,9 +287,7 @@ export default class Preview extends PureComponent<
                     this.props.planStatus
                   ).PREVIEW_APCA.isNew()}
                   onChange={() => {
-                    this.setState({
-                      isAPCADisplayed: !this.state.isAPCADisplayed,
-                    })
+                    $isAPCADisplayed.set(!this.state.isAPCADisplayed)
                     parent.postMessage(
                       {
                         pluginMessage: {

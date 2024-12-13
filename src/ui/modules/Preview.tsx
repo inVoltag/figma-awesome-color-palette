@@ -155,14 +155,7 @@ export default class Preview extends PureComponent<
     const bottom = drawerRef.current
       ? drawerRef.current.getBoundingClientRect().bottom
       : 0
-    const topLimit = 144
-    const minheight = 149
-
     const delta = bottom - clientY
-    let drawerHeight
-
-    //if (clientY >= topLimit) drawerHeight = delta
-    //if (delta < minheight) drawerHeight = minheight
 
     this.setState({
       drawerHeight: `${delta}px`,

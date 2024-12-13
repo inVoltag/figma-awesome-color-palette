@@ -3,6 +3,7 @@ import {
   ConsentConfiguration,
   Dialog,
   Dropdown,
+  DropdownOption,
   FormItem,
   KeyboardShortcutItem,
   SectionTitle,
@@ -222,6 +223,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       const preset =
         presets.find((preset) => preset.id === 'MATERIAL') ?? defaultPreset
 
+      preset.name = `${preset.name} (${preset.family})`
       palette.preset = preset
       palette.scale = scale(preset)
 
@@ -245,6 +247,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       const preset =
         presets.find((preset) => preset.id === 'MATERIAL_3') ?? defaultPreset
 
+      preset.name = `${preset.name} (${preset.family})`
       palette.preset = preset
       palette.scale = scale(preset)
 
@@ -291,6 +294,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       const preset =
         presets.find((preset) => preset.id === 'ANT') ?? defaultPreset
 
+      preset.name = `${preset.name} (${preset.family})`
       palette.preset = preset
       palette.scale = scale(preset)
 
@@ -314,6 +318,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       const preset =
         presets.find((preset) => preset.id === 'ADS') ?? defaultPreset
 
+      preset.name = `${preset.name} (${preset.family})`
       palette.preset = preset
       palette.scale = scale(preset)
 
@@ -448,6 +453,73 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     }
 
     return actions[(e.target as HTMLElement).dataset.value ?? 'DEFAULT']?.()
+  }
+
+  presetsOptions = () => {
+    const orderedPresets = presets.reduce(
+      (acc: { [key: string]: PresetConfiguration[] }, preset) => {
+        const { family, name } = preset
+        if (family !== undefined) {
+          if (!acc[family]) acc[family] = []
+          acc[family].push(preset)
+        } else {
+          if (!acc[name]) acc[name] = []
+          acc[name].push(preset)
+        }
+        return acc
+      },
+      {} as { [key: string]: PresetConfiguration[] }
+    )
+
+    const options: Array<DropdownOption> = Object.entries(orderedPresets).map(
+      (preset) => {
+        if (preset[1].length > 1)
+          return {
+            label: preset[0],
+            value: preset[0].toUpperCase(),
+            type: 'OPTION',
+            children: preset[1].map((preset: PresetConfiguration) => ({
+              label: preset.name,
+              value: preset.id,
+              feature: `PRESETS_${preset.id}`,
+              type: 'OPTION',
+              isActive: Scale.features(this.props.planStatus).PRESETS[
+                `PRESETS_${preset.id}`
+              ].isActive(),
+              isBlocked: Scale.features(this.props.planStatus).PRESETS[
+                `PRESETS_${preset.id}`
+              ].isBlocked(),
+              isNew: Scale.features(this.props.planStatus).PRESETS[
+                `PRESETS_${preset.id}`
+              ].isNew(),
+              action: this.presetsHandler,
+            })),
+          }
+        else
+          return {
+            label: preset[1][0].name,
+            value: preset[1][0].id,
+            feature: `PRESETS_${preset[1][0].id}`,
+            type: 'OPTION',
+            isActive: Scale.features(this.props.planStatus).PRESETS[
+              `PRESETS_${preset[1][0].id}`
+            ].isActive(),
+            isBlocked: Scale.features(this.props.planStatus).PRESETS[
+              `PRESETS_${preset[1][0].id}`
+            ].isBlocked(),
+            isNew: Scale.features(this.props.planStatus).PRESETS[
+              `PRESETS_${preset[1][0].id}`
+            ].isNew(),
+            action: this.presetsHandler,
+          }
+      }
+    )
+
+    options.splice(options.length - 1, 0, {
+      type: 'SEPARATOR',
+    })
+
+    return options
   }
 
   customHandler = (e: Event) => {
@@ -774,24 +846,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               >
                 <Dropdown
                   id="presets"
-                  options={Object.entries(presets).map((preset) => {
-                    return {
-                      label: preset[1].name,
-                      value: preset[1].id,
-                      feature: 'UPDATE_PRESET',
-                      type: 'OPTION',
-                      isActive: Scale.features(this.props.planStatus).PRESETS[
-                        `PRESETS_${preset[1].id}`
-                      ].isActive(),
-                      isBlocked: Scale.features(this.props.planStatus).PRESETS[
-                        `PRESETS_${preset[1].id}`
-                      ].isBlocked(),
-                      isNew: Scale.features(this.props.planStatus).PRESETS[
-                        `PRESETS_${preset[1].id}`
-                      ].isNew(),
-                      action: (e) => this.presetsHandler?.(e),
-                    }
-                  })}
+                  options={this.presetsOptions()}
                   selected={this.props.preset.id}
                   parentClassName="controls"
                   alignment="RIGHT"

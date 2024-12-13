@@ -161,6 +161,9 @@ export const locals: { [key: string]: any } = {
       title: 'Lightness scale',
       keyboardShortcuts: 'Review the keyboard shortcuts',
       howTo: 'How to adjust',
+      presets: {
+        more: 'More presets',
+      },
       easing: {
         label: 'Distribution easing',
         linear: 'Linear',

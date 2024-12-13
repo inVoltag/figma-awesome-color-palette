@@ -1,4 +1,5 @@
 import { algorithmVersion } from '../config'
+import { lang, locals } from '../content/locals'
 import {
   PaletteConfiguration,
   PresetConfiguration,
@@ -6,19 +7,21 @@ import {
 
 export const presets: Array<PresetConfiguration> = [
   {
-    name: 'Material Design, 50-900 (Google)',
+    name: 'Material Design, 50-900',
     scale: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
     min: 24,
     max: 96,
     isDistributed: true,
+    family: 'Google',
     id: 'MATERIAL',
   },
   {
-    name: 'Material 3, 0-100 (Google)',
+    name: 'Material 3, 0-100',
     scale: [100, 99, 95, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0],
     min: 0,
     max: 100,
     isDistributed: false,
+    family: 'Google',
     id: 'MATERIAL_3',
   },
   {
@@ -38,19 +41,21 @@ export const presets: Array<PresetConfiguration> = [
     id: 'ANT',
   },
   {
-    name: 'ADS Foundations, 100-1000 (Atlassian)',
+    name: 'ADS Foundations, 100-1000',
     scale: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000],
     min: 24,
     max: 96,
     isDistributed: true,
+    family: 'Atlassian',
     id: 'ADS',
   },
   {
-    name: 'ADS Foundations, Neutral 0-1100 (Atlassian)',
+    name: 'ADS Foundations, Neutral 0-1100',
     scale: [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100],
     min: 8,
     max: 100,
     isDistributed: true,
+    family: 'Atlassian',
     id: 'ADS_NEUTRAL',
   },
   {
@@ -59,6 +64,7 @@ export const presets: Array<PresetConfiguration> = [
     min: 24,
     max: 96,
     isDistributed: true,
+    family: locals[lang].scale.presets.more,
     id: 'CARBON',
   },
   {
@@ -67,6 +73,7 @@ export const presets: Array<PresetConfiguration> = [
     min: 24,
     max: 96,
     isDistributed: true,
+    family: locals[lang].scale.presets.more,
     id: 'BASE',
   },
   {

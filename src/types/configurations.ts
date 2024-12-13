@@ -43,6 +43,7 @@ export interface PresetConfiguration {
   min: number
   max: number
   isDistributed: boolean
+  family?: string
   id: string
 }
 

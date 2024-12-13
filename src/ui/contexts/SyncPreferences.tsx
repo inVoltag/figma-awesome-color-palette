@@ -79,7 +79,6 @@ export default class SyncPreferences extends PureComponent<
   componentDidMount() {
     this.unsubscribePalette = $isPaletteDeepSync.subscribe((value) => {
       this.setState({ isPaletteDeepSync: value })
-      console.log('PaletteDeepSync', value)
     })
     this.unsubscribeVariables = $areVariablesDeepSync.subscribe((value) => {
       this.setState({ areVariablesDeepSync: value })

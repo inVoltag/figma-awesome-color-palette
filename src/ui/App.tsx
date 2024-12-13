@@ -64,6 +64,8 @@ import {
   $isPaletteDeepSync,
   $areVariablesDeepSync,
   $areStylesDeepSync,
+  $isWCAGDisplayed,
+  $isAPCADisplayed,
 } from '../stores/preferences'
 
 export interface AppStates {
@@ -336,6 +338,8 @@ export default class App extends Component<Record<string, never>, AppStates> {
           })
 
         const checkUserPreferences = () => {
+          $isWCAGDisplayed.set(e.data.pluginMessage.data.isWCAGDisplayed)
+          $isAPCADisplayed.set(e.data.pluginMessage.data.isAPCADisplayed)
           $isPaletteDeepSync.set(e.data.pluginMessage.data.canDeepSyncPalette)
           $areVariablesDeepSync.set(
             e.data.pluginMessage.data.canDeepSyncVariables

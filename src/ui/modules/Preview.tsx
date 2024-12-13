@@ -22,10 +22,11 @@ import {
   SourceColorConfiguration,
   VisionSimulationModeConfiguration,
 } from '../../types/configurations'
-import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
+import { TextColorsThemeHexModel } from '../../types/models'
 import Color from '../../utils/Color'
 import Contrast from '../../utils/Contrast'
 import Feature from '../components/Feature'
+import { $isAPCADisplayed, $isWCAGDisplayed } from '../../stores/preferences'
 
 interface PreviewProps {
   colors: Array<SourceColorConfiguration> | Array<ColorConfiguration> | []
@@ -40,14 +41,18 @@ interface PreviewProps {
 }
 
 interface PreviewStates {
-  isLoaded: boolean
   isWCAGDisplayed: boolean
   isAPCADisplayed: boolean
   drawerHeight: string
 }
 
-export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
+export default class Preview extends PureComponent<
+  PreviewProps,
+  PreviewStates
+> {
   private drawerRef: React.RefObject<HTMLDivElement>
+  private unsubscribeWCAG: (() => void) | undefined
+  private unsubscribeAPCA: (() => void) | undefined
 
   static features = (planStatus: PlanStatus) => ({
     PREVIEW_WCAG: new FeatureStatus({
@@ -70,7 +75,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
   constructor(props: PreviewProps) {
     super(props)
     this.state = {
-      isLoaded: false,
       isWCAGDisplayed: true,
       isAPCADisplayed: true,
       drawerHeight: 'auto',
@@ -80,20 +84,21 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
 
   // Lifecycle
   componentDidMount = (): void => {
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: 'GET_ITEMS',
-          items: ['is_wcag_displayed', 'is_apca_displayed'],
-        },
-      },
-      '*'
-    )
-    window.addEventListener('message', this.handleMessage)
+    this.unsubscribeWCAG = $isWCAGDisplayed.subscribe((value) => {
+      this.setState({ isWCAGDisplayed: value })
+    })
+    this.unsubscribeAPCA = $isAPCADisplayed.subscribe((value) => {
+      this.setState({ isAPCADisplayed: value })
+    })
   }
 
   componentWillUnmount = (): void => {
-    window.removeEventListener('message', this.handleMessage)
+    if (this.unsubscribeWCAG) {
+      this.unsubscribeWCAG()
+    }
+    if (this.unsubscribeAPCA) {
+      this.unsubscribeAPCA()
+    }
   }
 
   componentDidUpdate = (): void => {
@@ -102,63 +107,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
         drawerHeight: 'auto',
       })
     }
-  }
-
-  // Handlers
-  handleMessage = (e: MessageEvent) => {
-    const displayWCAGScore = () => {
-      if (e.data.pluginMessage.value === undefined)
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'SET_ITEMS',
-              items: [
-                {
-                  key: 'is_wcag_displayed',
-                  value: true,
-                },
-              ],
-            },
-          },
-          '*'
-        )
-      else
-        this.setState({
-          isWCAGDisplayed: e.data.pluginMessage.value,
-          isLoaded: true,
-        })
-    }
-
-    const displayAPCAScore = () => {
-      if (e.data.pluginMessage.value === undefined)
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'SET_ITEMS',
-              items: [
-                {
-                  key: 'is_apca_displayed',
-                  value: true,
-                },
-              ],
-            },
-          },
-          '*'
-        )
-      else
-        this.setState({
-          isAPCADisplayed: e.data.pluginMessage.value,
-          isLoaded: true,
-        })
-    }
-
-    const actions: ActionsList = {
-      GET_ITEM_IS_WCAG_DISPLAYED: () => displayWCAGScore(),
-      GET_ITEM_IS_APCA_DISPLAYED: () => displayAPCAScore(),
-      DEFAULT: () => null,
-    }
-
-    return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
   }
 
   // Direct actions
@@ -279,7 +227,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
 
   // Render
   render() {
-    if (!this.props.colors.length || !this.state.isLoaded) return null
+    if (!this.props.colors.length) return null
     return (
       <div
         className="preview"

@@ -161,11 +161,11 @@ export default class Preview extends PureComponent<
     const delta = bottom - clientY
     let drawerHeight
 
-    if (clientY >= topLimit) drawerHeight = delta
-    if (delta < minheight) drawerHeight = minheight
+    //if (clientY >= topLimit) drawerHeight = delta
+    //if (delta < minheight) drawerHeight = minheight
 
     this.setState({
-      drawerHeight: `${drawerHeight}px`,
+      drawerHeight: `${delta}px`,
     })
 
     document.body.style.cursor = 'ns-resize'

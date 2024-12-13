@@ -113,7 +113,8 @@ div.control__block--no-padding {
 
 div.control__block--distributed {
   justify-content: space-between;
-  overflow-y: revert;
+  overflow-y: hidden;
+  gap: var(--size-xsmall);
 }
 
 div.controls__control--horizontal div.control__block {
@@ -212,7 +213,8 @@ div.about__links {
   flex-direction: column;
   border-top: 1px solid var(--figma-color-border);
   position: relative;
-  max-height: calc(100% - 185px);
+  max-height: calc(100% - 96px);
+  min-height: 149px;
 }
 
 .preview__knob-spot {

@@ -127,7 +127,7 @@ export default class Knob extends PureComponent<KnobProps, KnobStates> {
           <div className="slider__input">
             <Input
               type="NUMBER"
-              value={this.state.stopInputValue.toString() ?? '0'}
+              value={(this.state.stopInputValue as number).toFixed(1) ?? '0'}
               min={this.props.min}
               max={this.props.max}
               step="0.1"

@@ -631,6 +631,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
         preset: preset,
         scale: scale(newStops),
       })
+
+      trackScaleManagementEvent(
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: option,
+        }
+      )
     }
 
     const changeDistributionEasing = () => {

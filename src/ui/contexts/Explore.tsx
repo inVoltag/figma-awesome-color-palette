@@ -331,7 +331,6 @@ export default class Explore extends PureComponent<
                             .join(', ')
                         : this.props.activeFilters.join(', ')
                     }
-                    parentClassName="ui"
                     pin="TOP"
                     isDisabled={
                       this.state.colourLoversPalettesListStatus === 'LOADING' ||

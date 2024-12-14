@@ -853,7 +853,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             },
           ]}
           selected={this.props.distributionEasing}
-          parentClassName="controls"
           pin="BOTTOM"
           isBlocked={Scale.features(
             this.props.planStatus
@@ -903,7 +902,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           },
         ]}
         selected={this.props.namingConvention}
-        parentClassName="controls"
         alignment="RIGHT"
         pin="TOP"
         isBlocked={Scale.features(
@@ -1028,7 +1026,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                   id="presets"
                   options={this.presetsOptions()}
                   selected={this.props.preset.id}
-                  parentClassName="controls"
                   alignment="RIGHT"
                   pin="TOP"
                 />

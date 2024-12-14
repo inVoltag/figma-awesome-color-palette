@@ -709,7 +709,6 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                   },
                 ]}
                 selected={this.state.format ?? ''}
-                parentClassName="controls"
                 alignment="RIGHT"
                 pin="TOP"
               />

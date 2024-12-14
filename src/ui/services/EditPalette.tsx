@@ -412,7 +412,6 @@ export default class EditPalette extends PureComponent<
                   selected={
                     this.props.themes.find((theme) => theme.isEnabled)?.id
                   }
-                  parentClassName="ui"
                   alignment="RIGHT"
                   pin="TOP"
                 />

@@ -28,7 +28,7 @@ import {
   VisionSimulationModeConfiguration,
 } from '../../types/configurations'
 import { ThemesMessage } from '../../types/messages'
-import { TextColorsThemeHexModel } from '../../types/models'
+import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
 import doLightnessScale from '../../utils/doLightnessScale'
 import { trackActionEvent } from '../../utils/eventsTracker'
 import { palette } from '../../utils/palettePackage'
@@ -74,6 +74,7 @@ interface EditPaletteStates {
     id: string
     position: number | null
   }
+  isPrimaryLoading: boolean
 }
 
 export default class EditPalette extends PureComponent<
@@ -114,11 +115,33 @@ export default class EditPalette extends PureComponent<
         id: '',
         position: null,
       },
+      isPrimaryLoading: false,
     }
     this.themesRef = React.createRef()
   }
 
+  // Lifecycle
+  componentDidMount = () => {
+    window.addEventListener('message', this.handleMessage)
+  }
+
+  componentWillUnmount = () => {
+    window.removeEventListener('message', this.handleMessage)
+  }
+
   // Handlers
+  handleMessage = (e: MessageEvent) => {
+    const actions: ActionsList = {
+      STOP_LOADER: () =>
+        this.setState({
+          isPrimaryLoading: false,
+        }),
+      DEFAULT: () => null,
+    }
+
+    return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
+  }
+
   navHandler = (e: Event) =>
     this.setState({
       context: (e.target as HTMLElement).dataset.feature as Context,
@@ -177,13 +200,14 @@ export default class EditPalette extends PureComponent<
 
   // Direct actions
   onSyncStyles = () => {
-    parent.postMessage({ pluginMessage: { type: 'SYNC_LOCAL_STYLES' } }, '*')
     this.setState({
       selectedElement: {
         id: '',
         position: null,
       },
+      isPrimaryLoading: true,
     })
+    parent.postMessage({ pluginMessage: { type: 'SYNC_LOCAL_STYLES' } }, '*')
     trackActionEvent(
       this.props.userIdentity.id,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -195,13 +219,14 @@ export default class EditPalette extends PureComponent<
   }
 
   onSyncVariables = () => {
-    parent.postMessage({ pluginMessage: { type: 'SYNC_LOCAL_VARIABLES' } }, '*')
     this.setState({
       selectedElement: {
         id: '',
         position: null,
       },
+      isPrimaryLoading: true,
     })
+    parent.postMessage({ pluginMessage: { type: 'SYNC_LOCAL_VARIABLES' } }, '*')
     trackActionEvent(
       this.props.userIdentity.id,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -328,6 +353,7 @@ export default class EditPalette extends PureComponent<
           <Scale
             {...this.props}
             hasPreset={false}
+            isPrimaryLoading={this.state.isPrimaryLoading}
             onChangeScale={this.slideHandler}
             onChangeStop={this.customSlideHandler}
             onSyncLocalStyles={this.onSyncStyles}
@@ -340,6 +366,7 @@ export default class EditPalette extends PureComponent<
         fragment = (
           <Colors
             {...this.props}
+            isPrimaryLoading={this.state.isPrimaryLoading}
             onSyncLocalStyles={this.onSyncStyles}
             onSyncLocalVariables={this.onSyncVariables}
           />
@@ -350,6 +377,7 @@ export default class EditPalette extends PureComponent<
         fragment = (
           <Themes
             {...this.props}
+            isPrimaryLoading={this.state.isPrimaryLoading}
             ref={this.themesRef}
             onSyncLocalStyles={this.onSyncStyles}
             onSyncLocalVariables={this.onSyncVariables}
@@ -376,8 +404,9 @@ export default class EditPalette extends PureComponent<
       case 'SETTINGS': {
         fragment = (
           <Settings
-            service="EDIT"
             {...this.props}
+            service="EDIT"
+            isPrimaryLoading={this.state.isPrimaryLoading}
             onSyncLocalStyles={this.onSyncStyles}
             onSyncLocalVariables={this.onSyncVariables}
           />

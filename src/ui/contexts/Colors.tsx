@@ -38,6 +38,7 @@ interface ColorsProps {
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   lang: Language
+  isPrimaryLoading?: boolean
   onChangeColors: React.Dispatch<Partial<AppStates>>
   onSyncLocalStyles: () => void
   onSyncLocalVariables: () => void

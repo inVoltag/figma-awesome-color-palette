@@ -40,6 +40,7 @@ interface ThemesProps {
   planStatus: PlanStatus
   editorType: EditorType
   lang: Language
+  isPrimaryLoading?: boolean
   onChangeThemes: React.Dispatch<Partial<AppStates>>
   onSyncLocalStyles: () => void
   onSyncLocalVariables: () => void

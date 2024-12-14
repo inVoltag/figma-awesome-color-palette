@@ -18,7 +18,7 @@ interface SliderProps {
   stops: Array<number>
   hasPreset: boolean
   presetName: string
-  type: 'PRE_EDIT' | 'EDIT' | 'FULLY_EDIT'
+  type: 'EDIT' | 'FULLY_EDIT'
   min?: number
   max?: number
   scale?: ScaleConfiguration
@@ -297,43 +297,6 @@ export default class Slider extends Component<SliderProps, SliderStates> {
   }
 
   // Templates
-  PreEdit = () => {
-    return (
-      <div className="slider__range">
-        {Object.entries(this.props.scale ?? {}).map(
-          (lightness, index, original) => (
-            <Knob
-              key={lightness[0]}
-              id={lightness[0]}
-              shortId={lightness[0].replace('lightness-', '')}
-              value={lightness[1]}
-              min={
-                original[index + 1] === undefined
-                  ? '0'
-                  : (original[index + 1][1] + safeGap).toString()
-              }
-              max={
-                original[index - 1] === undefined
-                  ? '100'
-                  : (original[index - 1][1] - safeGap).toString()
-              }
-              canBeTyped={true}
-              isDisplayed={this.state.isTooltipDisplay[index]}
-              onShiftRight={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                this.onShiftRight(e.target as HTMLElement, e.metaKey, e.ctrlKey)
-              }}
-              onShiftLeft={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                this.onShiftLeft(e.target as HTMLElement, e.metaKey, e.ctrlKey)
-              }}
-              onMouseDown={(e: React.MouseEvent<HTMLElement>) => this.onGrab(e)}
-              onValidStopValue={(stopId, e) => this.validHandler(stopId, e)}
-            />
-          )
-        )}
-      </div>
-    )
-  }
-
   Edit = () => {
     palette.scale = this.props.scale ?? {}
     return (
@@ -443,7 +406,6 @@ export default class Slider extends Component<SliderProps, SliderStates> {
   render() {
     return (
       <div className="slider">
-        {this.props.type === 'PRE_EDIT' && <this.PreEdit />}
         {this.props.type === 'EDIT' && <this.Edit />}
         {this.props.type === 'FULLY_EDIT' && <this.FullyEdit />}
       </div>

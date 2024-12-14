@@ -1074,7 +1074,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             ).SCALE_CONFIGURATION.isActive()}
           >
             <Slider
-              type="PRE_EDIT"
+              type="EDIT"
               hasPreset={this.props.hasPreset}
               presetName={this.props.preset.name}
               stops={this.props.preset.scale}

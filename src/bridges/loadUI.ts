@@ -185,6 +185,7 @@ const loadUI = async () => {
           })
         palette !== null && scene.push(palette)
         figma.currentPage.selection = scene
+        figma.viewport.scrollAndZoomIntoView(scene)
       },
       GET_VARIABLES_COLLECTIONS: async () => {
         const collections =

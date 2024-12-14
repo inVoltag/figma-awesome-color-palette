@@ -30,6 +30,7 @@ interface SourceProps {
   planStatus: PlanStatus
   editorType?: EditorType
   lang: Language
+  isPrimaryLoading?: boolean
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
     source: ThirdParty

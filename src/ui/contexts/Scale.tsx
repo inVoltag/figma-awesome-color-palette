@@ -54,6 +54,7 @@ interface ScaleProps {
   planStatus: PlanStatus
   editorType?: EditorType
   lang: Language
+  isPrimaryLoading?: boolean
   onChangePreset?: React.Dispatch<Partial<AppStates>>
   onChangeScale: () => void
   onChangeStop?: () => void

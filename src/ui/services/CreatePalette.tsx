@@ -67,6 +67,7 @@ interface CreatePaletteProps {
 
 interface CreatePaletteStates {
   context: Context | ''
+  isPrimaryLoading: boolean
 }
 
 export default class CreatePalette extends PureComponent<
@@ -94,6 +95,7 @@ export default class CreatePalette extends PureComponent<
         this.contexts[0] !== undefined
           ? this.contexts[this.props.sourceColors.length === 0 ? 1 : 2].id
           : '',
+      isPrimaryLoading: false,
     }
   }
 
@@ -134,6 +136,9 @@ export default class CreatePalette extends PureComponent<
 
   // Direct actions
   onCreatePalette = () => {
+    this.setState({
+      isPrimaryLoading: true,
+    })
     parent.postMessage(
       {
         pluginMessage: {
@@ -203,6 +208,7 @@ export default class CreatePalette extends PureComponent<
         fragment = (
           <Source
             {...this.props}
+            isPrimaryLoading={this.state.isPrimaryLoading}
             onChangeColorsFromImport={this.colorsFromImportHandler}
             onCreatePalette={this.onCreatePalette}
           />
@@ -214,6 +220,7 @@ export default class CreatePalette extends PureComponent<
           <Scale
             {...this.props}
             hasPreset={true}
+            isPrimaryLoading={this.state.isPrimaryLoading}
             onAddStop={this.props.onCustomPreset}
             onRemoveStop={this.props.onCustomPreset}
             onChangeNamingConvention={this.props.onCustomPreset}
@@ -229,6 +236,7 @@ export default class CreatePalette extends PureComponent<
           <Settings
             {...this.props}
             service="CREATE"
+            isPrimaryLoading
             onCreatePalette={this.onCreatePalette}
           />
         )

@@ -53,6 +53,7 @@ interface SettingsProps {
   planStatus: PlanStatus
   editorType?: EditorType
   lang: Language
+  isPrimaryLoading?: boolean
   onChangeSettings: React.Dispatch<Partial<AppStates>>
   onCreatePalette?: () => void
   onSyncLocalStyles?: () => void

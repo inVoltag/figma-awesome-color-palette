@@ -20,6 +20,7 @@ import features, {
 } from '../../config'
 import { locals } from '../../content/locals'
 import {
+  EditorType,
   HighlightDigest,
   Language,
   PlanStatus,
@@ -39,6 +40,7 @@ interface ShortcutsProps {
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   lang: Language
+  editorType: EditorType
   highlight: HighlightDigest
   onReOpenHighlight: () => void
   onReOpenAbout: () => void
@@ -522,12 +524,14 @@ export default class Shortcuts extends PureComponent<
                   }
                 />
               </div>
-              <div
-                className={`box-resizer-grip`}
-                onMouseDown={this.onHold.bind(this)}
-              >
-                <div className={`${icons['icon--resize-grip']} icon-box`} />
-              </div>
+              {this.props.editorType !== 'dev' && (
+                <div
+                  className={`box-resizer-grip`}
+                  onMouseDown={this.onHold.bind(this)}
+                >
+                  <div className={`${icons['icon--resize-grip']} icon-box`} />
+                </div>
+              )}
             </>
           }
           leftPartSlot={

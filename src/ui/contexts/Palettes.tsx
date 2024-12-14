@@ -17,8 +17,8 @@ import { ExternalPalettes } from '../../types/data'
 import { UserSession } from '../../types/user'
 import { setContexts } from '../../utils/setContexts'
 import CommunityPalettes from './CommunityPalettes'
-import MyPalettes from './MyPalettes'
-import DevModePalettes from './DevModePalettes'
+import SelfPalettes from './SelfPalettes'
+import InternalPalettes from './InternalPalettes'
 
 interface PalettesProps {
   userIdentity: UserConfiguration
@@ -94,12 +94,12 @@ export default class Palettes extends PureComponent<
 
     switch (this.state.context) {
       case 'PALETTES_PAGE': {
-        fragment = <DevModePalettes {...this.props} />
+        fragment = <InternalPalettes {...this.props} />
         break
       }
       case 'PALETTES_SELF': {
         fragment = (
-          <MyPalettes
+          <SelfPalettes
             {...this.props}
             context={this.state.context}
             currentPage={this.state.selfCurrentPage}

@@ -11,7 +11,7 @@ import {
   ExportConfiguration,
   ThemeConfiguration,
 } from '../../types/configurations'
-import DevModePalettes from '../contexts/DevModePalettes'
+import InternalPalettes from '../contexts/InternalPalettes'
 import Export from '../contexts/Export'
 
 interface TransferPaletteProps {
@@ -101,7 +101,7 @@ export default class TransferPalette extends PureComponent<TransferPaletteProps>
           <div className="controls">
             {this.props.service === 'CREATE' &&
             this.props.editorType === 'dev' ? (
-              <DevModePalettes {...this.props} />
+              <InternalPalettes {...this.props} />
             ) : (
               <Export
                 {...this.props}

@@ -31,7 +31,7 @@ import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
 
-interface MyPalettesProps {
+interface SelfPalettesProps {
   context: Context
   currentPage: number
   searchQuery: string
@@ -48,18 +48,18 @@ interface MyPalettesProps {
   onLoadPalettesList: (palettes: Array<ExternalPalettes>) => void
 }
 
-interface MyPalettesStates {
+interface SelfPalettesStates {
   isLoadMoreActionLoading: boolean
   isSignInActionLoading: boolean
   isAddToFileActionLoading: Array<boolean>
   isContextActionLoading: Array<boolean>
 }
 
-export default class MyPalettes extends PureComponent<
-  MyPalettesProps,
-  MyPalettesStates
+export default class SelfPalettes extends PureComponent<
+  SelfPalettesProps,
+  SelfPalettesStates
 > {
-  constructor(props: MyPalettesProps) {
+  constructor(props: SelfPalettesProps) {
     super(props)
     this.state = {
       isLoadMoreActionLoading: false,
@@ -84,7 +84,7 @@ export default class MyPalettes extends PureComponent<
     return actions[this.props.status]?.()
   }
 
-  componentDidUpdate = (prevProps: Readonly<MyPalettesProps>): void => {
+  componentDidUpdate = (prevProps: Readonly<SelfPalettesProps>): void => {
     if (
       prevProps.userSession.connectionStatus !==
         this.props.userSession.connectionStatus &&

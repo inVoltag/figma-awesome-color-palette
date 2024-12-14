@@ -17,22 +17,22 @@ import {
 } from '../../types/configurations'
 import { ActionsList } from '../../types/models'
 
-interface DevModePalettesProps {
+interface InternalPalettesProps {
   lang: Language
 }
 
-interface DevModePalettesStates {
+interface InternalPalettesStates {
   paletteListsStatus: 'LOADING' | 'LOADED' | 'EMPTY'
   paletteLists: Array<ExtractOfPaletteConfiguration>
 }
 
-export default class DevModePalettes extends PureComponent<
-  DevModePalettesProps,
-  DevModePalettesStates
+export default class InternalPalettes extends PureComponent<
+  InternalPalettesProps,
+  InternalPalettesStates
 > {
   private hasPalettes: boolean
 
-  constructor(props: DevModePalettesProps) {
+  constructor(props: InternalPalettesProps) {
     super(props)
     this.state = {
       paletteListsStatus: 'LOADING',
@@ -53,8 +53,8 @@ export default class DevModePalettes extends PureComponent<
   }
 
   shouldComponentUpdate(
-    nextProps: Readonly<DevModePalettesProps>,
-    nextState: Readonly<DevModePalettesStates>
+    nextProps: Readonly<InternalPalettesProps>,
+    nextState: Readonly<InternalPalettesStates>
   ): boolean {
     if (nextState.paletteLists.length > 0) this.hasPalettes = true
     else this.hasPalettes = false

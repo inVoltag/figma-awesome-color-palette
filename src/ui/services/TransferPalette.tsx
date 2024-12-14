@@ -9,30 +9,16 @@ import { EditorType, Language, PlanStatus, Service } from '../../types/app'
 import {
   ColorConfiguration,
   ExportConfiguration,
-  ExtractOfPaletteConfiguration,
-  PresetConfiguration,
-  ScaleConfiguration,
   ThemeConfiguration,
-  VisionSimulationModeConfiguration,
 } from '../../types/configurations'
-import { TextColorsThemeHexModel } from '../../types/models'
 import DevModePalettes from '../contexts/DevModePalettes'
 import Export from '../contexts/Export'
 
 interface TransferPaletteProps {
   name: string
-  description: string
-  preset: PresetConfiguration
-  scale: ScaleConfiguration
   colors: Array<ColorConfiguration>
-  colorSpace: string
-  visionSimulationMode: VisionSimulationModeConfiguration
   themes: Array<ThemeConfiguration>
-  view: string
-  textColorsTheme: TextColorsThemeHexModel
-  algorithmVersion: string
   export: ExportConfiguration
-  palettesList: Array<ExtractOfPaletteConfiguration>
   service: Service
   planStatus: PlanStatus
   editorType: EditorType
@@ -115,20 +101,16 @@ export default class TransferPalette extends PureComponent<TransferPaletteProps>
           <div className="controls">
             {this.props.service === 'CREATE' &&
             this.props.editorType === 'dev' ? (
-              <DevModePalettes
-                paletteLists={this.props.palettesList}
-                lang={this.props.lang}
-              />
+              <DevModePalettes {...this.props} />
             ) : (
               <Export
+                {...this.props}
                 exportPreview={
                   this.props.export.format === 'CSV'
                     ? this.props.export.data[0].colors[0].csv
                     : this.props.export.data
                 }
-                planStatus={this.props.planStatus}
                 exportType={this.props.export.label}
-                lang={this.props.lang}
                 onExportPalette={this.onExport}
               />
             )}

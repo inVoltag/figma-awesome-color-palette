@@ -228,7 +228,12 @@ const loadUI = async () => {
   }
 
   // Listeners
-  figma.on('currentpagechange', () => getPalettesOnCurrentPage())
+  figma.on('currentpagechange', () => {
+    figma.ui.postMessage({
+      type: 'LOAD_PALETTES',
+    })
+    setTimeout(() => getPalettesOnCurrentPage(), 1000)
+  })
 }
 
 export default loadUI

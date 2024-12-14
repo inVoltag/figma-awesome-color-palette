@@ -793,11 +793,6 @@ export default class App extends Component<Record<string, never>, AppStates> {
           )
         }
 
-        const exposePalettes = (data: Array<ExtractOfPaletteConfiguration>) =>
-          this.setState({
-            palettesList: data,
-          })
-
         const updateScreenshot = (bytes: Uint8Array) =>
           this.setState({
             screenshot: bytes,
@@ -864,7 +859,6 @@ export default class App extends Component<Record<string, never>, AppStates> {
           EXPORT_PALETTE_KT: () => exportPaletteToKt(),
           EXPORT_PALETTE_XML: () => exportPaletteToXml(),
           EXPORT_PALETTE_CSV: () => exportPaletteToCsv(),
-          EXPOSE_PALETTES: () => exposePalettes(e.data.pluginMessage?.data),
           UPDATE_SCREENSHOT: () => updateScreenshot(e.data.pluginMessage?.data),
           UPDATE_PALETTE_DATE: () =>
             updatePaletteDate(e.data.pluginMessage?.data),

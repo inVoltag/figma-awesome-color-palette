@@ -1,4 +1,10 @@
-import { ActionsItem, Button, SemanticMessage, texts } from '@a_ng_d/figmug-ui'
+import {
+  ActionsItem,
+  Button,
+  Icon,
+  SemanticMessage,
+  texts,
+} from '@a_ng_d/figmug-ui'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 
@@ -9,28 +15,66 @@ import {
   ExtractOfPaletteConfiguration,
   ThemeConfiguration,
 } from '../../types/configurations'
+import { ActionsList } from '../../types/models'
 
 interface DevModePalettesProps {
-  paletteLists: Array<ExtractOfPaletteConfiguration>
   lang: Language
 }
 
-export default class DevModePalettes extends PureComponent<DevModePalettesProps> {
+interface DevModePalettesStates {
+  paletteListsStatus: 'LOADING' | 'LOADED' | 'EMPTY'
+  paletteLists: Array<ExtractOfPaletteConfiguration>
+}
+
+export default class DevModePalettes extends PureComponent<
+  DevModePalettesProps,
+  DevModePalettesStates
+> {
   private hasPalettes: boolean
 
   constructor(props: DevModePalettesProps) {
     super(props)
+    this.state = {
+      paletteListsStatus: 'LOADING',
+      paletteLists: [],
+    }
     this.hasPalettes = true
   }
 
   // Lifecycle
-  componentDidMount = () =>
+  componentDidMount = () => {
     parent.postMessage({ pluginMessage: { type: 'GET_PALETTES' } }, '*')
 
-  shouldComponentUpdate(prevProps: Readonly<DevModePalettesProps>): boolean {
-    if (prevProps.paletteLists.length > 0) this.hasPalettes = true
+    window.addEventListener('message', this.handleMessage)
+  }
+
+  componentWillUnmount = () => {
+    window.removeEventListener('message', this.handleMessage)
+  }
+
+  shouldComponentUpdate(
+    nextProps: Readonly<DevModePalettesProps>,
+    nextState: Readonly<DevModePalettesStates>
+  ): boolean {
+    if (nextState.paletteLists.length > 0) this.hasPalettes = true
     else this.hasPalettes = false
     return true
+  }
+
+  // Handlers
+  handleMessage = (e: MessageEvent) => {
+    const actions: ActionsList = {
+      EXPOSE_PALETTES: () =>
+        this.setState({
+          paletteListsStatus:
+            e.data.pluginMessage.data.length > 0 ? 'LOADED' : 'EMPTY',
+          paletteLists: e.data.pluginMessage.data,
+        }),
+      LOAD_PALETTES: () => this.setState({ paletteListsStatus: 'LOADING' }),
+      DEFAULT: () => null,
+    }
+
+    return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
   }
 
   // Direct actions
@@ -80,40 +124,74 @@ export default class DevModePalettes extends PureComponent<DevModePalettesProps>
   // Templates
   InternalPalettesList = () => {
     return (
-      <ul className="rich-list">
-        <div
-          className={`${texts.type} ${texts['type--secondary']} type rich-list__title`}
-        >
-          {locals[this.props.lang].palettes.devMode.title}
-        </div>
-        {this.props.paletteLists.map((palette, index) => (
-          <ActionsItem
-            id={palette.id}
-            key={`palette-${index}`}
-            src={this.getImageSrc(palette.screenshot)}
-            name={
-              palette.name === '' ? locals[this.props.lang].name : palette.name
-            }
-            indicator={
-              palette.devStatus === 'READY_FOR_DEV'
-                ? {
-                    label: locals[this.props.lang].palettes.devMode.readyForDev,
-                    status: 'ACTIVE',
-                  }
-                : undefined
-            }
-            description={palette.preset}
-            subdescription={this.getPaletteMeta(palette.colors, palette.themes)}
-            actionsSlot={
-              <Button
-                type="icon"
-                icon="target"
-                label={locals[this.props.lang].actions.addToFile}
-                action={() => this.onSelectPalette(palette.id)}
-              />
-            }
+      <ul
+        className={[
+          'rich-list',
+          this.state.paletteListsStatus === 'LOADING' && 'rich-list--loading',
+          this.state.paletteListsStatus === 'EMPTY' && 'rich-list--message',
+        ]
+          .filter((n) => n)
+          .join(' ')}
+      >
+        {this.state.paletteListsStatus === 'LOADING' && (
+          <Icon
+            type="PICTO"
+            iconName="spinner"
+            customClassName="control__block__loader"
           />
-        ))}
+        )}
+        {this.state.paletteListsStatus === 'LOADED' && (
+          <>
+            <div
+              className={`${texts.type} ${texts['type--secondary']} type rich-list__title`}
+              style={{ padding: '0 var(--size-small)' }}
+            >
+              {locals[this.props.lang].palettes.devMode.title}
+            </div>
+            {this.state.paletteLists.map((palette, index) => (
+              <ActionsItem
+                id={palette.id}
+                key={`palette-${index}`}
+                src={this.getImageSrc(palette.screenshot)}
+                name={
+                  palette.name === ''
+                    ? locals[this.props.lang].name
+                    : palette.name
+                }
+                indicator={
+                  palette.devStatus === 'READY_FOR_DEV'
+                    ? {
+                        label:
+                          locals[this.props.lang].palettes.devMode.readyForDev,
+                        status: 'ACTIVE',
+                      }
+                    : undefined
+                }
+                description={palette.preset}
+                subdescription={this.getPaletteMeta(
+                  palette.colors,
+                  palette.themes
+                )}
+                actionsSlot={
+                  <Button
+                    type="icon"
+                    icon="target"
+                    label={locals[this.props.lang].actions.addToFile}
+                    action={() => this.onSelectPalette(palette.id)}
+                  />
+                }
+              />
+            ))}
+          </>
+        )}
+        {this.state.paletteListsStatus === 'EMPTY' && (
+          <div className="callout--centered">
+            <SemanticMessage
+              type="NEUTRAL"
+              message={locals[this.props.lang].warning.noPaletteOnCurrrentPage}
+            />
+          </div>
+        )}
       </ul>
     )
   }
@@ -123,18 +201,7 @@ export default class DevModePalettes extends PureComponent<DevModePalettesProps>
     return (
       <div className="controls__control">
         <div className="control__block control__block--list">
-          {this.hasPalettes ? (
-            <this.InternalPalettesList />
-          ) : (
-            <div className="callout">
-              <SemanticMessage
-                type="NEUTRAL"
-                message={
-                  locals[this.props.lang].warning.noPaletteOnCurrrentPage
-                }
-              />
-            </div>
-          )}
+          <this.InternalPalettesList />
         </div>
       </div>
     )

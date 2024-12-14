@@ -17,6 +17,7 @@ import {
 } from '../../types/app'
 import {
   ColorSpaceConfiguration,
+  ExtractOfPaletteConfiguration,
   PresetConfiguration,
   ScaleConfiguration,
   SourceColorConfiguration,
@@ -52,6 +53,7 @@ interface CreatePaletteProps {
   userIdentity: UserConfiguration
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
+  palettesList: Array<ExtractOfPaletteConfiguration>
   planStatus: PlanStatus
   lang: Language
   onChangeColorsFromImport: React.Dispatch<Partial<AppStates>>

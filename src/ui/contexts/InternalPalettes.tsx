@@ -30,15 +30,12 @@ export default class InternalPalettes extends PureComponent<
   InternalPalettesProps,
   InternalPalettesStates
 > {
-  private hasPalettes: boolean
-
   constructor(props: InternalPalettesProps) {
     super(props)
     this.state = {
       paletteListsStatus: 'LOADING',
       paletteLists: [],
     }
-    this.hasPalettes = true
   }
 
   // Lifecycle
@@ -50,15 +47,6 @@ export default class InternalPalettes extends PureComponent<
 
   componentWillUnmount = () => {
     window.removeEventListener('message', this.handleMessage)
-  }
-
-  shouldComponentUpdate(
-    nextProps: Readonly<InternalPalettesProps>,
-    nextState: Readonly<InternalPalettesStates>
-  ): boolean {
-    if (nextState.paletteLists.length > 0) this.hasPalettes = true
-    else this.hasPalettes = false
-    return true
   }
 
   // Handlers

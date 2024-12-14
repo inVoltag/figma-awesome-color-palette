@@ -12,7 +12,6 @@ import {
   SourceColorConfiguration,
 } from '../../types/configurations'
 import Feature from '../components/Feature'
-import { ActionsList } from 'src/types/models'
 
 interface ActionsProps {
   service: Service
@@ -40,15 +39,7 @@ interface ActionsProps {
     React.KeyboardEventHandler<HTMLButtonElement>
 }
 
-interface ActionsStates {
-  isPrimaryLoading: boolean
-  isSecondaryLoading: boolean
-}
-
-export default class Actions extends PureComponent<
-  ActionsProps,
-  ActionsStates
-> {
+export default class Actions extends PureComponent<ActionsProps> {
   static defaultProps = {
     sourceColors: [],
   }
@@ -80,45 +71,6 @@ export default class Actions extends PureComponent<
       planStatus: planStatus,
     }),
   })
-
-  constructor(props: ActionsProps) {
-    super(props)
-    this.state = {
-      isPrimaryLoading: this.props.isPrimaryLoading ?? false,
-      isSecondaryLoading: this.props.isSecondaryLoading ?? false,
-    }
-  }
-
-  // Lifecycle
-  componentDidMount = () => {
-    parent.postMessage({ pluginMessage: { type: 'GET_PALETTES' } }, '*')
-
-    window.addEventListener('message', this.handleMessage)
-  }
-
-  componentWillUnmount = () => {
-    window.removeEventListener('message', this.handleMessage)
-  }
-
-  componentDidUpdate(previousProps: Readonly<ActionsProps>): void {
-    if (previousProps.isPrimaryLoading !== this.props.isPrimaryLoading)
-      this.setState({
-        isPrimaryLoading: this.props.isPrimaryLoading ?? false,
-      })
-  }
-
-  // Handlers
-  handleMessage = (e: MessageEvent) => {
-    const actions: ActionsList = {
-      STOP_LOADER: () =>
-        this.setState({
-          isPrimaryLoading: false,
-        }),
-      DEFAULT: () => null,
-    }
-
-    return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
-  }
 
   // Direct actions
   publicationAction = (): Partial<DropdownOption> => {
@@ -185,7 +137,7 @@ export default class Actions extends PureComponent<
               label={locals[this.props.lang].actions.createPalette}
               feature="CREATE_PALETTE"
               isDisabled={this.props.sourceColors.length > 0 ? false : true}
-              isLoading={this.state.isPrimaryLoading}
+              isLoading={this.props.isPrimaryLoading}
               action={this.props.onCreatePalette}
             />
           </Feature>
@@ -266,7 +218,7 @@ export default class Actions extends PureComponent<
                   },
                 ]}
                 alignment="TOP_RIGHT"
-                state={this.state.isPrimaryLoading ? 'LOADING' : 'DEFAULT'}
+                state={this.props.isPrimaryLoading ? 'LOADING' : 'DEFAULT'}
               />
             </>
           ) : (

@@ -25,7 +25,7 @@ import {
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '../../types/configurations'
-import { TextColorsThemeHexModel } from '../../types/models'
+import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
 import { UserSession } from '../../types/user'
 import { trackActionEvent } from '../../utils/eventsTracker'
 import { palette } from '../../utils/palettePackage'
@@ -99,7 +99,28 @@ export default class CreatePalette extends PureComponent<
     }
   }
 
+  // Lifecycle
+  componentDidMount = () => {
+    window.addEventListener('message', this.handleMessage)
+  }
+
+  componentWillUnmount = () => {
+    window.removeEventListener('message', this.handleMessage)
+  }
+
   // Handlers
+  handleMessage = (e: MessageEvent) => {
+    const actions: ActionsList = {
+      STOP_LOADER: () =>
+        this.setState({
+          isPrimaryLoading: false,
+        }),
+      DEFAULT: () => null,
+    }
+
+    return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
+  }
+
   navHandler = (e: Event) =>
     this.setState({
       context: (e.target as HTMLElement).dataset.feature as Context,
@@ -236,7 +257,7 @@ export default class CreatePalette extends PureComponent<
           <Settings
             {...this.props}
             service="CREATE"
-            isPrimaryLoading
+            isPrimaryLoading={this.state.isPrimaryLoading}
             onCreatePalette={this.onCreatePalette}
           />
         )

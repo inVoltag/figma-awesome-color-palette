@@ -178,9 +178,9 @@ export const locals: { [key: string]: any } = {
         fastEaseInOut: 'Ease in and out Quad',
       },
       namingConvention: {
-        ones: '1 - 24',
-        tens: '10 - 240',
-        hundreds: '100 - 2400',
+        ones: '1 - 10',
+        tens: '10 - 100',
+        hundreds: '100 - 1000',
       },
       tips: {
         title: 'Keyboard shortcuts',

@@ -107,7 +107,7 @@ const loadUI = async () => {
         }),
       //
       CREATE_PALETTE: () =>
-        createPalette(msg).then(() =>
+        createPalette(msg).finally(() =>
           figma.ui.postMessage({ type: 'STOP_LOADER' })
         ),
       SYNC_LOCAL_STYLES: async () =>
@@ -116,6 +116,7 @@ const loadUI = async () => {
           .then((messages) =>
             figma.notify(messages.join('・'), { timeout: 10000 })
           )
+          .finally(() => figma.ui.postMessage({ type: 'STOP_LOADER' }))
           .catch((error) => {
             figma.notify(locals[lang].error.generic)
             throw error
@@ -129,6 +130,7 @@ const loadUI = async () => {
           .then((messages) =>
             figma.notify(messages.join('・'), { timeout: 10000 })
           )
+          .finally(() => figma.ui.postMessage({ type: 'STOP_LOADER' }))
           .catch((error) => {
             figma.notify(locals[lang].error.generic)
             throw error

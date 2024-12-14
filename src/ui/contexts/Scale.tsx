@@ -108,6 +108,56 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       featureName: 'SCALE_HELPER_DISTRIBUTION',
       planStatus: planStatus,
     }),
+    SCALE_HELPER_DISTRIBUTION_LINEAR: new FeatureStatus({
+      features: features,
+      featureName: 'SCALE_HELPER_DISTRIBUTION_LINEAR',
+      planStatus: planStatus,
+    }),
+    SCALE_HELPER_DISTRIBUTION_SLOW_EASE_IN: new FeatureStatus({
+      features: features,
+      featureName: 'SCALE_HELPER_DISTRIBUTION_SLOW_EASE_IN',
+      planStatus: planStatus,
+    }),
+    SCALE_HELPER_DISTRIBUTION_SLOW_EASE_OUT: new FeatureStatus({
+      features: features,
+      featureName: 'SCALE_HELPER_DISTRIBUTION_SLOW_EASE_OUT',
+      planStatus: planStatus,
+    }),
+    SCALE_HELPER_DISTRIBUTION_SLOW_EASE_IN_OUT: new FeatureStatus({
+      features: features,
+      featureName: 'SCALE_HELPER_DISTRIBUTION_SLOW_EASE_IN_OUT',
+      planStatus: planStatus,
+    }),
+    SCALE_HELPER_DISTRIBUTION_EASE_IN: new FeatureStatus({
+      features: features,
+      featureName: 'SCALE_HELPER_DISTRIBUTION_EASE_IN',
+      planStatus: planStatus,
+    }),
+    SCALE_HELPER_DISTRIBUTION_EASE_OUT: new FeatureStatus({
+      features: features,
+      featureName: 'SCALE_HELPER_DISTRIBUTION_EASE_OUT',
+      planStatus: planStatus,
+    }),
+    SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT: new FeatureStatus({
+      features: features,
+      featureName: 'SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT',
+      planStatus: planStatus,
+    }),
+    SCALE_HELPER_DISTRIBUTION_FAST_EASE_IN: new FeatureStatus({
+      features: features,
+      featureName: 'SCALE_HELPER_DISTRIBUTION_FAST_EASE_IN',
+      planStatus: planStatus,
+    }),
+    SCALE_HELPER_DISTRIBUTION_FAST_EASE_OUT: new FeatureStatus({
+      features: features,
+      featureName: 'SCALE_HELPER_DISTRIBUTION_FAST_EASE_OUT',
+      planStatus: planStatus,
+    }),
+    SCALE_HELPER_DISTRIBUTION_FAST_EASE_IN_OUT: new FeatureStatus({
+      features: features,
+      featureName: 'SCALE_HELPER_DISTRIBUTION_FAST_EASE_IN_OUT',
+      planStatus: planStatus,
+    }),
     SCALE_HELPER_TIPS: new FeatureStatus({
       features: features,
       featureName: 'SCALE_HELPER_TIPS',
@@ -633,9 +683,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               value: 'LINEAR',
               feature: 'UPDATE_DISTRIBUTION_EASING',
               type: 'OPTION',
-              isActive: true,
-              isBlocked: false,
-              isNew: false,
+              isActive: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_LINEAR.isActive(),
+              isBlocked: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_LINEAR.isBlocked(),
+              isNew: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_LINEAR.isNew(),
               action: this.customHandler,
             },
 
@@ -647,9 +703,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               value: 'SLOW_EASE_IN',
               feature: 'UPDATE_DISTRIBUTION_EASING',
               type: 'OPTION',
-              isActive: true,
-              isBlocked: false,
-              isNew: false,
+              isActive: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_SLOW_EASE_IN.isActive(),
+              isBlocked: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_SLOW_EASE_IN.isBlocked(),
+              isNew: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_SLOW_EASE_IN.isNew(),
               action: this.customHandler,
             },
             {
@@ -657,9 +719,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               value: 'EASE_IN',
               feature: 'UPDATE_DISTRIBUTION_EASING',
               type: 'OPTION',
-              isActive: true,
-              isBlocked: false,
-              isNew: false,
+              isActive: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_EASE_IN.isActive(),
+              isBlocked: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_EASE_IN.isBlocked(),
+              isNew: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_EASE_IN.isNew(),
               action: this.customHandler,
             },
             {
@@ -667,9 +735,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               value: 'FAST_EASE_IN',
               feature: 'UPDATE_DISTRIBUTION_EASING',
               type: 'OPTION',
-              isActive: true,
-              isBlocked: false,
-              isNew: false,
+              isActive: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_FAST_EASE_IN.isActive(),
+              isBlocked: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_FAST_EASE_IN.isBlocked(),
+              isNew: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_FAST_EASE_IN.isNew(),
               action: this.customHandler,
             },
             {
@@ -690,9 +764,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               value: 'EASE_OUT',
               feature: 'UPDATE_DISTRIBUTION_EASING',
               type: 'OPTION',
-              isActive: true,
-              isBlocked: false,
-              isNew: false,
+              isActive: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_EASE_OUT.isActive(),
+              isBlocked: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_EASE_OUT.isBlocked(),
+              isNew: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_EASE_OUT.isNew(),
               action: this.customHandler,
             },
             {
@@ -700,9 +780,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               value: 'FAST_EASE_OUT',
               feature: 'UPDATE_DISTRIBUTION_EASING',
               type: 'OPTION',
-              isActive: true,
-              isBlocked: false,
-              isNew: false,
+              isActive: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_FAST_EASE_OUT.isActive(),
+              isBlocked: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_FAST_EASE_OUT.isBlocked(),
+              isNew: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_FAST_EASE_OUT.isNew(),
               action: this.customHandler,
             },
             {
@@ -713,9 +799,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               value: 'SLOW_EASE_IN_OUT',
               feature: 'UPDATE_DISTRIBUTION_EASING',
               type: 'OPTION',
-              isActive: true,
-              isBlocked: false,
-              isNew: false,
+              isActive: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_SLOW_EASE_IN_OUT.isActive(),
+              isBlocked: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_SLOW_EASE_IN_OUT.isBlocked(),
+              isNew: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_SLOW_EASE_IN_OUT.isNew(),
               action: this.customHandler,
             },
             {
@@ -723,9 +815,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               value: 'EASE_IN_OUT',
               feature: 'UPDATE_DISTRIBUTION_EASING',
               type: 'OPTION',
-              isActive: true,
-              isBlocked: false,
-              isNew: false,
+              isActive: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isActive(),
+              isBlocked: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isBlocked(),
+              isNew: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isNew(),
               action: this.customHandler,
             },
             {
@@ -733,9 +831,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               value: 'FAST_EASE_IN_OUT',
               feature: 'UPDATE_DISTRIBUTION_EASING',
               type: 'OPTION',
-              isActive: true,
-              isBlocked: false,
-              isNew: false,
+              isActive: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_FAST_EASE_IN_OUT.isActive(),
+              isBlocked: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_FAST_EASE_IN_OUT.isBlocked(),
+              isNew: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_FAST_EASE_IN_OUT.isNew(),
               action: this.customHandler,
             },
           ]}

@@ -106,7 +106,10 @@ const loadUI = async () => {
             .catch(() => null),
         }),
       //
-      CREATE_PALETTE: () => createPalette(msg),
+      CREATE_PALETTE: () =>
+        createPalette(msg).then(() =>
+          figma.ui.postMessage({ type: 'STOP_LOADER' })
+        ),
       SYNC_LOCAL_STYLES: async () =>
         createLocalStyles(palette)
           .then(async (message) => [message, await updateLocalStyles(palette)])

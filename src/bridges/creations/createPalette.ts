@@ -66,6 +66,7 @@ const createPalette = async (msg: Msg) => {
     palette.y = figma.viewport.center.y - palette.height / 2
     figma.currentPage.selection = scene
     figma.viewport.scrollAndZoomIntoView(scene)
+    return true
   } else palette.remove()
 }
 

@@ -99,7 +99,7 @@ export default class Knob extends PureComponent<KnobProps, KnobStates> {
           .filter((n) => n)
           .join(' ')}
         style={{ left: `${this.props.value}%` }}
-        data-lightness={this.props.id}
+        data-id={this.props.id}
         tabIndex={0}
         onKeyDown={(e) =>
           this.keyboardHandler(

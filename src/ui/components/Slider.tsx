@@ -91,7 +91,7 @@ export default class Slider extends Component<SliderProps, SliderStates> {
       )
       stops.forEach((stop) =>
         this.updateLightnessScaleEntry(
-          stop.dataset.lightness as string,
+          stop.dataset.id as string,
           parseFloat(stop.style.left.replace('%', ''))
         )
       )
@@ -270,7 +270,7 @@ export default class Slider extends Component<SliderProps, SliderStates> {
       this.props.distributionEasing
     )
     stops.forEach((stop) => {
-      stop.style.left = palette.scale[stop.dataset.lightness as string] + '%'
+      stop.style.left = palette.scale[stop.dataset.id as string] + '%'
     })
 
     this.setState({

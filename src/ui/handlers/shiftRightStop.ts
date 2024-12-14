@@ -16,7 +16,7 @@ const shiftRightStop = (
   })
 
   const selectedKnobIndex = stopsList.indexOf(
-      selectedKnob.dataset.lightness as string
+      selectedKnob.dataset.id as string
     ),
     newLightnessScale = scale,
     currentStopValue: number = newLightnessScale[stopsList[selectedKnobIndex]],

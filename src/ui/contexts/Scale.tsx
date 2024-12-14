@@ -344,7 +344,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       const preset =
         presets.find((preset) => preset.id === 'ANT') ?? defaultPreset
 
-      preset.name = `${preset.name} (${preset.family})`
       palette.preset = preset
       palette.scale = scale(preset)
 
@@ -392,6 +391,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       const preset =
         presets.find((preset) => preset.id === 'ADS_NEUTRAL') ?? defaultPreset
 
+      preset.name = `${preset.name} (${preset.family})`
       palette.preset = preset
       palette.scale = scale(preset)
 

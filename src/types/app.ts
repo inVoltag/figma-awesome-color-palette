@@ -2,9 +2,9 @@ export type Service = 'CREATE' | 'EDIT' | 'TRANSFER'
 
 export type Context =
   | 'PALETTES'
+  | 'PALETTES_PAGE'
   | 'PALETTES_SELF'
   | 'PALETTES_COMMUNITY'
-  | 'PALETTES_EXPLORE'
   | 'SOURCE'
   | 'SOURCE_OVERVIEW'
   | 'SOURCE_EXPLORE'

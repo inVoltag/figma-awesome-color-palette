@@ -13,6 +13,11 @@ export const setContexts = (
       featureName: 'PALETTES',
       planStatus: planStatus,
     }),
+    PALETTES_PAGE: new FeatureStatus({
+      features: features,
+      featureName: 'PALETTES_PAGE',
+      planStatus: planStatus,
+    }),
     PALETTES_SELF: new FeatureStatus({
       features: features,
       featureName: 'PALETTES_SELF',
@@ -81,6 +86,12 @@ export const setContexts = (
       id: 'PALETTES',
       isUpdated: featuresList.PALETTES.isNew(),
       isActive: featuresList.PALETTES.isActive(),
+    },
+    {
+      label: locals[lang].palettes.contexts.page,
+      id: 'PALETTES_PAGE',
+      isUpdated: featuresList.PALETTES_PAGE.isNew(),
+      isActive: featuresList.PALETTES_PAGE.isActive(),
     },
     {
       label: locals[lang].palettes.contexts.self,

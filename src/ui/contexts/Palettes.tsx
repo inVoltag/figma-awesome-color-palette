@@ -2,7 +2,10 @@ import { Bar, ConsentConfiguration, HexModel, Tabs } from '@a_ng_d/figmug-ui'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 
-import { UserConfiguration } from 'src/types/configurations'
+import {
+  ExtractOfPaletteConfiguration,
+  UserConfiguration,
+} from 'src/types/configurations'
 import {
   Context,
   ContextItem,
@@ -15,11 +18,13 @@ import { UserSession } from '../../types/user'
 import { setContexts } from '../../utils/setContexts'
 import CommunityPalettes from './CommunityPalettes'
 import MyPalettes from './MyPalettes'
+import DevModePalettes from './DevModePalettes'
 
 interface PalettesProps {
   userIdentity: UserConfiguration
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
+  palettesList: Array<ExtractOfPaletteConfiguration>
   planStatus: PlanStatus
   lang: Language
   onConfigureExternalSourceColors: (
@@ -49,7 +54,7 @@ export default class Palettes extends PureComponent<
   constructor(props: PalettesProps) {
     super(props)
     this.contexts = setContexts(
-      ['PALETTES_SELF', 'PALETTES_COMMUNITY'],
+      ['PALETTES_PAGE', 'PALETTES_SELF', 'PALETTES_COMMUNITY'],
       props.planStatus
     )
     this.state = {
@@ -85,6 +90,68 @@ export default class Palettes extends PureComponent<
 
   // Render
   render() {
+    let fragment
+
+    switch (this.state.context) {
+      case 'PALETTES_PAGE': {
+        fragment = <DevModePalettes {...this.props} />
+        break
+      }
+      case 'PALETTES_SELF': {
+        fragment = (
+          <MyPalettes
+            {...this.props}
+            context={this.state.context}
+            currentPage={this.state.selfCurrentPage}
+            searchQuery={this.state.seftPalettesSearchQuery}
+            status={
+              this.props.userSession.connectionStatus === 'CONNECTED'
+                ? this.state.selfPalettesListStatus
+                : 'SIGN_IN_FIRST'
+            }
+            palettesList={this.state.selfPalettesList}
+            onChangeStatus={(status) =>
+              this.setState({ selfPalettesListStatus: status })
+            }
+            onChangeCurrentPage={(page) =>
+              this.setState({ selfCurrentPage: page })
+            }
+            onChangeSearchQuery={(query) =>
+              this.setState({ seftPalettesSearchQuery: query })
+            }
+            onLoadPalettesList={(palettesList) =>
+              this.setState({ selfPalettesList: palettesList })
+            }
+          />
+        )
+        break
+      }
+      case 'PALETTES_COMMUNITY': {
+        fragment = (
+          <CommunityPalettes
+            {...this.props}
+            context={this.state.context}
+            currentPage={this.state.communityCurrentPage}
+            searchQuery={this.state.communityPalettesSearchQuery}
+            status={this.state.communityPalettesListStatus}
+            palettesList={this.state.communityPalettesList}
+            onChangeStatus={(status) =>
+              this.setState({ communityPalettesListStatus: status })
+            }
+            onChangeCurrentPage={(page) =>
+              this.setState({ communityCurrentPage: page })
+            }
+            onChangeSearchQuery={(query) =>
+              this.setState({ communityPalettesSearchQuery: query })
+            }
+            onLoadPalettesList={(palettesList) =>
+              this.setState({ communityPalettesList: palettesList })
+            }
+          />
+        )
+        break
+      }
+    }
     return (
       <div className="controls__control">
         <Bar
@@ -99,54 +166,7 @@ export default class Palettes extends PureComponent<
           isOnlyText={true}
         />
         <div className="control__block control__block--no-padding">
-          {this.state.context === 'PALETTES_SELF' && (
-            <MyPalettes
-              {...this.props}
-              context={this.state.context}
-              currentPage={this.state.selfCurrentPage}
-              searchQuery={this.state.seftPalettesSearchQuery}
-              status={
-                this.props.userSession.connectionStatus === 'CONNECTED'
-                  ? this.state.selfPalettesListStatus
-                  : 'SIGN_IN_FIRST'
-              }
-              palettesList={this.state.selfPalettesList}
-              onChangeStatus={(status) =>
-                this.setState({ selfPalettesListStatus: status })
-              }
-              onChangeCurrentPage={(page) =>
-                this.setState({ selfCurrentPage: page })
-              }
-              onChangeSearchQuery={(query) =>
-                this.setState({ seftPalettesSearchQuery: query })
-              }
-              onLoadPalettesList={(palettesList) =>
-                this.setState({ selfPalettesList: palettesList })
-              }
-            />
-          )}
-          {this.state.context === 'PALETTES_COMMUNITY' && (
-            <CommunityPalettes
-              {...this.props}
-              context={this.state.context}
-              currentPage={this.state.communityCurrentPage}
-              searchQuery={this.state.communityPalettesSearchQuery}
-              status={this.state.communityPalettesListStatus}
-              palettesList={this.state.communityPalettesList}
-              onChangeStatus={(status) =>
-                this.setState({ communityPalettesListStatus: status })
-              }
-              onChangeCurrentPage={(page) =>
-                this.setState({ communityCurrentPage: page })
-              }
-              onChangeSearchQuery={(query) =>
-                this.setState({ communityPalettesSearchQuery: query })
-              }
-              onLoadPalettesList={(palettesList) =>
-                this.setState({ communityPalettesList: palettesList })
-              }
-            />
-          )}
+          {fragment}
         </div>
       </div>
     )

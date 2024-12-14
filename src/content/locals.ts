@@ -87,9 +87,9 @@ export const locals: { [key: string]: any } = {
     },
     palettes: {
       contexts: {
-        page: 'From the page',
+        page: 'This page',
         self: 'My palettes',
-        community: 'From the community',
+        community: 'Community',
         explore: 'Explore',
         search: 'Search palettes',
       },

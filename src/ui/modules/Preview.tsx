@@ -312,29 +312,41 @@ export default class Preview extends PureComponent<
             </div>
           }
           rightPartSlot={
-            <>
+            <div className={layouts['snackbar--medium']}>
+              <span
+                className={`type ${texts['type']} ${texts['type--secondary']}`}
+              >
+                {this.props.colorSpace}
+              </span>
               {this.props.onResetSourceColors && (
-                <Button
-                  type="icon"
-                  icon="trash"
-                  action={this.props.onResetSourceColors}
-                  isDisabled={
-                    this.props.colors.some(
-                      (color) =>
-                        (color as SourceColorConfiguration).source ===
-                          'COOLORS' ||
-                        (color as SourceColorConfiguration).source ===
-                          'REALTIME_COLORS' ||
-                        (color as SourceColorConfiguration).source ===
-                          'COLOUR_LOVERS'
-                    )
-                      ? false
-                      : true
-                  }
-                  helper={locals[this.props.lang].preview.reset.helper}
-                />
+                <div className={layouts['snackbar']}>
+                  <span
+                    className={`type ${texts['type']} ${texts['type--secondary']}`}
+                  >
+                    ・
+                  </span>
+                  <Button
+                    type="icon"
+                    icon="trash"
+                    action={this.props.onResetSourceColors}
+                    isDisabled={
+                      this.props.colors.some(
+                        (color) =>
+                          (color as SourceColorConfiguration).source ===
+                            'COOLORS' ||
+                          (color as SourceColorConfiguration).source ===
+                            'REALTIME_COLORS' ||
+                          (color as SourceColorConfiguration).source ===
+                            'COLOUR_LOVERS'
+                      )
+                        ? false
+                        : true
+                    }
+                    helper={locals[this.props.lang].preview.reset.helper}
+                  />
+                </div>
               )}
-            </>
+            </div>
           }
           border={['BOTTOM']}
         />

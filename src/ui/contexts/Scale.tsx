@@ -1107,7 +1107,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           >
             <SimpleSlider
               id="update-chroma"
-              shortId="chroma"
+              shortId={locals[this.props.lang].scale.shift.chroma}
               value={this.props.shift.chroma}
               min={0}
               max={200}
@@ -1116,6 +1116,10 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 max: 'hsl(187, 100%, 75%)',
               }}
               feature="SHIFT_CHROMA"
+              isBlocked={Scale.features(
+                this.props.planStatus
+              ).SCALE_CHROMA.isBlocked()}
+              isNew={Scale.features(this.props.planStatus).SCALE_CHROMA.isNew()}
               onChange={(feature, state, value) => {
                 palette.shift.chroma = value
                 this.props.onChangeShift()
@@ -1250,7 +1254,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           >
             <SimpleSlider
               id="update-chroma"
-              shortId="chroma"
+              shortId={locals[this.props.lang].scale.shift.chroma}
               value={this.props.shift.chroma}
               min={0}
               max={200}
@@ -1259,6 +1263,10 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 max: 'hsl(187, 100%, 75%)',
               }}
               feature="SHIFT_CHROMA"
+              isBlocked={Scale.features(
+                this.props.planStatus
+              ).SCALE_CHROMA.isBlocked()}
+              isNew={Scale.features(this.props.planStatus).SCALE_CHROMA.isNew()}
               onChange={(feature, state, value) => {
                 palette.shift.chroma = value
                 this.props.onChangeShift(feature, state, value)

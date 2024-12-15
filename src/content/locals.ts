@@ -165,6 +165,9 @@ export const locals: { [key: string]: any } = {
       presets: {
         more: 'More presets',
       },
+      shift: {
+        chroma: 'Chroma',
+      },
       easing: {
         label: 'Distribution easing',
         linear: 'Linear',

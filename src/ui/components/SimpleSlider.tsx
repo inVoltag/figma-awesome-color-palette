@@ -15,6 +15,9 @@ interface SimpleSliderProps {
     max: string
   }
   feature: string
+  isBlocked?: boolean
+  isDisabled?: boolean
+  isNew?: boolean
   onChange: (feature: string, state: string, value: number) => void
 }
 
@@ -27,6 +30,12 @@ export default class SimpleSlider extends Component<
   SimpleSliderStates
 > {
   private value: number
+
+  static defaultProps = {
+    isBlocked: false,
+    isDisabled: false,
+    isNew: false,
+  }
 
   constructor(props: SimpleSliderProps) {
     super(props)
@@ -138,6 +147,9 @@ export default class SimpleSlider extends Component<
             max={this.props.max.toString()}
             canBeTyped={true}
             isDisplayed={this.state.isTooltipDisplay}
+            isBlocked={this.props.isBlocked}
+            isDisabled={this.props.isDisabled}
+            isNew={this.props.isNew}
             onShiftRight={(e) =>
               this.props.onChange(
                 this.props.feature,

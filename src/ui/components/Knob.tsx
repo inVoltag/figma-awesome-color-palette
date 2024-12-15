@@ -1,4 +1,4 @@
-import { Input, texts } from '@a_ng_d/figmug-ui'
+import { Chip, Input, texts } from '@a_ng_d/figmug-ui'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 
@@ -13,6 +13,9 @@ interface KnobProps {
   max?: string
   canBeTyped: boolean
   isDisplayed: boolean
+  isBlocked: boolean
+  isDisabled: boolean
+  isNew: boolean
   onShiftRight?: React.KeyboardEventHandler<HTMLInputElement>
   onShiftLeft?: React.KeyboardEventHandler<HTMLInputElement>
   onDelete?: React.KeyboardEventHandler<HTMLInputElement>
@@ -32,6 +35,12 @@ interface KnobStates {
 }
 
 export default class Knob extends PureComponent<KnobProps, KnobStates> {
+  static defaultProps = {
+    isBlocked: false,
+    isDisabled: false,
+    isNew: false,
+  }
+
   constructor(props: KnobProps) {
     super(props)
     this.state = {
@@ -94,29 +103,54 @@ export default class Knob extends PureComponent<KnobProps, KnobStates> {
         className={[
           'slider__knob',
           this.state.isStopInputOpen && 'slider__knob--editing',
+          (this.props.isBlocked || this.props.isDisabled) &&
+            'slider__knob--disabled',
         ]
           .filter((n) => n)
           .join(' ')}
         style={{ left: `${this.props.offset}%` }}
         data-id={this.props.id}
         data-value={this.props.value}
-        tabIndex={0}
+        tabIndex={!(this.props.isBlocked || this.props.isDisabled) ? 0 : -1}
         onKeyDown={(e) =>
-          this.keyboardHandler(
-            e.key,
-            e as React.KeyboardEvent<HTMLInputElement>
-          )
+          !(this.props.isBlocked || this.props.isDisabled)
+            ? this.keyboardHandler(
+                e.key,
+                e as React.KeyboardEvent<HTMLInputElement>
+              )
+            : undefined
         }
-        onMouseDown={this.props.onMouseDown}
-        onMouseEnter={() => this.setState({ isTooltipOpen: true })}
+        onMouseDown={
+          !(this.props.isBlocked || this.props.isDisabled)
+            ? this.props.onMouseDown
+            : undefined
+        }
+        onMouseEnter={() =>
+          !(this.props.isBlocked || this.props.isDisabled)
+            ? this.setState({ isTooltipOpen: true })
+            : undefined
+        }
         onMouseLeave={(e) => {
           const isFocused = document.activeElement === e.target
-          if (isFocused) this.setState({ isTooltipOpen: true })
+          if (isFocused && !(this.props.isBlocked || this.props.isDisabled))
+            this.setState({ isTooltipOpen: true })
           else this.setState({ isTooltipOpen: false })
         }}
-        onFocus={() => this.setState({ isTooltipOpen: true })}
-        onBlur={() => this.setState({ isTooltipOpen: false })}
-        onClick={(e) => this.clickHandler(e)}
+        onFocus={() =>
+          !(this.props.isBlocked || this.props.isDisabled)
+            ? this.setState({ isTooltipOpen: true })
+            : undefined
+        }
+        onBlur={() =>
+          !(this.props.isBlocked || this.props.isDisabled)
+            ? this.setState({ isTooltipOpen: false })
+            : undefined
+        }
+        onClick={(e) =>
+          !(this.props.isBlocked || this.props.isDisabled)
+            ? this.clickHandler(e)
+            : undefined
+        }
       >
         {(this.props.isDisplayed || this.state.isTooltipOpen) && (
           <div className={`type ${texts.type} type--inverse slider__tooltip`}>
@@ -152,6 +186,9 @@ export default class Knob extends PureComponent<KnobProps, KnobStates> {
         )}
         <div className={`type ${texts.type} slider__label`}>
           {this.props.shortId}
+          {(this.props.isBlocked || this.props.isNew) && (
+            <Chip>{this.props.isNew ? 'New' : 'Pro'}</Chip>
+          )}
         </div>
         <div className="slider__graduation"></div>
       </div>

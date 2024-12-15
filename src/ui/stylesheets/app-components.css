@@ -106,6 +106,8 @@ div.slider .slider__label {
   height: var(--size-small);
   pointer-events: none;
   text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 div.slider .slider__knob:hover .slider__label {
@@ -139,6 +141,24 @@ div.slider .slider__knob:active .slider__label:after,
 div.slider .slider__knob:hover .slider__label:after,
 div.slider .slider__knob--selected .slider__label:after {
   border-top-color: var(--figma-color-bg-hover);
+}
+
+div.slider .slider__knob--disabled {
+  pointer-events: none;
+}
+
+div.slider .slider__knob--disabled .slider__label {
+  background: var(--figma-color-bg-disabled);
+  color: var(--figma-color-text-ondisabled);
+  box-shadow: 0 0 0 1px var(--figma-color-border-disabled);
+}
+
+div.slider .slider__knob--disabled .slider__label:before {
+  border-top-color: var(--figma-color-border-disabled);
+}
+
+div.slider .slider__knob--disabled .slider__label:after {
+  border-top-color: var(--figma-color-bg-disabled);
 }
 
 div.slider .slider__label:before {
@@ -178,7 +198,7 @@ div.slider .slider__tooltip {
   transform: translateX(-50%) translateY(-100%);
   background: var(--figma-color-bg-inverse);
   padding: var(--size-xxxsmall);
-  width: var(--size-medium);
+  min-width: var(--size-medium);
   color: var(--figma-color-text-oninverse);
   user-select: none;
   text-align: center;

@@ -1093,6 +1093,10 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               min={palette.min}
               max={palette.max}
               distributionEasing={this.props.distributionEasing}
+              colors={{
+                min: 'var(--black)',
+                max: 'var(--white)',
+              }}
               onChange={this.slideHandler}
             />
           </Feature>
@@ -1107,6 +1111,10 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               value={this.props.shift.chroma}
               min={0}
               max={200}
+              colors={{
+                min: 'hsl(187, 0%, 75%)',
+                max: 'hsl(187, 100%, 75%)',
+              }}
               feature="SHIFT_CHROMA"
               onChange={(feature, state, value) => {
                 palette.shift.chroma = value
@@ -1213,6 +1221,10 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 stops={this.props.preset.scale}
                 scale={this.props.scale}
                 distributionEasing={this.props.distributionEasing}
+                colors={{
+                  min: 'var(--black)',
+                  max: 'var(--white)',
+                }}
                 onChange={this.slideHandler}
               />
             ) : (
@@ -1223,6 +1235,10 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 stops={this.props.preset.scale}
                 scale={this.props.scale}
                 distributionEasing={this.props.distributionEasing}
+                colors={{
+                  min: 'var(--black)',
+                  max: 'var(--white)',
+                }}
                 onChange={this.slideHandler}
               />
             )}
@@ -1238,6 +1254,10 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               value={this.props.shift.chroma}
               min={0}
               max={200}
+              colors={{
+                min: 'hsl(187, 0%, 75%)',
+                max: 'hsl(187, 100%, 75%)',
+              }}
               feature="SHIFT_CHROMA"
               onChange={(feature, state, value) => {
                 palette.shift.chroma = value

@@ -10,6 +10,10 @@ interface SimpleSliderProps {
   value: number
   min: number
   max: number
+  colors: {
+    min: string
+    max: string
+  }
   feature: string
   onChange: (feature: string, state: string, value: number) => void
 }
@@ -113,7 +117,12 @@ export default class SimpleSlider extends Component<
   render() {
     return (
       <div className="slider">
-        <div className="slider__range">
+        <div
+          className="slider__range"
+          style={{
+            background: `linear-gradient(90deg, ${this.props.colors.min}, ${this.props.colors.max})`,
+          }}
+        >
           <Knob
             id={this.props.id}
             shortId={this.props.shortId}

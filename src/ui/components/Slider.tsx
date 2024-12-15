@@ -12,8 +12,6 @@ import shiftLeftStop from './../handlers/shiftLeftStop'
 import shiftRightStop from './../handlers/shiftRightStop'
 import Knob from './Knob'
 
-const safeGap = 0.1
-
 interface SliderProps {
   stops: Array<number>
   hasPreset: boolean
@@ -23,6 +21,10 @@ interface SliderProps {
   max?: number
   scale?: ScaleConfiguration
   distributionEasing: Easing
+  colors: {
+    min: string
+    max: string
+  }
   onChange: (state: string, feature?: string) => void
 }
 
@@ -31,11 +33,21 @@ interface SliderStates {
 }
 
 export default class Slider extends Component<SliderProps, SliderStates> {
+  private safeGap: number
+
+  static defaultProps = {
+    colors: {
+      min: 'var(--figma-color-bg-secondary)',
+      max: 'var(--figma-color-bg-secondary)',
+    },
+  }
+
   constructor(props: SliderProps) {
     super(props)
     this.state = {
       isTooltipDisplay: Array(this.props.stops?.length).fill(false),
     }
+    this.safeGap = 0.1
   }
 
   // Handlers
@@ -127,7 +139,7 @@ export default class Slider extends Component<SliderProps, SliderStates> {
     update: () => void
   ) => {
     let limitMin: number, limitMax: number
-    const gap: number = doMap(safeGap, 0, 100, 0, rangeWidth),
+    const gap: number = doMap(this.safeGap, 0, 100, 0, rangeWidth),
       sliderPadding: number = parseFloat(
         window.getComputedStyle(slider, null).getPropertyValue('padding-left')
       )
@@ -240,12 +252,12 @@ export default class Slider extends Component<SliderProps, SliderStates> {
   }
 
   onShiftRight = (knob: HTMLElement, isMeta: boolean, isCtrl: boolean) => {
-    shiftRightStop(this.props.scale ?? {}, knob, isMeta, isCtrl, safeGap)
+    shiftRightStop(this.props.scale ?? {}, knob, isMeta, isCtrl, this.safeGap)
     this.props.onChange('SHIFTED')
   }
 
   onShiftLeft = (knob: HTMLElement, isMeta: boolean, isCtrl: boolean) => {
-    shiftLeftStop(this.props.scale ?? {}, knob, isMeta, isCtrl, safeGap)
+    shiftLeftStop(this.props.scale ?? {}, knob, isMeta, isCtrl, this.safeGap)
     this.props.onChange('SHIFTED')
   }
 
@@ -300,7 +312,12 @@ export default class Slider extends Component<SliderProps, SliderStates> {
   Edit = () => {
     palette.scale = this.props.scale ?? {}
     return (
-      <div className="slider__range">
+      <div
+        className="slider__range"
+        style={{
+          background: `linear-gradient(90deg, ${this.props.colors.min}, ${this.props.colors.max})`,
+        }}
+      >
         {Object.entries(this.props.scale ?? {}).map(
           (lightness, index, original) => (
             <Knob
@@ -312,12 +329,12 @@ export default class Slider extends Component<SliderProps, SliderStates> {
               min={
                 original[index + 1] === undefined
                   ? '0'
-                  : (original[index + 1][1] + safeGap).toString()
+                  : (original[index + 1][1] + this.safeGap).toString()
               }
               max={
                 original[index - 1] === undefined
                   ? '100'
-                  : (original[index - 1][1] - safeGap).toString()
+                  : (original[index - 1][1] - this.safeGap).toString()
               }
               canBeTyped={true}
               isDisplayed={this.state.isTooltipDisplay[index]}
@@ -356,6 +373,9 @@ export default class Slider extends Component<SliderProps, SliderStates> {
         ]
           .filter((n) => n)
           .join(' ')}
+        style={{
+          background: `linear-gradient(90deg, ${this.props.colors.min}, ${this.props.colors.max})`,
+        }}
         onMouseDown={(e) => this.onAdd(e)}
       >
         {Object.entries(this.props.scale ?? {}).map(
@@ -369,12 +389,12 @@ export default class Slider extends Component<SliderProps, SliderStates> {
               min={
                 original[index + 1] === undefined
                   ? '0'
-                  : (original[index + 1][1] + safeGap).toString()
+                  : (original[index + 1][1] + this.safeGap).toString()
               }
               max={
                 original[index - 1] === undefined
                   ? '100'
-                  : (original[index - 1][1] - safeGap).toString()
+                  : (original[index - 1][1] - this.safeGap).toString()
               }
               canBeTyped={true}
               isDisplayed={this.state.isTooltipDisplay[index]}

@@ -19,6 +19,7 @@ const setPaletteMigration = async (palette: BaseNode) => {
     description = palette.getPluginData('description'),
     preset = palette.getPluginData('preset'),
     scale = palette.getPluginData('scale'),
+    shift = palette.getPluginData('shift'),
     colors = palette.getPluginData('colors'),
     colorsObject: Array<ColorConfiguration> = JSON.parse(colors),
     colorSpace = palette.getPluginData('colorSpace'),
@@ -63,6 +64,15 @@ const setPaletteMigration = async (palette: BaseNode) => {
     palette.setPluginData(
       'preset',
       JSON.stringify(presets.find((preset) => preset.id === 'MATERIAL'))
+    )
+
+  // Shift
+  if (shift === '')
+    palette.setPluginData(
+      'shift',
+      JSON.stringify({
+        chroma: 100,
+      })
     )
 
   // Colors

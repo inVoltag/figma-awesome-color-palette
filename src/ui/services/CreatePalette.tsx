@@ -20,6 +20,7 @@ import {
   ExtractOfPaletteConfiguration,
   PresetConfiguration,
   ScaleConfiguration,
+  ShiftConfiguration,
   SourceColorConfiguration,
   UserConfiguration,
   ViewConfiguration,
@@ -46,6 +47,7 @@ interface CreatePaletteProps {
   namingConvention: NamingConvention
   distributionEasing: Easing
   scale: ScaleConfiguration
+  shift: ShiftConfiguration
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   view: ViewConfiguration
@@ -59,6 +61,7 @@ interface CreatePaletteProps {
   onChangeColorsFromImport: React.Dispatch<Partial<AppStates>>
   onChangeScale: React.Dispatch<Partial<AppStates>>
   onChangePreset: React.Dispatch<Partial<AppStates>>
+  onChangeShift: React.Dispatch<Partial<AppStates>>
   onCustomPreset: React.Dispatch<Partial<AppStates>>
   onChangeSettings: React.Dispatch<Partial<AppStates>>
   onConfigureExternalSourceColors: React.Dispatch<Partial<AppStates>>
@@ -155,6 +158,12 @@ export default class CreatePalette extends PureComponent<
       onGoingStep: 'scale changed',
     })
 
+  shiftHandler = () =>
+    this.props.onChangeShift({
+      shift: palette.shift,
+      onGoingStep: 'shift changed',
+    })
+
   // Direct actions
   onCreatePalette = () => {
     this.setState({
@@ -247,6 +256,7 @@ export default class CreatePalette extends PureComponent<
             onChangeNamingConvention={this.props.onCustomPreset}
             onChangeDistributionEasing={this.props.onCustomPreset}
             onChangeScale={this.slideHandler}
+            onChangeShift={this.shiftHandler}
             onCreatePalette={this.onCreatePalette}
           />
         )

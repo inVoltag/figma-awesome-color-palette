@@ -78,6 +78,7 @@ const updateScale = async (msg: ScaleMessage) => {
             theme.scale[Object.keys(theme.scale)[0]]
           )
       })
+    palette.setPluginData('shift', JSON.stringify(msg.data.shift))
     palette.setPluginData('themes', JSON.stringify(themes))
 
     if (Object.keys(msg.data.preset).length !== 0)

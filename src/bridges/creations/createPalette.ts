@@ -5,6 +5,7 @@ import {
   MetaConfiguration,
   PresetConfiguration,
   ScaleConfiguration,
+  ShiftConfiguration,
   SourceColorConfiguration,
   ThemeConfiguration,
   ViewConfiguration,
@@ -20,6 +21,7 @@ interface Msg {
       description: string
       preset: PresetConfiguration
       scale: ScaleConfiguration
+      shift: ShiftConfiguration
       colorSpace: ColorSpaceConfiguration
       visionSimulationMode: VisionSimulationModeConfiguration
       view: ViewConfiguration
@@ -48,6 +50,7 @@ const createPalette = async (msg: Msg) => {
     msg.data.palette.description,
     msg.data.palette.preset,
     msg.data.palette.scale,
+    msg.data.palette.shift,
     msg.data.palette.colorSpace,
     msg.data.palette.visionSimulationMode,
     msg.data.palette.view,

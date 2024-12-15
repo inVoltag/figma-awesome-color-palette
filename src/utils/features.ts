@@ -290,6 +290,15 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
     service: ['CREATE', 'EDIT'],
   },
   {
+    name: 'SCALE_CHROMA',
+    description: '',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    service: ['CREATE', 'EDIT'],
+  },
+  {
     name: 'SCALE_HELPER',
     description: 'Tips and tools to help configurate the scaling',
     isActive: true,

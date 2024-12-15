@@ -22,15 +22,23 @@ import {
   ExportConfiguration,
   PresetConfiguration,
   ScaleConfiguration,
+  ShiftConfiguration,
   ThemeConfiguration,
   UserConfiguration,
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '../../types/configurations'
-import { ThemesMessage } from '../../types/messages'
-import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
+import { ColorsMessage, ThemesMessage } from '../../types/messages'
+import {
+  ActionsList,
+  DispatchProcess,
+  TextColorsThemeHexModel,
+} from '../../types/models'
 import doLightnessScale from '../../utils/doLightnessScale'
-import { trackActionEvent } from '../../utils/eventsTracker'
+import {
+  trackActionEvent,
+  trackSourceColorsManagementEvent,
+} from '../../utils/eventsTracker'
 import { palette } from '../../utils/palettePackage'
 import { setContexts } from '../../utils/setContexts'
 import type { AppStates } from '../App'
@@ -41,12 +49,16 @@ import Scale from '../contexts/Scale'
 import Settings from '../contexts/Settings'
 import Themes from '../contexts/Themes'
 import Preview from '../modules/Preview'
+import Dispatcher from '../modules/Dispatcher'
+import { $canPaletteDeepSync } from '../../stores/preferences'
+import { SourceColorEvent } from '../../types/events'
 
 interface EditPaletteProps {
   name: string
   description: string
   preset: PresetConfiguration
   scale: ScaleConfiguration
+  shift: ShiftConfiguration
   colors: Array<ColorConfiguration>
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
@@ -75,15 +87,19 @@ interface EditPaletteStates {
     position: number | null
   }
   isPrimaryLoading: boolean
+  canPaletteDeepSync: boolean
 }
 
 export default class EditPalette extends PureComponent<
   EditPaletteProps,
   EditPaletteStates
 > {
+  private colorsMessage: ColorsMessage
   private themesMessage: ThemesMessage
+  private dispatch: { [key: string]: DispatchProcess }
   private contexts: Array<ContextItem>
   private themesRef: React.RefObject<Themes>
+  private unsubscribe: (() => void) | null = null
 
   static features = (planStatus: PlanStatus) => ({
     THEMES: new FeatureStatus({
@@ -105,6 +121,11 @@ export default class EditPalette extends PureComponent<
       data: [],
       isEditedInRealTime: false,
     }
+    this.colorsMessage = {
+      type: 'UPDATE_COLORS',
+      data: [],
+      isEditedInRealTime: false,
+    }
     this.contexts = setContexts(
       ['SCALE', 'COLORS', 'THEMES', 'EXPORT', 'SETTINGS'],
       props.planStatus
@@ -116,16 +137,27 @@ export default class EditPalette extends PureComponent<
         position: null,
       },
       isPrimaryLoading: false,
+      canPaletteDeepSync: false,
+    }
+    this.dispatch = {
+      scale: new Dispatcher(
+        () => parent.postMessage({ pluginMessage: this.colorsMessage }, '*'),
+        500
+      ) as DispatchProcess,
     }
     this.themesRef = React.createRef()
   }
 
   // Lifecycle
   componentDidMount = () => {
+    this.unsubscribe = $canPaletteDeepSync.subscribe((value) => {
+      this.setState({ canPaletteDeepSync: value })
+    })
     window.addEventListener('message', this.handleMessage)
   }
 
   componentWillUnmount = () => {
+    if (this.unsubscribe) this.unsubscribe()
     window.removeEventListener('message', this.handleMessage)
   }
 
@@ -197,6 +229,68 @@ export default class EditPalette extends PureComponent<
       }),
       onGoingStep: 'stops changed',
     })
+
+  shiftHandler = (feature?: string, state?: string, value?: number) => {
+    this.colorsMessage.isEditedInRealTime = false
+
+    const onReleaseStop = () => {
+      setData()
+      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+
+      trackSourceColorsManagementEvent(
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: feature as SourceColorEvent['feature'],
+        }
+      )
+    }
+
+    const onChangeStop = () => {
+      setData()
+      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+    }
+
+    const onTypeStopValue = () => {
+      setData()
+      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+    }
+
+    const onUpdatingStop = () => {
+      setData()
+      this.colorsMessage.isEditedInRealTime = true
+      if (this.state.canPaletteDeepSync) this.dispatch.colors.on.status = true
+    }
+
+    const setData = () => {
+      const shift: ShiftConfiguration = {
+        chroma:
+          feature === 'SHIFT_CHROMA' ? (value ?? 100) : this.props.shift.chroma,
+      }
+      this.colorsMessage.data = this.props.colors.map((item) => {
+        if (feature === 'SHIFT_CHROMA')
+          item.chromaShifting = value ?? this.props.shift.chroma
+        return item
+      })
+
+      this.props.onChangeColors({
+        shift: shift,
+        colors: this.colorsMessage.data,
+        onGoingStep: 'colors changed',
+      })
+    }
+
+    const actions: ActionsList = {
+      RELEASED: () => onReleaseStop(),
+      SHIFTED: () => onChangeStop(),
+      TYPED: () => onTypeStopValue(),
+      UPDATING: () => onUpdatingStop(),
+      DEFAULT: () => null,
+    }
+
+    return actions[state ?? 'DEFAULT']?.()
+  }
 
   // Direct actions
   onSyncStyles = () => {
@@ -356,6 +450,7 @@ export default class EditPalette extends PureComponent<
             isPrimaryLoading={this.state.isPrimaryLoading}
             onChangeScale={this.slideHandler}
             onChangeStop={this.customSlideHandler}
+            onChangeShift={this.shiftHandler}
             onSyncLocalStyles={this.onSyncStyles}
             onSyncLocalVariables={this.onSyncVariables}
           />
@@ -462,8 +557,6 @@ export default class EditPalette extends PureComponent<
           <Preview
             {...this.props}
             key="preview"
-            colors={this.props.colors}
-            scale={this.props.scale ?? {}}
           />
         </Feature>
       </>

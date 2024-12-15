@@ -27,6 +27,7 @@ import {
 import {
   PresetConfiguration,
   ScaleConfiguration,
+  ShiftConfiguration,
   SourceColorConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
@@ -40,6 +41,7 @@ import Feature from '../components/Feature'
 import Slider from '../components/Slider'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
+import SimpleSlider from '../components/SimpleSlider'
 
 interface ScaleProps {
   sourceColors?: Array<SourceColorConfiguration>
@@ -48,6 +50,7 @@ interface ScaleProps {
   namingConvention: NamingConvention
   distributionEasing: Easing
   scale?: ScaleConfiguration
+  shift: ShiftConfiguration
   actions?: string
   userIdentity: UserConfiguration
   userConsent: Array<ConsentConfiguration>
@@ -60,6 +63,7 @@ interface ScaleProps {
   onChangeStop?: () => void
   onAddStop?: React.Dispatch<Partial<AppStates>>
   onRemoveStop?: React.Dispatch<Partial<AppStates>>
+  onChangeShift: (feature?: string, state?: string, value?: number) => void
   onChangeNamingConvention?: React.Dispatch<Partial<AppStates>>
   onChangeDistributionEasing?: React.Dispatch<Partial<AppStates>>
   onCreatePalette?: () => void
@@ -97,6 +101,11 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     SCALE_CONFIGURATION: new FeatureStatus({
       features: features,
       featureName: 'SCALE_CONFIGURATION',
+      planStatus: planStatus,
+    }),
+    SCALE_CHROMA: new FeatureStatus({
+      features: features,
+      featureName: 'SCALE_CHROMA',
       planStatus: planStatus,
     }),
     SCALE_HELPER: new FeatureStatus({
@@ -255,9 +264,10 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       SHIFTED: () => onChangeStop(),
       TYPED: () => onTypeStopValue(),
       UPDATING: () => onUpdatingStop(),
+      DEFAULT: () => null,
     }
 
-    return actions[state]?.()
+    return actions[state ?? 'DEFAULT']?.()
   }
 
   presetsHandler = (e: Event) => {
@@ -1089,6 +1099,24 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           <Feature
             isActive={Scale.features(
               this.props.planStatus
+            ).SCALE_CHROMA.isActive()}
+          >
+            <SimpleSlider
+              id="update-chroma"
+              shortId="chroma"
+              value={this.props.shift.chroma}
+              min={0}
+              max={200}
+              feature="SHIFT_CHROMA"
+              onChange={(feature, state, value) => {
+                palette.shift.chroma = value
+                this.props.onChangeShift()
+              }}
+            />
+          </Feature>
+          <Feature
+            isActive={Scale.features(
+              this.props.planStatus
             ).SCALE_HELPER.isActive()}
           >
             <div className="section-controls">
@@ -1198,6 +1226,25 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 onChange={this.slideHandler}
               />
             )}
+          </Feature>
+          <Feature
+            isActive={Scale.features(
+              this.props.planStatus
+            ).SCALE_CHROMA.isActive()}
+          >
+            <SimpleSlider
+              id="update-chroma"
+              shortId="chroma"
+              value={this.props.shift.chroma}
+              min={0}
+              max={200}
+              feature="SHIFT_CHROMA"
+              onChange={(feature, state, value) => {
+                palette.shift.chroma = value
+                this.props.onChangeShift(feature, state, value)
+                this.slideHandler(state)
+              }}
+            />
           </Feature>
           <Feature
             isActive={Scale.features(

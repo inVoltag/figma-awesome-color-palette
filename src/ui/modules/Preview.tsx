@@ -20,6 +20,7 @@ import {
   ColorConfiguration,
   ColorSpaceConfiguration,
   ScaleConfiguration,
+  ShiftConfiguration,
   SourceColorConfiguration,
   VisionSimulationModeConfiguration,
 } from '../../types/configurations'
@@ -31,6 +32,7 @@ import Feature from '../components/Feature'
 interface PreviewProps {
   colors: Array<SourceColorConfiguration> | Array<ColorConfiguration> | []
   scale: ScaleConfiguration
+  shift?: ShiftConfiguration
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   algorithmVersion: AlgorithmVersionConfiguration
@@ -46,10 +48,7 @@ interface PreviewStates {
   drawerHeight: string
 }
 
-export default class Preview extends PureComponent<
-  PreviewProps,
-  PreviewStates
-> {
+export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
   private drawerRef: React.RefObject<HTMLDivElement>
   private unsubscribeWCAG: (() => void) | undefined
   private unsubscribeAPCA: (() => void) | undefined
@@ -107,17 +106,17 @@ export default class Preview extends PureComponent<
 
   // Direct actions
   setColor = (
-    color: ColorConfiguration | SourceColorConfiguration | HexModel,
+    color: ColorConfiguration | SourceColorConfiguration,
     scale: number
   ): HexModel => {
-    const isString = typeof color === 'string'
     const colorData = new Color({
-      sourceColor: isString
-        ? chroma(color).rgb(false)
-        : [color.rgb.r * 255, color.rgb.g * 255, color.rgb.b * 255],
+      sourceColor: [color.rgb.r * 255, color.rgb.g * 255, color.rgb.b * 255],
       lightness: scale,
-      hueShifting: isString ? 0 : color.hueShifting,
-      chromaShifting: isString ? 100 : color.chromaShifting,
+      hueShifting: color.hueShifting === undefined ? 0 : color.hueShifting,
+      chromaShifting:
+        color.chromaShifting === undefined
+          ? this.props.shift?.chroma
+          : color.chromaShifting,
       algorithmVersion: this.props.algorithmVersion,
       visionSimulationMode: this.props.visionSimulationMode,
     })

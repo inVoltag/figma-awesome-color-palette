@@ -42,6 +42,7 @@ const processSelection = () => {
             scale: JSON.parse(palette.getPluginData('themes')).find(
               (theme: ThemeConfiguration) => theme.isEnabled
             ).scale,
+            shift: JSON.parse(palette.getPluginData('shift')),
             colors: JSON.parse(palette.getPluginData('colors')),
             colorSpace: palette.getPluginData('colorSpace'),
             visionSimulationMode: palette.getPluginData('visionSimulationMode'),

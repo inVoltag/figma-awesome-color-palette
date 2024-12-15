@@ -42,6 +42,7 @@ import {
   PresetConfiguration,
   PublicationConfiguration,
   ScaleConfiguration,
+  ShiftConfiguration,
   SourceColorConfiguration,
   ThemeConfiguration,
   UserConfiguration,
@@ -79,6 +80,7 @@ export interface AppStates {
   namingConvention: NamingConvention
   distributionEasing: Easing
   scale: ScaleConfiguration
+  shift: ShiftConfiguration
   colors: Array<ColorConfiguration>
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
@@ -151,6 +153,9 @@ export default class App extends Component<Record<string, never>, AppStates> {
       namingConvention: 'ONES',
       distributionEasing: 'LINEAR',
       scale: {},
+      shift: {
+        chroma: 100,
+      },
       colors: [],
       colorSpace: 'LCH',
       visionSimulationMode: 'NONE',
@@ -404,6 +409,9 @@ export default class App extends Component<Record<string, never>, AppStates> {
               description: '',
               preset: preset,
               scale: scale,
+              shift: {
+                chroma: 100,
+              },
               colorSpace: 'LCH',
               visionSimulationMode: 'NONE',
               view: 'PALETTE_WITH_PROPERTIES',
@@ -438,6 +446,9 @@ export default class App extends Component<Record<string, never>, AppStates> {
             palette.description = ''
             palette.preset = defaultPreset
             palette.scale = scale
+            palette.shift = {
+              chroma: 100,
+            }
             palette.colorSpace = 'LCH'
             palette.visionSimulationMode = 'NONE'
             palette.view = 'PALETTE_WITH_PROPERTIES'
@@ -479,6 +490,9 @@ export default class App extends Component<Record<string, never>, AppStates> {
                 presets.find((preset) => preset.id === 'MATERIAL') ??
                 defaultPreset,
               scale: scale,
+              shift: {
+                chroma: 100,
+              },
               colorSpace: 'LCH',
               visionSimulationMode: 'NONE',
               view: 'PALETTE_WITH_PROPERTIES',
@@ -514,6 +528,9 @@ export default class App extends Component<Record<string, never>, AppStates> {
               presets.find((preset) => preset.id === 'MATERIAL') ??
               defaultPreset
             palette.scale = scale
+            palette.shift = {
+              chroma: 100,
+            }
             palette.colorSpace = 'LCH'
             palette.visionSimulationMode = 'NONE'
             palette.view = 'PALETTE_WITH_PROPERTIES'
@@ -567,6 +584,10 @@ export default class App extends Component<Record<string, never>, AppStates> {
             description: e.data.pluginMessage.data.description,
             preset: e.data.pluginMessage.data.preset,
             scale: e.data.pluginMessage.data.scale,
+            shift:
+              e.data.pluginMessage.data.shift !== ''
+                ? e.data.pluginMessage.data.shift
+                : { chroma: 100 },
             colors: e.data.pluginMessage.data.colors,
             colorSpace: e.data.pluginMessage.data.colorSpace,
             visionSimulationMode:
@@ -926,19 +947,14 @@ export default class App extends Component<Record<string, never>, AppStates> {
           >
             <CreatePalette
               {...this.state}
-              onChangeColorsFromImport={(e) =>
-                this.setState({ ...this.state, ...e })
-              }
-              onResetSourceColors={(e) =>
-                this.setState({ ...this.state, ...e })
-              }
-              onChangeScale={(e) => this.setState({ ...this.state, ...e })}
-              onChangePreset={(e) => this.setState({ ...this.state, ...e })}
-              onCustomPreset={(e) => this.setState({ ...this.state, ...e })}
-              onChangeSettings={(e) => this.setState({ ...this.state, ...e })}
-              onConfigureExternalSourceColors={(e) =>
-                this.setState({ ...this.state, ...e })
-              }
+              onChangeColorsFromImport={(e) => this.setState({ ...e })}
+              onResetSourceColors={(e) => this.setState({ ...e })}
+              onChangeScale={(e) => this.setState({ ...e })}
+              onChangeShift={(e) => this.setState({ ...e })}
+              onChangePreset={(e) => this.setState({ ...e })}
+              onCustomPreset={(e) => this.setState({ ...e })}
+              onChangeSettings={(e) => this.setState({ ...e })}
+              onConfigureExternalSourceColors={(e) => this.setState({ ...e })}
             />
           </Feature>
           <Feature
@@ -950,11 +966,11 @@ export default class App extends Component<Record<string, never>, AppStates> {
           >
             <EditPalette
               {...this.state}
-              onChangeScale={(e) => this.setState({ ...this.state, ...e })}
-              onChangeStop={(e) => this.setState({ ...this.state, ...e })}
-              onChangeColors={(e) => this.setState({ ...this.state, ...e })}
-              onChangeThemes={(e) => this.setState({ ...this.state, ...e })}
-              onChangeSettings={(e) => this.setState({ ...this.state, ...e })}
+              onChangeScale={(e) => this.setState({ ...e })}
+              onChangeStop={(e) => this.setState({ ...e })}
+              onChangeColors={(e) => this.setState({ ...e })}
+              onChangeThemes={(e) => this.setState({ ...e })}
+              onChangeSettings={(e) => this.setState({ ...e })}
               onPublishPalette={() =>
                 this.setState({ priorityContainerContext: 'PUBLICATION' })
               }
@@ -973,9 +989,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
               context={this.state.priorityContainerContext}
               rawData={this.state}
               {...this.state}
-              onChangePublication={(e) =>
-                this.setState({ ...this.state, ...e })
-              }
+              onChangePublication={(e) => this.setState({ ...e })}
               onClose={() =>
                 this.setState({
                   priorityContainerContext: 'EMPTY',

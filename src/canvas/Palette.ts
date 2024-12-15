@@ -9,6 +9,7 @@ import {
   MetaConfiguration,
   PresetConfiguration,
   ScaleConfiguration,
+  ShiftConfiguration,
   SourceColorConfiguration,
   ThemeConfiguration,
   ViewConfiguration,
@@ -25,6 +26,7 @@ export default class Palette {
   description: string
   frameName: string
   scale: ScaleConfiguration
+  shift: ShiftConfiguration
   colors: Array<ColorConfiguration>
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
@@ -46,6 +48,7 @@ export default class Palette {
     description: string,
     preset: PresetConfiguration,
     scale: ScaleConfiguration,
+    shift: ShiftConfiguration,
     colorSpace: ColorSpaceConfiguration,
     visionSimulationMode: VisionSimulationModeConfiguration,
     view: ViewConfiguration,
@@ -68,6 +71,7 @@ export default class Palette {
     )
     this.preset = preset
     this.scale = scale
+    this.shift = shift
     this.colors = []
     this.colorSpace = colorSpace
     this.visionSimulationMode = visionSimulationMode
@@ -121,6 +125,8 @@ export default class Palette {
     this.node.setPluginData('description', this.description)
     this.node.setPluginData('preset', JSON.stringify(this.preset))
     this.node.setPluginData('scale', JSON.stringify(this.scale))
+    this.node.setPluginData('shift', JSON.stringify(this.shift))
+    this.node.setPluginData('shift', JSON.stringify(this.shift))
     this.node.setPluginData('colorSpace', this.colorSpace)
     this.node.setPluginData('visionSimulationMode', this.visionSimulationMode)
     this.node.setPluginData('themes', JSON.stringify(this.themes))
@@ -170,7 +176,9 @@ export default class Palette {
         id: uid(),
         oklch: false,
         hueShifting: sourceColor.hueShifting ?? 0,
-        chromaShifting: sourceColor.chromaShifting ?? 100,
+        chromaShifting: this.isRemote
+          ? (sourceColor.chromaShifting ?? 100)
+          : this.shift.chroma,
       })
     )
 

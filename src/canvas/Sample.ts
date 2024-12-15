@@ -3,7 +3,7 @@ import {
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '../types/configurations'
-import { TextColorsThemeHexModel } from '../types/models'
+import { RgbModel, TextColorsThemeHexModel } from '../types/models'
 import Paragraph from './Paragraph'
 import Properties from './Properties'
 import Property from './Property'
@@ -11,7 +11,7 @@ import Status from './Status'
 
 export default class Sample {
   private name: string
-  private source: { [key: string]: number } | null
+  private source: RgbModel | null
   private scale: string | null
   private rgb: [number, number, number]
   private colorSpace: ColorSpaceConfiguration
@@ -27,7 +27,7 @@ export default class Sample {
 
   constructor(
     name: string,
-    source: { [key: string]: number } | null,
+    source: RgbModel | null,
     scale: string | null,
     rgb: [number, number, number],
     colorSpace: ColorSpaceConfiguration,
@@ -127,7 +127,12 @@ export default class Sample {
       this.node.appendChild(new Property('_label', this.name, 10).makeNode())
     if (this.status.isClosestToRef)
       this.node.appendChild(
-        new Status(this.status, this.source ?? {}).makeNode()
+        new Status(
+          this.status,
+          this.source
+            ? { r: this.source.r, g: this.source.g, b: this.source.b }
+            : {}
+        ).makeNode()
       )
 
     return this.node
@@ -183,7 +188,12 @@ export default class Sample {
     this.nodeColor.appendChild(new Property('_label', name, 10).makeNode())
     if (this.status.isClosestToRef)
       this.nodeColor.appendChild(
-        new Status(this.status, this.source ?? {}).makeNode()
+        new Status(
+          this.status,
+          this.source
+            ? { r: this.source.r, g: this.source.g, b: this.source.b }
+            : {}
+        ).makeNode()
       )
 
     this.node.appendChild(this.nodeColor)

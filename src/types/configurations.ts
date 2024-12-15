@@ -18,6 +18,7 @@ export interface PaletteConfiguration {
   description: string
   preset: PresetConfiguration
   scale: ScaleConfiguration
+  shift: ShiftConfiguration
   min: number | undefined
   max: number | undefined
   colorSpace: ColorSpaceConfiguration
@@ -51,14 +52,14 @@ export interface ScaleConfiguration {
   [key: string]: number
 }
 
+export interface ShiftConfiguration {
+  chroma: number
+}
+
 export interface ColorConfiguration {
   name: string
   description: string
-  rgb: {
-    r: number
-    g: number
-    b: number
-  }
+  rgb: RgbModel
   oklch: boolean
   hueShifting: number
   chromaShifting: number

@@ -196,6 +196,7 @@ export default class CommunityPalettes extends PureComponent<
                   description: data[0].description,
                   preset: data[0].preset,
                   scale: data[0].scale,
+                  shift: data[0].shift,
                   colorSpace: data[0].color_space,
                   visionSimulationMode: data[0].vision_simulation_mode,
                   view: data[0].view,

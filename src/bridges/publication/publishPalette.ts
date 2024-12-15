@@ -46,6 +46,7 @@ const publishPalette = async (
         description: rawData.description,
         preset: rawData.preset,
         scale: rawData.scale,
+        shift: rawData.shift,
         colors: rawData.colors,
         color_space: rawData.colorSpace,
         vision_simulation_mode: rawData.visionSimulationMode,

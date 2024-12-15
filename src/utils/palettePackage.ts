@@ -95,6 +95,9 @@ export const palette: PaletteConfiguration = {
   max: undefined,
   preset: presets[0],
   scale: {},
+  shift: {
+    chroma: 100,
+  },
   colorSpace: 'LCH',
   visionSimulationMode: 'NONE',
   view: 'PALETTE_WITH_PROPERTIES',

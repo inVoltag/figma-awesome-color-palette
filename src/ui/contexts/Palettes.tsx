@@ -17,8 +17,8 @@ import { ExternalPalettes } from '../../types/data'
 import { UserSession } from '../../types/user'
 import { setContexts } from '../../utils/setContexts'
 import CommunityPalettes from './CommunityPalettes'
-import SelfPalettes from './SelfPalettes'
 import InternalPalettes from './InternalPalettes'
+import SelfPalettes from './SelfPalettes'
 
 interface PalettesProps {
   userIdentity: UserConfiguration

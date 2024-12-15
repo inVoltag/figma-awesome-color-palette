@@ -48,7 +48,10 @@ interface PreviewStates {
   drawerHeight: string
 }
 
-export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
+export default class Preview extends PureComponent<
+  PreviewProps,
+  PreviewStates
+> {
   private drawerRef: React.RefObject<HTMLDivElement>
   private unsubscribeWCAG: (() => void) | undefined
   private unsubscribeAPCA: (() => void) | undefined

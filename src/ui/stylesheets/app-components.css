@@ -97,7 +97,9 @@ div.slider .slider__knob {
 }
 
 div.slider .slider__label {
+  display: flex;
   position: relative;
+  justify-content: center;
   box-shadow: 0 0 0 1px var(--figma-color-border-disabled-strong);
   border-radius: var(--border-radius-small);
   background: var(--figma-color-bg);
@@ -106,8 +108,6 @@ div.slider .slider__label {
   height: var(--size-small);
   pointer-events: none;
   text-align: center;
-  display: flex;
-  justify-content: center;
 }
 
 div.slider .slider__knob:hover .slider__label {
@@ -148,9 +148,9 @@ div.slider .slider__knob--disabled {
 }
 
 div.slider .slider__knob--disabled .slider__label {
+  box-shadow: 0 0 0 1px var(--figma-color-border-disabled);
   background: var(--figma-color-bg-disabled);
   color: var(--figma-color-text-ondisabled);
-  box-shadow: 0 0 0 1px var(--figma-color-border-disabled);
 }
 
 div.slider .slider__knob--disabled .slider__label:before {

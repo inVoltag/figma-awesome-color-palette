@@ -38,10 +38,10 @@ import { trackScaleManagementEvent } from '../../utils/eventsTracker'
 import { defaultPreset, palette, presets } from '../../utils/palettePackage'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
+import SimpleSlider from '../components/SimpleSlider'
 import Slider from '../components/Slider'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
-import SimpleSlider from '../components/SimpleSlider'
 
 interface ScaleProps {
   sourceColors?: Array<SourceColorConfiguration>

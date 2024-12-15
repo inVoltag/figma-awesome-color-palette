@@ -8,6 +8,7 @@ import React from 'react'
 
 import features from '../../config'
 import { locals } from '../../content/locals'
+import { $canPaletteDeepSync } from '../../stores/preferences'
 import {
   Context,
   ContextItem,
@@ -28,6 +29,7 @@ import {
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '../../types/configurations'
+import { SourceColorEvent } from '../../types/events'
 import { ColorsMessage, ThemesMessage } from '../../types/messages'
 import {
   ActionsList,
@@ -48,10 +50,8 @@ import Export from '../contexts/Export'
 import Scale from '../contexts/Scale'
 import Settings from '../contexts/Settings'
 import Themes from '../contexts/Themes'
-import Preview from '../modules/Preview'
 import Dispatcher from '../modules/Dispatcher'
-import { $canPaletteDeepSync } from '../../stores/preferences'
-import { SourceColorEvent } from '../../types/events'
+import Preview from '../modules/Preview'
 
 interface EditPaletteProps {
   name: string

@@ -3,12 +3,12 @@ import * as blinder from 'color-blind'
 import { Hsluv } from 'hsluv'
 
 import { HexModel } from '@a_ng_d/figmug-ui'
+import { algorithmVersion } from '../config'
 import {
   AlgorithmVersionConfiguration,
   VisionSimulationModeConfiguration,
 } from '../types/configurations'
 import { ActionsList } from '../types/models'
-import { algorithmVersion } from '../config'
 
 export default class Color {
   private render: 'HEX' | 'RGB'

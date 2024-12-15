@@ -1,14 +1,14 @@
+import { RgbModel } from '@a_ng_d/figmug-ui'
+import { TextColorsThemeHexModel } from 'src/types/models'
 import {
   ColorSpaceConfiguration,
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '../types/configurations'
-import { RgbModel } from '@a_ng_d/figmug-ui'
 import Paragraph from './Paragraph'
 import Properties from './Properties'
 import Property from './Property'
 import Status from './Status'
-import { TextColorsThemeHexModel } from 'src/types/models'
 
 export default class Sample {
   private name: string

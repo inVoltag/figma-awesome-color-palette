@@ -11,8 +11,8 @@ import {
   ExportConfiguration,
   ThemeConfiguration,
 } from '../../types/configurations'
-import InternalPalettes from '../contexts/InternalPalettes'
 import Export from '../contexts/Export'
+import InternalPalettes from '../contexts/InternalPalettes'
 
 interface TransferPaletteProps {
   name: string

@@ -66,6 +66,8 @@ export default class CommunityPalettes extends PureComponent<
 
   // Lifecycle
   componentDidMount = async () => {
+    window.addEventListener('message', this.handleMessage)
+
     const actions: ActionsList = {
       UNLOADED: () => {
         this.callUICPAgent(1, '')
@@ -86,6 +88,25 @@ export default class CommunityPalettes extends PureComponent<
           false
         ),
       })
+  }
+
+  componentWillUnmount = () => {
+    window.removeEventListener('message', this.handleMessage)
+  }
+
+  // Handlers
+  handleMessage = (e: MessageEvent) => {
+    const actions: ActionsList = {
+      STOP_LOADER: () =>
+        this.setState({
+          isAddToFileActionLoading: Array(this.props.palettesList.length).fill(
+            false
+          ),
+        }),
+      DEFAULT: () => null,
+    }
+
+    return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
   }
 
   // Direct actions
@@ -349,26 +370,17 @@ export default class CommunityPalettes extends PureComponent<
                         'isAddToFileActionLoading'
                       ].map((loading, i) => (i === index ? true : loading)),
                     })
-                    this.onSelectPalette(palette.palette_id ?? '')
-                      .finally(() => {
-                        this.setState({
-                          isAddToFileActionLoading:
-                            this.state.isAddToFileActionLoading.map(
-                              (loading, i) => (i === index ? false : loading)
-                            ),
-                        })
-                      })
-                      .catch(() => {
-                        parent.postMessage(
-                          {
-                            pluginMessage: {
-                              type: 'SEND_MESSAGE',
-                              message: locals[this.props.lang].error.addToFile,
-                            },
+                    this.onSelectPalette(palette.palette_id ?? '').catch(() => {
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'SEND_MESSAGE',
+                            message: locals[this.props.lang].error.addToFile,
                           },
-                          '*'
-                        )
-                      })
+                        },
+                        '*'
+                      )
+                    })
                   }}
                 />
               }

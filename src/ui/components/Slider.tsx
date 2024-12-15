@@ -308,6 +308,7 @@ export default class Slider extends Component<SliderProps, SliderStates> {
               id={lightness[0]}
               shortId={lightness[0].replace('lightness-', '')}
               value={lightness[1]}
+              offset={lightness[1]}
               min={
                 original[index + 1] === undefined
                   ? '0'
@@ -364,6 +365,7 @@ export default class Slider extends Component<SliderProps, SliderStates> {
               id={lightness[0]}
               shortId={lightness[0].replace('lightness-', '')}
               value={lightness[1]}
+              offset={lightness[1]}
               min={
                 original[index + 1] === undefined
                   ? '0'

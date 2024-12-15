@@ -8,6 +8,7 @@ interface KnobProps {
   id: string
   shortId: string
   value: string | number
+  offset: number
   min?: string
   max?: string
   canBeTyped: boolean
@@ -80,14 +81,12 @@ export default class Knob extends PureComponent<KnobProps, KnobStates> {
       })
   }
 
-  transformStopValue = (value: string | number) =>
-    typeof value === 'string'
-      ? value === '100.0'
-        ? '100'
-        : value
-      : value === 100
-        ? '100'
-        : value.toFixed(1)
+  transformStopValue = (value: string | number) => {
+    let newValue = value
+    if (typeof newValue !== 'string') newValue = newValue.toFixed(1)
+    if (newValue.includes('.0')) return (newValue = newValue.replace('.0', ''))
+    return newValue
+  }
 
   render() {
     return (
@@ -98,8 +97,9 @@ export default class Knob extends PureComponent<KnobProps, KnobStates> {
         ]
           .filter((n) => n)
           .join(' ')}
-        style={{ left: `${this.props.value}%` }}
+        style={{ left: `${this.props.offset}%` }}
         data-id={this.props.id}
+        data-value={this.props.value}
         tabIndex={0}
         onKeyDown={(e) =>
           this.keyboardHandler(

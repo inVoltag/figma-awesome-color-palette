@@ -1,9 +1,8 @@
-import { HexModel } from '@a_ng_d/figmug-ui'
+import { HexModel, RgbModel } from '@a_ng_d/figmug-ui'
 import { APCAcontrast, fontLookupAPCA, sRGBtoY } from 'apca-w3'
 import chroma from 'chroma-js'
 
 import { lang, locals } from '../content/locals'
-import { RgbModel } from '../types/models'
 
 export default class Contrast {
   private backgroundColor: [number, number, number]

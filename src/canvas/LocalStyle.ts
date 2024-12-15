@@ -1,4 +1,4 @@
-import { RgbModel } from '../types/models'
+import { RgbModel } from '@a_ng_d/figmug-ui'
 
 export default class LocalStyle {
   private name: string

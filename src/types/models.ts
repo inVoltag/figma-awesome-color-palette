@@ -1,4 +1,4 @@
-export type HexModel = `#${string}` | string
+import { HexModel } from '@a_ng_d/figmug-ui'
 
 export interface RgbModel {
   r: number

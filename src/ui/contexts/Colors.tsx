@@ -615,7 +615,6 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                             this.props.planStatus
                           ).COLORS_NAME.isNew()}
                           onBlur={this.colorsHandler}
-                          onConfirm={this.colorsHandler}
                         />
                       </div>
                     </Feature>
@@ -654,7 +653,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                             ).COLORS_PARAMS.isBlocked()}
                             feature="UPDATE_LIGHTNESS"
                             onBlur={this.colorsHandler}
-                            onConfirm={this.colorsHandler}
+                            onShift={this.colorsHandler}
                           />
                           <Input
                             type="NUMBER"
@@ -666,7 +665,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                             ).COLORS_PARAMS.isBlocked()}
                             feature="SHIFT_CHROMA"
                             onBlur={this.colorsHandler}
-                            onConfirm={this.colorsHandler}
+                            onShift={this.colorsHandler}
                           />
                           <Input
                             type="NUMBER"
@@ -726,7 +725,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                               this.props.planStatus
                             ).COLORS_HUE_SHIFTING.isNew()}
                             onBlur={this.colorsHandler}
-                            onConfirm={this.colorsHandler}
+                            onShift={this.colorsHandler}
                           />
                           {!Colors.features(
                             this.props.planStatus
@@ -779,7 +778,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                               this.props.planStatus
                             ).COLORS_CHROMA_SHIFTING.isNew()}
                             onBlur={this.colorsHandler}
-                            onConfirm={this.colorsHandler}
+                            onShift={this.colorsHandler}
                           />
                           {!Colors.features(
                             this.props.planStatus
@@ -826,7 +825,6 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                           ).COLORS_DESCRIPTION.isNew()}
                           isGrowing={true}
                           onBlur={this.colorsHandler}
-                          onConfirm={this.colorsHandler}
                         />
                       </FormItem>
                     </div>

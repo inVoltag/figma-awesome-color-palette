@@ -445,7 +445,6 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
                             this.props.planStatus
                           ).THEMES_NAME.isNew()}
                           onBlur={this.themesHandler}
-                          onConfirm={this.themesHandler}
                         />
                       </div>
                     </Feature>
@@ -518,7 +517,6 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
                           ).THEMES_DESCRIPTION.isNew()}
                           isGrowing={true}
                           onBlur={this.themesHandler}
-                          onConfirm={this.themesHandler}
                         />
                       </FormItem>
                     </div>

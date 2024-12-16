@@ -393,10 +393,6 @@ export default class Overview extends PureComponent<
                 }
                 value={this.state.coolorsUrl.value}
                 onChange={this.isTypingCoolorsUrlHandler}
-                onConfirm={() => {
-                  if (this.state.coolorsUrl.canBeSubmitted)
-                    this.importColorsFromCoolorsHandler()
-                }}
                 onBlur={() => {
                   if (this.state.coolorsUrl.canBeSubmitted)
                     this.importColorsFromCoolorsHandler()
@@ -475,10 +471,6 @@ export default class Overview extends PureComponent<
                 }
                 value={this.state.realtimeColorsUrl.value}
                 onChange={this.isTypingRealtimeColorsUrlHandler}
-                onConfirm={() => {
-                  if (this.state.realtimeColorsUrl.canBeSubmitted)
-                    this.importColorsFromRealtimeColorsHandler()
-                }}
                 onBlur={() => {
                   if (this.state.realtimeColorsUrl.canBeSubmitted)
                     this.importColorsFromRealtimeColorsHandler()

@@ -664,7 +664,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                             isBlocked={Colors.features(
                               this.props.planStatus
                             ).COLORS_PARAMS.isBlocked()}
-                            feature="SHIFT_CHROMA"
+                            feature="UPDATE_CHROMA"
                             onBlur={this.colorsHandler}
                             onShift={this.colorsHandler}
                           />

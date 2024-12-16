@@ -96,7 +96,6 @@ export default class Preview extends PureComponent<
 
   componentWillUnmount = (): void => {
     if (this.unsubscribeWCAG) this.unsubscribeWCAG()
-
     if (this.unsubscribeAPCA) this.unsubscribeAPCA()
   }
 

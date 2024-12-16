@@ -351,8 +351,8 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
 
       this.colorsMessage.data = this.props.colors.map((item) => {
         if (item.id === id) {
+          item.hue.isLocked = item.hue.shift === value ? false : true
           item.hue.shift = value
-          item.hue.isLocked = true
         }
         return item
       })
@@ -384,8 +384,8 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
 
       this.colorsMessage.data = this.props.colors.map((item) => {
         if (item.id === id) {
+          item.chroma.isLocked = item.chroma.shift === value ? false : true
           item.chroma.shift = value
-          item.chroma.isLocked = true
         }
         return item
       })

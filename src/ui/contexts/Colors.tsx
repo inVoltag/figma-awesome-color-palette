@@ -682,7 +682,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                             ).COLORS_PARAMS.isBlocked()}
                             feature="UPDATE_HUE"
                             onBlur={this.colorsHandler}
-                            onConfirm={this.colorsHandler}
+                            onShift={this.colorsHandler}
                           />
                         </InputsBar>
                       </>
@@ -733,7 +733,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                           ).COLORS_HUE_SHIFTING.isBlocked() && (
                             <Button
                               type="icon"
-                              icon="link-connected"
+                              icon="reset"
                               feature="RESET_HUE"
                               isDisabled={!color.hue.isLocked}
                               action={this.colorsHandler}
@@ -786,7 +786,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                           ).COLORS_CHROMA_SHIFTING.isBlocked() && (
                             <Button
                               type="icon"
-                              icon="link-connected"
+                              icon="reset"
                               feature="RESET_CHROMA"
                               isDisabled={!color.chroma.isLocked}
                               action={this.colorsHandler}

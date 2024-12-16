@@ -92,8 +92,8 @@ export const trackPublicationEvent = (
   if (!consent) return
   mixpanel.identify(id)
   mixpanel.track('Palette Managed', {
-    Feature: options.feature,
     ...eventsRecurringProperties,
+    Feature: options.feature,
   })
 }
 
@@ -105,8 +105,8 @@ export const trackImportEvent = (
   if (!consent) return
   mixpanel.identify(id)
   mixpanel.track('Colors Imported', {
-    Feature: options.feature,
     ...eventsRecurringProperties,
+    Feature: options.feature,
   })
 }
 
@@ -118,8 +118,8 @@ export const trackScaleManagementEvent = (
   if (!consent) return
   mixpanel.identify(id)
   mixpanel.track('Scale Updated', {
-    Feature: options.feature,
     ...eventsRecurringProperties,
+    Feature: options.feature,
   })
 }
 
@@ -131,8 +131,8 @@ export const trackSourceColorsManagementEvent = (
   if (!consent) return
   mixpanel.identify(id)
   mixpanel.track('Source Color Updated', {
-    Feature: options.feature,
     ...eventsRecurringProperties,
+    Feature: options.feature,
   })
 }
 
@@ -144,8 +144,8 @@ export const trackColorThemesManagementEvent = (
   if (!consent) return
   mixpanel.identify(id)
   mixpanel.track('Color Theme Updated', {
-    Feature: options.feature,
     ...eventsRecurringProperties,
+    Feature: options.feature,
   })
 }
 
@@ -157,8 +157,8 @@ export const trackSettingsManagementEvent = (
   if (!consent) return
   mixpanel.identify(id)
   mixpanel.track('Setting Updated', {
-    Feature: options.feature,
     ...eventsRecurringProperties,
+    Feature: options.feature,
   })
 }
 
@@ -170,9 +170,9 @@ export const trackExportEvent = (
   if (!consent) return
   mixpanel.identify(id)
   mixpanel.track('Color Shades Exported', {
+    ...eventsRecurringProperties,
     Feature: options.feature,
     'Color Space': options.colorSpace ?? 'NC',
-    ...eventsRecurringProperties,
   })
 }
 
@@ -184,7 +184,8 @@ export const trackActionEvent = (
   if (!consent) return
   mixpanel.identify(id)
   mixpanel.track('Action Triggered', {
-    Feature: options.feature,
     ...eventsRecurringProperties,
+    Feature: options.feature,
+    Colors: options.colors === undefined ? 0 : options.colors,
   })
 }

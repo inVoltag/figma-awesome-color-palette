@@ -728,11 +728,14 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                             onBlur={this.colorsHandler}
                             onConfirm={this.colorsHandler}
                           />
-                          {color.hue.isLocked && (
+                          {!Colors.features(
+                            this.props.planStatus
+                          ).COLORS_HUE_SHIFTING.isBlocked() && (
                             <Button
                               type="icon"
                               icon="link-connected"
                               feature="RESET_HUE"
+                              isDisabled={!color.hue.isLocked}
                               action={this.colorsHandler}
                             />
                           )}
@@ -778,11 +781,14 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                             onBlur={this.colorsHandler}
                             onConfirm={this.colorsHandler}
                           />
-                          {color.chroma.isLocked && (
+                          {!Colors.features(
+                            this.props.planStatus
+                          ).COLORS_CHROMA_SHIFTING.isBlocked() && (
                             <Button
                               type="icon"
                               icon="link-connected"
                               feature="RESET_CHROMA"
+                              isDisabled={!color.chroma.isLocked}
                               action={this.colorsHandler}
                             />
                           )}

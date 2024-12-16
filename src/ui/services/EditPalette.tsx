@@ -269,8 +269,8 @@ export default class EditPalette extends PureComponent<
           feature === 'SHIFT_CHROMA' ? (value ?? 100) : this.props.shift.chroma,
       }
       this.colorsMessage.data = this.props.colors.map((item) => {
-        if (feature === 'SHIFT_CHROMA')
-          item.chromaShifting = value ?? this.props.shift.chroma
+        if (feature === 'SHIFT_CHROMA' && !item.chroma.isLocked)
+          item.chroma.shift = value ?? this.props.shift.chroma
         return item
       })
 

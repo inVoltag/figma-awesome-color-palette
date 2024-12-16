@@ -5,6 +5,7 @@ import {
   HexModel,
   Input,
   InputsBar,
+  layouts,
   SectionTitle,
   SemanticMessage,
   SortableList,
@@ -21,6 +22,7 @@ import { $canPaletteDeepSync } from '../../stores/preferences'
 import { EditorType, Language, PlanStatus } from '../../types/app'
 import {
   ColorConfiguration,
+  ShiftConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
 import { ColorsMessage } from '../../types/messages'
@@ -33,6 +35,7 @@ import Dispatcher from '../modules/Dispatcher'
 
 interface ColorsProps {
   colors: Array<ColorConfiguration>
+  shift: ShiftConfiguration
   editorType: EditorType
   userIdentity: UserConfiguration
   userConsent: Array<ConsentConfiguration>
@@ -154,6 +157,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
       })
 
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+
       trackSourceColorsManagementEvent(
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -185,6 +189,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
 
       if (e.type === 'focusout' || (e as KeyboardEvent).key === 'Enter') {
         parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+
         trackSourceColorsManagementEvent(
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -226,7 +231,9 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
 
       if (e.type === 'focusout') {
         this.dispatch.colors.on.status = false
+
         parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+
         trackSourceColorsManagementEvent(
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -261,6 +268,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
       })
 
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+
       trackSourceColorsManagementEvent(
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -291,6 +299,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
       })
 
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+
       trackSourceColorsManagementEvent(
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -321,6 +330,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
       })
 
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+
       trackSourceColorsManagementEvent(
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -340,7 +350,10 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
       if (value <= min) value = min
 
       this.colorsMessage.data = this.props.colors.map((item) => {
-        if (item.id === id) item.hue.shift = value
+        if (item.id === id) {
+          item.hue.shift = value
+          item.hue.isLocked = true
+        }
         return item
       })
 
@@ -350,6 +363,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
       })
 
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+
       trackSourceColorsManagementEvent(
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -369,7 +383,36 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
       if (value <= min) value = min
 
       this.colorsMessage.data = this.props.colors.map((item) => {
-        if (item.id === id) item.chroma.shift = value
+        if (item.id === id) {
+          item.chroma.shift = value
+          item.chroma.isLocked = true
+        }
+        return item
+      })
+
+      this.props.onChangeColors({
+        colors: this.colorsMessage.data,
+        onGoingStep: 'colors changed',
+      })
+
+      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+
+      trackSourceColorsManagementEvent(
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'SHIFT_CHROMA',
+        }
+      )
+    }
+
+    const resetHue = () => {
+      this.colorsMessage.data = this.props.colors.map((item) => {
+        if (item.id === id) {
+          item.hue.shift = 0
+          item.hue.isLocked = false
+        }
         return item
       })
 
@@ -384,7 +427,32 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
-          feature: 'SHIFT_CHROMA',
+          feature: 'RESET_HUE',
+        }
+      )
+    }
+
+    const resetChroma = () => {
+      this.colorsMessage.data = this.props.colors.map((item) => {
+        if (item.id === id) {
+          item.chroma.shift = this.props.shift.chroma
+          item.chroma.isLocked = false
+        }
+        return item
+      })
+
+      this.props.onChangeColors({
+        colors: this.colorsMessage.data,
+        onGoingStep: 'colors changed',
+      })
+
+      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+      trackSourceColorsManagementEvent(
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'RESET_CHROMA',
         }
       )
     }
@@ -402,6 +470,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
 
       if (e.type === 'focusout') {
         parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+
         trackSourceColorsManagementEvent(
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -443,6 +512,8 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
       UPDATE_HUE: () => updateHueProp(),
       SHIFT_HUE: () => setHueShifting(),
       SHIFT_CHROMA: () => setChromaShifting(),
+      RESET_HUE: () => resetHue(),
+      RESET_CHROMA: () => resetChroma(),
       UPDATE_DESCRIPTION: () => updateColorDescription(),
       REMOVE_ITEM: () => removeColor(),
       DEFAULT: () => null,
@@ -461,6 +532,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
     })
 
     parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+
     trackSourceColorsManagementEvent(
       this.props.userIdentity.id,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -633,28 +705,38 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                           this.props.planStatus
                         ).COLORS_HUE_SHIFTING.isBlocked()}
                       >
-                        <Input
-                          id="shift-hue"
-                          type="NUMBER"
-                          icon={{ type: 'LETTER', value: 'H' }}
-                          unit="°"
-                          value={
-                            color.hue.shift !== undefined
-                              ? color.hue.shift.toString()
-                              : '100'
-                          }
-                          min="-360"
-                          max="360"
-                          feature="SHIFT_HUE"
-                          isBlocked={Colors.features(
-                            this.props.planStatus
-                          ).COLORS_HUE_SHIFTING.isBlocked()}
-                          isNew={Colors.features(
-                            this.props.planStatus
-                          ).COLORS_HUE_SHIFTING.isNew()}
-                          onBlur={this.colorsHandler}
-                          onConfirm={this.colorsHandler}
-                        />
+                        <div className={layouts['snackbar--tight']}>
+                          <Input
+                            id="shift-hue"
+                            type="NUMBER"
+                            icon={{ type: 'LETTER', value: 'H' }}
+                            unit="°"
+                            value={
+                              color.hue.shift !== undefined
+                                ? color.hue.shift.toString()
+                                : '100'
+                            }
+                            min="-180"
+                            max="180"
+                            feature="SHIFT_HUE"
+                            isBlocked={Colors.features(
+                              this.props.planStatus
+                            ).COLORS_HUE_SHIFTING.isBlocked()}
+                            isNew={Colors.features(
+                              this.props.planStatus
+                            ).COLORS_HUE_SHIFTING.isNew()}
+                            onBlur={this.colorsHandler}
+                            onConfirm={this.colorsHandler}
+                          />
+                          {color.hue.isLocked && (
+                            <Button
+                              type="icon"
+                              icon="link-connected"
+                              feature="RESET_HUE"
+                              action={this.colorsHandler}
+                            />
+                          )}
+                        </div>
                       </FormItem>
                     </div>
                   </Feature>
@@ -673,28 +755,38 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                           this.props.planStatus
                         ).COLORS_CHROMA_SHIFTING.isBlocked()}
                       >
-                        <Input
-                          id="shift-chroma"
-                          type="NUMBER"
-                          icon={{ type: 'LETTER', value: 'C' }}
-                          unit="%"
-                          value={
-                            color.chroma.shift !== undefined
-                              ? color.chroma.shift.toString()
-                              : '100'
-                          }
-                          min="0"
-                          max="200"
-                          feature="SHIFT_CHROMA"
-                          isBlocked={Colors.features(
-                            this.props.planStatus
-                          ).COLORS_CHROMA_SHIFTING.isBlocked()}
-                          isNew={Colors.features(
-                            this.props.planStatus
-                          ).COLORS_CHROMA_SHIFTING.isNew()}
-                          onBlur={this.colorsHandler}
-                          onConfirm={this.colorsHandler}
-                        />
+                        <div className={layouts['snackbar--tight']}>
+                          <Input
+                            id="shift-chroma"
+                            type="NUMBER"
+                            icon={{ type: 'LETTER', value: 'C' }}
+                            unit="%"
+                            value={
+                              color.chroma.shift !== undefined
+                                ? color.chroma.shift.toString()
+                                : '100'
+                            }
+                            min="0"
+                            max="200"
+                            feature="SHIFT_CHROMA"
+                            isBlocked={Colors.features(
+                              this.props.planStatus
+                            ).COLORS_CHROMA_SHIFTING.isBlocked()}
+                            isNew={Colors.features(
+                              this.props.planStatus
+                            ).COLORS_CHROMA_SHIFTING.isNew()}
+                            onBlur={this.colorsHandler}
+                            onConfirm={this.colorsHandler}
+                          />
+                          {color.chroma.isLocked && (
+                            <Button
+                              type="icon"
+                              icon="link-connected"
+                              feature="RESET_CHROMA"
+                              action={this.colorsHandler}
+                            />
+                          )}
+                        </div>
                       </FormItem>
                     </div>
                   </Feature>

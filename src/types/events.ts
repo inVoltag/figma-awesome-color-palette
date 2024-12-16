@@ -53,6 +53,8 @@ export interface SourceColorEvent {
     | 'UPDATE_LCH'
     | 'SHIFT_HUE'
     | 'SHIFT_CHROMA'
+    | 'RESET_HUE'
+    | 'RESET_CHROMA'
     | 'DESCRIBE_COLOR'
     | 'REORDER_COLOR'
 }

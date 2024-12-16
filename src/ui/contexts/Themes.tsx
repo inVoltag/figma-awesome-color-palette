@@ -148,6 +148,7 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
       })
 
       parent.postMessage({ pluginMessage: this.themesMessage }, '*')
+
       trackColorThemesManagementEvent(
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -181,6 +182,7 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
 
       if (e.type === 'focusout' || (e as KeyboardEvent).key === 'Enter') {
         parent.postMessage({ pluginMessage: this.themesMessage }, '*')
+
         trackColorThemesManagementEvent(
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -215,7 +217,9 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
 
       if (e.type === 'focusout') {
         this.dispatch.themes.on.status = false
+
         parent.postMessage({ pluginMessage: this.themesMessage }, '*')
+
         trackColorThemesManagementEvent(
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -245,6 +249,7 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
 
       if (e.type === 'focusout' || (e as KeyboardEvent).key === 'Enter') {
         parent.postMessage({ pluginMessage: this.themesMessage }, '*')
+
         trackColorThemesManagementEvent(
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -279,6 +284,7 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
       })
 
       parent.postMessage({ pluginMessage: this.themesMessage }, '*')
+
       trackColorThemesManagementEvent(
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -331,6 +337,7 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
     })
 
     parent.postMessage({ pluginMessage: this.themesMessage }, '*')
+
     trackColorThemesManagementEvent(
       this.props.userIdentity.id,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -356,6 +363,7 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
     })
 
     parent.postMessage({ pluginMessage: this.themesMessage }, '*')
+
     trackColorThemesManagementEvent(
       this.props.userIdentity.id,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')

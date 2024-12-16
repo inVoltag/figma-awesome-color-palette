@@ -168,6 +168,7 @@ export default class Settings extends PureComponent<
         this.props.service === 'EDIT'
       ) {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
+
         trackSettingsManagementEvent(
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -198,6 +199,7 @@ export default class Settings extends PureComponent<
 
       if (e.type === 'focusout' && this.props.service === 'EDIT') {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
+
         trackSettingsManagementEvent(
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -223,6 +225,7 @@ export default class Settings extends PureComponent<
             { pluginMessage: { type: 'UPDATE_VIEW', data: palette } },
             '*'
           )
+
           trackSettingsManagementEvent(
             this.props.userIdentity.id,
             this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -255,6 +258,7 @@ export default class Settings extends PureComponent<
 
       if (this.props.service === 'EDIT') {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
+
         trackSettingsManagementEvent(
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -286,6 +290,7 @@ export default class Settings extends PureComponent<
 
       if (this.props.service === 'EDIT') {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
+
         trackSettingsManagementEvent(
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -316,6 +321,7 @@ export default class Settings extends PureComponent<
       })
 
       parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
+
       trackSettingsManagementEvent(
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -351,7 +357,9 @@ export default class Settings extends PureComponent<
 
       if (e.type === 'focusout' && this.props.service === 'EDIT') {
         this.dispatch.textColorsTheme.on.status = false
+
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
+
         trackSettingsManagementEvent(
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -389,7 +397,9 @@ export default class Settings extends PureComponent<
 
       if (e.type === 'focusout' && this.props.service === 'EDIT') {
         this.dispatch.textColorsTheme.on.status = false
+
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
+
         trackSettingsManagementEvent(
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')

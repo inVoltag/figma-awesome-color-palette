@@ -235,6 +235,7 @@ export default class EditPalette extends PureComponent<
 
     const onReleaseStop = () => {
       setData()
+
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
 
       trackSourceColorsManagementEvent(
@@ -301,7 +302,9 @@ export default class EditPalette extends PureComponent<
       },
       isPrimaryLoading: true,
     })
+
     parent.postMessage({ pluginMessage: { type: 'SYNC_LOCAL_STYLES' } }, '*')
+
     trackActionEvent(
       this.props.userIdentity.id,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -320,7 +323,9 @@ export default class EditPalette extends PureComponent<
       },
       isPrimaryLoading: true,
     })
+
     parent.postMessage({ pluginMessage: { type: 'SYNC_LOCAL_VARIABLES' } }, '*')
+
     trackActionEvent(
       this.props.userIdentity.id,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')

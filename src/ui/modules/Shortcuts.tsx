@@ -240,6 +240,7 @@ export default class Shortcuts extends PureComponent<
                                   },
                                   '*'
                                 )
+
                                 trackSignOutEvent(
                                   this.props.userIdentity.id,
                                   this.props.userConsent.find(

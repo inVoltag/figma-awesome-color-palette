@@ -169,6 +169,7 @@ export default class CreatePalette extends PureComponent<
     this.setState({
       isPrimaryLoading: true,
     })
+
     parent.postMessage(
       {
         pluginMessage: {
@@ -184,6 +185,7 @@ export default class CreatePalette extends PureComponent<
       },
       '*'
     )
+
     trackActionEvent(
       this.props.userIdentity.id,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')

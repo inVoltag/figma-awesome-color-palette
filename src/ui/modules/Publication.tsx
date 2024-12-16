@@ -253,6 +253,7 @@ export default class Publication extends PureComponent<
                 this.setState({
                   publicationStatus: 'PUBLISHED',
                 })
+
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -262,6 +263,7 @@ export default class Publication extends PureComponent<
                   },
                   '*'
                 )
+
                 trackPublicationEvent(
                   this.props.userIdentity.id,
                   this.props.userConsent.find(
@@ -303,6 +305,7 @@ export default class Publication extends PureComponent<
                   publicationStatus: 'PUBLISHED',
                   isPaletteShared: data.publicationStatus?.isShared ?? false,
                 })
+
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -312,6 +315,7 @@ export default class Publication extends PureComponent<
                   },
                   '*'
                 )
+
                 trackPublicationEvent(
                   this.props.userIdentity.id,
                   this.props.userConsent.find(
@@ -350,6 +354,7 @@ export default class Publication extends PureComponent<
                   publicationStatus: 'PUBLISHED',
                   isPaletteShared: data.publicationStatus?.isShared ?? false,
                 })
+
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -359,6 +364,7 @@ export default class Publication extends PureComponent<
                   },
                   '*'
                 )
+
                 trackPublicationEvent(
                   this.props.userIdentity.id,
                   this.props.userConsent.find(
@@ -399,6 +405,7 @@ export default class Publication extends PureComponent<
                   publicationStatus: 'PUBLISHED',
                   isPaletteShared: data.publicationStatus?.isShared ?? false,
                 })
+
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -408,6 +415,7 @@ export default class Publication extends PureComponent<
                   },
                   '*'
                 )
+
                 trackPublicationEvent(
                   this.props.userIdentity.id,
                   this.props.userConsent.find(
@@ -442,10 +450,12 @@ export default class Publication extends PureComponent<
             detachPalette(this.props.rawData)
               .then((data) => {
                 this.props.onChangePublication(data)
+
                 this.setState({
                   publicationStatus: 'UNPUBLISHED',
                   isPaletteShared: false,
                 })
+
                 trackPublicationEvent(
                   this.props.userIdentity.id,
                   this.props.userConsent.find(
@@ -475,6 +485,7 @@ export default class Publication extends PureComponent<
                   publicationStatus: 'UP_TO_DATE',
                   isPaletteShared: data.publicationStatus?.isShared ?? false,
                 })
+
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -484,6 +495,7 @@ export default class Publication extends PureComponent<
                   },
                   '*'
                 )
+
                 trackPublicationEvent(
                   this.props.userIdentity.id,
                   this.props.userConsent.find(
@@ -518,10 +530,12 @@ export default class Publication extends PureComponent<
             detachPalette(this.props.rawData)
               .then((data) => {
                 this.props.onChangePublication(data)
+
                 this.setState({
                   publicationStatus: 'UNPUBLISHED',
                   isPaletteShared: false,
                 })
+
                 trackPublicationEvent(
                   this.props.userIdentity.id,
                   this.props.userConsent.find(
@@ -559,6 +573,7 @@ export default class Publication extends PureComponent<
                   publicationStatus: 'PUBLISHED',
                   isPaletteShared: data.publicationStatus?.isShared ?? false,
                 })
+
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -568,6 +583,7 @@ export default class Publication extends PureComponent<
                   },
                   '*'
                 )
+
                 trackPublicationEvent(
                   this.props.userIdentity.id,
                   this.props.userConsent.find(
@@ -606,6 +622,7 @@ export default class Publication extends PureComponent<
                   publicationStatus: 'UNPUBLISHED',
                   isPaletteShared: false,
                 })
+
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -615,6 +632,7 @@ export default class Publication extends PureComponent<
                   },
                   '*'
                 )
+
                 trackPublicationEvent(
                   this.props.userIdentity.id,
                   this.props.userConsent.find(
@@ -651,10 +669,12 @@ export default class Publication extends PureComponent<
             detachPalette(this.props.rawData)
               .then((data) => {
                 this.props.onChangePublication(data)
+
                 this.setState({
                   publicationStatus: 'UNPUBLISHED',
                   isPaletteShared: false,
                 })
+
                 trackPublicationEvent(
                   this.props.userIdentity.id,
                   this.props.userConsent.find(
@@ -681,10 +701,12 @@ export default class Publication extends PureComponent<
             pullPalette(this.props.rawData)
               .then((data) => {
                 this.props.onChangePublication(data)
+
                 this.setState({
                   publicationStatus: 'UP_TO_DATE',
                   isPaletteShared: data.publicationStatus?.isShared ?? false,
                 })
+
                 trackPublicationEvent(
                   this.props.userIdentity.id,
                   this.props.userConsent.find(
@@ -757,10 +779,12 @@ export default class Publication extends PureComponent<
             detachPalette(this.props.rawData)
               .then((data) => {
                 this.props.onChangePublication(data)
+
                 this.setState({
                   publicationStatus: 'UNPUBLISHED',
                   isPaletteShared: false,
                 })
+
                 trackPublicationEvent(
                   this.props.userIdentity.id,
                   this.props.userConsent.find(

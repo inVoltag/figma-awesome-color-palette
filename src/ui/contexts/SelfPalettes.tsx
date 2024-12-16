@@ -224,8 +224,14 @@ export default class SelfPalettes extends PureComponent<
                       rgb: color.rgb,
                       source: 'REMOTE',
                       id: color.id,
-                      hueShifting: color.hueShifting,
-                      chromaShifting: color.chromaShifting,
+                      hue: {
+                        shift: color.hue.shift,
+                        isLocked: color.hue.isLocked,
+                      },
+                      chroma: {
+                        shift: color.chroma.shift,
+                        isLocked: color.chroma.isLocked,
+                      },
                     }
                   }
                 ) as Array<SourceColorConfiguration>,

@@ -114,11 +114,11 @@ export default class Preview extends PureComponent<
     const colorData = new Color({
       sourceColor: [color.rgb.r * 255, color.rgb.g * 255, color.rgb.b * 255],
       lightness: scale,
-      hueShifting: color.hueShifting === undefined ? 0 : color.hueShifting,
+      hueShifting: color.hue?.shift === undefined ? 0 : color.hue.shift,
       chromaShifting:
-        color.chromaShifting === undefined
+        color.chroma?.shift === undefined
           ? this.props.shift?.chroma
-          : color.chromaShifting,
+          : color.chroma.shift,
       algorithmVersion: this.props.algorithmVersion,
       visionSimulationMode: this.props.visionSimulationMode,
     })

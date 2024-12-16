@@ -77,17 +77,6 @@ const setPaletteMigration = async (palette: BaseNode) => {
 
   // Colors
   if (colorsObject.length !== 0) {
-    if (!Object.prototype.hasOwnProperty.call(colorsObject[0], 'hueShifting'))
-      palette.setPluginData('colors', setData(colorsObject, 'hueShifting', 0))
-
-    if (
-      !Object.prototype.hasOwnProperty.call(colorsObject[0], 'chromaShifting')
-    )
-      palette.setPluginData(
-        'colors',
-        setData(colorsObject, 'chromaShifting', 100)
-      )
-
     if (!Object.prototype.hasOwnProperty.call(colorsObject[0], 'description'))
       palette.setPluginData('colors', setData(colorsObject, 'description', ''))
 
@@ -101,12 +90,41 @@ const setPaletteMigration = async (palette: BaseNode) => {
           })
         )
       )
-  }
 
-  if (
-    colorsObject.filter((color) => color.oklch).length === colorsObject.length
-  )
-    palette.setPluginData('colorSpace', 'OKLCH')
+    if (Object.prototype.hasOwnProperty.call(colorsObject[0], 'oklch')) {
+      colorsObject.map((color) => {
+        if ('oklch' in color) delete color.oklch
+        return color
+      })
+      palette.setPluginData('colors', JSON.stringify(colorsObject))
+    }
+
+    if (Object.prototype.hasOwnProperty.call(colorsObject[0], 'hueShifting')) {
+      colorsObject.map((color) => {
+        color.hue = {
+          shift: color.hueShifting as number,
+          isLocked: false,
+        }
+        if ('hueShifting' in color) delete color.hueShifting
+        return color
+      })
+      palette.setPluginData('colors', JSON.stringify(colorsObject))
+    }
+
+    if (
+      Object.prototype.hasOwnProperty.call(colorsObject[0], 'chromaShifting')
+    ) {
+      colorsObject.map((color) => {
+        color.chroma = {
+          shift: color.chromaShifting as number,
+          isLocked: false,
+        }
+        if ('chromaShifting' in color) delete color.chromaShifting
+        return color
+      })
+      palette.setPluginData('colors', JSON.stringify(colorsObject))
+    }
+  }
 
   if (colorSpace === '') palette.setPluginData('colorSpace', 'LCH')
 

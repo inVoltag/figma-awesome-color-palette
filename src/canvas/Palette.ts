@@ -174,11 +174,16 @@ export default class Palette {
         description: '',
         rgb: sourceColor.rgb,
         id: uid(),
-        oklch: false,
-        hueShifting: sourceColor.hueShifting ?? 0,
-        chromaShifting: this.isRemote
-          ? (sourceColor.chromaShifting ?? 100)
-          : this.shift.chroma,
+        hue: {
+          shift: sourceColor.hue?.shift ?? 0,
+          isLocked: sourceColor.hue?.isLocked ?? false,
+        },
+        chroma: {
+          shift: this.isRemote
+            ? (sourceColor.chroma?.shift ?? 100)
+            : this.shift.chroma,
+          isLocked: sourceColor.chroma?.isLocked ?? false,
+        },
       })
     )
 

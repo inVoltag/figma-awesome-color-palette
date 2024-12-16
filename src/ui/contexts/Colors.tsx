@@ -138,9 +138,14 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
           b: 0.97,
         },
         id: uid(),
-        oklch: false,
-        hueShifting: 0,
-        chromaShifting: 100,
+        hue: {
+          shift: 0,
+          isLocked: false,
+        },
+        chroma: {
+          shift: 0,
+          isLocked: false,
+        },
       })
 
       this.props.onChangeColors({
@@ -335,7 +340,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
       if (value <= min) value = min
 
       this.colorsMessage.data = this.props.colors.map((item) => {
-        if (item.id === id) item.hueShifting = value
+        if (item.id === id) item.hue.shift = value
         return item
       })
 
@@ -364,7 +369,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
       if (value <= min) value = min
 
       this.colorsMessage.data = this.props.colors.map((item) => {
-        if (item.id === id) item.chromaShifting = value
+        if (item.id === id) item.chroma.shift = value
         return item
       })
 
@@ -634,8 +639,8 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                           icon={{ type: 'LETTER', value: 'H' }}
                           unit="°"
                           value={
-                            color.hueShifting !== undefined
-                              ? color.hueShifting.toString()
+                            color.hue.shift !== undefined
+                              ? color.hue.shift.toString()
                               : '100'
                           }
                           min="-360"
@@ -674,8 +679,8 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                           icon={{ type: 'LETTER', value: 'C' }}
                           unit="%"
                           value={
-                            color.chromaShifting !== undefined
-                              ? color.chromaShifting.toString()
+                            color.chroma.shift !== undefined
+                              ? color.chroma.shift.toString()
                               : '100'
                           }
                           min="0"

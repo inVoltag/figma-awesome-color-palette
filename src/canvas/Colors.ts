@@ -220,8 +220,8 @@ export default class Colors {
               render: 'RGB' as 'HEX' | 'RGB',
               sourceColor: sourceColor,
               lightness: lightness,
-              hueShifting: color.hueShifting ?? 0,
-              chromaShifting: color.chromaShifting ?? 100,
+              hueShifting: color.hue.shift ?? 0,
+              chromaShifting: color.chroma.shift ?? 100,
               algorithmVersion: this.parent.algorithmVersion,
               visionSimulationMode: this.parent.visionSimulationMode,
             })
@@ -394,8 +394,8 @@ export default class Colors {
             render: 'RGB' as 'HEX' | 'RGB',
             sourceColor: sourceColor,
             lightness: lightness,
-            hueShifting: color.hueShifting ?? 0,
-            chromaShifting: color.chromaShifting ?? 100,
+            hueShifting: color.hue.shift ?? 0,
+            chromaShifting: color.chroma.shift ?? 100,
             algorithmVersion: this.parent.algorithmVersion,
             visionSimulationMode: this.parent.visionSimulationMode,
           })

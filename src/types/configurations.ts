@@ -9,6 +9,14 @@ export interface SourceColorConfiguration {
   source: 'CANVAS' | 'REMOTE' | ThirdParty
   id: string
   isRemovable: boolean
+  hue?: {
+    shift: number
+    isLocked: boolean
+  }
+  chroma?: {
+    shift: number
+    isLocked: boolean
+  }
   hueShifting?: number
   chromaShifting?: number
 }
@@ -60,9 +68,16 @@ export interface ColorConfiguration {
   name: string
   description: string
   rgb: RgbModel
-  oklch: boolean
-  hueShifting: number
-  chromaShifting: number
+  hue: {
+    shift: number
+    isLocked: boolean
+  }
+  chroma: {
+    shift: number
+    isLocked: boolean
+  }
+  hueShifting?: number
+  chromaShifting?: number
   id: string
 }
 

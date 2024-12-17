@@ -146,7 +146,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
           isLocked: false,
         },
         chroma: {
-          shift: 0,
+          shift: 100,
           isLocked: false,
         },
       })

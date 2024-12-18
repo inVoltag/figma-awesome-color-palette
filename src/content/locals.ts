@@ -358,10 +358,10 @@ export const locals: { [key: string]: any } = {
     },
     preview: {
       wcag: {
-        label: 'Display WCAG scores',
+        label: 'Display WCAG 2 scores',
       },
       apca: {
-        label: 'Display APCA scores',
+        label: 'Display WCAP 3 scores',
       },
       reset: {
         helper: 'Reset the imported colors',

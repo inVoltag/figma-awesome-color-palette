@@ -25,10 +25,7 @@ interface SimpleSliderStates {
   isTooltipDisplay: boolean
 }
 
-export default class SimpleSlider extends Component<
-  SimpleSliderProps,
-  SimpleSliderStates
-> {
+export default class SimpleSlider extends Component<SimpleSliderProps, SimpleSliderStates> {
   private value: number
 
   static defaultProps = {
@@ -43,6 +40,10 @@ export default class SimpleSlider extends Component<
       isTooltipDisplay: false,
     }
     this.value = this.props.value
+  }
+
+  componentDidUpdate = (previousProps: Readonly<SimpleSliderProps>) => {
+    if (previousProps.value !== this.props.value) this.value = this.props.value
   }
 
   // Handlers

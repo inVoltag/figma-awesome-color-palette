@@ -166,6 +166,7 @@ export default class Knob extends PureComponent<KnobProps, KnobStates> {
               max={this.props.max}
               step="0.1"
               feature="TYPE_STOP_VALUE"
+              shouldBlur={true}
               isAutoFocus={true}
               isFlex={true}
               onFocus={() =>
@@ -174,7 +175,8 @@ export default class Knob extends PureComponent<KnobProps, KnobStates> {
                 })
               }
               onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
-                this.props.onValidStopValue?.(this.props.shortId, e)
+                if ((e.target as HTMLInputElement)?.value !== this.props.value)
+                  this.props.onValidStopValue?.(this.props.shortId, e)
                 this.setState({ isStopInputOpen: false })
               }}
             />

@@ -237,7 +237,7 @@ div.slider .slider__input {
   border-radius: var(--border-radius-med);
   background-color: var(--figma-color-bg);
   padding: 1px 2px;
-  width: var(--size-xlarge);
+  width: var(--size-xxlarge);
 }
 
 /* User */

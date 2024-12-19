@@ -98,6 +98,7 @@ export const palette: PaletteConfiguration = {
   shift: {
     chroma: 100,
   },
+  areSourceColorsLocked: false,
   colorSpace: 'LCH',
   visionSimulationMode: 'NONE',
   view: 'PALETTE_WITH_PROPERTIES',

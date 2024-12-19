@@ -20,6 +20,7 @@ const setPaletteMigration = async (palette: BaseNode) => {
     preset = palette.getPluginData('preset'),
     scale = palette.getPluginData('scale'),
     shift = palette.getPluginData('shift'),
+    areSourceColorsLocked = palette.getPluginData('areSourceColorsLocked'),
     colors = palette.getPluginData('colors'),
     colorsObject: Array<ColorConfiguration> = JSON.parse(colors),
     colorSpace = palette.getPluginData('colorSpace'),
@@ -74,6 +75,10 @@ const setPaletteMigration = async (palette: BaseNode) => {
         chroma: 100,
       })
     )
+
+  // Lock
+  if (areSourceColorsLocked === '')
+    palette.setPluginData('areSourceColorsLocked', 'false')
 
   // Colors
   if (colorsObject.length !== 0) {

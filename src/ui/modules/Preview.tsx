@@ -2,7 +2,16 @@ import chroma from 'chroma-js'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 
-import { Bar, Button, HexModel, layouts, Menu, texts } from '@a_ng_d/figmug-ui'
+import {
+  Bar,
+  Button,
+  HexModel,
+  Icon,
+  layouts,
+  Menu,
+  Select,
+  texts,
+} from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import features from '../../config'
 import { locals } from '../../content/locals'
@@ -12,6 +21,7 @@ import {
   AlgorithmVersionConfiguration,
   ColorConfiguration,
   ColorSpaceConfiguration,
+  LockedSourceColorsConfiguration,
   ScaleConfiguration,
   ShiftConfiguration,
   SourceColorConfiguration,
@@ -20,17 +30,21 @@ import {
 import { TextColorsThemeHexModel } from '../../types/models'
 import Color from '../../utils/Color'
 import Contrast from '../../utils/Contrast'
+import { palette } from '../../utils/palettePackage'
+import { AppStates } from '../App'
 
 interface PreviewProps {
   colors: Array<SourceColorConfiguration> | Array<ColorConfiguration> | []
   scale: ScaleConfiguration
   shift?: ShiftConfiguration
+  areSourceColorsLocked: LockedSourceColorsConfiguration
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   algorithmVersion: AlgorithmVersionConfiguration
   textColorsTheme: TextColorsThemeHexModel
   planStatus: PlanStatus
   lang: Language
+  onLockSourceColors?: React.Dispatch<Partial<AppStates>>
   onResetSourceColors?: () => void
 }
 
@@ -41,7 +55,10 @@ interface PreviewStates {
   drawerHeight: string
 }
 
-export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
+export default class Preview extends PureComponent<
+  PreviewProps,
+  PreviewStates
+> {
   private drawerRef: React.RefObject<HTMLDivElement>
   private unsubscribeWCAG: (() => void) | undefined
   private unsubscribeAPCA: (() => void) | undefined
@@ -94,6 +111,33 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
     if (this.props.colors.length === 0)
       this.setState({
         drawerHeight: 'auto',
+      })
+  }
+
+  // Handlers
+  clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.detail === 2) {
+      document.removeEventListener('mousemove', this.onDrag)
+      this.setState({
+        drawerHeight: this.state.drawerHeight === 'auto' ? '100%' : 'auto',
+        isDrawerCollapsed: false,
+      })
+    }
+  }
+
+  displayHandler = (): string => {
+    const options = []
+    if (this.state.isWCAGDisplayed) options.push('ENABLE_WCAG_SCORE')
+    if (this.state.isAPCADisplayed) options.push('ENABLE_APCA_SCORE')
+    return options.join(', ')
+  }
+
+  lockSourceColorsHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement
+    palette.areSourceColorsLocked = target.checked ?? false
+    if (this.props.onLockSourceColors)
+      this.props.onLockSourceColors({
+        areSourceColorsLocked: target.checked,
       })
   }
 
@@ -157,23 +201,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
     })
   }
 
-  clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.detail === 2) {
-      document.removeEventListener('mousemove', this.onDrag)
-      this.setState({
-        drawerHeight: this.state.drawerHeight === 'auto' ? '100%' : 'auto',
-        isDrawerCollapsed: false,
-      })
-    }
-  }
-
-  displayHandler = (): string => {
-    const options = []
-    if (this.state.isWCAGDisplayed) options.push('ENABLE_WCAG_SCORE')
-    if (this.state.isAPCADisplayed) options.push('ENABLE_APCA_SCORE')
-    return options.join(', ')
-  }
-
   // Templates
   stopTag = ({ stop }: { stop: string }) => (
     <div className="preview__tag">
@@ -219,8 +246,13 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
 
   lockColorTag = () => (
     <div className="preview__tag">
+      <Icon
+        type="PICTO"
+        iconName="lock-on"
+        iconColor="var(--black)"
+      />
       <span className={`preview__tag__score type ${texts['type--truncated']}`}>
-        ⵁ Locked Source Color
+        Locked
       </span>
     </div>
   )
@@ -328,6 +360,13 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
           }
           rightPartSlot={
             <div className={layouts['snackbar--medium']}>
+              <Select
+                id="lock-source-colors"
+                label="Lock source colors"
+                type="SWITCH_BUTTON"
+                isChecked={this.props.areSourceColorsLocked}
+                onChange={this.lockSourceColorsHandler}
+              />
               <span
                 className={`type ${texts['type']} ${texts['type--secondary']}`}
               >
@@ -365,91 +404,120 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
           }
           border={['BOTTOM']}
         />
-        <div className="preview__header">
-          {Object.keys(this.props.scale)
-            .reverse()
-            .map((scale, index) => {
-              return (
-                <div
-                  className="preview__cell preview__cell--no-height"
-                  key={index}
-                >
-                  <this.stopTag stop={scale.replace('lightness-', '')} />
-                </div>
-              )
-            })}
-        </div>
-        <div className="preview__rows">
-          {this.props.colors.map((color, index) => (
-            <div
-              className="preview__row"
-              key={index}
-            >
-              {Object.values(this.props.scale)
+        {!this.state.isDrawerCollapsed && (
+          <div className="preview__palette">
+            <div className="preview__header">
+              {Object.keys(this.props.scale)
                 .reverse()
-                .map((lightness, index) => {
-                  const background: HexModel = this.setColor(color, lightness)
-                  const darkText = new Color({
-                    visionSimulationMode: this.props.visionSimulationMode,
-                  }).simulateColorBlindHex(
-                    chroma(this.props.textColorsTheme.darkColor).rgb(false)
-                  )
-                  const lightText = new Color({
-                    visionSimulationMode: this.props.visionSimulationMode,
-                  }).simulateColorBlindHex(
-                    chroma(this.props.textColorsTheme.lightColor).rgb(false)
-                  )
-
+                .map((scale, index) => {
                   return (
                     <div
-                      className="preview__cell"
+                      className="preview__cell preview__cell--no-height"
                       key={index}
-                      style={{
-                        backgroundColor: background,
-                      }}
                     >
-                      {this.state.isWCAGDisplayed && (
-                        <this.wcagScoreTag
-                          color={lightText}
-                          score={new Contrast({
-                            backgroundColor: chroma(background).rgb(false),
-                            textColor: lightText,
-                          }).getWCAGContrast()}
-                        />
-                      )}
-                      {this.state.isAPCADisplayed && (
-                        <this.apcaScoreTag
-                          color={lightText}
-                          score={new Contrast({
-                            backgroundColor: chroma(background).rgb(false),
-                            textColor: lightText,
-                          }).getAPCAContrast()}
-                        />
-                      )}
-                      {this.state.isWCAGDisplayed && (
-                        <this.wcagScoreTag
-                          color={darkText}
-                          score={new Contrast({
-                            backgroundColor: chroma(background).rgb(false),
-                            textColor: darkText,
-                          }).getWCAGContrast()}
-                        />
-                      )}
-                      {this.state.isAPCADisplayed && (
-                        <this.apcaScoreTag
-                          color={darkText}
-                          score={new Contrast({
-                            backgroundColor: chroma(background).rgb(false),
-                            textColor: darkText,
-                          }).getAPCAContrast()}
-                        />
-                      )}
+                      <this.stopTag stop={scale.replace('lightness-', '')} />
                     </div>
                   )
                 })}
             </div>
-          ))}
-        </div>
+            <div className="preview__rows">
+              {this.props.colors.map((color, index) => {
+                const scaledColors: Array<HexModel> = Object.values(
+                  this.props.scale
+                )
+                  .reverse()
+                  .map((lightness) => this.setColor(color, lightness))
+
+                return (
+                  <div
+                    className="preview__row"
+                    key={index}
+                  >
+                    {Object.values(scaledColors).map((scaledColor, index) => {
+                      const sourceColor = chroma([
+                        color.rgb.r * 255,
+                        color.rgb.g * 255,
+                        color.rgb.b * 255,
+                      ]).hex()
+                      const distances = scaledColors.map((scaledColor) =>
+                        chroma.distance(sourceColor, scaledColor, 'rgb')
+                      )
+                      const minDistanceIndex = distances.indexOf(
+                        Math.min(...distances)
+                      )
+                      const background: HexModel =
+                        index === minDistanceIndex &&
+                        this.props.areSourceColorsLocked
+                          ? sourceColor
+                          : scaledColor
+                      const darkText = new Color({
+                        visionSimulationMode: this.props.visionSimulationMode,
+                      }).simulateColorBlindHex(
+                        chroma(this.props.textColorsTheme.darkColor).rgb(false)
+                      )
+                      const lightText = new Color({
+                        visionSimulationMode: this.props.visionSimulationMode,
+                      }).simulateColorBlindHex(
+                        chroma(this.props.textColorsTheme.lightColor).rgb(false)
+                      )
+
+                      return (
+                        <div
+                          className="preview__cell"
+                          key={index}
+                          style={{
+                            backgroundColor: background,
+                          }}
+                        >
+                          {this.state.isWCAGDisplayed && (
+                            <this.wcagScoreTag
+                              color={lightText}
+                              score={new Contrast({
+                                backgroundColor: chroma(background).rgb(false),
+                                textColor: lightText,
+                              }).getWCAGContrast()}
+                            />
+                          )}
+                          {this.state.isAPCADisplayed && (
+                            <this.apcaScoreTag
+                              color={lightText}
+                              score={new Contrast({
+                                backgroundColor: chroma(background).rgb(false),
+                                textColor: lightText,
+                              }).getAPCAContrast()}
+                            />
+                          )}
+                          {this.state.isWCAGDisplayed && (
+                            <this.wcagScoreTag
+                              color={darkText}
+                              score={new Contrast({
+                                backgroundColor: chroma(background).rgb(false),
+                                textColor: darkText,
+                              }).getWCAGContrast()}
+                            />
+                          )}
+                          {this.state.isAPCADisplayed && (
+                            <this.apcaScoreTag
+                              color={darkText}
+                              score={new Contrast({
+                                backgroundColor: chroma(background).rgb(false),
+                                textColor: darkText,
+                              }).getAPCAContrast()}
+                            />
+                          )}
+                          {index === minDistanceIndex &&
+                            this.props.areSourceColorsLocked && (
+                              <this.lockColorTag />
+                            )}
+                        </div>
+                      )
+                    })}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
       </div>
     )
   }

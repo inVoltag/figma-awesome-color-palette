@@ -18,6 +18,7 @@ import {
 import {
   ColorSpaceConfiguration,
   ExtractOfPaletteConfiguration,
+  LockedSourceColorsConfiguration,
   PresetConfiguration,
   ScaleConfiguration,
   ShiftConfiguration,
@@ -48,6 +49,7 @@ interface CreatePaletteProps {
   distributionEasing: Easing
   scale: ScaleConfiguration
   shift: ShiftConfiguration
+  areSourceColorsLocked: LockedSourceColorsConfiguration
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   view: ViewConfiguration
@@ -66,6 +68,7 @@ interface CreatePaletteProps {
   onChangeSettings: React.Dispatch<Partial<AppStates>>
   onConfigureExternalSourceColors: React.Dispatch<Partial<AppStates>>
   onResetSourceColors: React.Dispatch<Partial<AppStates>>
+  onLockSourceColors: React.Dispatch<Partial<AppStates>>
 }
 
 interface CreatePaletteStates {

@@ -39,6 +39,7 @@ import {
   DatesConfiguration,
   ExportConfiguration,
   ExtractOfPaletteConfiguration,
+  LockedSourceColorsConfiguration,
   PresetConfiguration,
   PublicationConfiguration,
   ScaleConfiguration,
@@ -81,6 +82,7 @@ export interface AppStates {
   distributionEasing: Easing
   scale: ScaleConfiguration
   shift: ShiftConfiguration
+  areSourceColorsLocked: LockedSourceColorsConfiguration
   colors: Array<ColorConfiguration>
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
@@ -156,6 +158,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
       shift: {
         chroma: 100,
       },
+      areSourceColorsLocked: false,
       colors: [],
       colorSpace: 'LCH',
       visionSimulationMode: 'NONE',
@@ -412,6 +415,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
               shift: {
                 chroma: 100,
               },
+              areSourceColorsLocked: false,
               colorSpace: 'LCH',
               visionSimulationMode: 'NONE',
               view: 'PALETTE_WITH_PROPERTIES',
@@ -449,6 +453,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
             palette.shift = {
               chroma: 100,
             }
+            palette.areSourceColorsLocked = false
             palette.colorSpace = 'LCH'
             palette.visionSimulationMode = 'NONE'
             palette.view = 'PALETTE_WITH_PROPERTIES'
@@ -493,6 +498,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
               shift: {
                 chroma: 100,
               },
+              areSourceColorsLocked: false,
               colorSpace: 'LCH',
               visionSimulationMode: 'NONE',
               view: 'PALETTE_WITH_PROPERTIES',
@@ -531,6 +537,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
             palette.shift = {
               chroma: 100,
             }
+            palette.areSourceColorsLocked = false
             palette.colorSpace = 'LCH'
             palette.visionSimulationMode = 'NONE'
             palette.view = 'PALETTE_WITH_PROPERTIES'
@@ -949,6 +956,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
               {...this.state}
               onChangeColorsFromImport={(e) => this.setState({ ...e })}
               onResetSourceColors={(e) => this.setState({ ...e })}
+              onLockSourceColors={(e) => this.setState({ ...e })}
               onChangeScale={(e) => this.setState({ ...e })}
               onChangeShift={(e) => this.setState({ ...e })}
               onChangePreset={(e) => this.setState({ ...e })}

@@ -21,6 +21,7 @@ import {
   ColorConfiguration,
   ColorSpaceConfiguration,
   ExportConfiguration,
+  LockedSourceColorsConfiguration,
   PresetConfiguration,
   ScaleConfiguration,
   ShiftConfiguration,
@@ -59,6 +60,7 @@ interface EditPaletteProps {
   preset: PresetConfiguration
   scale: ScaleConfiguration
   shift: ShiftConfiguration
+  areSourceColorsLocked: LockedSourceColorsConfiguration
   colors: Array<ColorConfiguration>
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration

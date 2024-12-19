@@ -27,6 +27,7 @@ export interface PaletteConfiguration {
   preset: PresetConfiguration
   scale: ScaleConfiguration
   shift: ShiftConfiguration
+  areSourceColorsLocked: boolean
   min: number | undefined
   max: number | undefined
   colorSpace: ColorSpaceConfiguration
@@ -63,6 +64,8 @@ export interface ScaleConfiguration {
 export interface ShiftConfiguration {
   chroma: number
 }
+
+export type LockedSourceColorsConfiguration = boolean
 
 export interface ColorConfiguration {
   name: string

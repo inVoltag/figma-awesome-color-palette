@@ -269,6 +269,11 @@ div.user__avatar img {
   padding: 0 var(--size-xxxsmall);
   max-width: 100%;
   overflow: hidden;
+  max-height: var(--size-xsmall);
+}
+
+.preview__tag .icon-box {
+  width: var(--size-xsmall);
 }
 
 .preview__tag__color {

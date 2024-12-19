@@ -35,7 +35,7 @@ import updateView from './updates/updateView'
 const loadUI = async () => {
   const windowSize: windowSize = {
     w: (await figma.clientStorage.getAsync('plugin_window_width')) ?? 640,
-    h: (await figma.clientStorage.getAsync('plugin_window_height')) ?? 320,
+    h: (await figma.clientStorage.getAsync('plugin_window_height')) ?? 400,
   }
 
   figma.showUI(__html__, {
@@ -77,8 +77,8 @@ const loadUI = async () => {
 
         if (scaleX > 540) windowSize.w = scaleX
         else windowSize.w = 540
-        if (scaleY > 300) windowSize.h = scaleY
-        else windowSize.h = 300
+        if (scaleY > 400) windowSize.h = scaleY
+        else windowSize.h = 400
 
         await figma.clientStorage.setAsync('plugin_window_width', windowSize.w)
         await figma.clientStorage.setAsync('plugin_window_height', windowSize.h)

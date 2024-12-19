@@ -37,13 +37,11 @@ interface PreviewProps {
 interface PreviewStates {
   isWCAGDisplayed: boolean
   isAPCADisplayed: boolean
+  isDrawerCollapsed: boolean
   drawerHeight: string
 }
 
-export default class Preview extends PureComponent<
-  PreviewProps,
-  PreviewStates
-> {
+export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
   private drawerRef: React.RefObject<HTMLDivElement>
   private unsubscribeWCAG: (() => void) | undefined
   private unsubscribeAPCA: (() => void) | undefined
@@ -71,6 +69,7 @@ export default class Preview extends PureComponent<
     this.state = {
       isWCAGDisplayed: true,
       isAPCADisplayed: true,
+      isDrawerCollapsed: false,
       drawerHeight: 'auto',
     }
     this.drawerRef = React.createRef()
@@ -148,6 +147,7 @@ export default class Preview extends PureComponent<
 
     this.setState({
       drawerHeight: `${delta}px`,
+      isDrawerCollapsed: delta <= 40 ? true : false,
     })
 
     document.body.style.cursor = 'ns-resize'
@@ -162,6 +162,7 @@ export default class Preview extends PureComponent<
       document.removeEventListener('mousemove', this.onDrag)
       this.setState({
         drawerHeight: this.state.drawerHeight === 'auto' ? '100%' : 'auto',
+        isDrawerCollapsed: false,
       })
     }
   }
@@ -216,6 +217,14 @@ export default class Preview extends PureComponent<
     </div>
   )
 
+  lockColorTag = () => (
+    <div className="preview__tag">
+      <span className={`preview__tag__score type ${texts['type--truncated']}`}>
+        ⵁ Locked Source Color
+      </span>
+    </div>
+  )
+
   // Render
   render() {
     if (!this.props.colors.length) return null
@@ -235,6 +244,16 @@ export default class Preview extends PureComponent<
         <Bar
           leftPartSlot={
             <div className={layouts['snackbar--tight']}>
+              <Button
+                type="icon"
+                icon={this.state.isDrawerCollapsed ? 'caret-up' : 'caret-down'}
+                action={() =>
+                  this.setState({
+                    isDrawerCollapsed: !this.state.isDrawerCollapsed,
+                    drawerHeight: 'auto',
+                  })
+                }
+              />
               <Menu
                 id="change-score-display"
                 type="ICON"

@@ -213,7 +213,7 @@ div.about__links {
   position: relative;
   flex-direction: column;
   border-top: 1px solid var(--figma-color-border);
-  min-height: 149px;
+  min-height: 40px;
   max-height: calc(100% - 192px);
 }
 
@@ -224,6 +224,13 @@ div.about__links {
   cursor: ns-resize;
   width: 100%;
   height: var(--size-xxsmall);
+}
+
+.preview__palette {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
 }
 
 .preview__rows {

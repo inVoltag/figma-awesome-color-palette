@@ -2,14 +2,7 @@ import chroma from 'chroma-js'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 
-import {
-  Bar,
-  Button,
-  HexModel,
-  layouts,
-  Select,
-  texts,
-} from '@a_ng_d/figmug-ui'
+import { Bar, Button, HexModel, layouts, Menu, texts } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import features from '../../config'
 import { locals } from '../../content/locals'
@@ -27,7 +20,6 @@ import {
 import { TextColorsThemeHexModel } from '../../types/models'
 import Color from '../../utils/Color'
 import Contrast from '../../utils/Contrast'
-import Feature from '../components/Feature'
 
 interface PreviewProps {
   colors: Array<SourceColorConfiguration> | Array<ColorConfiguration> | []
@@ -174,6 +166,13 @@ export default class Preview extends PureComponent<
     }
   }
 
+  displayHandler = (): string => {
+    const options = []
+    if (this.state.isWCAGDisplayed) options.push('ENABLE_WCAG_SCORE')
+    if (this.state.isAPCADisplayed) options.push('ENABLE_APCA_SCORE')
+    return options.join(', ')
+  }
+
   // Templates
   stopTag = ({ stop }: { stop: string }) => (
     <div className="preview__tag">
@@ -236,78 +235,76 @@ export default class Preview extends PureComponent<
         <Bar
           leftPartSlot={
             <div className={layouts['snackbar--tight']}>
-              <Feature
-                isActive={Preview.features(
-                  this.props.planStatus
-                ).PREVIEW_WCAG.isActive()}
-              >
-                <Select
-                  id="enable-wcag-score"
-                  type="SWITCH_BUTTON"
-                  name="enable-wcag-score"
-                  label={locals[this.props.lang].preview.wcag.label}
-                  isChecked={this.state.isWCAGDisplayed}
-                  isBlocked={Preview.features(
-                    this.props.planStatus
-                  ).PREVIEW_WCAG.isBlocked()}
-                  isNew={Preview.features(
-                    this.props.planStatus
-                  ).PREVIEW_WCAG.isNew()}
-                  onChange={() => {
-                    $isWCAGDisplayed.set(!this.state.isWCAGDisplayed)
-                    parent.postMessage(
-                      {
-                        pluginMessage: {
-                          type: 'SET_ITEMS',
-                          items: [
-                            {
-                              key: 'is_wcag_displayed',
-                              value: !this.state.isWCAGDisplayed,
-                            },
-                          ],
+              <Menu
+                id="change-score-display"
+                type="ICON"
+                icon="visible"
+                options={[
+                  {
+                    label: locals[this.props.lang].preview.wcag.label,
+                    value: 'ENABLE_WCAG_SCORE',
+                    type: 'OPTION',
+                    isActive: Preview.features(
+                      this.props.planStatus
+                    ).PREVIEW_WCAG.isActive(),
+                    isBlocked: Preview.features(
+                      this.props.planStatus
+                    ).PREVIEW_WCAG.isBlocked(),
+                    isNew: Preview.features(
+                      this.props.planStatus
+                    ).PREVIEW_WCAG.isNew(),
+                    action: () => {
+                      $isWCAGDisplayed.set(!this.state.isWCAGDisplayed)
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'SET_ITEMS',
+                            items: [
+                              {
+                                key: 'is_wcag_displayed',
+                                value: !this.state.isWCAGDisplayed,
+                              },
+                            ],
+                          },
                         },
-                      },
-                      '*'
-                    )
-                  }}
-                />
-              </Feature>
-              <Feature
-                isActive={Preview.features(
-                  this.props.planStatus
-                ).PREVIEW_APCA.isActive()}
-              >
-                <Select
-                  id="enable-apca-score"
-                  type="SWITCH_BUTTON"
-                  name="enable-apca-score"
-                  label={locals[this.props.lang].preview.apca.label}
-                  isChecked={this.state.isAPCADisplayed}
-                  isBlocked={Preview.features(
-                    this.props.planStatus
-                  ).PREVIEW_APCA.isBlocked()}
-                  isNew={Preview.features(
-                    this.props.planStatus
-                  ).PREVIEW_APCA.isNew()}
-                  onChange={() => {
-                    $isAPCADisplayed.set(!this.state.isAPCADisplayed)
-                    parent.postMessage(
-                      {
-                        pluginMessage: {
-                          type: 'SET_ITEMS',
-                          items: [
-                            {
-                              key: 'is_apca_displayed',
-                              value: !this.state.isAPCADisplayed,
-                            },
-                          ],
+                        '*'
+                      )
+                    },
+                  },
+                  {
+                    label: locals[this.props.lang].preview.apca.label,
+                    value: 'ENABLE_APCA_SCORE',
+                    type: 'OPTION',
+                    isActive: Preview.features(
+                      this.props.planStatus
+                    ).PREVIEW_APCA.isActive(),
+                    isBlocked: Preview.features(
+                      this.props.planStatus
+                    ).PREVIEW_APCA.isBlocked(),
+                    isNew: Preview.features(
+                      this.props.planStatus
+                    ).PREVIEW_APCA.isNew(),
+                    action: () => {
+                      $isAPCADisplayed.set(!this.state.isAPCADisplayed)
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'SET_ITEMS',
+                            items: [
+                              {
+                                key: 'is_apca_displayed',
+                                value: !this.state.isAPCADisplayed,
+                              },
+                            ],
+                          },
                         },
-                      },
-                      '*'
-                    )
-                  }}
-                />
-              </Feature>
+                        '*'
+                      )
+                    },
+                  },
+                ]}
+                selected={this.displayHandler()}
+              />
             </div>
           }
           rightPartSlot={

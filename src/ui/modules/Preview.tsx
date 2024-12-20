@@ -448,7 +448,10 @@ export default class Preview extends PureComponent<
                       const background: HexModel =
                         index === minDistanceIndex &&
                         this.props.areSourceColorsLocked
-                          ? sourceColor
+                          ? new Color({
+                              visionSimulationMode:
+                                this.props.visionSimulationMode,
+                            }).simulateColorBlindHex(chroma(sourceColor).rgb())
                           : scaledColor
                       const darkText = new Color({
                         visionSimulationMode: this.props.visionSimulationMode,

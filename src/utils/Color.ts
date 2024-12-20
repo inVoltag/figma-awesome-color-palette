@@ -52,7 +52,7 @@ export default class Color {
       const sinComponent = Math.sin(lightnessFactor * Math.PI)
       const tanhComponent = Math.tanh(lightnessFactor * Math.PI)
       const weightedComponent = sinComponent * 0.5 + tanhComponent * 0.5
-      const smoothedComponent = Math.pow(weightedComponent, 0.5) // Pour adoucir la variation
+      const smoothedComponent = Math.pow(weightedComponent, 0.5)
       return smoothedComponent * chroma
     }
     return chroma

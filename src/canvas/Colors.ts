@@ -422,7 +422,9 @@ export default class Colors {
                 },
                 shade.name,
                 index === minDistanceIndex && this.parent.areSourceColorsLocked
-                  ? sourceColor.rgb
+                  ? new Color({
+                      visionSimulationMode: this.parent.visionSimulationMode,
+                    }).simulateColorBlindRgb(sourceColor.rgb)
                   : shade.rgb,
                 this.parent.colorSpace,
                 this.parent.visionSimulationMode,
@@ -460,7 +462,9 @@ export default class Colors {
                 },
                 shade.name,
                 index === minDistanceIndex && this.parent.areSourceColorsLocked
-                  ? sourceColor.rgb
+                  ? new Color({
+                      visionSimulationMode: this.parent.visionSimulationMode,
+                    }).simulateColorBlindRgb(sourceColor.rgb)
                   : shade.rgb,
                 this.parent.colorSpace,
                 this.parent.visionSimulationMode,

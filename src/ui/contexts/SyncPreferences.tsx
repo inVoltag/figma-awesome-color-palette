@@ -117,7 +117,7 @@ export default class SyncPreferences extends PureComponent<
             this.props.planStatus
           ).SETTINGS_SYNC_DEEP_PALETTE.isNew()}
           feature="UPDATE_PALETTE_DEEP_SYNC"
-          onChange={(e) => {
+          action={(e) => {
             $canPaletteDeepSync.set(!this.state.canPaletteDeepSync)
             this.props.onChangeSettings(e)
           }}
@@ -148,7 +148,7 @@ export default class SyncPreferences extends PureComponent<
             this.props.planStatus
           ).SETTINGS_SYNC_DEEP_VARIABLES.isNew()}
           feature="UPDATE_VARIABLES_DEEP_SYNC"
-          onChange={(e) => {
+          action={(e) => {
             $canVariablesDeepSync.set(!this.state.canVariablesDeepSync)
             this.props.onChangeSettings(e)
           }}
@@ -177,7 +177,7 @@ export default class SyncPreferences extends PureComponent<
             this.props.planStatus
           ).SETTINGS_SYNC_DEEP_STYLES.isNew()}
           feature="UPDATE_STYLES_DEEP_SYNC"
-          onChange={(e) => {
+          action={(e) => {
             $canStylesDeepSync.set(!this.state.canStylesDeepSync)
             this.props.onChangeSettings(e)
           }}

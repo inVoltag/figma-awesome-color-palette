@@ -388,7 +388,7 @@ export default class SelfPalettes extends PureComponent<
                 <>
                   <Menu
                     id="publication-options"
-                    icon="ellipsis"
+                    icon="ellipses"
                     options={[
                       {
                         label: locals[this.props.lang].publication.unpublish,

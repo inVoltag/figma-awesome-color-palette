@@ -156,6 +156,38 @@ export default class Colors {
         type: theme.type,
       }
       this.parent.colors.forEach((color) => {
+        const scaledColors = Object.entries(theme.scale)
+          .reverse()
+          .map((lightness) => {
+            const colorData = new Color({
+              render: 'RGB' as 'HEX' | 'RGB',
+              sourceColor: [
+                color.rgb.r * 255,
+                color.rgb.g * 255,
+                color.rgb.b * 255,
+              ],
+              lightness: lightness[1],
+              hueShifting: color.hue.shift ?? 0,
+              chromaShifting: color.chroma.shift ?? 100,
+              algorithmVersion: this.parent.algorithmVersion,
+              visionSimulationMode: this.parent.visionSimulationMode,
+            })
+
+            if (this.parent.colorSpace === 'LCH')
+              return [lightness, colorData.lch()]
+            else if (this.parent.colorSpace === 'OKLCH')
+              return [lightness, colorData.oklch()]
+            else if (this.parent.colorSpace === 'LAB')
+              return [lightness, colorData.lab()]
+            else if (this.parent.colorSpace === 'OKLAB')
+              return [lightness, colorData.oklab()]
+            else if (this.parent.colorSpace === 'HSL')
+              return [lightness, colorData.hsl()]
+            else if (this.parent.colorSpace === 'HSLUV')
+              return [lightness, colorData.hsluv()]
+            return [lightness, colorData.lch()]
+          }) as Array<[[string, number], [number, number, number]]>
+
         const paletteDataColorItem: PaletteDataColorItem = {
             name: color.name,
             description: color.description,
@@ -212,77 +244,51 @@ export default class Colors {
           type: 'source color',
         })
 
-        Object.values(theme.scale)
-          .reverse()
-          .forEach((lightness: number) => {
-            let newColor: [number, number, number] = [0, 0, 0]
-            const colorData = new Color({
-              render: 'RGB' as 'HEX' | 'RGB',
-              sourceColor: sourceColor,
-              lightness: lightness,
-              hueShifting: color.hue.shift ?? 0,
-              chromaShifting: color.chroma.shift ?? 100,
-              algorithmVersion: this.parent.algorithmVersion,
-              visionSimulationMode: this.parent.visionSimulationMode,
-            })
+        scaledColors.forEach((scaledColor) => {
+          const scaleName: string =
+            Object.keys(this.currentScale)
+              .find((key) => key === scaledColor[0][0])
+              ?.replace('lightness-', '') ?? '0'
 
-            if (this.parent.colorSpace === 'LCH')
-              newColor = colorData.lch() as [number, number, number]
-            else if (this.parent.colorSpace === 'OKLCH')
-              newColor = colorData.oklch() as [number, number, number]
-            else if (this.parent.colorSpace === 'LAB')
-              newColor = colorData.lab() as [number, number, number]
-            else if (this.parent.colorSpace === 'OKLAB')
-              newColor = colorData.oklab() as [number, number, number]
-            else if (this.parent.colorSpace === 'HSL')
-              newColor = colorData.hsl() as [number, number, number]
-            else if (this.parent.colorSpace === 'HSLUV')
-              newColor = colorData.hsluv() as [number, number, number]
+          const newHsluv = new Hsluv()
+          newHsluv.rgb_r = scaledColor[1][0] / 255
+          newHsluv.rgb_g = scaledColor[1][1] / 255
+          newHsluv.rgb_b = scaledColor[1][2] / 255
+          newHsluv.rgbToHsluv()
 
-            const scaleName: string =
-              Object.keys(theme.scale)
-                .find((key) => theme.scale[key] === lightness)
-                ?.substr(10) ?? '0'
-
-            const newHsluv = new Hsluv()
-            newHsluv.rgb_r = newColor[0] / 255
-            newHsluv.rgb_g = newColor[1] / 255
-            newHsluv.rgb_b = newColor[2] / 255
-            newHsluv.rgbToHsluv()
-
-            paletteDataColorItem.shades.push({
-              name: scaleName,
-              description: `Shade color with ${lightness}% of lightness`,
-              hex: chroma(newColor).hex(),
-              rgb: chroma(newColor).rgb(),
-              gl: chroma(newColor).gl(),
-              lch: chroma(newColor).lch(),
-              oklch: chroma(newColor).oklch(),
-              lab: chroma(newColor).lab(),
-              oklab: chroma(newColor).oklab(),
-              hsl: chroma(newColor).hsl(),
-              hsluv: [newHsluv.hsluv_h, newHsluv.hsluv_s, newHsluv.hsluv_l],
-              variableId:
-                service === 'EDIT'
-                  ? this.searchForShadeVariableId(
-                      data.themes,
-                      theme.id,
-                      color.id,
-                      scaleName
-                    )
-                  : '',
-              styleId:
-                service === 'EDIT'
-                  ? this.searchForShadeStyleId(
-                      data.themes,
-                      theme.id,
-                      color.id,
-                      scaleName
-                    )
-                  : '',
-              type: 'color shade',
-            })
+          paletteDataColorItem.shades.push({
+            name: scaleName,
+            description: `Shade color with ${scaledColor[0][1]}% of lightness`,
+            hex: chroma(scaledColor[1]).hex(),
+            rgb: chroma(scaledColor[1]).rgb(),
+            gl: chroma(scaledColor[1]).gl(),
+            lch: chroma(scaledColor[1]).lch(),
+            oklch: chroma(scaledColor[1]).oklch(),
+            lab: chroma(scaledColor[1]).lab(),
+            oklab: chroma(scaledColor[1]).oklab(),
+            hsl: chroma(scaledColor[1]).hsl(),
+            hsluv: [newHsluv.hsluv_h, newHsluv.hsluv_s, newHsluv.hsluv_l],
+            variableId:
+              service === 'EDIT'
+                ? this.searchForShadeVariableId(
+                    data.themes,
+                    theme.id,
+                    color.id,
+                    scaleName
+                  )
+                : '',
+            styleId:
+              service === 'EDIT'
+                ? this.searchForShadeStyleId(
+                    data.themes,
+                    theme.id,
+                    color.id,
+                    scaleName
+                  )
+                : '',
+            type: 'color shade',
           })
+        })
 
         paletteDataThemeItem.colors.push(paletteDataColorItem)
       })
@@ -290,9 +296,16 @@ export default class Colors {
     })
 
     this.palette?.setPluginData('data', JSON.stringify(this.paletteData))
+    return this.paletteData
   }
 
   makeNodeShades = () => {
+    const enabledThemeId =
+      this.parent.themes.find((theme) => theme.isEnabled)?.id ?? ''
+    const data = this.makePaletteData(
+      this.parent.service ?? 'EDIT'
+    ).themes.find((theme) => theme.id === enabledThemeId)
+
     // Base
     this.nodeShades = figma.createFrame()
     this.nodeShades.name = '_shades'
@@ -314,40 +327,11 @@ export default class Colors {
             this.gap * 4
       ).makeNode()
     )
-    this.parent.colors.forEach((color) => {
-      const sourceColor: [number, number, number] = [
-        color.rgb.r * 255,
-        color.rgb.g * 255,
-        color.rgb.b * 255,
-      ]
 
-      const scaledColors = Object.entries(this.currentScale)
-        .reverse()
-        .map((lightness) => {
-          const colorData = new Color({
-            render: 'RGB' as 'HEX' | 'RGB',
-            sourceColor: sourceColor,
-            lightness: lightness[1],
-            hueShifting: color.hue.shift ?? 0,
-            chromaShifting: color.chroma.shift ?? 100,
-            algorithmVersion: this.parent.algorithmVersion,
-            visionSimulationMode: this.parent.visionSimulationMode,
-          })
-
-          if (this.parent.colorSpace === 'LCH')
-            return [lightness[0], colorData.lch()]
-          else if (this.parent.colorSpace === 'OKLCH')
-            return [lightness[0], colorData.oklch()]
-          else if (this.parent.colorSpace === 'LAB')
-            return [lightness[0], colorData.lab()]
-          else if (this.parent.colorSpace === 'OKLAB')
-            return [lightness[0], colorData.oklab()]
-          else if (this.parent.colorSpace === 'HSL')
-            return [lightness[0], colorData.hsl()]
-          else if (this.parent.colorSpace === 'HSLUV')
-            return [lightness[0], colorData.hsluv()]
-          return [lightness[0], colorData.lch()]
-        }) as Array<[string, [number, number, number]]>
+    data?.colors.forEach((color) => {
+      const sourceColor = color.shades.find(
+        (shade) => shade.name === 'source'
+      ) ?? { hex: '#000000', rgb: [0, 0, 0] }
 
       // Base
       this.nodeRow = figma.createFrame()
@@ -384,7 +368,7 @@ export default class Colors {
               color.name,
               null,
               null,
-              [color.rgb.r * 255, color.rgb.g * 255, color.rgb.b * 255],
+              sourceColor.rgb,
               this.parent.colorSpace,
               this.parent.visionSimulationMode,
               this.parent.view,
@@ -399,7 +383,7 @@ export default class Colors {
               color.name,
               null,
               null,
-              [color.rgb.r * 255, color.rgb.g * 255, color.rgb.b * 255],
+              sourceColor.rgb,
               this.parent.colorSpace,
               this.parent.visionSimulationMode,
               this.parent.view,
@@ -413,95 +397,95 @@ export default class Colors {
             )
       )
 
-      scaledColors.forEach((scaledColor, index) => {
-        const distances = scaledColors.map(
-          (scaledColor) =>
-            scaledColor &&
-            chroma.distance(
-              chroma(sourceColor).hex(),
-              chroma(scaledColor[1]).hex(),
-              'rgb'
-            )
-        )
-        const minDistanceIndex = distances.indexOf(Math.min(...distances))
-        const distance: number = chroma.distance(
-          chroma(sourceColor).hex(),
-          chroma(scaledColor[1]).hex(),
-          'rgb'
-        )
-        const scaleName: string =
-          Object.keys(this.currentScale)
-            .find((key) => key === scaledColor[0])
-            ?.replace('lightness-', '') ?? '0'
+      const distances = color.shades
+        .filter((shade) => shade.name !== 'source')
+        .map((shade) => chroma.distance(sourceColor.hex, shade.hex, 'rgb'))
+      const minDistanceIndex = distances.indexOf(Math.min(...distances))
 
-        if (this.parent.view.includes('PALETTE'))
-          this.nodeRowShades?.appendChild(
-            new Sample(
-              color.name,
-              color.rgb,
-              scaleName,
-              index === minDistanceIndex && this.parent.areSourceColorsLocked
-                ? sourceColor
-                : scaledColor[1],
-              this.parent.colorSpace,
-              this.parent.visionSimulationMode,
-              this.parent.view,
-              this.parent.textColorsTheme,
-              {
-                isClosestToRef:
-                  distance < 4 && !this.parent.areSourceColorsLocked,
-                isLocked:
-                  index === minDistanceIndex &&
-                  this.parent.areSourceColorsLocked,
-              }
-            ).makeNodeShade(
-              this.sampleSize,
-              this.sampleSize * this.sampleRatio,
-              scaleName
+      color.shades
+        .filter((shade) => shade.name !== 'source')
+        .forEach((shade, index) => {
+          const distance: number = chroma.distance(
+            sourceColor.hex,
+            shade.hex,
+            'rgb'
+          )
+
+          if (this.parent.view.includes('PALETTE'))
+            this.nodeRowShades?.appendChild(
+              new Sample(
+                color.name,
+                {
+                  r: sourceColor.rgb[0] / 255,
+                  g: sourceColor.rgb[1] / 255,
+                  b: sourceColor.rgb[2] / 255,
+                },
+                shade.name,
+                index === minDistanceIndex && this.parent.areSourceColorsLocked
+                  ? sourceColor.rgb
+                  : shade.rgb,
+                this.parent.colorSpace,
+                this.parent.visionSimulationMode,
+                this.parent.view,
+                this.parent.textColorsTheme,
+                {
+                  isClosestToRef:
+                    distance < 4 && !this.parent.areSourceColorsLocked,
+                  isLocked:
+                    index === minDistanceIndex &&
+                    this.parent.areSourceColorsLocked,
+                }
+              ).makeNodeShade(
+                this.sampleSize,
+                this.sampleSize * this.sampleRatio,
+                shade.name
+              )
             )
-          )
-        else if (this.nodeRowShades !== null) {
-          this.nodeRowShades.layoutSizingHorizontal = 'FIXED'
-          this.nodeRowShades.layoutWrap = 'WRAP'
-          this.nodeRowShades.itemSpacing = this.gap
-          this.nodeRowShades.resize(
-            this.sampleSize * this.sampleScale * 4 + this.gap * 3,
-            100
-          )
-          this.nodeRowShades.layoutSizingVertical = 'HUG'
-          this.nodeRowShades.appendChild(
-            new Sample(
-              color.name,
-              color.rgb,
-              scaleName,
-              index === minDistanceIndex && this.parent.areSourceColorsLocked
-                ? sourceColor
-                : scaledColor[1],
-              this.parent.colorSpace,
-              this.parent.visionSimulationMode,
-              this.parent.view,
-              this.parent.textColorsTheme,
-              {
-                isClosestToRef:
-                  distance < 4 && !this.parent.areSourceColorsLocked,
-                isLocked:
-                  index === minDistanceIndex &&
-                  this.parent.areSourceColorsLocked,
-              }
-            ).makeNodeRichShade(
-              this.sampleSize * this.sampleScale,
-              this.sampleSize * this.sampleRatio * this.sampleScale,
-              scaleName
+          else if (this.nodeRowShades !== null) {
+            this.nodeRowShades.layoutSizingHorizontal = 'FIXED'
+            this.nodeRowShades.layoutWrap = 'WRAP'
+            this.nodeRowShades.itemSpacing = this.gap
+            this.nodeRowShades.resize(
+              this.sampleSize * this.sampleScale * 4 + this.gap * 3,
+              100
             )
-          )
-        }
-      })
+            this.nodeRowShades.layoutSizingVertical = 'HUG'
+            this.nodeRowShades.appendChild(
+              new Sample(
+                color.name,
+                {
+                  r: sourceColor.rgb[0] / 255,
+                  g: sourceColor.rgb[1] / 255,
+                  b: sourceColor.rgb[2] / 255,
+                },
+                shade.name,
+                index === minDistanceIndex && this.parent.areSourceColorsLocked
+                  ? sourceColor.rgb
+                  : shade.rgb,
+                this.parent.colorSpace,
+                this.parent.visionSimulationMode,
+                this.parent.view,
+                this.parent.textColorsTheme,
+                {
+                  isClosestToRef:
+                    distance < 4 && !this.parent.areSourceColorsLocked,
+                  isLocked:
+                    index === minDistanceIndex &&
+                    this.parent.areSourceColorsLocked,
+                }
+              ).makeNodeRichShade(
+                this.sampleSize * this.sampleScale,
+                this.sampleSize * this.sampleRatio * this.sampleScale,
+                shade.name
+              )
+            )
+          }
+        })
 
       this.nodeRow.appendChild(this.nodeRowSource)
       this.nodeRow.appendChild(this.nodeRowShades)
       this.nodeShades?.appendChild(this.nodeRow)
     })
-    this.makePaletteData(this.parent.service ?? 'EDIT')
     if (this.parent.colors.length === 0)
       this.nodeShades.appendChild(this.makeEmptyCase())
 

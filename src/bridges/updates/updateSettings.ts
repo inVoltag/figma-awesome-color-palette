@@ -25,6 +25,8 @@ const updateSettings = async (msg: SettingsMessage) => {
         palette.getPluginData('preset')
       ) as PresetConfiguration,
       scale = JSON.parse(palette.getPluginData('scale')) as ScaleConfiguration,
+      areSourceColorsLocked =
+        palette.getPluginData('areSourceColorsLocked') === 'true',
       colors = JSON.parse(
         palette.getPluginData('colors')
       ) as Array<ColorConfiguration>,
@@ -59,6 +61,7 @@ const updateSettings = async (msg: SettingsMessage) => {
           description: msg.data.description,
           preset: preset,
           scale: scale,
+          areSourceColorsLocked: areSourceColorsLocked,
           colors: colors,
           colorSpace: msg.data.colorSpace,
           visionSimulationMode: msg.data.visionSimulationMode,

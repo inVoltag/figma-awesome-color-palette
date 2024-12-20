@@ -3,6 +3,7 @@ import {
   AlgorithmVersionConfiguration,
   ColorConfiguration,
   ColorSpaceConfiguration,
+  LockedSourceColorsConfiguration,
   PresetConfiguration,
   ScaleConfiguration,
   ThemeConfiguration,
@@ -16,6 +17,7 @@ export interface PaletteNode {
   description: string
   preset: PresetConfiguration
   scale: ScaleConfiguration
+  areSourceColorsLocked: LockedSourceColorsConfiguration
   colors: Array<ColorConfiguration>
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration

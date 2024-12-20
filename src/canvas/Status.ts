@@ -2,12 +2,12 @@ import { lang, locals } from '../content/locals'
 import Tag from './Tag'
 
 export default class Status {
-  private status: { isClosestToRef: boolean }
+  private status: { isClosestToRef: boolean; isLocked: boolean }
   private source: { [key: string]: number }
   private node: FrameNode | null
 
   constructor(
-    status: { isClosestToRef: boolean },
+    status: { isClosestToRef: boolean; isLocked: boolean },
     source: { [key: string]: number }
   ) {
     this.status = status
@@ -39,6 +39,15 @@ export default class Status {
           this.source.b,
           1,
         ])
+      )
+
+    if (this.status.isLocked)
+      this.node.appendChild(
+        new Tag({
+          name: '_lock',
+          content: locals[lang].paletteProperties.locked,
+          fontSize: 10,
+        }).makeNodeTag()
       )
 
     return this.node

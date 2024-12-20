@@ -6,6 +6,7 @@ import {
   AlgorithmVersionConfiguration,
   ColorConfiguration,
   ColorSpaceConfiguration,
+  LockedSourceColorsConfiguration,
   MetaConfiguration,
   PresetConfiguration,
   ScaleConfiguration,
@@ -27,6 +28,7 @@ export default class Palette {
   frameName: string
   scale: ScaleConfiguration
   shift: ShiftConfiguration
+  areSourceColorsLocked: LockedSourceColorsConfiguration
   colors: Array<ColorConfiguration>
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
@@ -49,6 +51,7 @@ export default class Palette {
     preset: PresetConfiguration,
     scale: ScaleConfiguration,
     shift: ShiftConfiguration,
+    areSourceColorsLocked: LockedSourceColorsConfiguration,
     colorSpace: ColorSpaceConfiguration,
     visionSimulationMode: VisionSimulationModeConfiguration,
     view: ViewConfiguration,
@@ -72,6 +75,7 @@ export default class Palette {
     this.preset = preset
     this.scale = scale
     this.shift = shift
+    this.areSourceColorsLocked = areSourceColorsLocked
     this.colors = []
     this.colorSpace = colorSpace
     this.visionSimulationMode = visionSimulationMode
@@ -126,6 +130,10 @@ export default class Palette {
     this.node.setPluginData('preset', JSON.stringify(this.preset))
     this.node.setPluginData('scale', JSON.stringify(this.scale))
     this.node.setPluginData('shift', JSON.stringify(this.shift))
+    this.node.setPluginData(
+      'areSourceColorsLocked',
+      this.areSourceColorsLocked.toString()
+    )
     this.node.setPluginData('shift', JSON.stringify(this.shift))
     this.node.setPluginData('colorSpace', this.colorSpace)
     this.node.setPluginData('visionSimulationMode', this.visionSimulationMode)

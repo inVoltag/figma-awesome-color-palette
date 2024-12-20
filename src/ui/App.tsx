@@ -595,6 +595,8 @@ export default class App extends Component<Record<string, never>, AppStates> {
               e.data.pluginMessage.data.shift !== ''
                 ? e.data.pluginMessage.data.shift
                 : { chroma: 100 },
+            areSourceColorsLocked:
+              e.data.pluginMessage.data.areSourceColorsLocked,
             colors: e.data.pluginMessage.data.colors,
             colorSpace: e.data.pluginMessage.data.colorSpace,
             visionSimulationMode:

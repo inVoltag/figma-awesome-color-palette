@@ -44,6 +44,7 @@ const updateGlobal = async (msg: Msg) => {
           description: msg.data.description,
           preset: msg.data.preset,
           scale: msg.data.scale,
+          areSourceColorsLocked: msg.data.areSourceColorsLocked,
           colors: msg.data.colors,
           colorSpace: msg.data.colorSpace,
           visionSimulationMode: msg.data.visionSimulationMode,
@@ -71,6 +72,10 @@ const updateGlobal = async (msg: Msg) => {
     palette.setPluginData('description', msg.data.description)
     palette.setPluginData('preset', JSON.stringify(msg.data.preset))
     palette.setPluginData('scale', JSON.stringify(msg.data.scale))
+    palette.setPluginData(
+      'areSourceColorsLocked',
+      msg.data.areSourceColorsLocked.toString()
+    )
     palette.setPluginData('colors', JSON.stringify(msg.data.colors))
     palette.setPluginData('colorSpace', msg.data.colorSpace)
     palette.setPluginData('visionSimulationMode', msg.data.visionSimulationMode)

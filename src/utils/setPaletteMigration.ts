@@ -190,6 +190,8 @@ const setPaletteMigration = async (palette: BaseNode) => {
         description: palette.getPluginData('description'),
         preset: JSON.parse(palette.getPluginData('preset')),
         scale: JSON.parse(palette.getPluginData('scale')),
+        areSourceColorsLocked:
+          palette.getPluginData('areSourceColorsLocked') === 'true',
         colors: JSON.parse(palette.getPluginData('colors')),
         colorSpace: palette.getPluginData(
           'colorSpace'

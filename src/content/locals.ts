@@ -479,6 +479,7 @@ export const locals: { [key: string]: any } = {
     paletteProperties: {
       sourceColors: 'Source colors',
       closest: 'Closest to source',
+      locked: 'Locked source color',
       base: 'Base',
       wcag: 'WCAG scores',
       apca: 'APCA scores',

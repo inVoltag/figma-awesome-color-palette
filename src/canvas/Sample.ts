@@ -21,6 +21,7 @@ export default class Sample {
   private textColorsTheme: TextColorsThemeHexModel
   private status: {
     isClosestToRef: boolean
+    isLocked: boolean
   }
   private nodeColor: FrameNode | null
   private node: FrameNode | null
@@ -35,7 +36,10 @@ export default class Sample {
     visionSimulationMode: VisionSimulationModeConfiguration,
     view: ViewConfiguration,
     textColorsTheme: TextColorsThemeHexModel,
-    status: { isClosestToRef: boolean } = { isClosestToRef: false }
+    status: { isClosestToRef: boolean; isLocked: boolean } = {
+      isClosestToRef: false,
+      isLocked: false,
+    }
   ) {
     this.name = name
     this.source = source
@@ -126,7 +130,7 @@ export default class Sample {
       )
     else if (isColorName)
       this.node.appendChild(new Property('_label', this.name, 10).makeNode())
-    if (this.status.isClosestToRef)
+    if (this.status.isClosestToRef || this.status.isLocked)
       this.node.appendChild(
         new Status(
           this.status,

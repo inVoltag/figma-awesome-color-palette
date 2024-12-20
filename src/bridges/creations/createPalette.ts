@@ -1,33 +1,15 @@
 import Palette from '../../canvas/Palette'
 import {
-  AlgorithmVersionConfiguration,
-  ColorSpaceConfiguration,
   MetaConfiguration,
-  PresetConfiguration,
-  ScaleConfiguration,
-  ShiftConfiguration,
+  PaletteConfiguration,
   SourceColorConfiguration,
   ThemeConfiguration,
-  ViewConfiguration,
-  VisionSimulationModeConfiguration,
 } from '../../types/configurations'
-import { TextColorsThemeHexModel } from '../../types/models'
 
 interface Msg {
   data: {
     sourceColors: Array<SourceColorConfiguration>
-    palette: {
-      name: string
-      description: string
-      preset: PresetConfiguration
-      scale: ScaleConfiguration
-      shift: ShiftConfiguration
-      colorSpace: ColorSpaceConfiguration
-      visionSimulationMode: VisionSimulationModeConfiguration
-      view: ViewConfiguration
-      textColorsTheme: TextColorsThemeHexModel
-      algorithmVersion: AlgorithmVersionConfiguration
-    }
+    palette: PaletteConfiguration
     themes?: Array<ThemeConfiguration>
     isRemote?: boolean
     paletteMeta?: MetaConfiguration
@@ -51,6 +33,7 @@ const createPalette = async (msg: Msg) => {
     msg.data.palette.preset,
     msg.data.palette.scale,
     msg.data.palette.shift,
+    msg.data.palette.areSourceColorsLocked,
     msg.data.palette.colorSpace,
     msg.data.palette.visionSimulationMode,
     msg.data.palette.view,

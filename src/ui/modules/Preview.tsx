@@ -365,7 +365,7 @@ export default class Preview extends PureComponent<
                 label="Lock source colors"
                 type="SWITCH_BUTTON"
                 isChecked={this.props.areSourceColorsLocked}
-                onChange={this.lockSourceColorsHandler}
+                action={this.lockSourceColorsHandler}
               />
               <span
                 className={`type ${texts['type']} ${texts['type--secondary']}`}

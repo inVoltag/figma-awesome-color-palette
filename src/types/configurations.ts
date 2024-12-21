@@ -27,9 +27,9 @@ export interface PaletteConfiguration {
   preset: PresetConfiguration
   scale: ScaleConfiguration
   shift: ShiftConfiguration
-  areSourceColorsLocked: boolean
-  min: number | undefined
-  max: number | undefined
+  areSourceColorsLocked: LockedSourceColorsConfiguration
+  min?: number
+  max?: number
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   view: ViewConfiguration

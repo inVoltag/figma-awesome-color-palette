@@ -26,6 +26,7 @@ export interface PaletteNode {
   textColorsTheme: TextColorsThemeHexModel
   algorithmVersion: AlgorithmVersionConfiguration
   creatorFullName?: string
+  creatorAvatar?: string
   creatorAvatarImg?: Image | null
   service?: Service
 }

@@ -321,6 +321,7 @@ export const locals: { [key: string]: any } = {
           label: 'Vision simulation',
           colorBlind: 'Color blind',
           none: 'None',
+          noneAlternative: 'No vision simulation',
           protanomaly: 'Protanomaly (red-weak)',
           protanopia: 'Protanopia (red-blind)',
           deuteranomaly: 'Deuteranomaly (green-weak)',
@@ -437,11 +438,6 @@ export const locals: { [key: string]: any } = {
         plural: '$1 hours left in this trial',
       },
       trialFeedback: 'How was it?',
-      sessionCount: {
-        none: 'No session left',
-        single: '1 session left',
-        plural: '$1 sessions left',
-      },
       dev: 'Developer plan',
     },
     proPlan: {

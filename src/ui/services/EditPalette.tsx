@@ -565,7 +565,7 @@ export default class EditPalette extends PureComponent<
         >
           <Preview
             {...this.props}
-            key="preview"
+            service="EDIT"
           />
         </Feature>
       </>

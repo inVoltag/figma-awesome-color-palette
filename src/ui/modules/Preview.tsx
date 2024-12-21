@@ -5,6 +5,7 @@ import React from 'react'
 import {
   Bar,
   Button,
+  Dropdown,
   HexModel,
   Icon,
   layouts,
@@ -16,7 +17,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import features from '../../config'
 import { locals } from '../../content/locals'
 import { $isAPCADisplayed, $isWCAGDisplayed } from '../../stores/preferences'
-import { Language, PlanStatus } from '../../types/app'
+import { Language, PlanStatus, Service } from '../../types/app'
 import {
   AlgorithmVersionConfiguration,
   ColorConfiguration,
@@ -27,13 +28,15 @@ import {
   SourceColorConfiguration,
   VisionSimulationModeConfiguration,
 } from '../../types/configurations'
-import { TextColorsThemeHexModel } from '../../types/models'
+import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
 import Color from '../../utils/Color'
 import Contrast from '../../utils/Contrast'
 import { palette } from '../../utils/palettePackage'
 import { AppStates } from '../App'
+import Feature from '../components/Feature'
 
 interface PreviewProps {
+  service: Service
   colors: Array<SourceColorConfiguration> | Array<ColorConfiguration> | []
   scale: ScaleConfiguration
   shift?: ShiftConfiguration
@@ -46,6 +49,7 @@ interface PreviewProps {
   lang: Language
   onLockSourceColors: React.Dispatch<Partial<AppStates>>
   onResetSourceColors?: () => void
+  onChangeSettings: React.Dispatch<Partial<AppStates>>
 }
 
 interface PreviewStates {
@@ -55,10 +59,7 @@ interface PreviewStates {
   drawerHeight: string
 }
 
-export default class Preview extends PureComponent<
-  PreviewProps,
-  PreviewStates
-> {
+export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
   private drawerRef: React.RefObject<HTMLDivElement>
   private unsubscribeWCAG: (() => void) | undefined
   private unsubscribeAPCA: (() => void) | undefined
@@ -72,6 +73,56 @@ export default class Preview extends PureComponent<
     PREVIEW_APCA: new FeatureStatus({
       features: features,
       featureName: 'PREVIEW_APCA',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_NONE: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_NONE',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
+      planStatus: planStatus,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
       planStatus: planStatus,
     }),
   })
@@ -132,28 +183,68 @@ export default class Preview extends PureComponent<
     return options.join(', ')
   }
 
-  lockSourceColorsHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement
-    palette.areSourceColorsLocked = target.checked ?? false
+  changeColorSettings = (
+    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLLIElement>
+  ) => {
+    const lockSourceColors = () => {
+      const target = e.target as HTMLInputElement
+      palette.areSourceColorsLocked = target.checked ?? false
 
-    this.props.onLockSourceColors({
-      areSourceColorsLocked: target.checked,
-    })
+      this.props.onLockSourceColors({
+        areSourceColorsLocked: target.checked,
+      })
 
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: 'UPDATE_PALETTE',
-          items: [
-            {
-              key: 'areSourceColorsLocked',
-              value: target.checked,
+      if (this.props.service === 'EDIT')
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'UPDATE_PALETTE',
+              items: [
+                {
+                  key: 'areSourceColorsLocked',
+                  value: target.checked,
+                },
+              ],
             },
-          ],
-        },
-      },
-      '*'
-    )
+          },
+          '*'
+        )
+    }
+
+    const updateColorBlidMode = () => {
+      const target = e.target as HTMLLIElement
+      palette.visionSimulationMode = target.dataset
+        .value as VisionSimulationModeConfiguration
+
+      this.props.onChangeSettings({
+        visionSimulationMode: target.dataset
+          .value as VisionSimulationModeConfiguration,
+      })
+
+      if (this.props.service === 'EDIT')
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'UPDATE_PALETTE',
+              items: [
+                {
+                  key: 'visionSimulationMode',
+                  value: target.dataset.value,
+                },
+              ],
+            },
+          },
+          '*'
+        )
+    }
+
+    const actions: ActionsList = {
+      LOCK_SOURCE_COLORS: () => lockSourceColors(),
+      UPDATE_COLOR_BLIND_MODE: () => updateColorBlidMode(),
+      DEFAULT: () => null,
+    }
+
+    actions[(e.target as HTMLElement).dataset.feature ?? 'DEFAULT']()
   }
 
   // Direct actions
@@ -379,9 +470,199 @@ export default class Preview extends PureComponent<
                 id="lock-source-colors"
                 label="Lock source colors"
                 type="SWITCH_BUTTON"
+                feature="LOCK_SOURCE_COLORS"
                 isChecked={this.props.areSourceColorsLocked}
-                action={this.lockSourceColorsHandler}
+                action={this.changeColorSettings}
               />
+              <Feature
+                isActive={Preview.features(
+                  this.props.planStatus
+                ).SETTINGS_VISION_SIMULATION_MODE.isActive()}
+              >
+                <Dropdown
+                  id="update-color-blind-mode"
+                  options={[
+                    {
+                      label:
+                        locals[this.props.lang].settings.color
+                          .visionSimulationMode.noneAlternative,
+                      value: 'NONE',
+                      feature: 'UPDATE_COLOR_BLIND_MODE',
+                      type: 'OPTION',
+                      isActive: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_NONE.isActive(),
+                      isBlocked: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_NONE.isBlocked(),
+                      isNew: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_NONE.isNew(),
+                      action: this.changeColorSettings,
+                    },
+                    {
+                      type: 'SEPARATOR',
+                    },
+                    {
+                      label:
+                        locals[this.props.lang].settings.color
+                          .visionSimulationMode.colorBlind,
+                      type: 'TITLE',
+                    },
+                    {
+                      label:
+                        locals[this.props.lang].settings.color
+                          .visionSimulationMode.protanomaly,
+                      value: 'PROTANOMALY',
+                      feature: 'UPDATE_COLOR_BLIND_MODE',
+                      type: 'OPTION',
+                      isActive: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isActive(),
+                      isBlocked: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isBlocked(),
+                      isNew: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isNew(),
+                      action: this.changeColorSettings,
+                    },
+                    {
+                      label:
+                        locals[this.props.lang].settings.color
+                          .visionSimulationMode.protanopia,
+                      value: 'PROTANOPIA',
+                      feature: 'UPDATE_COLOR_BLIND_MODE',
+                      type: 'OPTION',
+                      isActive: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isActive(),
+                      isBlocked: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isBlocked(),
+                      isNew: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isNew(),
+                      action: this.changeColorSettings,
+                    },
+                    {
+                      label:
+                        locals[this.props.lang].settings.color
+                          .visionSimulationMode.deuteranomaly,
+                      value: 'DEUTERANOMALY',
+                      feature: 'UPDATE_COLOR_BLIND_MODE',
+                      type: 'OPTION',
+                      isActive: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isActive(),
+                      isBlocked: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isBlocked(),
+                      isNew: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isNew(),
+                      action: this.changeColorSettings,
+                    },
+                    {
+                      label:
+                        locals[this.props.lang].settings.color
+                          .visionSimulationMode.deuteranopia,
+                      value: 'DEUTERANOPIA',
+                      feature: 'UPDATE_COLOR_BLIND_MODE',
+                      type: 'OPTION',
+                      isActive: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isActive(),
+                      isBlocked: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isBlocked(),
+                      isNew: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isNew(),
+                      action: this.changeColorSettings,
+                    },
+                    {
+                      label:
+                        locals[this.props.lang].settings.color
+                          .visionSimulationMode.tritanomaly,
+                      value: 'TRITANOMALY',
+                      feature: 'UPDATE_COLOR_BLIND_MODE',
+                      type: 'OPTION',
+                      isActive: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isActive(),
+                      isBlocked: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isBlocked(),
+                      isNew: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isNew(),
+                      action: this.changeColorSettings,
+                    },
+                    {
+                      label:
+                        locals[this.props.lang].settings.color
+                          .visionSimulationMode.tritanopia,
+                      value: 'TRITANOPIA',
+                      feature: 'UPDATE_COLOR_BLIND_MODE',
+                      type: 'OPTION',
+                      isActive: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isActive(),
+                      isBlocked: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isBlocked(),
+                      isNew: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isNew(),
+                      action: this.changeColorSettings,
+                    },
+                    {
+                      label:
+                        locals[this.props.lang].settings.color
+                          .visionSimulationMode.achromatomaly,
+                      value: 'ACHROMATOMALY',
+                      feature: 'UPDATE_COLOR_BLIND_MODE',
+                      type: 'OPTION',
+                      isActive: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isActive(),
+                      isBlocked: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isBlocked(),
+                      isNew: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isNew(),
+                      action: this.changeColorSettings,
+                    },
+                    {
+                      label:
+                        locals[this.props.lang].settings.color
+                          .visionSimulationMode.achromatopsia,
+                      value: 'ACHROMATOPSIA',
+                      feature: 'UPDATE_COLOR_BLIND_MODE',
+                      type: 'OPTION',
+                      isActive: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isActive(),
+                      isBlocked: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isBlocked(),
+                      isNew: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isNew(),
+                      action: this.changeColorSettings,
+                    },
+                  ]}
+                  selected={this.props.visionSimulationMode}
+                  isBlocked={Preview.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
+                  isNew={Preview.features(
+                    this.props.planStatus
+                  ).SETTINGS_VISION_SIMULATION_MODE.isNew()}
+                />
+              </Feature>
               <span
                 className={`type ${texts['type']} ${texts['type--secondary']}`}
               >

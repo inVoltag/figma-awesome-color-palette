@@ -305,7 +305,7 @@ export default class CreatePalette extends PureComponent<
         >
           <Preview
             {...this.props}
-            key="preview"
+            service="CREATE"
             colors={this.props.sourceColors}
             algorithmVersion={algorithmVersion}
             onResetSourceColors={this.resetSourceColorsHandler}

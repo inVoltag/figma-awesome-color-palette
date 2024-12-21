@@ -1055,6 +1055,15 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
     service: ['CREATE', 'EDIT'],
   },
   {
+    name: 'PREVIEW_LOCK_SOURCE_COLORS',
+    description: '',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    service: ['CREATE', 'EDIT'],
+  },
+  {
     name: 'SHORTCUTS',
     description: 'Quick useful links',
     isActive: true,

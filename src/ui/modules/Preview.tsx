@@ -75,6 +75,46 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
       featureName: 'PREVIEW_APCA',
       planStatus: planStatus,
     }),
+    PREVIEW_LOCK_SOURCE_COLORS: new FeatureStatus({
+      features: features,
+      featureName: 'PREVIEW_LOCK_SOURCE_COLORS',
+      planStatus: planStatus,
+    }),
+    SETTINGS_COLOR_SPACE: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_COLOR_SPACE',
+      planStatus: planStatus,
+    }),
+    SETTINGS_COLOR_SPACE_LCH: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_COLOR_SPACE_LCH',
+      planStatus: planStatus,
+    }),
+    SETTINGS_COLOR_SPACE_OKLCH: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_COLOR_SPACE_OKLCH',
+      planStatus: planStatus,
+    }),
+    SETTINGS_COLOR_SPACE_LAB: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_COLOR_SPACE_LAB',
+      planStatus: planStatus,
+    }),
+    SETTINGS_COLOR_SPACE_OKLAB: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_COLOR_SPACE_OKLAB',
+      planStatus: planStatus,
+    }),
+    SETTINGS_COLOR_SPACE_HSL: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_COLOR_SPACE_HSL',
+      planStatus: planStatus,
+    }),
+    SETTINGS_COLOR_SPACE_HSLUV: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_COLOR_SPACE_HSLUV',
+      planStatus: planStatus,
+    }),
     SETTINGS_VISION_SIMULATION_MODE: new FeatureStatus({
       features: features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE',
@@ -183,7 +223,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
     return options.join(', ')
   }
 
-  changeColorSettings = (
+  colorSettingsHandler = (
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLLIElement>
   ) => {
     const lockSourceColors = () => {
@@ -238,8 +278,34 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
         )
     }
 
+    const updateColorSpace = () => {
+      const target = e.target as HTMLLIElement
+      palette.colorSpace = target.dataset.value as ColorSpaceConfiguration
+
+      this.props.onChangeSettings({
+        colorSpace: target.dataset.value as ColorSpaceConfiguration,
+      })
+
+      if (this.props.service === 'EDIT')
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'UPDATE_PALETTE',
+              items: [
+                {
+                  key: 'colorSpace',
+                  value: target.dataset.value,
+                },
+              ],
+            },
+          },
+          '*'
+        )
+    }
+
     const actions: ActionsList = {
       LOCK_SOURCE_COLORS: () => lockSourceColors(),
+      UPDATE_COLOR_SPACE: () => updateColorSpace(),
       UPDATE_COLOR_BLIND_MODE: () => updateColorBlidMode(),
       DEFAULT: () => null,
     }
@@ -466,14 +532,140 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
           }
           rightPartSlot={
             <div className={layouts['snackbar--medium']}>
-              <Select
-                id="lock-source-colors"
-                label="Lock source colors"
-                type="SWITCH_BUTTON"
-                feature="LOCK_SOURCE_COLORS"
-                isChecked={this.props.areSourceColorsLocked}
-                action={this.changeColorSettings}
-              />
+              <Feature
+                isActive={Preview.features(
+                  this.props.planStatus
+                ).PREVIEW_LOCK_SOURCE_COLORS.isActive()}
+              >
+                <Select
+                  id="lock-source-colors"
+                  label="Lock source colors"
+                  type="SWITCH_BUTTON"
+                  feature="LOCK_SOURCE_COLORS"
+                  isChecked={this.props.areSourceColorsLocked}
+                  action={this.colorSettingsHandler}
+                />
+              </Feature>
+              <Feature
+                isActive={Preview.features(
+                  this.props.planStatus
+                ).SETTINGS_COLOR_SPACE.isActive()}
+              >
+                <Dropdown
+                  id="update-color-space"
+                  options={[
+                    {
+                      label:
+                        locals[this.props.lang].settings.color.colorSpace.lch,
+                      value: 'LCH',
+                      feature: 'UPDATE_COLOR_SPACE',
+                      type: 'OPTION',
+                      isActive: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_COLOR_SPACE_LCH.isActive(),
+                      isBlocked: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_COLOR_SPACE_LCH.isBlocked(),
+                      isNew: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_COLOR_SPACE_LCH.isNew(),
+                      action: this.colorSettingsHandler,
+                    },
+                    {
+                      label:
+                        locals[this.props.lang].settings.color.colorSpace.oklch,
+                      value: 'OKLCH',
+                      feature: 'UPDATE_COLOR_SPACE',
+                      type: 'OPTION',
+                      isActive: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_COLOR_SPACE_OKLCH.isActive(),
+                      isBlocked: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_COLOR_SPACE_OKLCH.isBlocked(),
+                      isNew: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_COLOR_SPACE_OKLCH.isNew(),
+                      action: this.colorSettingsHandler,
+                    },
+                    {
+                      label:
+                        locals[this.props.lang].settings.color.colorSpace.lab,
+                      value: 'LAB',
+                      feature: 'UPDATE_COLOR_SPACE',
+                      type: 'OPTION',
+                      isActive: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_COLOR_SPACE_LAB.isActive(),
+                      isBlocked: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_COLOR_SPACE_LAB.isBlocked(),
+                      isNew: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_COLOR_SPACE_LAB.isNew(),
+                      action: this.colorSettingsHandler,
+                    },
+                    {
+                      label:
+                        locals[this.props.lang].settings.color.colorSpace.oklab,
+                      value: 'OKLAB',
+                      feature: 'UPDATE_COLOR_SPACE',
+                      type: 'OPTION',
+                      isActive: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_COLOR_SPACE_OKLAB.isActive(),
+                      isBlocked: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_COLOR_SPACE_OKLAB.isBlocked(),
+                      isNew: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_COLOR_SPACE_OKLAB.isNew(),
+                      action: this.colorSettingsHandler,
+                    },
+                    {
+                      label:
+                        locals[this.props.lang].settings.color.colorSpace.hsl,
+                      value: 'HSL',
+                      feature: 'UPDATE_COLOR_SPACE',
+                      type: 'OPTION',
+                      isActive: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_COLOR_SPACE_HSL.isActive(),
+                      isBlocked: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_COLOR_SPACE_HSL.isBlocked(),
+                      isNew: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_COLOR_SPACE_HSL.isNew(),
+                      action: this.colorSettingsHandler,
+                    },
+                    {
+                      label:
+                        locals[this.props.lang].settings.color.colorSpace.hsluv,
+                      value: 'HSLUV',
+                      feature: 'UPDATE_COLOR_SPACE',
+                      type: 'OPTION',
+                      isActive: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_COLOR_SPACE_HSLUV.isActive(),
+                      isBlocked: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_COLOR_SPACE_HSLUV.isBlocked(),
+                      isNew: Preview.features(
+                        this.props.planStatus
+                      ).SETTINGS_COLOR_SPACE_HSLUV.isNew(),
+                      action: this.colorSettingsHandler,
+                    },
+                  ]}
+                  selected={this.props.colorSpace}
+                  isBlocked={Preview.features(
+                    this.props.planStatus
+                  ).SETTINGS_COLOR_SPACE.isBlocked()}
+                  isNew={Preview.features(
+                    this.props.planStatus
+                  ).SETTINGS_COLOR_SPACE.isNew()}
+                />
+              </Feature>
               <Feature
                 isActive={Preview.features(
                   this.props.planStatus
@@ -498,7 +690,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                       isNew: Preview.features(
                         this.props.planStatus
                       ).SETTINGS_VISION_SIMULATION_MODE_NONE.isNew(),
-                      action: this.changeColorSettings,
+                      action: this.colorSettingsHandler,
                     },
                     {
                       type: 'SEPARATOR',
@@ -525,7 +717,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                       isNew: Preview.features(
                         this.props.planStatus
                       ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isNew(),
-                      action: this.changeColorSettings,
+                      action: this.colorSettingsHandler,
                     },
                     {
                       label:
@@ -543,7 +735,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                       isNew: Preview.features(
                         this.props.planStatus
                       ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isNew(),
-                      action: this.changeColorSettings,
+                      action: this.colorSettingsHandler,
                     },
                     {
                       label:
@@ -561,7 +753,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                       isNew: Preview.features(
                         this.props.planStatus
                       ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isNew(),
-                      action: this.changeColorSettings,
+                      action: this.colorSettingsHandler,
                     },
                     {
                       label:
@@ -579,7 +771,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                       isNew: Preview.features(
                         this.props.planStatus
                       ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isNew(),
-                      action: this.changeColorSettings,
+                      action: this.colorSettingsHandler,
                     },
                     {
                       label:
@@ -597,7 +789,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                       isNew: Preview.features(
                         this.props.planStatus
                       ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isNew(),
-                      action: this.changeColorSettings,
+                      action: this.colorSettingsHandler,
                     },
                     {
                       label:
@@ -615,7 +807,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                       isNew: Preview.features(
                         this.props.planStatus
                       ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isNew(),
-                      action: this.changeColorSettings,
+                      action: this.colorSettingsHandler,
                     },
                     {
                       label:
@@ -633,7 +825,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                       isNew: Preview.features(
                         this.props.planStatus
                       ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isNew(),
-                      action: this.changeColorSettings,
+                      action: this.colorSettingsHandler,
                     },
                     {
                       label:
@@ -651,7 +843,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                       isNew: Preview.features(
                         this.props.planStatus
                       ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isNew(),
-                      action: this.changeColorSettings,
+                      action: this.colorSettingsHandler,
                     },
                   ]}
                   selected={this.props.visionSimulationMode}
@@ -663,11 +855,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                   ).SETTINGS_VISION_SIMULATION_MODE.isNew()}
                 />
               </Feature>
-              <span
-                className={`type ${texts['type']} ${texts['type--secondary']}`}
-              >
-                {this.props.colorSpace}
-              </span>
               {this.props.onResetSourceColors && (
                 <div className={layouts['snackbar']}>
                   <span

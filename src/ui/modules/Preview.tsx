@@ -44,7 +44,7 @@ interface PreviewProps {
   textColorsTheme: TextColorsThemeHexModel
   planStatus: PlanStatus
   lang: Language
-  onLockSourceColors?: React.Dispatch<Partial<AppStates>>
+  onLockSourceColors: React.Dispatch<Partial<AppStates>>
   onResetSourceColors?: () => void
 }
 
@@ -135,10 +135,25 @@ export default class Preview extends PureComponent<
   lockSourceColorsHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement
     palette.areSourceColorsLocked = target.checked ?? false
-    if (this.props.onLockSourceColors)
-      this.props.onLockSourceColors({
-        areSourceColorsLocked: target.checked,
-      })
+
+    this.props.onLockSourceColors({
+      areSourceColorsLocked: target.checked,
+    })
+
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'UPDATE_PALETTE',
+          items: [
+            {
+              key: 'areSourceColorsLocked',
+              value: target.checked,
+            },
+          ],
+        },
+      },
+      '*'
+    )
   }
 
   // Direct actions

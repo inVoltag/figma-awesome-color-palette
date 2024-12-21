@@ -80,6 +80,7 @@ interface EditPaletteProps {
   onChangeThemes: React.Dispatch<Partial<AppStates>>
   onChangeSettings: React.Dispatch<Partial<AppStates>>
   onPublishPalette: () => void
+  onLockSourceColors: React.Dispatch<Partial<AppStates>>
 }
 
 interface EditPaletteStates {

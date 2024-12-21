@@ -27,6 +27,7 @@ import updateColors from './updates/updateColors'
 import updateGlobal from './updates/updateGlobal'
 import updateLocalStyles from './updates/updateLocalStyles'
 import updateLocalVariables from './updates/updateLocalVariables'
+import updatePalette from './updates/updatePalette'
 import updateScale from './updates/updateScale'
 import updateSettings from './updates/updateSettings'
 import updateThemes from './updates/updateThemes'
@@ -95,6 +96,7 @@ const loadUI = async () => {
       UPDATE_THEMES: () => updateThemes(msg),
       UPDATE_SETTINGS: () => updateSettings(msg),
       UPDATE_GLOBAL: () => updateGlobal(msg),
+      UPDATE_PALETTE: () => updatePalette(msg.items),
       UPDATE_SCREENSHOT: async () =>
         figma.ui.postMessage({
           type: 'UPDATE_SCREENSHOT',

@@ -267,7 +267,7 @@ export default class Preview extends PureComponent<
         iconColor="var(--black)"
       />
       <span className={`preview__tag__score type ${texts['type--truncated']}`}>
-        Locked
+        {locals[this.props.lang].preview.locked.label}
       </span>
     </div>
   )
@@ -307,7 +307,7 @@ export default class Preview extends PureComponent<
                 icon="visible"
                 options={[
                   {
-                    label: locals[this.props.lang].preview.wcag.label,
+                    label: locals[this.props.lang].preview.score.wcag,
                     value: 'ENABLE_WCAG_SCORE',
                     type: 'OPTION',
                     isActive: Preview.features(
@@ -338,7 +338,7 @@ export default class Preview extends PureComponent<
                     },
                   },
                   {
-                    label: locals[this.props.lang].preview.apca.label,
+                    label: locals[this.props.lang].preview.score.apca,
                     value: 'ENABLE_APCA_SCORE',
                     type: 'OPTION',
                     isActive: Preview.features(

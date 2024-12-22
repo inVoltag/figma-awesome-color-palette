@@ -37,6 +37,7 @@ import ColorSettings from './ColorSettings'
 import ContrastSettings from './ContrastSettings'
 import GlobalSettings from './GlobalSettings'
 import SyncPreferences from './SyncPreferences'
+import { $canPaletteDeepSync } from '../../stores/preferences'
 
 interface SettingsProps {
   service: Service
@@ -63,6 +64,7 @@ interface SettingsProps {
 
 interface SettingsStates {
   context: Context | ''
+  canPaletteDeepSync: boolean
 }
 
 export default class Settings extends PureComponent<
@@ -72,6 +74,7 @@ export default class Settings extends PureComponent<
   private settingsMessage: SettingsMessage
   private dispatch: { [key: string]: DispatchProcess }
   private contexts: Array<ContextItem>
+  private unsubscribe: (() => void) | null = null
 
   static features = (planStatus: PlanStatus) => ({
     SETTINGS_GLOBAL: new FeatureStatus({
@@ -127,6 +130,7 @@ export default class Settings extends PureComponent<
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
+      canPaletteDeepSync: false,
     }
     this.dispatch = {
       textColorsTheme: new Dispatcher(
@@ -134,6 +138,17 @@ export default class Settings extends PureComponent<
         500
       ) as DispatchProcess,
     }
+  }
+
+  // Lifecycle
+  componentDidMount() {
+    this.unsubscribe = $canPaletteDeepSync.subscribe((value) => {
+      this.setState({ canPaletteDeepSync: value })
+    })
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscribe) this.unsubscribe()
   }
 
   // Handlers
@@ -369,7 +384,8 @@ export default class Settings extends PureComponent<
           }
         )
       } else if (this.props.service === 'EDIT')
-        this.dispatch.textColorsTheme.on.status = true
+        if (this.state.canPaletteDeepSync)
+          this.dispatch.textColorsTheme.on.status = true
     }
 
     const updateTextDarkColor = () => {
@@ -409,7 +425,8 @@ export default class Settings extends PureComponent<
           }
         )
       } else if (this.props.service === 'EDIT')
-        this.dispatch.textColorsTheme.on.status = true
+        if (this.state.canPaletteDeepSync)
+          this.dispatch.textColorsTheme.on.status = true
     }
 
     const updatePaletteDeepSync = () =>

@@ -5,6 +5,7 @@ import React from 'react'
 import {
   Bar,
   Button,
+  ConsentConfiguration,
   Dropdown,
   HexModel,
   Icon,
@@ -26,6 +27,7 @@ import {
   ScaleConfiguration,
   ShiftConfiguration,
   SourceColorConfiguration,
+  UserConfiguration,
   VisionSimulationModeConfiguration,
 } from '../../types/configurations'
 import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
@@ -34,6 +36,7 @@ import Contrast from '../../utils/Contrast'
 import { palette } from '../../utils/palettePackage'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
+import { trackPreviewManagementEvent } from '../../utils/eventsTracker'
 
 interface PreviewProps {
   service: Service
@@ -45,6 +48,8 @@ interface PreviewProps {
   visionSimulationMode: VisionSimulationModeConfiguration
   algorithmVersion: AlgorithmVersionConfiguration
   textColorsTheme: TextColorsThemeHexModel
+  userIdentity: UserConfiguration
+  userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   lang: Language
   onLockSourceColors: React.Dispatch<Partial<AppStates>>
@@ -59,7 +64,10 @@ interface PreviewStates {
   drawerHeight: string
 }
 
-export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
+export default class Preview extends PureComponent<
+  PreviewProps,
+  PreviewStates
+> {
   private drawerRef: React.RefObject<HTMLDivElement>
   private unsubscribeWCAG: (() => void) | undefined
   private unsubscribeAPCA: (() => void) | undefined
@@ -254,6 +262,49 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
           },
           '*'
         )
+
+      trackPreviewManagementEvent(
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'LOCK_SOURCE_COLORS',
+        }
+      )
+    }
+
+    const updateColorSpace = () => {
+      const target = e.target as HTMLLIElement
+      palette.colorSpace = target.dataset.value as ColorSpaceConfiguration
+
+      this.props.onChangeSettings({
+        colorSpace: target.dataset.value as ColorSpaceConfiguration,
+      })
+
+      if (this.props.service === 'EDIT')
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'UPDATE_PALETTE',
+              items: [
+                {
+                  key: 'colorSpace',
+                  value: target.dataset.value,
+                },
+              ],
+            },
+          },
+          '*'
+        )
+
+      trackPreviewManagementEvent(
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'UPDATE_COLOR_SPACE',
+        }
+      )
     }
 
     const updateColorBlidMode = () => {
@@ -281,31 +332,15 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
           },
           '*'
         )
-    }
 
-    const updateColorSpace = () => {
-      const target = e.target as HTMLLIElement
-      palette.colorSpace = target.dataset.value as ColorSpaceConfiguration
-
-      this.props.onChangeSettings({
-        colorSpace: target.dataset.value as ColorSpaceConfiguration,
-      })
-
-      if (this.props.service === 'EDIT')
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'UPDATE_PALETTE',
-              items: [
-                {
-                  key: 'colorSpace',
-                  value: target.dataset.value,
-                },
-              ],
-            },
-          },
-          '*'
-        )
+      trackPreviewManagementEvent(
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'UPDATE_VISION_SIMULATION_MODE',
+        }
+      )
     }
 
     const actions: ActionsList = {

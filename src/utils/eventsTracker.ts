@@ -8,6 +8,7 @@ import {
   EditorEvent,
   ExportEvent,
   ImportEvent,
+  PreviewEvent,
   PublicationEvent,
   ScaleEvent,
   SettingEvent,
@@ -118,6 +119,19 @@ export const trackScaleManagementEvent = (
   if (!consent) return
   mixpanel.identify(id)
   mixpanel.track('Scale Updated', {
+    ...eventsRecurringProperties,
+    Feature: options.feature,
+  })
+}
+
+export const trackPreviewManagementEvent = (
+  id: string,
+  consent: boolean,
+  options: PreviewEvent
+) => {
+  if (!consent) return
+  mixpanel.identify(id)
+  mixpanel.track('Preview Updated', {
     ...eventsRecurringProperties,
     Feature: options.feature,
   })

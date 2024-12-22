@@ -44,6 +44,13 @@ export interface ScaleEvent {
     | Easing
 }
 
+export interface PreviewEvent {
+  feature:
+    | 'LOCK_SOURCE_COLORS'
+    | 'UPDATE_COLOR_SPACE'
+    | 'UPDATE_VISION_SIMULATION_MODE'
+}
+
 export interface SourceColorEvent {
   feature:
     | 'RENAME_COLOR'

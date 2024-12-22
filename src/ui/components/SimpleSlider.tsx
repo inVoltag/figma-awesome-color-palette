@@ -108,8 +108,8 @@ export default class SimpleSlider extends Component<SimpleSliderProps, SimpleSli
     this.value = Math.floor(
       doMap(offset, 0, rangeWidth, this.props.min, this.props.max)
     )
-
     this.props.onChange(this.props.feature, 'UPDATING', this.value)
+    document.body.style.cursor = 'ew-resize'
   }
 
   onRelease = (stop: HTMLElement) => {
@@ -121,6 +121,7 @@ export default class SimpleSlider extends Component<SimpleSliderProps, SimpleSli
     this.setState({
       isTooltipDisplay: false,
     })
+    document.body.style.cursor = ''
   }
 
   // Render
@@ -155,7 +156,7 @@ export default class SimpleSlider extends Component<SimpleSliderProps, SimpleSli
               this.props.onChange(
                 this.props.feature,
                 'SHIFTED',
-                e.metaKey ? this.props.value + 10 : this.props.value + 1
+                e.shiftKey ? this.props.value + 10 : this.props.value + 1
               )
             }
             onShiftLeft={(e) =>

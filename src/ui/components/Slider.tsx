@@ -202,6 +202,7 @@ export default class Slider extends Component<SliderProps, SliderStates> {
     // Update lightness scale
     update()
     this.props.onChange('UPDATING')
+    document.body.style.cursor = 'ew-resize'
   }
 
   onRelease = (
@@ -219,6 +220,7 @@ export default class Slider extends Component<SliderProps, SliderStates> {
 
     update()
     this.props.onChange('RELEASED')
+    document.body.style.cursor = ''
   }
 
   onAdd = (e: React.MouseEvent<HTMLDivElement>) => {

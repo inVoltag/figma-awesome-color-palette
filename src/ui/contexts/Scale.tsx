@@ -284,8 +284,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       const preset =
         presets.find((preset) => preset.id === 'MATERIAL') ?? defaultPreset
 
-      preset.name = `${preset.name} (${preset.family})`
-      palette.preset = preset
+      palette.preset = JSON.parse(JSON.stringify(preset))
+      palette.preset.name = `${palette.preset.name} (${palette.preset.family})`
       palette.scale = scale(preset)
 
       this.props.onChangePreset?.({
@@ -308,8 +308,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       const preset =
         presets.find((preset) => preset.id === 'MATERIAL_3') ?? defaultPreset
 
-      preset.name = `${preset.name} (${preset.family})`
-      palette.preset = preset
+      palette.preset = JSON.parse(JSON.stringify(preset))
+      palette.preset.name = `${palette.preset.name} (${palette.preset.family})`
       palette.scale = scale(preset)
 
       this.props.onChangePreset?.({
@@ -378,8 +378,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       const preset =
         presets.find((preset) => preset.id === 'ADS') ?? defaultPreset
 
-      preset.name = `${preset.name} (${preset.family})`
-      palette.preset = preset
+      palette.preset = JSON.parse(JSON.stringify(preset))
+      palette.preset.name = `${palette.preset.name} (${palette.preset.family})`
       palette.scale = scale(preset)
 
       this.props.onChangePreset?.({
@@ -402,8 +402,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       const preset =
         presets.find((preset) => preset.id === 'ADS_NEUTRAL') ?? defaultPreset
 
-      preset.name = `${preset.name} (${preset.family})`
-      palette.preset = preset
+      palette.preset = JSON.parse(JSON.stringify(preset))
+      palette.preset.name = `${palette.preset.name} (${palette.preset.family})`
       palette.scale = scale(preset)
 
       this.props.onChangePreset?.({

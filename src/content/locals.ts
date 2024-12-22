@@ -362,8 +362,9 @@ export const locals: { [key: string]: any } = {
         wcag: 'Display WCAG 2 scores',
         apca: 'Display WCAP 3 scores',
       },
-      locked: {
-        label: 'Locked',
+      lock: {
+        tag: 'Locked',
+        label: 'Lock source colors',
       },
       reset: {
         helper: 'Reset the imported colors',

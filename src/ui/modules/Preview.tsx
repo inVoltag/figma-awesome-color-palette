@@ -65,14 +65,19 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
   private unsubscribeAPCA: (() => void) | undefined
 
   static features = (planStatus: PlanStatus) => ({
-    PREVIEW_WCAG: new FeatureStatus({
+    PREVIEW_SCORES: new FeatureStatus({
       features: features,
-      featureName: 'PREVIEW_WCAG',
+      featureName: 'PREVIEW_SCORES',
       planStatus: planStatus,
     }),
-    PREVIEW_APCA: new FeatureStatus({
+    PREVIEW_SCORES_WCAG: new FeatureStatus({
       features: features,
-      featureName: 'PREVIEW_APCA',
+      featureName: 'PREVIEW_SCORES_WCAG',
+      planStatus: planStatus,
+    }),
+    PREVIEW_SCORES_APCA: new FeatureStatus({
+      features: features,
+      featureName: 'PREVIEW_SCORES_APCA',
       planStatus: planStatus,
     }),
     PREVIEW_LOCK_SOURCE_COLORS: new FeatureStatus({
@@ -424,7 +429,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
         iconColor="var(--black)"
       />
       <span className={`preview__tag__score type ${texts['type--truncated']}`}>
-        {locals[this.props.lang].preview.locked.label}
+        {locals[this.props.lang].preview.lock.tag}
       </span>
     </div>
   )
@@ -469,13 +474,13 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                     type: 'OPTION',
                     isActive: Preview.features(
                       this.props.planStatus
-                    ).PREVIEW_WCAG.isActive(),
+                    ).PREVIEW_SCORES_WCAG.isActive(),
                     isBlocked: Preview.features(
                       this.props.planStatus
-                    ).PREVIEW_WCAG.isBlocked(),
+                    ).PREVIEW_SCORES_WCAG.isBlocked(),
                     isNew: Preview.features(
                       this.props.planStatus
-                    ).PREVIEW_WCAG.isNew(),
+                    ).PREVIEW_SCORES_WCAG.isNew(),
                     action: () => {
                       $isWCAGDisplayed.set(!this.state.isWCAGDisplayed)
                       parent.postMessage(
@@ -500,13 +505,13 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                     type: 'OPTION',
                     isActive: Preview.features(
                       this.props.planStatus
-                    ).PREVIEW_APCA.isActive(),
+                    ).PREVIEW_SCORES_APCA.isActive(),
                     isBlocked: Preview.features(
                       this.props.planStatus
-                    ).PREVIEW_APCA.isBlocked(),
+                    ).PREVIEW_SCORES_APCA.isBlocked(),
                     isNew: Preview.features(
                       this.props.planStatus
-                    ).PREVIEW_APCA.isNew(),
+                    ).PREVIEW_SCORES_APCA.isNew(),
                     action: () => {
                       $isAPCADisplayed.set(!this.state.isAPCADisplayed)
                       parent.postMessage(
@@ -527,6 +532,12 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                   },
                 ]}
                 selected={this.displayHandler()}
+                isBlocked={Preview.features(
+                  this.props.planStatus
+                ).PREVIEW_SCORES.isBlocked()}
+                isNew={Preview.features(
+                  this.props.planStatus
+                ).PREVIEW_SCORES.isNew()}
               />
             </div>
           }
@@ -539,7 +550,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
               >
                 <Select
                   id="lock-source-colors"
-                  label="Lock source colors"
+                  label={locals[this.props.lang].preview.lock.label}
                   type="SWITCH_BUTTON"
                   feature="LOCK_SOURCE_COLORS"
                   isChecked={this.props.areSourceColorsLocked}

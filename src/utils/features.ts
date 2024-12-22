@@ -1037,7 +1037,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
     service: ['CREATE', 'EDIT'],
   },
   {
-    name: 'PREVIEW_WCAG',
+    name: 'PREVIEW_SCORES',
     description: '',
     isActive: true,
     isPro: false,
@@ -1046,7 +1046,16 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
     service: ['CREATE', 'EDIT'],
   },
   {
-    name: 'PREVIEW_APCA',
+    name: 'PREVIEW_SCORES_WCAG',
+    description: '',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    service: ['CREATE', 'EDIT'],
+  },
+  {
+    name: 'PREVIEW_SCORES_APCA',
     description: '',
     isActive: true,
     isPro: false,

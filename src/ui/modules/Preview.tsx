@@ -704,6 +704,7 @@ export default class Preview extends PureComponent<
                     },
                   ]}
                   selected={this.props.colorSpace}
+                  alignment="RIGHT"
                   isBlocked={Preview.features(
                     this.props.planStatus
                   ).SETTINGS_COLOR_SPACE.isBlocked()}
@@ -893,6 +894,7 @@ export default class Preview extends PureComponent<
                     },
                   ]}
                   selected={this.props.visionSimulationMode}
+                  alignment="RIGHT"
                   isBlocked={Preview.features(
                     this.props.planStatus
                   ).SETTINGS_VISION_SIMULATION_MODE.isBlocked()}

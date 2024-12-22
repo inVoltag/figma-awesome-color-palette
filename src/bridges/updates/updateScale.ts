@@ -1,16 +1,7 @@
+import { PaletteNode } from 'src/types/nodes'
 import Colors from '../../canvas/Colors'
 import { lang, locals } from '../../content/locals'
-import {
-  AlgorithmVersionConfiguration,
-  ColorConfiguration,
-  ColorSpaceConfiguration,
-  PresetConfiguration,
-  ThemeConfiguration,
-  ViewConfiguration,
-  VisionSimulationModeConfiguration,
-} from '../../types/configurations'
 import { ScaleMessage } from '../../types/messages'
-import { TextColorsThemeHexModel } from '../../types/models'
 import doLightnessScale from '../../utils/doLightnessScale'
 import setPaletteName from '../../utils/setPaletteName'
 import {
@@ -25,50 +16,34 @@ const updateScale = async (msg: ScaleMessage) => {
     : (currentSelection[0] as FrameNode)
 
   if (palette.children.length === 1) {
-    const name: string =
-        palette.getPluginData('name') === ''
-          ? locals[lang].name
-          : palette.getPluginData('name'),
-      description: string = palette.getPluginData('description'),
-      preset = JSON.parse(
-        palette.getPluginData('preset')
-      ) as PresetConfiguration,
-      areSourceColorsLocked =
-        palette.getPluginData('areSourceColorsLocked') === 'true',
-      colors = JSON.parse(
-        palette.getPluginData('colors')
-      ) as Array<ColorConfiguration>,
-      colorSpace = palette.getPluginData(
-        'colorSpace'
-      ) as ColorSpaceConfiguration,
-      visionSimulationMode = palette.getPluginData(
-        'visionSimulationMode'
-      ) as VisionSimulationModeConfiguration,
-      themes = JSON.parse(
-        palette.getPluginData('themes')
-      ) as Array<ThemeConfiguration>,
-      view = palette.getPluginData('view') as ViewConfiguration,
-      textColorsTheme = JSON.parse(
-        palette.getPluginData('textColorsTheme')
-      ) as TextColorsThemeHexModel,
-      algorithmVersion = palette.getPluginData(
-        'algorithmVersion'
-      ) as AlgorithmVersionConfiguration,
-      creatorFullName = palette.getPluginData('creatorFullName'),
-      creatorAvatar = palette.getPluginData('creatorAvatar'),
-      creatorAvatarImg =
-        creatorAvatar !== ''
-          ? await figma
-              .createImageAsync(creatorAvatar)
-              .then(async (image: Image) => image)
-              .catch(() => null)
-          : null
+    if (Object.keys(msg.data.preset).length !== 0)
+      palette.setPluginData('preset', JSON.stringify(msg.data.preset))
 
-    const theme = themes.find((theme) => theme.isEnabled)
+    const keys = palette.getPluginDataKeys()
+    const paletteData: [string, string | boolean | object][] = keys.map(
+      (key) => {
+        const value = palette.getPluginData(key)
+        if (value === 'true' || value === 'false')
+          return [key, value === 'true']
+        else if (value.includes('{'))
+          return [key, JSON.parse(palette.getPluginData(key))]
+        return [key, value]
+      }
+    )
+    const paletteObject = makePaletteNode(paletteData)
+    const creatorAvatarImg =
+      paletteObject.creatorAvatar !== ''
+        ? await figma
+            .createImageAsync(paletteObject.creatorAvatar ?? '')
+            .then(async (image: Image) => image)
+            .catch(() => null)
+        : null
+
+    const theme = paletteObject.themes.find((theme) => theme.isEnabled)
     if (theme !== undefined) theme.scale = msg.data.scale
 
     if (msg.feature === 'ADD_STOP' || msg.feature === 'DELETE_STOP')
-      themes.forEach((theme) => {
+      paletteObject.themes.forEach((theme) => {
         if (!theme.isEnabled)
           theme.scale = doLightnessScale(
             Object.keys(msg.data.scale).map((stop) => {
@@ -80,34 +55,29 @@ const updateScale = async (msg: ScaleMessage) => {
             theme.scale[Object.keys(theme.scale)[0]]
           )
       })
-    palette.setPluginData('shift', JSON.stringify(msg.data.shift))
-    palette.setPluginData('themes', JSON.stringify(themes))
 
-    if (Object.keys(msg.data.preset).length !== 0)
-      palette.setPluginData('preset', JSON.stringify(msg.data.preset))
+    palette.setPluginData('scale', JSON.stringify(msg.data.scale))
+    palette.setPluginData('shift', JSON.stringify(msg.data.shift))
+    palette.setPluginData('themes', JSON.stringify(paletteObject.themes))
 
     palette.children[0].remove()
     palette.appendChild(
       new Colors(
         {
-          name: palette.getPluginData('name'),
-          description: description,
-          preset: preset,
+          ...paletteObject,
           scale: msg.data.scale,
-          areSourceColorsLocked: areSourceColorsLocked,
-          colors: colors,
-          colorSpace: colorSpace,
-          visionSimulationMode: visionSimulationMode,
-          themes: themes,
+          name: paletteObject.name !== undefined ? paletteObject.name : '',
+          description:
+            paletteObject.description !== undefined
+              ? paletteObject.description
+              : '',
           view:
-            msg.isEditedInRealTime && view === 'PALETTE_WITH_PROPERTIES'
+            msg.isEditedInRealTime &&
+            paletteObject.view === 'PALETTE_WITH_PROPERTIES'
               ? 'PALETTE'
-              : msg.isEditedInRealTime && view === 'SHEET'
+              : msg.isEditedInRealTime && paletteObject.view === 'SHEET'
                 ? 'SHEET_SAFE_MODE'
-                : view,
-          textColorsTheme: textColorsTheme,
-          algorithmVersion: algorithmVersion,
-          creatorFullName: creatorFullName,
+                : paletteObject.view,
           creatorAvatarImg: creatorAvatarImg,
           service: 'EDIT',
         },
@@ -126,13 +96,24 @@ const updateScale = async (msg: ScaleMessage) => {
     // Palette migration
     palette.counterAxisSizingMode = 'AUTO'
     palette.name = setPaletteName(
-      name,
-      themes.find((theme) => theme.isEnabled)?.name,
-      preset.name,
-      colorSpace,
-      visionSimulationMode
+      paletteObject.name !== undefined ? paletteObject.name : locals[lang].name,
+      paletteObject.themes.find((theme) => theme.isEnabled)?.name,
+      paletteObject.preset.name,
+      paletteObject.colorSpace,
+      paletteObject.visionSimulationMode
     )
   } else figma.notify(locals[lang].error.corruption)
+}
+
+const makePaletteNode = (data: [string, string | boolean | object][]) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const obj: { [key: string]: any } = {}
+
+  data.forEach((d) => {
+    obj[d[0]] = d[1]
+  })
+
+  return obj as PaletteNode
 }
 
 export default updateScale

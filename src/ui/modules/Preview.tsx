@@ -531,7 +531,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
             </div>
           }
           rightPartSlot={
-            <div className={layouts['snackbar--medium']}>
+            <div className={layouts['snackbar--tight']}>
               <Feature
                 isActive={Preview.features(
                   this.props.planStatus

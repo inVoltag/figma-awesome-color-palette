@@ -865,6 +865,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           ]}
           selected={this.props.distributionEasing}
           pin="BOTTOM"
+          containerId="scale"
           isBlocked={Scale.features(
             this.props.planStatus
           ).SCALE_HELPER_DISTRIBUTION.isBlocked()}

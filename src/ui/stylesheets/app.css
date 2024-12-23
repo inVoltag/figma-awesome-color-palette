@@ -113,7 +113,7 @@ div.control__block--no-padding {
 
 div.control__block--distributed {
   justify-content: space-between;
-  gap: var(--size-xsmall);
+  gap: var(--size-small);
   overflow-y: hidden;
 }
 

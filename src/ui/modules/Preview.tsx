@@ -220,13 +220,14 @@ export default class Preview extends PureComponent<
 
   // Handlers
   clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.detail === 2) {
-      document.removeEventListener('mousemove', this.onDrag)
+    document.body.style.cursor = ''
+    document.removeEventListener('mousemove', this.onDrag)
+
+    if (e.detail === 2)
       this.setState({
         drawerHeight: this.state.drawerHeight === 'auto' ? '100%' : 'auto',
         isDrawerCollapsed: false,
       })
-    }
   }
 
   displayHandler = (): string => {

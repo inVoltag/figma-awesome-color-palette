@@ -76,6 +76,7 @@ interface EditPaletteProps {
   lang: Language
   onChangeScale: React.Dispatch<Partial<AppStates>>
   onChangeStop?: React.Dispatch<Partial<AppStates>>
+  onChangeDistributionEasing?: React.Dispatch<Partial<AppStates>>
   onChangeColors: React.Dispatch<Partial<AppStates>>
   onChangeThemes: React.Dispatch<Partial<AppStates>>
   onChangeSettings: React.Dispatch<Partial<AppStates>>

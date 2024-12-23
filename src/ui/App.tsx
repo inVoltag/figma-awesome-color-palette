@@ -978,6 +978,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
               {...this.state}
               onChangeScale={(e) => this.setState({ ...e })}
               onChangeStop={(e) => this.setState({ ...e })}
+              onChangeDistributionEasing={(e) => this.setState({ ...e })}
               onChangeColors={(e) => this.setState({ ...e })}
               onChangeThemes={(e) => this.setState({ ...e })}
               onChangeSettings={(e) => this.setState({ ...e })}

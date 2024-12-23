@@ -1085,14 +1085,12 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             ).SCALE_CONFIGURATION.isActive()}
           >
             <Slider
+              {...this.props}
               type="EDIT"
-              hasPreset={this.props.hasPreset}
               presetName={this.props.preset.name}
               stops={this.props.preset.scale}
-              scale={this.props.scale}
               min={palette.min}
               max={palette.max}
-              distributionEasing={this.props.distributionEasing}
               colors={{
                 min: 'var(--black)',
                 max: 'var(--white)',
@@ -1219,12 +1217,10 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           >
             {this.props.preset.id === 'CUSTOM' ? (
               <Slider
+                {...this.props}
                 type="FULLY_EDIT"
-                hasPreset={this.props.hasPreset}
                 presetName={this.props.preset.name}
                 stops={this.props.preset.scale}
-                scale={this.props.scale}
-                distributionEasing={this.props.distributionEasing}
                 colors={{
                   min: 'var(--black)',
                   max: 'var(--white)',
@@ -1234,11 +1230,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             ) : (
               <Slider
                 type="EDIT"
-                hasPreset={this.props.hasPreset}
+                {...this.props}
                 presetName={this.props.preset.name}
                 stops={this.props.preset.scale}
-                scale={this.props.scale}
-                distributionEasing={this.props.distributionEasing}
                 colors={{
                   min: 'var(--black)',
                   max: 'var(--white)',

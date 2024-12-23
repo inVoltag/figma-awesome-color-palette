@@ -188,7 +188,10 @@ export default class InternalPalettes extends PureComponent<
   render() {
     return (
       <div className="controls__control">
-        <div className="control__block control__block--list">
+        <div
+          id="internal"
+          className="control__block control__block--list"
+        >
           <this.InternalPalettesList />
         </div>
       </div>

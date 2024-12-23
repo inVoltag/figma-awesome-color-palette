@@ -642,7 +642,10 @@ export default class SelfPalettes extends PureComponent<
 
     return (
       <div className="controls__control">
-        <div className="control__block control__block--no-padding">
+        <div
+          id="self"
+          className="control__block control__block--no-padding"
+        >
           {this.props.status !== 'SIGN_IN_FIRST' &&
             this.props.status !== 'EMPTY' && (
               <Bar

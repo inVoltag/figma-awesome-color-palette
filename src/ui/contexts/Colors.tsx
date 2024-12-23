@@ -548,7 +548,10 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
   render() {
     return (
       <div className="controls__control">
-        <div className="control__block control__block--list">
+        <div
+          id="colors"
+          className="control__block control__block--list"
+        >
           <div className="section-controls">
             <div className="section-controls__left-part">
               <SectionTitle

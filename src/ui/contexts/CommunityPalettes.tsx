@@ -413,7 +413,10 @@ export default class CommunityPalettes extends PureComponent<
   render() {
     return (
       <div className="controls__control">
-        <div className="control__block control__block--no-padding">
+        <div
+          id="community"
+          className="control__block control__block--no-padding"
+        >
           {this.props.status !== 'SIGN_IN_FIRST' &&
             this.props.status !== 'EMPTY' && (
               <Bar

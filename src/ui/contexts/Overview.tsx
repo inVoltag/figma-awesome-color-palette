@@ -561,7 +561,10 @@ export default class Overview extends PureComponent<
   // Render
   render() {
     return (
-      <div className="controls__control controls__control--horizontal">
+      <div
+        id="overview"
+        className="controls__control controls__control--horizontal"
+      >
         <div className="control__block control__block--list">
           <Feature
             isActive={Overview.features(

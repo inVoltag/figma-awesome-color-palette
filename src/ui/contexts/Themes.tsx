@@ -382,7 +382,10 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
 
     return (
       <div className="controls__control">
-        <div className="control__block control__block--list">
+        <div
+          id="themes"
+          className="control__block control__block--list"
+        >
           <div className="section-controls">
             <div className="section-controls__left-part">
               <SectionTitle

@@ -309,7 +309,10 @@ export default class Explore extends PureComponent<
   // Render
   render() {
     return (
-      <div className="controls__control controls__control--horizontal">
+      <div
+        id="explore"
+        className="controls__control controls__control--horizontal"
+      >
         <div className="controls__control">
           <div className="control__block control__block--no-padding">
             <Bar

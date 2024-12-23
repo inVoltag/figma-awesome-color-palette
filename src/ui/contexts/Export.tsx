@@ -478,7 +478,10 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
     this.setFirstPreview()
     return (
       <div className="controls__control">
-        <div className="control__block">
+        <div
+          id="export"
+          className="control__block"
+        >
           <div className="section-controls">
             <div className="section-controls__left-part">
               <SectionTitle

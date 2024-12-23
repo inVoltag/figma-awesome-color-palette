@@ -566,7 +566,10 @@ export default class Settings extends PureComponent<
           />
         )}
         <div className="controls__control">
-          <div className="control__block control__block--no-padding">
+          <div
+            id="settings"
+            className="control__block control__block--no-padding"
+          >
             {this.state.context === 'SETTINGS_PALETTE' && <this.Palette />}
             {this.state.context === 'SETTINGS_PREFERENCES' && (
               <this.Preferences />

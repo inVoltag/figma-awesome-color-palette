@@ -1022,7 +1022,10 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
   Create = () => {
     return (
       <div className="controls__control">
-        <div className="control__block control__block--distributed">
+        <div
+          id="scale"
+          className="control__block control__block--distributed"
+        >
           <div className="section-controls">
             <div className="section-controls__left-part">
               <SectionTitle label={locals[this.props.lang].scale.title} />
@@ -1194,7 +1197,10 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     palette.scale = {}
     return (
       <div className="controls__control">
-        <div className="control__block control__block--distributed">
+        <div
+          id="scale"
+          className="control__block control__block--distributed"
+        >
           <div className="section-controls">
             <div className="section-controls__left-part">
               <SectionTitle

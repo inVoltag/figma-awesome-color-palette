@@ -109,7 +109,10 @@ export default class Knob extends PureComponent<KnobProps, KnobStates> {
         ]
           .filter((n) => n)
           .join(' ')}
-        style={{ left: `${this.props.offset}%` }}
+        style={{
+          left: `${this.props.offset}%`,
+          zIndex: this.state.isTooltipOpen ? '2' : '1',
+        }}
         data-id={this.props.id}
         data-value={this.props.value}
         tabIndex={!(this.props.isBlocked || this.props.isDisabled) ? 0 : -1}

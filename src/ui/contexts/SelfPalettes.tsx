@@ -271,6 +271,7 @@ export default class SelfPalettes extends PureComponent<
           },
           '*'
         )
+
         trackPublicationEvent(
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -560,8 +561,15 @@ export default class SelfPalettes extends PureComponent<
                           'isAddToFileActionLoading'
                         ].map((loading, i) => (i === index ? true : loading)),
                       })
+
                       this.onSelectPalette(palette.palette_id ?? '').catch(
                         () => {
+                          this.setState({
+                            isAddToFileActionLoading: Array(
+                              this.props.palettesList.length
+                            ).fill(false),
+                          })
+
                           parent.postMessage(
                             {
                               pluginMessage: {

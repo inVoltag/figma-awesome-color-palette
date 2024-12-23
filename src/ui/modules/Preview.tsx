@@ -491,7 +491,7 @@ export default class Preview extends PureComponent<
             <div className={layouts['snackbar--tight']}>
               <Button
                 type="icon"
-                icon={this.state.isDrawerCollapsed ? 'caret-up' : 'caret-down'}
+                icon={this.state.isDrawerCollapsed ? 'upward' : 'downward'}
                 action={() =>
                   this.setState({
                     isDrawerCollapsed: !this.state.isDrawerCollapsed,

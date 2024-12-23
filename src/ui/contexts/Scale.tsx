@@ -25,6 +25,7 @@ import {
   PlanStatus,
 } from '../../types/app'
 import {
+  PaletteConfiguration,
   PresetConfiguration,
   ScaleConfiguration,
   ShiftConfiguration,
@@ -35,13 +36,14 @@ import { ScaleMessage } from '../../types/messages'
 import { ActionsList, DispatchProcess } from '../../types/models'
 import doLightnessScale from '../../utils/doLightnessScale'
 import { trackScaleManagementEvent } from '../../utils/eventsTracker'
-import { defaultPreset, palette, presets } from '../../utils/palettePackage'
+import { defaultPreset, presets } from '../../utils/palettePackage'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import SimpleSlider from '../components/SimpleSlider'
 import Slider from '../components/Slider'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
+import { $palette } from '../../stores/palette'
 
 interface ScaleProps {
   sourceColors?: Array<SourceColorConfiguration>
@@ -81,6 +83,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
   private scaleMessage: ScaleMessage
   private dispatch: { [key: string]: DispatchProcess }
   private unsubscribe: (() => void) | undefined
+  private palette: typeof $palette
 
   static defaultProps: Partial<ScaleProps> = {
     namingConvention: 'ONES',
@@ -194,9 +197,10 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
 
   constructor(props: ScaleProps) {
     super(props)
+    this.palette = $palette
     this.scaleMessage = {
       type: 'UPDATE_SCALE',
-      data: palette,
+      data: this.palette.value as PaletteConfiguration,
       isEditedInRealTime: true,
     }
     this.dispatch = {
@@ -226,7 +230,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
   slideHandler = (state: string, feature?: string) => {
     const onReleaseStop = () => {
       this.dispatch.scale.on.status = false
-      this.scaleMessage.data = palette
+      this.scaleMessage.data = this.palette.value as PaletteConfiguration
       this.scaleMessage.isEditedInRealTime = false
       this.props.onChangeScale()
       if (!this.props.hasPreset)
@@ -234,7 +238,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     }
 
     const onChangeStop = () => {
-      this.scaleMessage.data = palette
+      this.scaleMessage.data = this.palette.value as PaletteConfiguration
       this.scaleMessage.isEditedInRealTime = false
       this.scaleMessage.feature = feature
       this.props.onChangeStop?.()
@@ -244,7 +248,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     }
 
     const onTypeStopValue = () => {
-      this.scaleMessage.data = palette
+      this.scaleMessage.data = this.palette.value as PaletteConfiguration
       this.scaleMessage.isEditedInRealTime = false
       this.props.onChangeStop?.()
       this.props.onChangeScale()
@@ -284,9 +288,12 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       const preset =
         presets.find((preset) => preset.id === 'MATERIAL') ?? defaultPreset
 
-      palette.preset = JSON.parse(JSON.stringify(preset))
-      palette.preset.name = `${palette.preset.name} (${palette.preset.family})`
-      palette.scale = scale(preset)
+      this.palette.setKey('preset', JSON.parse(JSON.stringify(preset)))
+      this.palette.setKey(
+        'preset.name',
+        `${this.palette.get().preset.name} (${this.palette.get().preset.family})`
+      )
+      this.palette.setKey('scale', scale(preset))
 
       this.props.onChangePreset?.({
         preset: preset,
@@ -308,9 +315,12 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       const preset =
         presets.find((preset) => preset.id === 'MATERIAL_3') ?? defaultPreset
 
-      palette.preset = JSON.parse(JSON.stringify(preset))
-      palette.preset.name = `${palette.preset.name} (${palette.preset.family})`
-      palette.scale = scale(preset)
+      this.palette.setKey('preset', JSON.parse(JSON.stringify(preset)))
+      this.palette.setKey(
+        'preset.name',
+        `${this.palette.get().preset.name} (${this.palette.get().preset.family}')`
+      )
+      this.palette.setKey('scale', scale(preset))
 
       this.props.onChangePreset?.({
         preset: preset,
@@ -332,8 +342,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       const preset =
         presets.find((preset) => preset.id === 'TAILWIND') ?? defaultPreset
 
-      palette.preset = preset
-      palette.scale = scale(preset)
+      this.palette.setKey('preset', preset)
+      this.palette.setKey('scale', scale(preset))
 
       this.props.onChangePreset?.({
         preset: preset,
@@ -355,8 +365,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       const preset =
         presets.find((preset) => preset.id === 'ANT') ?? defaultPreset
 
-      palette.preset = preset
-      palette.scale = scale(preset)
+      this.palette.setKey('preset', preset)
+      this.palette.setKey('scale', scale(preset))
 
       this.props.onChangePreset?.({
         preset: preset,
@@ -378,9 +388,12 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       const preset =
         presets.find((preset) => preset.id === 'ADS') ?? defaultPreset
 
-      palette.preset = JSON.parse(JSON.stringify(preset))
-      palette.preset.name = `${palette.preset.name} (${palette.preset.family})`
-      palette.scale = scale(preset)
+      this.palette.setKey('preset', JSON.parse(JSON.stringify(preset)))
+      this.palette.setKey(
+        'preset.name',
+        `${this.palette.get().preset.name} (${this.palette.get().preset.family})`
+      )
+      this.palette.setKey('scale', scale(preset))
 
       this.props.onChangePreset?.({
         preset: preset,
@@ -402,9 +415,12 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       const preset =
         presets.find((preset) => preset.id === 'ADS_NEUTRAL') ?? defaultPreset
 
-      palette.preset = JSON.parse(JSON.stringify(preset))
-      palette.preset.name = `${palette.preset.name} (${palette.preset.family})`
-      palette.scale = scale(preset)
+      this.palette.setKey('preset', JSON.parse(JSON.stringify(preset)))
+      this.palette.setKey(
+        'preset.name',
+        `${this.palette.get().preset.name} (${this.palette.get().preset.family})`
+      )
+      this.palette.setKey('scale', scale(preset))
 
       this.props.onChangePreset?.({
         preset: preset,
@@ -426,8 +442,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       const preset =
         presets.find((preset) => preset.id === 'CARBON') ?? defaultPreset
 
-      palette.preset = preset
-      palette.scale = scale(preset)
+      this.palette.setKey('preset', preset)
+      this.palette.setKey('scale', scale(preset))
 
       this.props.onChangePreset?.({
         preset: preset,
@@ -449,8 +465,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       const preset =
         presets.find((preset) => preset.id === 'BASE') ?? defaultPreset
 
-      palette.preset = preset
-      palette.scale = scale(preset)
+      this.palette.setKey('preset', preset)
+      this.palette.setKey('scale', scale(preset))
 
       this.props.onChangePreset?.({
         preset: preset,
@@ -479,10 +495,10 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       })
 
       preset.scale = newScale ?? []
-      palette.preset = preset
-      palette.min = preset.min
-      palette.max = preset.max
-      palette.scale = scale(preset)
+      this.palette.setKey('preset', preset)
+      this.palette.setKey('min', preset.min)
+      this.palette.setKey('max', preset.max)
+      this.palette.setKey('scale', scale(preset))
 
       this.props.onChangePreset?.({
         preset: preset,
@@ -590,8 +606,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     const scale = (stps = stops) =>
       doLightnessScale(
         stps,
-        palette.min ?? 0,
-        palette.max ?? 100,
+        this.palette.get().min ?? 0,
+        this.palette.get().max ?? 100,
         true,
         this.props.distributionEasing
       )
@@ -600,7 +616,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       if (stops.length < 24) {
         stops.push(stops.slice(-1)[0] + stops[0])
         preset.scale = stops
-        palette.scale = scale()
+        this.palette.setKey('scale', scale())
 
         this.props.onAddStop?.({
           preset: preset,
@@ -613,7 +629,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       if (stops.length > 2) {
         stops.pop()
         preset.scale = stops
-        palette.scale = scale()
+        this.palette.setKey('scale', scale())
 
         this.props.onRemoveStop?.({
           preset: preset,
@@ -634,8 +650,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       })
 
       preset.scale = newStops
-      palette.scale = scale(newStops)
-      palette.preset = preset
+      this.palette.setKey('scale', scale(newStops))
+      this.palette.setKey('preset', preset)
 
       this.props.onChangeNamingConvention?.({
         namingConvention: option,
@@ -1093,8 +1109,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               type="EDIT"
               presetName={this.props.preset.name}
               stops={this.props.preset.scale}
-              min={palette.min}
-              max={palette.max}
+              min={this.palette.get().min}
+              max={this.palette.get().max}
               colors={{
                 min: 'var(--black)',
                 max: 'var(--white)',
@@ -1123,7 +1139,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               ).SCALE_CHROMA.isBlocked()}
               isNew={Scale.features(this.props.planStatus).SCALE_CHROMA.isNew()}
               onChange={(feature, state, value) => {
-                palette.shift.chroma = value
+                this.palette.setKey('shift.chroma', value)
                 this.props.onChangeShift()
               }}
             />
@@ -1195,7 +1211,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
   }
 
   Edit = () => {
-    palette.scale = {}
+    this.palette.setKey('scale', {})
     return (
       <div className="controls__control">
         <div
@@ -1269,7 +1285,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               ).SCALE_CHROMA.isBlocked()}
               isNew={Scale.features(this.props.planStatus).SCALE_CHROMA.isNew()}
               onChange={(feature, state, value) => {
-                palette.shift.chroma = value
+                this.palette.setKey('shift.chroma', value)
                 this.props.onChangeShift(feature, state, value)
                 this.slideHandler(state)
               }}

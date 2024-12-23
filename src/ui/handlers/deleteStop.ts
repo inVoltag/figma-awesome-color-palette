@@ -1,5 +1,5 @@
 import { ScaleConfiguration } from '../../types/configurations'
-import { palette } from '../../utils/palettePackage'
+import { $palette } from '../../stores/palette'
 
 const deleteStop = (
   scale: ScaleConfiguration,
@@ -12,7 +12,8 @@ const deleteStop = (
     newLightnessScale: { [key: string]: number } = {},
     factor = Math.min(
       ...Object.keys(scale).map((stop) => parseFloat(stop.split('-')[1]))
-    )
+    ),
+    palette = $palette
 
   Object.values(scale).forEach((scale) => {
     scale === parseFloat(selectedKnob.style.left) ? null : newScale.push(scale)
@@ -22,17 +23,17 @@ const deleteStop = (
       (newLightnessScale[`lightness-${(index + 1) * factor}`] = scale)
   )
 
-  palette.scale = newLightnessScale
-  palette.preset = {
+  palette.setKey('scale', newLightnessScale)
+  palette.setKey('preset', {
     name: presetName,
-    scale: Object.keys(palette.scale).map((key) =>
+    scale: Object.keys(palette.get().scale).map((key) =>
       parseFloat(key.replace('lightness-', ''))
     ),
     min: presetMin,
     max: presetMax,
     isDistributed: false,
     id: 'CUSTOM',
-  }
+  })
 }
 
 export default deleteStop

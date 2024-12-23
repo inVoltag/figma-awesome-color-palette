@@ -33,10 +33,10 @@ import {
 import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
 import Color from '../../utils/Color'
 import Contrast from '../../utils/Contrast'
-import { palette } from '../../utils/palettePackage'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
 import { trackPreviewManagementEvent } from '../../utils/eventsTracker'
+import { $palette } from '../../stores/palette'
 
 interface PreviewProps {
   service: Service
@@ -64,13 +64,11 @@ interface PreviewStates {
   drawerHeight: string
 }
 
-export default class Preview extends PureComponent<
-  PreviewProps,
-  PreviewStates
-> {
+export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
   private drawerRef: React.RefObject<HTMLDivElement>
   private unsubscribeWCAG: (() => void) | undefined
   private unsubscribeAPCA: (() => void) | undefined
+  private palette: typeof $palette
 
   static features = (planStatus: PlanStatus) => ({
     PREVIEW_SCORES: new FeatureStatus({
@@ -187,6 +185,7 @@ export default class Preview extends PureComponent<
 
   constructor(props: PreviewProps) {
     super(props)
+    this.palette = $palette
     this.state = {
       isWCAGDisplayed: true,
       isAPCADisplayed: true,
@@ -242,7 +241,7 @@ export default class Preview extends PureComponent<
   ) => {
     const lockSourceColors = () => {
       const target = e.target as HTMLInputElement
-      palette.areSourceColorsLocked = target.checked ?? false
+      this.palette.setKey('areSourceColorsLocked', target.checked ?? false)
 
       this.props.onLockSourceColors({
         areSourceColorsLocked: target.checked,
@@ -276,7 +275,10 @@ export default class Preview extends PureComponent<
 
     const updateColorSpace = () => {
       const target = e.target as HTMLLIElement
-      palette.colorSpace = target.dataset.value as ColorSpaceConfiguration
+      this.palette.setKey(
+        'colorSpace',
+        target.dataset.value as ColorSpaceConfiguration
+      )
 
       this.props.onChangeSettings({
         colorSpace: target.dataset.value as ColorSpaceConfiguration,
@@ -310,8 +312,10 @@ export default class Preview extends PureComponent<
 
     const updateColorBlidMode = () => {
       const target = e.target as HTMLLIElement
-      palette.visionSimulationMode = target.dataset
-        .value as VisionSimulationModeConfiguration
+      this.palette.setKey(
+        'visionSimulationMode',
+        target.dataset.value as VisionSimulationModeConfiguration
+      )
 
       this.props.onChangeSettings({
         visionSimulationMode: target.dataset

@@ -1,7 +1,7 @@
 import { doMap } from '@a_ng_d/figmug-utils'
 
 import { ScaleConfiguration } from '../../types/configurations'
-import { palette } from '../../utils/palettePackage'
+import { $palette } from '../../stores/palette'
 
 const addStop = (
   e: MouseEvent,
@@ -23,7 +23,8 @@ const addStop = (
     newLightnessScale: { [key: string]: number } = {},
     factor = Math.min(
       ...Object.keys(scale).map((stop) => parseFloat(stop.split('-')[1]))
-    )
+    ),
+    palette = $palette
 
   let newScale: Array<number> = []
 
@@ -35,15 +36,15 @@ const addStop = (
       (newLightnessScale[`lightness-${(index + 1) * factor}`] = scale)
   )
 
-  palette.scale = newLightnessScale
-  palette.preset = {
+  palette.setKey('scale', newLightnessScale)
+  palette.setKey('preset', {
     name: presetName,
     scale: newScale.map((scale, index) => (index + 1) * factor),
     min: presetMin,
     max: presetMax,
     isDistributed: false,
     id: 'CUSTOM',
-  }
+  })
 }
 
 export default addStop

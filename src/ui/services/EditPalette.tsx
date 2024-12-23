@@ -42,7 +42,6 @@ import {
   trackActionEvent,
   trackSourceColorsManagementEvent,
 } from '../../utils/eventsTracker'
-import { palette } from '../../utils/palettePackage'
 import { setContexts } from '../../utils/setContexts'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
@@ -53,6 +52,7 @@ import Settings from '../contexts/Settings'
 import Themes from '../contexts/Themes'
 import Dispatcher from '../modules/Dispatcher'
 import Preview from '../modules/Preview'
+import { $palette } from '../../stores/palette'
 
 interface EditPaletteProps {
   name: string
@@ -94,16 +94,14 @@ interface EditPaletteStates {
   canPaletteDeepSync: boolean
 }
 
-export default class EditPalette extends PureComponent<
-  EditPaletteProps,
-  EditPaletteStates
-> {
+export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteStates> {
   private colorsMessage: ColorsMessage
   private themesMessage: ThemesMessage
   private dispatch: { [key: string]: DispatchProcess }
   private contexts: Array<ContextItem>
   private themesRef: React.RefObject<Themes>
   private unsubscribe: (() => void) | null = null
+  private palette: typeof $palette
 
   static features = (planStatus: PlanStatus) => ({
     THEMES: new FeatureStatus({
@@ -120,6 +118,7 @@ export default class EditPalette extends PureComponent<
 
   constructor(props: EditPaletteProps) {
     super(props)
+    this.palette = $palette
     this.themesMessage = {
       type: 'UPDATE_THEMES',
       data: [],
@@ -202,9 +201,9 @@ export default class EditPalette extends PureComponent<
 
   slideHandler = () =>
     this.props.onChangeScale({
-      scale: palette.scale,
+      scale: this.palette.get().scale,
       themes: this.props.themes.map((theme: ThemeConfiguration) => {
-        if (theme.isEnabled) theme.scale = palette.scale
+        if (theme.isEnabled) theme.scale = this.palette.get().scale
         return theme
       }),
       onGoingStep: 'scale changed',
@@ -213,15 +212,15 @@ export default class EditPalette extends PureComponent<
   customSlideHandler = () =>
     this.props.onChangeStop?.({
       preset:
-        Object.keys(palette.preset).length === 0
+        Object.keys(this.palette.get().preset).length === 0
           ? this.props.preset
-          : palette.preset,
-      scale: palette.scale,
+          : this.palette.get().preset,
+      scale: this.palette.get().scale,
       themes: this.props.themes.map((theme: ThemeConfiguration) => {
-        if (theme.isEnabled) theme.scale = palette.scale
+        if (theme.isEnabled) theme.scale = this.palette.get().scale
         else
           theme.scale = doLightnessScale(
-            Object.keys(palette.scale).map((stop) => {
+            Object.keys(this.palette.get().scale).map((stop) => {
               return parseFloat(stop.replace('lightness-', ''))
             }),
             theme.scale[
@@ -273,7 +272,7 @@ export default class EditPalette extends PureComponent<
         chroma:
           feature === 'SHIFT_CHROMA' ? (value ?? 100) : this.props.shift.chroma,
       }
-      palette.shift = shift
+      this.palette.setKey('shift', shift)
       this.colorsMessage.data = this.props.colors.map((item) => {
         if (feature === 'SHIFT_CHROMA' && !item.chroma.isLocked)
           item.chroma.shift = value ?? this.props.shift.chroma

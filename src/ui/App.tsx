@@ -60,7 +60,7 @@ import {
   trackTrialEnablementEvent,
   trackUserConsentEvent,
 } from '../utils/eventsTracker'
-import { defaultPreset, palette, presets } from '../utils/palettePackage'
+import { defaultPreset, presets } from '../utils/palettePackage'
 import { userConsent } from '../utils/userConsent'
 import Feature from './components/Feature'
 import PriorityContainer from './modules/PriorityContainer'
@@ -70,6 +70,7 @@ import EditPalette from './services/EditPalette'
 import TransferPalette from './services/TransferPalette'
 import './stylesheets/app-components.css'
 import './stylesheets/app.css'
+import { $palette } from '../stores/palette'
 
 export interface AppStates {
   service: Service
@@ -114,6 +115,8 @@ export interface AppStates {
 let isPaletteSelected = false
 
 export default class App extends Component<Record<string, never>, AppStates> {
+  private palette: typeof $palette
+
   static features = (planStatus: PlanStatus) => ({
     CREATE: new FeatureStatus({
       features: features,
@@ -144,6 +147,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
 
   constructor(props: Record<string, never>) {
     super(props)
+    this.palette = $palette
     this.state = {
       service: 'CREATE',
       sourceColors: [],
@@ -234,12 +238,15 @@ export default class App extends Component<Record<string, never>, AppStates> {
         this.props.distributionEasing
       ),
     })
-    palette.scale = doLightnessScale(
-      this.state.preset.scale,
-      this.state.preset.min,
-      this.state.preset.max,
-      this.state.preset.isDistributed,
-      this.props.distributionEasing
+    this.palette.setKey(
+      'scale',
+      doLightnessScale(
+        this.state.preset.scale,
+        this.state.preset.min,
+        this.state.preset.max,
+        this.state.preset.isDistributed,
+        this.props.distributionEasing
+      )
     )
     fetch(
       `${announcementsWorkerUrl}/?action=get_version&database_id=${process.env.REACT_APP_NOTION_ANNOUNCEMENTS_ID}`
@@ -446,21 +453,21 @@ export default class App extends Component<Record<string, never>, AppStates> {
               })(),
               onGoingStep: 'selection empty',
             })
-            palette.name = ''
-            palette.description = ''
-            palette.preset = defaultPreset
-            palette.scale = scale
-            palette.shift = {
+            this.palette.setKey('name', '')
+            this.palette.setKey('description', '')
+            this.palette.setKey('preset', defaultPreset)
+            this.palette.setKey('scale', scale)
+            this.palette.setKey('shift', {
               chroma: 100,
-            }
-            palette.areSourceColorsLocked = false
-            palette.colorSpace = 'LCH'
-            palette.visionSimulationMode = 'NONE'
-            palette.view = 'PALETTE_WITH_PROPERTIES'
-            palette.textColorsTheme = {
+            })
+            this.palette.setKey('areSourceColorsLocked', false)
+            this.palette.setKey('colorSpace', 'LCH')
+            this.palette.setKey('visionSimulationMode', 'NONE')
+            this.palette.setKey('view', 'PALETTE_WITH_PROPERTIES')
+            this.palette.setKey('textColorsTheme', {
               lightColor: '#FFFFFF',
               darkColor: '#000000',
-            }
+            })
           }
           this.setState({
             service: 'CREATE',
@@ -528,23 +535,25 @@ export default class App extends Component<Record<string, never>, AppStates> {
                 else return this.state.priorityContainerContext
               })(),
             })
-            palette.name = ''
-            palette.description = ''
-            palette.preset =
+            this.palette.setKey('name', '')
+            this.palette.setKey('description', '')
+            this.palette.setKey(
+              'preset',
               presets.find((preset) => preset.id === 'MATERIAL') ??
-              defaultPreset
-            palette.scale = scale
-            palette.shift = {
+                defaultPreset
+            )
+            this.palette.setKey('scale', scale)
+            this.palette.setKey('shift', {
               chroma: 100,
-            }
-            palette.areSourceColorsLocked = false
-            palette.colorSpace = 'LCH'
-            palette.visionSimulationMode = 'NONE'
-            palette.view = 'PALETTE_WITH_PROPERTIES'
-            palette.textColorsTheme = {
+            })
+            this.palette.setKey('areSourceColorsLocked', false)
+            this.palette.setKey('colorSpace', 'LCH')
+            this.palette.setKey('visionSimulationMode', 'NONE')
+            this.palette.setKey('view', 'PALETTE_WITH_PROPERTIES')
+            this.palette.setKey('textColorsTheme', {
               lightColor: '#FFFFFF',
               darkColor: '#000000',
-            }
+            })
           }
           this.setState({
             service: 'CREATE',
@@ -561,7 +570,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
 
         const updateWhilePaletteSelected = () => {
           isPaletteSelected = true
-          palette.preset = e.data.pluginMessage.data.preset
+          this.palette.setKey('preset', e.data.pluginMessage.data.preset)
           parent.postMessage(
             {
               pluginMessage: {

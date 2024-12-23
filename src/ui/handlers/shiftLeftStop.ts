@@ -1,5 +1,5 @@
+import { $palette } from '../../stores/palette'
 import { ScaleConfiguration } from '../../types/configurations'
-import { palette } from '../../utils/palettePackage'
 
 const shiftLeftStop = (
   scale: ScaleConfiguration,
@@ -10,6 +10,7 @@ const shiftLeftStop = (
 ) => {
   const stopsList: Array<string> = []
   const shiftValue = meta || ctrl ? 0.1 : 1
+  const palette = $palette
 
   Object.keys(scale).forEach((stop) => {
     stopsList.push(stop)
@@ -31,7 +32,7 @@ const shiftLeftStop = (
     newLightnessScale[stopsList[selectedKnobIndex]] =
       newLightnessScale[stopsList[selectedKnobIndex]] - shiftValue
 
-  palette.scale = newLightnessScale
+  palette.setKey('scale', newLightnessScale)
 }
 
 export default shiftLeftStop

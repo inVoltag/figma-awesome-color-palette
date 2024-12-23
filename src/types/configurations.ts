@@ -23,14 +23,15 @@ export interface SourceColorConfiguration {
 }
 
 export interface PaletteConfiguration {
+  [key: string]: any
   name: string
   description: string
+  min?: number
+  max?: number
   preset: PresetConfiguration
   scale: ScaleConfiguration
   shift: ShiftConfiguration
   areSourceColorsLocked: LockedSourceColorsConfiguration
-  min?: number
-  max?: number
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   view: ViewConfiguration
@@ -58,9 +59,7 @@ export interface PresetConfiguration {
   id: string
 }
 
-export interface ScaleConfiguration {
-  [key: string]: number
-}
+export type ScaleConfiguration = Record<string, number>
 
 export interface ShiftConfiguration {
   chroma: number

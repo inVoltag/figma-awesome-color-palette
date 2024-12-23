@@ -5,13 +5,13 @@ import React from 'react'
 import { Easing, Language } from '../../types/app'
 import { ScaleConfiguration } from '../../types/configurations'
 import doLightnessScale from '../../utils/doLightnessScale'
-import { palette } from '../../utils/palettePackage'
 import addStop from './../handlers/addStop'
 import deleteStop from './../handlers/deleteStop'
 import shiftLeftStop from './../handlers/shiftLeftStop'
 import shiftRightStop from './../handlers/shiftRightStop'
 import Knob from './Knob'
 import { locals } from '../../content/locals'
+import { $palette } from '../../stores/palette'
 
 interface SliderProps {
   stops: Array<number>
@@ -36,6 +36,7 @@ interface SliderStates {
 
 export default class Slider extends Component<SliderProps, SliderStates> {
   private safeGap: number
+  private palette: typeof $palette
 
   static defaultProps = {
     colors: {
@@ -46,6 +47,7 @@ export default class Slider extends Component<SliderProps, SliderStates> {
 
   constructor(props: SliderProps) {
     super(props)
+    this.palette = $palette
     this.state = {
       isTooltipDisplay: Array(this.props.stops?.length).fill(false),
     }
@@ -61,12 +63,22 @@ export default class Slider extends Component<SliderProps, SliderStates> {
   ) => {
     const target = e.target as HTMLInputElement
     if (target.value !== '') {
-      palette.scale = this.props.scale ?? {}
+      this.palette.setKey('scale', this.props.scale ?? {})
       if (parseFloat(target.value) < parseFloat(target.min))
-        palette.scale[`lightness-${stopId}`] = parseFloat(target.min)
+        this.palette.setKey(
+          `scale[lightness-${stopId}]`,
+          parseFloat(target.min)
+        )
       else if (parseFloat(target.value) > parseFloat(target.max))
-        palette.scale[`lightness-${stopId}`] = parseFloat(target.max)
-      else palette.scale[`lightness-${stopId}`] = parseFloat(target.value)
+        this.palette.setKey(
+          `scale[lightness-${stopId}]`,
+          parseFloat(target.max)
+        )
+      else
+        this.palette.setKey(
+          `scale[lightness-${stopId}]`,
+          parseFloat(target.value)
+        )
       this.props.onChange('TYPED')
     }
   }
@@ -85,30 +97,38 @@ export default class Slider extends Component<SliderProps, SliderStates> {
       stops = Array.from(range.children as HTMLCollectionOf<HTMLElement>)
 
     const update = () => {
-      palette.min = parseFloat(
-        doMap(
-          (range.lastChild as HTMLElement).offsetLeft,
-          0,
-          rangeWidth,
-          0,
-          100
-        ).toFixed(1)
-      )
-      palette.max = parseFloat(
-        doMap(
-          (range.firstChild as HTMLElement).offsetLeft,
-          0,
-          rangeWidth,
-          0,
-          100
-        ).toFixed(1)
-      )
-      stops.forEach((stop) =>
-        this.updateLightnessScaleEntry(
-          stop.dataset.id as string,
-          parseFloat(stop.style.left.replace('%', ''))
+      const scale = this.palette.get().scale
+      this.palette.setKey(
+        'min',
+        parseFloat(
+          doMap(
+            (range.lastChild as HTMLElement).offsetLeft,
+            0,
+            rangeWidth,
+            0,
+            100
+          ).toFixed(1)
         )
       )
+      this.palette.setKey(
+        'max',
+        parseFloat(
+          doMap(
+            (range.firstChild as HTMLElement).offsetLeft,
+            0,
+            rangeWidth,
+            0,
+            100
+          ).toFixed(1)
+        )
+      )
+      stops.forEach(
+        (stop) =>
+          (scale[stop.dataset.id as string] = parseFloat(
+            stop.style.left.replace('%', '')
+          ))
+      )
+      this.palette.setKey('scale', scale)
     }
 
     stop.style.zIndex = '2'
@@ -265,28 +285,27 @@ export default class Slider extends Component<SliderProps, SliderStates> {
     this.props.onChange('SHIFTED')
   }
 
-  // Utils
-  updateLightnessScaleEntry = (key: string, value: number) => {
-    palette.scale[key] = parseFloat(value.toFixed(1))
-  }
-
   distributeStops = (
     type: string,
     value: number,
     stops: Array<HTMLElement>
   ) => {
-    if (type === 'MIN') palette.min = value
-    else if (type === 'MAX') palette.max = value
+    if (type === 'MIN') this.palette.setKey('min', value)
+    else if (type === 'MAX') this.palette.setKey('max', value)
 
-    palette.scale = doLightnessScale(
-      this.props.stops,
-      palette.min ?? 0,
-      palette.max ?? 100,
-      true,
-      this.props.distributionEasing
+    this.palette.setKey(
+      'scale',
+      doLightnessScale(
+        this.props.stops,
+        this.palette.get().min ?? 0,
+        this.palette.get().max ?? 100,
+        true,
+        this.props.distributionEasing
+      )
     )
     stops.forEach((stop) => {
-      stop.style.left = palette.scale[stop.dataset.id as string] + '%'
+      stop.style.left =
+        this.palette.get().scale[stop.dataset.id as string] + '%'
     })
 
     this.setState({
@@ -314,7 +333,7 @@ export default class Slider extends Component<SliderProps, SliderStates> {
 
   // Templates
   Edit = () => {
-    palette.scale = this.props.scale ?? {}
+    this.palette.setKey('scale', this.props.scale ?? {})
     return (
       <div
         className="slider__range"
@@ -366,7 +385,7 @@ export default class Slider extends Component<SliderProps, SliderStates> {
   }
 
   FullyEdit = () => {
-    palette.scale = this.props.scale ?? {}
+    this.palette.setKey('scale', this.props.scale ?? {})
     return (
       <div
         className={[

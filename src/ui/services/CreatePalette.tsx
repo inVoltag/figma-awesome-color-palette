@@ -30,7 +30,6 @@ import {
 import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
 import { UserSession } from '../../types/user'
 import { trackActionEvent } from '../../utils/eventsTracker'
-import { palette } from '../../utils/palettePackage'
 import { setContexts } from '../../utils/setContexts'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
@@ -39,6 +38,7 @@ import Scale from '../contexts/Scale'
 import Settings from '../contexts/Settings'
 import Source from '../contexts/Source'
 import Preview from '../modules/Preview'
+import { $palette } from '../../stores/palette'
 
 interface CreatePaletteProps {
   sourceColors: Array<SourceColorConfiguration> | []
@@ -81,6 +81,7 @@ export default class CreatePalette extends PureComponent<
   CreatePaletteStates
 > {
   private contexts: Array<ContextItem>
+  private palette: typeof $palette
 
   static features = (planStatus: PlanStatus) => ({
     PREVIEW: new FeatureStatus({
@@ -92,6 +93,7 @@ export default class CreatePalette extends PureComponent<
 
   constructor(props: CreatePaletteProps) {
     super(props)
+    this.palette = $palette
     this.contexts = setContexts(
       ['PALETTES', 'SOURCE', 'SCALE', 'SETTINGS'],
       props.planStatus
@@ -157,13 +159,13 @@ export default class CreatePalette extends PureComponent<
 
   slideHandler = () =>
     this.props.onChangeScale({
-      scale: palette.scale,
+      scale: this.palette.get().scale,
       onGoingStep: 'scale changed',
     })
 
   shiftHandler = () =>
     this.props.onChangeShift({
-      shift: palette.shift,
+      shift: this.palette.get().shift,
       onGoingStep: 'shift changed',
     })
 
@@ -180,7 +182,7 @@ export default class CreatePalette extends PureComponent<
           data: {
             sourceColors: this.props.sourceColors,
             palette: {
-              ...palette,
+              ...this.palette.value,
               algoritmVersion: algorithmVersion,
             },
           },
@@ -201,7 +203,7 @@ export default class CreatePalette extends PureComponent<
   }
 
   onConfigureExternalSourceColors = (name: string, colors: Array<HexModel>) => {
-    palette.name = name
+    this.palette.setKey('name', name)
     this.setState({
       context: 'SOURCE',
     })

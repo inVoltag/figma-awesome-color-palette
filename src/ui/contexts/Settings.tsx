@@ -27,7 +27,6 @@ import {
   TextColorsThemeHexModel,
 } from '../../types/models'
 import { trackSettingsManagementEvent } from '../../utils/eventsTracker'
-import { palette } from '../../utils/palettePackage'
 import { setContexts } from '../../utils/setContexts'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
@@ -38,6 +37,7 @@ import ContrastSettings from './ContrastSettings'
 import GlobalSettings from './GlobalSettings'
 import SyncPreferences from './SyncPreferences'
 import { $canPaletteDeepSync } from '../../stores/preferences'
+import { $palette } from '../../stores/palette'
 
 interface SettingsProps {
   service: Service
@@ -75,6 +75,7 @@ export default class Settings extends PureComponent<
   private dispatch: { [key: string]: DispatchProcess }
   private contexts: Array<ContextItem>
   private unsubscribe: (() => void) | null = null
+  private palette: typeof $palette
 
   static features = (planStatus: PlanStatus) => ({
     SETTINGS_GLOBAL: new FeatureStatus({
@@ -106,6 +107,7 @@ export default class Settings extends PureComponent<
 
   constructor(props: SettingsProps) {
     super(props)
+    this.palette = $palette
     this.settingsMessage = {
       type: 'UPDATE_SETTINGS',
       data: {
@@ -162,7 +164,7 @@ export default class Settings extends PureComponent<
       feature = target.dataset.feature ?? 'DEFAULT'
 
     const renamePalette = () => {
-      palette.name = target.value
+      this.palette.setKey('name', target.value)
 
       this.settingsMessage.data.name = target.value
       this.settingsMessage.data.description = this.props.description
@@ -196,7 +198,7 @@ export default class Settings extends PureComponent<
     }
 
     const updateDescription = () => {
-      palette.description = target.value
+      this.palette.setKey('description', target.value)
 
       this.settingsMessage.data.name = this.props.name
       this.settingsMessage.data.description = target.value
@@ -228,7 +230,7 @@ export default class Settings extends PureComponent<
 
     const updateView = () => {
       if (target.dataset.isBlocked === 'false') {
-        palette.view = target.dataset.value as ViewConfiguration
+        this.palette.setKey('view', target.dataset.value as ViewConfiguration)
 
         this.props.onChangeSettings({
           view: target.dataset.value as ViewConfiguration,
@@ -237,7 +239,9 @@ export default class Settings extends PureComponent<
 
         if (this.props.service === 'EDIT') {
           parent.postMessage(
-            { pluginMessage: { type: 'UPDATE_VIEW', data: palette } },
+            {
+              pluginMessage: { type: 'UPDATE_VIEW', data: this.palette.value },
+            },
             '*'
           )
 
@@ -254,7 +258,10 @@ export default class Settings extends PureComponent<
     }
 
     const updateColorSpace = () => {
-      palette.colorSpace = target.dataset.value as ColorSpaceConfiguration
+      this.palette.setKey(
+        'colorSpace',
+        target.dataset.value as ColorSpaceConfiguration
+      )
 
       this.settingsMessage.data.name = this.props.name
       this.settingsMessage.data.description = this.props.description
@@ -286,8 +293,10 @@ export default class Settings extends PureComponent<
     }
 
     const updatevisionSimulationMode = () => {
-      palette.visionSimulationMode = target.dataset
-        .value as VisionSimulationModeConfiguration
+      this.palette.setKey(
+        'visionSimulationMode',
+        target.dataset.value as VisionSimulationModeConfiguration
+      )
 
       this.settingsMessage.data.name = this.props.name
       this.settingsMessage.data.description = this.props.description
@@ -318,8 +327,10 @@ export default class Settings extends PureComponent<
     }
 
     const updateAlgorithmVersion = () => {
-      palette.algorithmVersion = target.dataset
-        .value as AlgorithmVersionConfiguration
+      this.palette.setKey(
+        'algorithmVersion',
+        target.dataset.value as AlgorithmVersionConfiguration
+      )
 
       this.settingsMessage.data.name = this.props.name
       this.settingsMessage.data.description = this.props.description
@@ -358,7 +369,7 @@ export default class Settings extends PureComponent<
         this.settingsMessage.data.visionSimulationMode =
           this.props.visionSimulationMode
         this.settingsMessage.data.textColorsTheme.lightColor = code
-        palette.textColorsTheme.lightColor = code
+        this.palette.setKey('textColorsTheme.lightColor', code)
         this.settingsMessage.data.textColorsTheme.darkColor =
           this.props.textColorsTheme.darkColor
         this.settingsMessage.data.algorithmVersion =
@@ -401,7 +412,7 @@ export default class Settings extends PureComponent<
         this.settingsMessage.data.textColorsTheme.lightColor =
           this.props.textColorsTheme.lightColor
         this.settingsMessage.data.textColorsTheme.darkColor = code
-        palette.textColorsTheme.darkColor = code
+        this.palette.setKey('textColorsTheme.darkColor', code)
         this.settingsMessage.data.algorithmVersion =
           this.props.algorithmVersion ?? algorithmVersion
       }

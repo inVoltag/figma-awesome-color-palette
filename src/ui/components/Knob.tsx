@@ -1,4 +1,4 @@
-import { Chip, Input, texts } from '@a_ng_d/figmug-ui'
+import { Chip, Input, texts, Tooltip } from '@a_ng_d/figmug-ui'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 
@@ -11,6 +11,7 @@ interface KnobProps {
   offset: number
   min?: string
   max?: string
+  helper?: string
   canBeTyped: boolean
   isDisplayed: boolean
   isBlocked: boolean
@@ -189,6 +190,9 @@ export default class Knob extends PureComponent<KnobProps, KnobStates> {
           )}
         </div>
         <div className="slider__graduation"></div>
+        {this.props.helper !== undefined && this.state.isTooltipOpen && (
+          <Tooltip>{this.props.helper}</Tooltip>
+        )}
       </div>
     )
   }

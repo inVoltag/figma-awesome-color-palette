@@ -2,7 +2,7 @@ import { doMap } from '@a_ng_d/figmug-utils'
 import { Component } from 'preact/compat'
 import React from 'react'
 
-import { Easing } from '../../types/app'
+import { Easing, Language } from '../../types/app'
 import { ScaleConfiguration } from '../../types/configurations'
 import doLightnessScale from '../../utils/doLightnessScale'
 import { palette } from '../../utils/palettePackage'
@@ -11,6 +11,7 @@ import deleteStop from './../handlers/deleteStop'
 import shiftLeftStop from './../handlers/shiftLeftStop'
 import shiftRightStop from './../handlers/shiftRightStop'
 import Knob from './Knob'
+import { locals } from '../../content/locals'
 
 interface SliderProps {
   stops: Array<number>
@@ -25,6 +26,7 @@ interface SliderProps {
     min: string
     max: string
   }
+  lang: Language
   onChange: (state: string, feature?: string) => void
 }
 
@@ -338,6 +340,11 @@ export default class Slider extends Component<SliderProps, SliderStates> {
                   ? '100'
                   : (original[index - 1][1] - this.safeGap).toString()
               }
+              helper={
+                index === 0 || index === original.length - 1
+                  ? locals[this.props.lang].scale.tips.distributeAsTooltip
+                  : undefined
+              }
               canBeTyped={true}
               isDisplayed={this.state.isTooltipDisplay[index]}
               onShiftRight={(e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -397,6 +404,11 @@ export default class Slider extends Component<SliderProps, SliderStates> {
                 original[index - 1] === undefined
                   ? '100'
                   : (original[index - 1][1] - this.safeGap).toString()
+              }
+              helper={
+                index === 0 || index === original.length - 1
+                  ? 'Press ⇧ to distribute'
+                  : undefined
               }
               canBeTyped={true}
               isDisplayed={this.state.isTooltipDisplay[index]}

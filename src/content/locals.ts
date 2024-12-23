@@ -201,6 +201,7 @@ export const locals: { [key: string]: any } = {
         shiftRight: 'Shift right stop',
         type: 'Type stop value',
         remove: 'Remove stop',
+        distributeAsTooltip: 'Press ⇧ to distribute stops based on easing',
       },
     },
     colors: {

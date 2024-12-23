@@ -319,6 +319,11 @@ export default class Overview extends PureComponent<
           <ul className="list">
             {this.props.sourceColors
               .filter((sourceColor) => sourceColor.source === 'CANVAS')
+              .sort((a, b) => {
+                if (a.name.localeCompare(b.name) > 0) return 1
+                else if (a.name.localeCompare(b.name) < 0) return -1
+                else return 0
+              })
               .map((sourceColor) => {
                 return (
                   <ColorItem

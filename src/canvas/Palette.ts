@@ -176,30 +176,46 @@ export default class Palette {
     }
 
     // Insert
-    this.sourceColors.forEach((sourceColor) =>
-      this.colors.push({
-        name: sourceColor.name,
-        description: '',
-        rgb: sourceColor.rgb,
-        id: uid(),
-        hue: {
-          shift: sourceColor.hue?.shift ?? 0,
-          isLocked: sourceColor.hue?.isLocked ?? false,
-        },
-        chroma: {
-          shift: this.isRemote
-            ? (sourceColor.chroma?.shift ?? 100)
-            : this.shift.chroma,
-          isLocked: sourceColor.chroma?.isLocked ?? false,
-        },
-      })
-    )
+    if (!this.isRemote) {
+      this.sourceColors.forEach((sourceColor) =>
+        this.colors.push({
+          name: sourceColor.name,
+          description: '',
+          rgb: sourceColor.rgb,
+          id: uid(),
+          hue: {
+            shift: sourceColor.hue?.shift ?? 0,
+            isLocked: sourceColor.hue?.isLocked ?? false,
+          },
+          chroma: {
+            shift: this.shift.chroma,
+            isLocked: sourceColor.chroma?.isLocked ?? false,
+          },
+        })
+      )
 
-    this.colors.sort((a, b) => {
-      if (a.name.localeCompare(b.name) > 0) return 1
-      else if (a.name.localeCompare(b.name) < 0) return -1
-      else return 0
-    })
+      this.colors.sort((a, b) => {
+        if (a.name.localeCompare(b.name) > 0) return 1
+        else if (a.name.localeCompare(b.name) < 0) return -1
+        else return 0
+      })
+    } else
+      this.sourceColors.forEach((sourceColor) =>
+        this.colors.push({
+          name: sourceColor.name,
+          description: sourceColor.description ?? '',
+          rgb: sourceColor.rgb,
+          id: sourceColor.id,
+          hue: {
+            shift: sourceColor.hue?.shift ?? 0,
+            isLocked: sourceColor.hue?.isLocked ?? false,
+          },
+          chroma: {
+            shift: sourceColor.chroma?.shift ?? 100,
+            isLocked: sourceColor.chroma?.isLocked ?? false,
+          },
+        })
+      )
 
     this.node.appendChild(new Colors(this as PaletteNode, this.node).makeNode())
 

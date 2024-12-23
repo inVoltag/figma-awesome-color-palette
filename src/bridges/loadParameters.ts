@@ -1,7 +1,7 @@
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import features from '../config'
 import { lang, locals } from '../content/locals'
-import { presets } from '../utils/palettePackage'
+import { presets } from '../stores/presets'
 import checkPlanStatus from './checks/checkPlanStatus'
 
 const loadParameters = async ({ key, result }: ParameterInputEvent) => {

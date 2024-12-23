@@ -1,9 +1,5 @@
-import { algorithmVersion } from '../config'
 import { lang, locals } from '../content/locals'
-import {
-  PaletteConfiguration,
-  PresetConfiguration,
-} from '../types/configurations'
+import { PresetConfiguration } from '../types/configurations'
 
 export const presets: Array<PresetConfiguration> = [
   {
@@ -87,24 +83,3 @@ export const presets: Array<PresetConfiguration> = [
 ]
 
 export const defaultPreset = presets[0]
-
-export const palette: PaletteConfiguration = {
-  name: '',
-  description: '',
-  min: undefined,
-  max: undefined,
-  preset: presets[0],
-  scale: {},
-  shift: {
-    chroma: 100,
-  },
-  areSourceColorsLocked: false,
-  colorSpace: 'LCH',
-  visionSimulationMode: 'NONE',
-  view: 'PALETTE_WITH_PROPERTIES',
-  textColorsTheme: {
-    lightColor: '#FFFFFF',
-    darkColor: '#000000',
-  },
-  algorithmVersion: algorithmVersion,
-}

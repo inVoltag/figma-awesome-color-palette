@@ -6,7 +6,7 @@ import processSelection from './bridges/processSelection'
 import { algorithmVersion } from './config'
 import { PaletteConfiguration } from './types/configurations'
 import doLightnessScale from './utils/doLightnessScale'
-import { presets } from './utils/palettePackage'
+import { presets } from './stores/presets'
 import setPaletteMigration from './utils/setPaletteMigration'
 
 // Fonts

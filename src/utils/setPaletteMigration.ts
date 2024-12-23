@@ -8,7 +8,7 @@ import {
   ColorSpaceConfiguration,
   VisionSimulationModeConfiguration,
 } from '../types/configurations'
-import { presets } from './palettePackage'
+import { presets } from '../stores/presets'
 import setData from './setData'
 
 const setPaletteMigration = async (palette: BaseNode) => {

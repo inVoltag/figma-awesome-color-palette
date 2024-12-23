@@ -60,7 +60,7 @@ import {
   trackTrialEnablementEvent,
   trackUserConsentEvent,
 } from '../utils/eventsTracker'
-import { defaultPreset, presets } from '../utils/palettePackage'
+import { defaultPreset, presets } from '../stores/presets'
 import { userConsent } from '../utils/userConsent'
 import Feature from './components/Feature'
 import PriorityContainer from './modules/PriorityContainer'

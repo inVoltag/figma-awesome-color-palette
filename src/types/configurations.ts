@@ -23,7 +23,7 @@ export interface SourceColorConfiguration {
 }
 
 export interface PaletteConfiguration {
-  [key: string]: any
+  [key: string]: string | number | boolean | object | undefined
   name: string
   description: string
   min?: number

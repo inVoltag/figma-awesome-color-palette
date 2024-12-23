@@ -1,7 +1,7 @@
 import { deepMap } from 'nanostores'
 import { PaletteConfiguration } from 'src/types/configurations'
 import { algorithmVersion } from '../config'
-import { presets } from '../utils/palettePackage'
+import { presets } from './presets'
 
 export const $palette = deepMap<PaletteConfiguration>({
   name: '',

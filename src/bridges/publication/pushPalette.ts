@@ -35,6 +35,7 @@ const pushPalette = async (
         preset: rawData.preset,
         scale: rawData.scale,
         shift: rawData.shift,
+        are_source_colors_locked: rawData.areSourceColorsLocked,
         colors: rawData.colors,
         color_space: rawData.colorSpace,
         vision_simulation_mode: rawData.visionSimulationMode,

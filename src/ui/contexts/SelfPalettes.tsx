@@ -241,6 +241,7 @@ export default class SelfPalettes extends PureComponent<
                   preset: data[0].preset,
                   scale: data[0].scale,
                   shift: data[0].shift,
+                  areSourceColorsLocked: data[0].are_source_colors_locked,
                   colorSpace: data[0].color_space,
                   visionSimulationMode: data[0].vision_simulation_mode,
                   view: data[0].view,

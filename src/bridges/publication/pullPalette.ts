@@ -15,6 +15,7 @@ const pullPalette = async (rawData: AppStates): Promise<Partial<AppStates>> => {
       preset: data[0].preset,
       scale: data[0].scale,
       shift: data[0].shift,
+      areSourceColorsLocked: data[0].are_source_colors_locked,
       colors: data[0].colors,
       colorSpace: data[0].color_space,
       visionSimulationMode: data[0].vision_simulation_mode,

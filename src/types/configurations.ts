@@ -9,6 +9,7 @@ export interface SourceColorConfiguration {
   source: 'CANVAS' | 'REMOTE' | ThirdParty
   id: string
   isRemovable: boolean
+  description?: string
   hue?: {
     shift: number
     isLocked: boolean

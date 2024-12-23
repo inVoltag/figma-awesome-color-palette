@@ -209,6 +209,7 @@ export default class CommunityPalettes extends PureComponent<
                       rgb: color.rgb,
                       source: 'REMOTE',
                       id: color.id,
+                      description: color.description,
                       hue: {
                         shift: color.hue.shift,
                         isLocked: color.hue.isLocked,

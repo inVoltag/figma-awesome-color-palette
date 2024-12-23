@@ -896,6 +896,7 @@ export default class Preview extends PureComponent<
                   ]}
                   selected={this.props.visionSimulationMode}
                   alignment="RIGHT"
+                  containerId="app"
                   isBlocked={Preview.features(
                     this.props.planStatus
                   ).SETTINGS_VISION_SIMULATION_MODE.isBlocked()}

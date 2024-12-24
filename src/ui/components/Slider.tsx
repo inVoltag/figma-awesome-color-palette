@@ -187,15 +187,13 @@ export default class Slider extends Component<SliderProps, SliderStates> {
 
     // Distribute stops horizontal spacing
     if (stop === range.lastChild && e.shiftKey)
-      // 900
-      this.distributeStops(
+      return this.distributeStops(
         'MIN',
         parseFloat(doMap(offset, 0, rangeWidth, 0, 100).toFixed(1)),
         stops
       )
     else if (stop === range.firstChild && e.shiftKey)
-      // 50
-      this.distributeStops(
+      return this.distributeStops(
         'MAX',
         parseFloat(doMap(offset, 0, rangeWidth, 0, 100).toFixed(1)),
         stops
@@ -303,6 +301,7 @@ export default class Slider extends Component<SliderProps, SliderStates> {
         this.props.distributionEasing
       )
     )
+
     stops.forEach((stop) => {
       stop.style.left =
         this.palette.get().scale[stop.dataset.id as string] + '%'
@@ -311,6 +310,8 @@ export default class Slider extends Component<SliderProps, SliderStates> {
     this.setState({
       isTooltipDisplay: Array(stops.length).fill(true),
     })
+
+    this.props.onChange('UPDATING')
   }
 
   linkStops = (

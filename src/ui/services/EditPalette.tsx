@@ -143,7 +143,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
       canPaletteDeepSync: false,
     }
     this.dispatch = {
-      scale: new Dispatcher(
+      colors: new Dispatcher(
         () => parent.postMessage({ pluginMessage: this.colorsMessage }, '*'),
         500
       ) as DispatchProcess,
@@ -272,6 +272,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
         chroma:
           feature === 'SHIFT_CHROMA' ? (value ?? 100) : this.props.shift.chroma,
       }
+
       this.palette.setKey('shift', shift)
       this.colorsMessage.data = this.props.colors.map((item) => {
         if (feature === 'SHIFT_CHROMA' && !item.chroma.isLocked)

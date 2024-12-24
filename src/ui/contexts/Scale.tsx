@@ -82,7 +82,8 @@ interface ScaleStates {
 export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
   private scaleMessage: ScaleMessage
   private dispatch: { [key: string]: DispatchProcess }
-  private unsubscribe: (() => void) | undefined
+  private unsubscribeSync: (() => void) | undefined
+  private unsubscribePalette: (() => void) | undefined
   private palette: typeof $palette
 
   static defaultProps: Partial<ScaleProps> = {
@@ -217,13 +218,17 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
 
   // Lifecycle
   componentDidMount() {
-    this.unsubscribe = $canPaletteDeepSync.subscribe((value) => {
+    this.unsubscribeSync = $canPaletteDeepSync.subscribe((value) => {
       this.setState({ canPaletteDeepSync: value })
+    })
+    this.unsubscribePalette = $palette.subscribe((value) => {
+      this.scaleMessage.data = value as PaletteConfiguration
     })
   }
 
   componentWillUnmount() {
-    if (this.unsubscribe) this.unsubscribe()
+    if (this.unsubscribeSync) this.unsubscribeSync()
+    if (this.unsubscribePalette) this.unsubscribePalette()
   }
 
   // Handlers

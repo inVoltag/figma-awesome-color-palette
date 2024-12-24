@@ -60,38 +60,42 @@ const updateScale = async (msg: ScaleMessage) => {
     palette.setPluginData('shift', JSON.stringify(msg.data.shift))
     palette.setPluginData('themes', JSON.stringify(paletteObject.themes))
 
-    palette.children[0].remove()
-    palette.appendChild(
-      new Colors(
-        {
-          ...paletteObject,
-          scale: msg.data.scale,
-          name: paletteObject.name !== undefined ? paletteObject.name : '',
-          description:
-            paletteObject.description !== undefined
-              ? paletteObject.description
-              : '',
-          view:
-            msg.isEditedInRealTime &&
-            paletteObject.view === 'PALETTE_WITH_PROPERTIES'
-              ? 'PALETTE'
-              : msg.isEditedInRealTime && paletteObject.view === 'SHEET'
-                ? 'SHEET_SAFE_MODE'
-                : paletteObject.view,
-          creatorAvatarImg: creatorAvatarImg,
-          service: 'EDIT',
-        },
-        palette
-      ).makeNode()
-    )
+    if (
+      JSON.stringify(msg.data.scale) !== JSON.stringify(paletteObject.scale)
+    ) {
+      palette.children[0].remove()
+      palette.appendChild(
+        new Colors(
+          {
+            ...paletteObject,
+            scale: msg.data.scale,
+            name: paletteObject.name !== undefined ? paletteObject.name : '',
+            description:
+              paletteObject.description !== undefined
+                ? paletteObject.description
+                : '',
+            view:
+              msg.isEditedInRealTime &&
+              paletteObject.view === 'PALETTE_WITH_PROPERTIES'
+                ? 'PALETTE'
+                : msg.isEditedInRealTime && paletteObject.view === 'SHEET'
+                  ? 'SHEET_SAFE_MODE'
+                  : paletteObject.view,
+            creatorAvatarImg: creatorAvatarImg,
+            service: 'EDIT',
+          },
+          palette
+        ).makeNode()
+      )
 
-    // Update
-    const now = new Date().toISOString()
-    palette.setPluginData('updatedAt', now)
-    figma.ui.postMessage({
-      type: 'UPDATE_PALETTE_DATE',
-      data: now,
-    })
+      // Update
+      const now = new Date().toISOString()
+      palette.setPluginData('updatedAt', now)
+      figma.ui.postMessage({
+        type: 'UPDATE_PALETTE_DATE',
+        data: now,
+      })
+    }
 
     // Palette migration
     palette.counterAxisSizingMode = 'AUTO'

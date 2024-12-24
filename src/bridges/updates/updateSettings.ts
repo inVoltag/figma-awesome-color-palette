@@ -81,11 +81,11 @@ const updateSettings = async (msg: SettingsMessage) => {
     // Palette migration
     palette.counterAxisSizingMode = 'AUTO'
     palette.name = setPaletteName(
-      paletteObject.name !== undefined ? paletteObject.name : locals[lang].name,
+      msg.data.name !== undefined ? msg.data.name : locals[lang].name,
       paletteObject.themes.find((theme) => theme.isEnabled)?.name,
       paletteObject.preset.name,
-      paletteObject.colorSpace,
-      paletteObject.visionSimulationMode
+      msg.data.colorSpace,
+      msg.data.visionSimulationMode
     )
   } else figma.notify(locals[lang].error.corruption)
 }

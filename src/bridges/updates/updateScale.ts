@@ -102,7 +102,7 @@ const updateScale = async (msg: ScaleMessage) => {
     palette.name = setPaletteName(
       paletteObject.name !== undefined ? paletteObject.name : locals[lang].name,
       paletteObject.themes.find((theme) => theme.isEnabled)?.name,
-      paletteObject.preset.name,
+      msg.data.preset.name,
       paletteObject.colorSpace,
       paletteObject.visionSimulationMode
     )

@@ -74,7 +74,7 @@ const updateThemes = async (msg: ThemesMessage) => {
     palette.counterAxisSizingMode = 'AUTO'
     palette.name = setPaletteName(
       paletteObject.name !== undefined ? paletteObject.name : locals[lang].name,
-      paletteObject.themes.find((theme) => theme.isEnabled)?.name,
+      msg.data.find((theme) => theme.isEnabled)?.name,
       paletteObject.preset.name,
       paletteObject.colorSpace,
       paletteObject.visionSimulationMode

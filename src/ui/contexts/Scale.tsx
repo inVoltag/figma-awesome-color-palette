@@ -16,7 +16,9 @@ import React from 'react'
 
 import features from '../../config'
 import { locals } from '../../content/locals'
+import { $palette } from '../../stores/palette'
 import { $canPaletteDeepSync } from '../../stores/preferences'
+import { defaultPreset, presets } from '../../stores/presets'
 import {
   Easing,
   EditorType,
@@ -36,14 +38,12 @@ import { ScaleMessage } from '../../types/messages'
 import { ActionsList, DispatchProcess } from '../../types/models'
 import doLightnessScale from '../../utils/doLightnessScale'
 import { trackScaleManagementEvent } from '../../utils/eventsTracker'
-import { defaultPreset, presets } from '../../stores/presets'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import SimpleSlider from '../components/SimpleSlider'
 import Slider from '../components/Slider'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
-import { $palette } from '../../stores/palette'
 
 interface ScaleProps {
   sourceColors?: Array<SourceColorConfiguration>

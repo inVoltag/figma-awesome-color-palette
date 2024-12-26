@@ -4,6 +4,8 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 
 import features, { algorithmVersion } from '../../config'
+import { $palette } from '../../stores/palette'
+import { $canPaletteDeepSync } from '../../stores/preferences'
 import {
   Context,
   ContextItem,
@@ -36,8 +38,6 @@ import ColorSettings from './ColorSettings'
 import ContrastSettings from './ContrastSettings'
 import GlobalSettings from './GlobalSettings'
 import SyncPreferences from './SyncPreferences'
-import { $canPaletteDeepSync } from '../../stores/preferences'
-import { $palette } from '../../stores/palette'
 
 interface SettingsProps {
   service: Service

@@ -8,6 +8,7 @@ import React from 'react'
 
 import features from '../../config'
 import { locals } from '../../content/locals'
+import { $palette } from '../../stores/palette'
 import { $canPaletteDeepSync } from '../../stores/preferences'
 import {
   Context,
@@ -52,7 +53,6 @@ import Settings from '../contexts/Settings'
 import Themes from '../contexts/Themes'
 import Dispatcher from '../modules/Dispatcher'
 import Preview from '../modules/Preview'
-import { $palette } from '../../stores/palette'
 
 interface EditPaletteProps {
   name: string
@@ -94,7 +94,10 @@ interface EditPaletteStates {
   canPaletteDeepSync: boolean
 }
 
-export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteStates> {
+export default class EditPalette extends PureComponent<
+  EditPaletteProps,
+  EditPaletteStates
+> {
   private colorsMessage: ColorsMessage
   private themesMessage: ThemesMessage
   private dispatch: { [key: string]: DispatchProcess }

@@ -6,6 +6,7 @@ import { uid } from 'uid'
 
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import features, { algorithmVersion } from '../../config'
+import { $palette } from '../../stores/palette'
 import {
   Context,
   ContextItem,
@@ -38,7 +39,6 @@ import Scale from '../contexts/Scale'
 import Settings from '../contexts/Settings'
 import Source from '../contexts/Source'
 import Preview from '../modules/Preview'
-import { $palette } from '../../stores/palette'
 
 interface CreatePaletteProps {
   sourceColors: Array<SourceColorConfiguration> | []

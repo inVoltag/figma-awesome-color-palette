@@ -17,6 +17,7 @@ import {
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import features from '../../config'
 import { locals } from '../../content/locals'
+import { $palette } from '../../stores/palette'
 import { $isAPCADisplayed, $isWCAGDisplayed } from '../../stores/preferences'
 import { Language, PlanStatus, Service } from '../../types/app'
 import {
@@ -33,10 +34,9 @@ import {
 import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
 import Color from '../../utils/Color'
 import Contrast from '../../utils/Contrast'
+import { trackPreviewManagementEvent } from '../../utils/eventsTracker'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
-import { trackPreviewManagementEvent } from '../../utils/eventsTracker'
-import { $palette } from '../../stores/palette'
 
 interface PreviewProps {
   service: Service
@@ -64,7 +64,10 @@ interface PreviewStates {
   drawerHeight: string
 }
 
-export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
+export default class Preview extends PureComponent<
+  PreviewProps,
+  PreviewStates
+> {
   private drawerRef: React.RefObject<HTMLDivElement>
   private unsubscribeWCAG: (() => void) | undefined
   private unsubscribeAPCA: (() => void) | undefined

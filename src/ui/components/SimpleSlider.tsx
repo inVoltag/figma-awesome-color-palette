@@ -25,7 +25,10 @@ interface SimpleSliderStates {
   isTooltipDisplay: boolean
 }
 
-export default class SimpleSlider extends Component<SimpleSliderProps, SimpleSliderStates> {
+export default class SimpleSlider extends Component<
+  SimpleSliderProps,
+  SimpleSliderStates
+> {
   private value: number
 
   static defaultProps = {

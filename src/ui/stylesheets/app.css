@@ -228,8 +228,8 @@ div.about__links {
 
 .preview__palette {
   display: flex;
-  flex-direction: column;
   flex: 1;
+  flex-direction: column;
   overflow: hidden;
 }
 

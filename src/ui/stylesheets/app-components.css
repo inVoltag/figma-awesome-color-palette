@@ -268,8 +268,8 @@ div.user__avatar img {
   background: var(--white4);
   padding: 0 var(--size-xxxsmall);
   max-width: 100%;
-  overflow: hidden;
   max-height: var(--size-xsmall);
+  overflow: hidden;
 }
 
 .preview__tag .icon-box {

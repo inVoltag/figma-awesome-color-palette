@@ -4,9 +4,9 @@ import loadParameters from './bridges/loadParameters'
 import loadUI from './bridges/loadUI'
 import processSelection from './bridges/processSelection'
 import { algorithmVersion } from './config'
+import { presets } from './stores/presets'
 import { PaletteConfiguration } from './types/configurations'
 import doLightnessScale from './utils/doLightnessScale'
-import { presets } from './stores/presets'
 import setPaletteMigration from './utils/setPaletteMigration'
 
 // Fonts

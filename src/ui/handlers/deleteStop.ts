@@ -1,5 +1,5 @@
-import { ScaleConfiguration } from '../../types/configurations'
 import { $palette } from '../../stores/palette'
+import { ScaleConfiguration } from '../../types/configurations'
 
 const deleteStop = (
   scale: ScaleConfiguration,

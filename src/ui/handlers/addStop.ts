@@ -1,7 +1,7 @@
 import { doMap } from '@a_ng_d/figmug-utils'
 
-import { ScaleConfiguration } from '../../types/configurations'
 import { $palette } from '../../stores/palette'
+import { ScaleConfiguration } from '../../types/configurations'
 
 const addStop = (
   e: MouseEvent,

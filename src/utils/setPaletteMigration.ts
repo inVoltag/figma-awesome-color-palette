@@ -2,13 +2,13 @@ import { uid } from 'uid'
 
 import Colors from '../canvas/Colors'
 import { lang, locals } from '../content/locals'
+import { presets } from '../stores/presets'
 import {
   AlgorithmVersionConfiguration,
   ColorConfiguration,
   ColorSpaceConfiguration,
   VisionSimulationModeConfiguration,
 } from '../types/configurations'
-import { presets } from '../stores/presets'
 import setData from './setData'
 
 const setPaletteMigration = async (palette: BaseNode) => {

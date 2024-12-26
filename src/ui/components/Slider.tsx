@@ -170,11 +170,9 @@ export default class Slider extends Component<SliderProps, SliderStates> {
     update()
 
     if (stop === range.lastChild) {
-      // 900
       limitMin = 0
       limitMax = (stop.previousElementSibling as HTMLElement).offsetLeft - gap
     } else if (stop === range.firstChild) {
-      // 50
       limitMin = (stop.nextElementSibling as HTMLElement).offsetLeft + gap
       limitMax = rangeWidth
     } else {
@@ -210,7 +208,12 @@ export default class Slider extends Component<SliderProps, SliderStates> {
             stop.offsetLeft
       )
         offset = stop.offsetLeft
-      else this.linkStops(offset, stop, stops, rangeWidth)
+      else
+        return this.linkStops(
+          parseFloat(doMap(offset, 0, rangeWidth, 0, 100).toFixed(1)),
+          stop,
+          stops
+        )
 
     if (e.ctrlKey === false && e.metaKey === false && e.shiftKey === false)
       this.setState({
@@ -312,24 +315,35 @@ export default class Slider extends Component<SliderProps, SliderStates> {
     })
 
     this.props.onChange('UPDATING')
+    document.body.style.cursor = 'ew-resize'
   }
 
-  linkStops = (
-    offset: number,
-    src: HTMLElement,
-    stops: Array<HTMLElement>,
-    width: number
-  ) => {
-    stops.forEach((stop) => {
-      const shift = stop.offsetLeft - src.offsetLeft + offset
-      if (stop !== src)
-        stop.style.left =
-          parseFloat(doMap(shift, 0, width, 0, 100).toFixed(1)) + '%'
-    })
+  linkStops = (value: number, src: HTMLElement, stops: Array<HTMLElement>) => {
+    const scale = this.palette.get().scale
+
+    stops
+      .filter((stop) => stop !== src)
+      .forEach((stop) => {
+        const delta =
+          scale[stop.dataset.id as string] -
+          scale[src.dataset.id as string] +
+          value
+
+        stop.style.left = delta.toFixed(1) + '%'
+        scale[stop.dataset.id as string] = delta
+      })
+
+    src.style.left = value + '%'
+    scale[src.dataset.id as string] = value
+
+    this.palette.setKey('scale', scale)
 
     this.setState({
       isTooltipDisplay: this.state.isTooltipDisplay.fill(true),
     })
+
+    this.props.onChange('UPDATING')
+    document.body.style.cursor = 'ew-resize'
   }
 
   // Templates

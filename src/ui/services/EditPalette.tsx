@@ -238,6 +238,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
 
     const onReleaseStop = () => {
       setData()
+      this.dispatch.colors.on.status = false
 
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
 

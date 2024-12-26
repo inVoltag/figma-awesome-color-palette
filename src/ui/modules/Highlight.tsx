@@ -37,10 +37,12 @@ export default class Highlight extends PureComponent<
     )
       .then((response) => response.json())
       .then((data) => {
-        this.setState({
-          announcements: data.announcements,
-          status: 'LOADED',
-        })
+        if (data.message !== 'The database could not be queried')
+          this.setState({
+            announcements: data.announcements,
+            status: 'LOADED',
+          })
+        else this.setState({ status: 'ERROR' })
       })
       .catch(() => {
         this.setState({ status: 'ERROR' })

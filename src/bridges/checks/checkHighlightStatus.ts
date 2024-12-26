@@ -1,10 +1,12 @@
 const checkHighlightStatus = async (remoteVersion: string) => {
-  // figma.clientStorage.deleteAsync('highlight_version')
-  // console.log('localVersion', localVersion)
-  // console.log('remoteVersion', remoteVersion)
   const localVersion = await figma.clientStorage.getAsync('highlight_version')
 
-  if (localVersion === undefined)
+  if (localVersion === undefined && remoteVersion === undefined)
+    return figma.ui.postMessage({
+      type: 'PUSH_HIGHLIGHT_STATUS',
+      data: 'NO_HIGHLIGHT',
+    })
+  else if (localVersion === undefined)
     return figma.ui.postMessage({
       type: 'PUSH_HIGHLIGHT_STATUS',
       data:

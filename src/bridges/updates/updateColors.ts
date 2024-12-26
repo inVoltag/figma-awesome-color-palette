@@ -37,38 +37,40 @@ const updateColors = async (msg: ColorsMessage) => {
 
     palette.setPluginData('colors', JSON.stringify(msg.data))
 
-    palette.children[0].remove()
-    palette.appendChild(
-      new Colors(
-        {
-          ...paletteObject,
-          colors: msg.data,
-          name: paletteObject.name !== undefined ? paletteObject.name : '',
-          description:
-            paletteObject.description !== undefined
-              ? paletteObject.description
-              : '',
-          view:
-            msg.isEditedInRealTime &&
-            paletteObject.view === 'PALETTE_WITH_PROPERTIES'
-              ? 'PALETTE'
-              : msg.isEditedInRealTime && paletteObject.view === 'SHEET'
-                ? 'SHEET_SAFE_MODE'
-                : paletteObject.view,
-          creatorAvatarImg: creatorAvatarImg,
-          service: 'EDIT',
-        },
-        palette
-      ).makeNode()
-    )
+    if (JSON.stringify(msg.data) !== JSON.stringify(paletteObject.colors)) {
+      palette.children[0].remove()
+      palette.appendChild(
+        new Colors(
+          {
+            ...paletteObject,
+            colors: msg.data,
+            name: paletteObject.name !== undefined ? paletteObject.name : '',
+            description:
+              paletteObject.description !== undefined
+                ? paletteObject.description
+                : '',
+            view:
+              msg.isEditedInRealTime &&
+              paletteObject.view === 'PALETTE_WITH_PROPERTIES'
+                ? 'PALETTE'
+                : msg.isEditedInRealTime && paletteObject.view === 'SHEET'
+                  ? 'SHEET_SAFE_MODE'
+                  : paletteObject.view,
+            creatorAvatarImg: creatorAvatarImg,
+            service: 'EDIT',
+          },
+          palette
+        ).makeNode()
+      )
 
-    // Update
-    const now = new Date().toISOString()
-    palette.setPluginData('updatedAt', now)
-    figma.ui.postMessage({
-      type: 'UPDATE_PALETTE_DATE',
-      data: now,
-    })
+      // Update
+      const now = new Date().toISOString()
+      palette.setPluginData('updatedAt', now)
+      figma.ui.postMessage({
+        type: 'UPDATE_PALETTE_DATE',
+        data: now,
+      })
+    }
 
     // Palette migration
     palette.counterAxisSizingMode = 'AUTO'

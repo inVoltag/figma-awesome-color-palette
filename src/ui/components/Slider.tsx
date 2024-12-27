@@ -61,24 +61,18 @@ export default class Slider extends Component<SliderProps, SliderStates> {
       | React.FocusEvent<HTMLInputElement>
       | React.KeyboardEvent<HTMLInputElement>
   ) => {
+    const scale = this.palette.get().scale
     const target = e.target as HTMLInputElement
+
     if (target.value !== '') {
       this.palette.setKey('scale', this.props.scale ?? {})
       if (parseFloat(target.value) < parseFloat(target.min))
-        this.palette.setKey(
-          `scale[lightness-${stopId}]`,
-          parseFloat(target.min)
-        )
+        scale[`lightness-${stopId}`] = parseFloat(target.min)
       else if (parseFloat(target.value) > parseFloat(target.max))
-        this.palette.setKey(
-          `scale[lightness-${stopId}]`,
-          parseFloat(target.max)
-        )
-      else
-        this.palette.setKey(
-          `scale[lightness-${stopId}]`,
-          parseFloat(target.value)
-        )
+        scale[`lightness-${stopId}`] = parseFloat(target.max)
+      else scale[`lightness-${stopId}`] = parseFloat(target.value)
+
+      this.palette.setKey('scale', scale)
       this.props.onChange('TYPED')
     }
   }

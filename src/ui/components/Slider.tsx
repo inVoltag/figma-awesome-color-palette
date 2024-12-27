@@ -11,7 +11,7 @@ import addStop from './../handlers/addStop'
 import deleteStop from './../handlers/deleteStop'
 import shiftLeftStop from './../handlers/shiftLeftStop'
 import shiftRightStop from './../handlers/shiftRightStop'
-import Knob from './Knob'
+import { Knob } from '@a_ng_d/figmug-ui'
 
 interface SliderProps {
   stops: Array<number>

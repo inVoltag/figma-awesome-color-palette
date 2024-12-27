@@ -1,5 +1,6 @@
 import {
   Button,
+  SimpleSlider,
   ConsentConfiguration,
   Dialog,
   Dropdown,
@@ -40,7 +41,6 @@ import doLightnessScale from '../../utils/doLightnessScale'
 import { trackScaleManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
-import SimpleSlider from '../components/SimpleSlider'
 import Slider from '../components/Slider'
 import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
@@ -1130,7 +1130,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           >
             <SimpleSlider
               id="update-chroma"
-              shortId={locals[this.props.lang].scale.shift.chroma}
+              label={locals[this.props.lang].scale.shift.chroma}
               value={this.props.shift.chroma}
               min={0}
               max={200}
@@ -1276,7 +1276,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           >
             <SimpleSlider
               id="update-chroma"
-              shortId={locals[this.props.lang].scale.shift.chroma}
+              label={locals[this.props.lang].scale.shift.chroma}
               value={this.props.shift.chroma}
               min={0}
               max={200}

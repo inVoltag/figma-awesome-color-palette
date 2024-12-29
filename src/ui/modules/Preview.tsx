@@ -576,6 +576,7 @@ export default class Preview extends PureComponent<
                   },
                 ]}
                 selected={this.displayHandler()}
+                alignment="TOP_LEFT"
                 isBlocked={Preview.features(
                   this.props.planStatus
                 ).PREVIEW_SCORES.isBlocked()}
@@ -714,6 +715,7 @@ export default class Preview extends PureComponent<
                   ]}
                   selected={this.props.colorSpace}
                   alignment="RIGHT"
+                  containerId="app"
                   isBlocked={Preview.features(
                     this.props.planStatus
                   ).SETTINGS_COLOR_SPACE.isBlocked()}

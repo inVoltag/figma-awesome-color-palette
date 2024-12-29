@@ -281,7 +281,7 @@ export const locals: { [key: string]: any } = {
         preferences: 'Preferences',
       },
       global: {
-        title: 'Global settings',
+        title: 'Global',
         name: {
           label: 'Name',
         },

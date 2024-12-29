@@ -1,4 +1,4 @@
-import { Button, DropdownOption, Menu, texts } from '@a_ng_d/figmug-ui'
+import { Button, DropdownOption, Input, Menu, texts } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
@@ -6,20 +6,23 @@ import React from 'react'
 import { UserSession } from 'src/types/user'
 import features from '../../config'
 import { locals } from '../../content/locals'
+import { $palette } from '../../stores/palette'
 import { EditorType, Language, PlanStatus, Service } from '../../types/app'
 import {
   CreatorConfiguration,
   SourceColorConfiguration,
 } from '../../types/configurations'
+import { AppStates } from '../App'
 import Feature from '../components/Feature'
 
 interface ActionsProps {
   service: Service
   sourceColors: Array<SourceColorConfiguration> | []
+  name?: string
   creatorIdentity?: CreatorConfiguration
   userSession?: UserSession
   exportType?: string
-  planStatus?: PlanStatus
+  planStatus: PlanStatus
   editorType?: EditorType
   lang: Language
   isPrimaryLoading?: boolean
@@ -37,9 +40,12 @@ interface ActionsProps {
   ) => void
   onExportPalette?: React.MouseEventHandler<HTMLButtonElement> &
     React.KeyboardEventHandler<HTMLButtonElement>
+  onChangeSettings?: React.Dispatch<Partial<AppStates>>
 }
 
 export default class Actions extends PureComponent<ActionsProps> {
+  private palette: typeof $palette
+
   static defaultProps = {
     sourceColors: [],
   }
@@ -70,7 +76,30 @@ export default class Actions extends PureComponent<ActionsProps> {
       featureName: 'PUBLISH_PALETTE',
       planStatus: planStatus,
     }),
+    SETTINGS_NAME: new FeatureStatus({
+      features: features,
+      featureName: 'SETTINGS_NAME',
+      planStatus: planStatus,
+    }),
   })
+
+  constructor(props: ActionsProps) {
+    super(props)
+    this.palette = $palette
+  }
+
+  // Handlers
+  nameHandler = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    this.palette.setKey('name', e.currentTarget.value)
+    if (this.props.onChangeSettings)
+      this.props.onChangeSettings({
+        name: e.currentTarget.value,
+      })
+  }
 
   // Direct actions
   publicationAction = (): Partial<DropdownOption> => {
@@ -143,6 +172,26 @@ export default class Actions extends PureComponent<ActionsProps> {
           </Feature>
         </div>
         <div className="actions__left">
+          <Input
+            id="update-palette-name"
+            type="TEXT"
+            placeholder={locals[this.props.lang].name}
+            value={this.props.name !== '' ? this.props.name : ''}
+            charactersLimit={64}
+            isBlocked={Actions.features(
+              this.props.planStatus
+            ).SETTINGS_NAME.isBlocked()}
+            isNew={Actions.features(
+              this.props.planStatus
+            ).SETTINGS_NAME.isNew()}
+            feature="RENAME_PALETTE"
+            onChange={this.nameHandler}
+            onFocus={this.nameHandler}
+            onBlur={this.nameHandler}
+          />
+          <span className={`type ${texts['type']} ${texts['type--secondary']}`}>
+            ・
+          </span>
           <div className={`type ${texts.type}`}>{`${
             this.props.sourceColors.length
           } ${

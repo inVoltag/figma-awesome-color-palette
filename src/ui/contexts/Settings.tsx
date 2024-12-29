@@ -586,12 +586,7 @@ export default class Settings extends PureComponent<
               <this.Preferences />
             )}
           </div>
-          {this.props.service === 'CREATE' ? (
-            <Actions
-              {...this.props}
-              service="CREATE"
-            />
-          ) : (
+          {this.props.service === 'EDIT' && (
             <Actions
               {...this.props}
               service="EDIT"

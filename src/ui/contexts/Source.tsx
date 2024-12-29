@@ -19,7 +19,6 @@ import {
 } from '../../types/configurations'
 import { ColourLovers } from '../../types/data'
 import { setContexts } from '../../utils/setContexts'
-import Actions from '../modules/Actions'
 import Explore from './Explore'
 import Overview from './Overview'
 
@@ -30,7 +29,6 @@ interface SourceProps {
   planStatus: PlanStatus
   editorType?: EditorType
   lang: Language
-  isPrimaryLoading?: boolean
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
     source: ThirdParty
@@ -127,15 +125,6 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
           isOnlyText={true}
         />
         {fragment}
-        <Actions
-          {...this.props}
-          service="CREATE"
-          onCreatePalette={
-            this.props.sourceColors.length > 0
-              ? this.props.onCreatePalette
-              : () => null
-          }
-        />
       </>
     )
   }

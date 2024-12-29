@@ -38,6 +38,7 @@ import Palettes from '../contexts/Palettes'
 import Scale from '../contexts/Scale'
 import Settings from '../contexts/Settings'
 import Source from '../contexts/Source'
+import Actions from '../modules/Actions'
 import Preview from '../modules/Preview'
 
 interface CreatePaletteProps {
@@ -246,7 +247,6 @@ export default class CreatePalette extends PureComponent<
         fragment = (
           <Source
             {...this.props}
-            isPrimaryLoading={this.state.isPrimaryLoading}
             onChangeColorsFromImport={this.colorsFromImportHandler}
             onCreatePalette={this.onCreatePalette}
           />
@@ -299,6 +299,14 @@ export default class CreatePalette extends PureComponent<
         <section className="controller">
           <div className="controls">{fragment}</div>
         </section>
+        <Feature isActive={this.state.context !== 'PALETTES'}>
+          <Actions
+            {...this.props}
+            {...this.state}
+            service="CREATE"
+            onCreatePalette={this.onCreatePalette}
+          />
+        </Feature>
         <Feature
           isActive={
             CreatePalette.features(this.props.planStatus).PREVIEW.isActive() &&

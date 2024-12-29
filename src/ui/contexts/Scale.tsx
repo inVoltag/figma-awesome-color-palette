@@ -1207,10 +1207,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             {this.state.isTipsOpen && <this.KeyboardShortcuts />}
           </Feature>
         </div>
-        <Actions
-          {...this.props}
-          service="CREATE"
-        />
       </div>
     )
   }

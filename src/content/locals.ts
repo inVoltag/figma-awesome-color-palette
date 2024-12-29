@@ -409,8 +409,8 @@ export const locals: { [key: string]: any } = {
       addToSource: 'Add to source',
       duplicate: 'Duplicate',
       sourceColorsNumber: {
-        single: 'source color',
-        several: 'source colors',
+        single: '$1 source color',
+        several: '$1 source colors',
       },
       colorThemesNumber: {
         single: 'color theme',

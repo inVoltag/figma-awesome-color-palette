@@ -192,13 +192,21 @@ export default class Actions extends PureComponent<ActionsProps> {
           <span className={`type ${texts['type']} ${texts['type--secondary']}`}>
             ・
           </span>
-          <div className={`type ${texts.type}`}>{`${
-            this.props.sourceColors.length
-          } ${
-            this.props.sourceColors.length > 1
-              ? locals[this.props.lang].actions.sourceColorsNumber.several
-              : locals[this.props.lang].actions.sourceColorsNumber.single
-          }`}</div>
+          <div className={`type ${texts.type}`}>
+            {this.props.sourceColors.length > 1
+              ? locals[
+                  this.props.lang
+                ].actions.sourceColorsNumber.several.replace(
+                  '$1',
+                  this.props.sourceColors.length
+                )
+              : locals[
+                  this.props.lang
+                ].actions.sourceColorsNumber.single.replace(
+                  '$1',
+                  this.props.sourceColors.length
+                )}
+          </div>
         </div>
       </div>
     )

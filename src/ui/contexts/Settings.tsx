@@ -32,7 +32,6 @@ import { trackSettingsManagementEvent } from '../../utils/eventsTracker'
 import { setContexts } from '../../utils/setContexts'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
-import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
 import ColorSettings from './ColorSettings'
 import ContrastSettings from './ContrastSettings'
@@ -54,12 +53,7 @@ interface SettingsProps {
   planStatus: PlanStatus
   editorType?: EditorType
   lang: Language
-  isPrimaryLoading?: boolean
   onChangeSettings: React.Dispatch<Partial<AppStates>>
-  onCreatePalette?: () => void
-  onSyncLocalStyles?: () => void
-  onSyncLocalVariables?: () => void
-  onPublishPalette?: () => void
 }
 
 interface SettingsStates {
@@ -586,12 +580,6 @@ export default class Settings extends PureComponent<
               <this.Preferences />
             )}
           </div>
-          {this.props.service === 'EDIT' && (
-            <Actions
-              {...this.props}
-              service="EDIT"
-            />
-          )}
         </div>
       </>
     )

@@ -33,7 +33,6 @@ interface SourceProps {
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
     source: ThirdParty
   ) => void
-  onCreatePalette: () => void
 }
 
 interface SourceStates {

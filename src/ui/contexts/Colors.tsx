@@ -30,7 +30,6 @@ import { ActionsList, DispatchProcess } from '../../types/models'
 import { trackSourceColorsManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
-import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
 
 interface ColorsProps {
@@ -41,11 +40,7 @@ interface ColorsProps {
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   lang: Language
-  isPrimaryLoading?: boolean
   onChangeColors: React.Dispatch<Partial<AppStates>>
-  onSyncLocalStyles: () => void
-  onSyncLocalVariables: () => void
-  onPublishPalette: () => void
 }
 
 interface ColorsStates {
@@ -841,10 +836,6 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
             />
           )}
         </div>
-        <Actions
-          {...this.props}
-          service="EDIT"
-        />
       </div>
     )
   }

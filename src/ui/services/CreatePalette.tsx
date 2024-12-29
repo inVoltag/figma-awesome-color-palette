@@ -248,7 +248,6 @@ export default class CreatePalette extends PureComponent<
           <Source
             {...this.props}
             onChangeColorsFromImport={this.colorsFromImportHandler}
-            onCreatePalette={this.onCreatePalette}
           />
         )
         break
@@ -258,14 +257,12 @@ export default class CreatePalette extends PureComponent<
           <Scale
             {...this.props}
             hasPreset={true}
-            isPrimaryLoading={this.state.isPrimaryLoading}
             onAddStop={this.props.onCustomPreset}
             onRemoveStop={this.props.onCustomPreset}
             onChangeNamingConvention={this.props.onCustomPreset}
             onChangeDistributionEasing={this.props.onCustomPreset}
             onChangeScale={this.slideHandler}
             onChangeShift={this.shiftHandler}
-            onCreatePalette={this.onCreatePalette}
           />
         )
         break
@@ -275,8 +272,6 @@ export default class CreatePalette extends PureComponent<
           <Settings
             {...this.props}
             service="CREATE"
-            isPrimaryLoading={this.state.isPrimaryLoading}
-            onCreatePalette={this.onCreatePalette}
           />
         )
         break

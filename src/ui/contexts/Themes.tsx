@@ -28,7 +28,6 @@ import doLightnessScale from '../../utils/doLightnessScale'
 import { trackColorThemesManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
-import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
 
 interface ThemesProps {
@@ -40,11 +39,7 @@ interface ThemesProps {
   planStatus: PlanStatus
   editorType: EditorType
   lang: Language
-  isPrimaryLoading?: boolean
   onChangeThemes: React.Dispatch<Partial<AppStates>>
-  onSyncLocalStyles: () => void
-  onSyncLocalVariables: () => void
-  onPublishPalette: () => void
 }
 
 interface ThemesStates {
@@ -532,10 +527,6 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
             />
           )}
         </div>
-        <Actions
-          {...this.props}
-          service="EDIT"
-        />
       </div>
     )
   }

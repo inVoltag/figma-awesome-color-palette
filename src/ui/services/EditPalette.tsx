@@ -53,6 +53,7 @@ import Settings from '../contexts/Settings'
 import Themes from '../contexts/Themes'
 import Dispatcher from '../modules/Dispatcher'
 import Preview from '../modules/Preview'
+import Actions from '../modules/Actions'
 
 interface EditPaletteProps {
   name: string
@@ -461,35 +462,22 @@ export default class EditPalette extends PureComponent<
           <Scale
             {...this.props}
             hasPreset={false}
-            isPrimaryLoading={this.state.isPrimaryLoading}
             onChangeScale={this.slideHandler}
             onChangeStop={this.customSlideHandler}
             onChangeShift={this.shiftHandler}
-            onSyncLocalStyles={this.onSyncStyles}
-            onSyncLocalVariables={this.onSyncVariables}
           />
         )
         break
       }
       case 'COLORS': {
-        fragment = (
-          <Colors
-            {...this.props}
-            isPrimaryLoading={this.state.isPrimaryLoading}
-            onSyncLocalStyles={this.onSyncStyles}
-            onSyncLocalVariables={this.onSyncVariables}
-          />
-        )
+        fragment = <Colors {...this.props} />
         break
       }
       case 'THEMES': {
         fragment = (
           <Themes
             {...this.props}
-            isPrimaryLoading={this.state.isPrimaryLoading}
             ref={this.themesRef}
-            onSyncLocalStyles={this.onSyncStyles}
-            onSyncLocalVariables={this.onSyncVariables}
           />
         )
         break
@@ -515,9 +503,6 @@ export default class EditPalette extends PureComponent<
           <Settings
             {...this.props}
             service="EDIT"
-            isPrimaryLoading={this.state.isPrimaryLoading}
-            onSyncLocalStyles={this.onSyncStyles}
-            onSyncLocalVariables={this.onSyncVariables}
           />
         )
         break
@@ -562,6 +547,16 @@ export default class EditPalette extends PureComponent<
         <section className="controller">
           <div className="controls">{fragment}</div>
         </section>
+        <Feature isActive={this.state.context !== 'EXPORT'}>
+          <Actions
+            {...this.props}
+            {...this.state}
+            service="EDIT"
+            onSyncLocalStyles={this.onSyncStyles}
+            onSyncLocalVariables={this.onSyncVariables}
+            onPublishPalette={this.props.onPublishPalette}
+          />
+        </Feature>
         <Feature
           isActive={
             EditPalette.features(this.props.planStatus).PREVIEW.isActive() &&

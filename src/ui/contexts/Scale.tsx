@@ -42,7 +42,6 @@ import { trackScaleManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import Slider from '../components/Slider'
-import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
 
 interface ScaleProps {
@@ -59,7 +58,6 @@ interface ScaleProps {
   planStatus: PlanStatus
   editorType?: EditorType
   lang: Language
-  isPrimaryLoading?: boolean
   onChangePreset?: React.Dispatch<Partial<AppStates>>
   onChangeScale: () => void
   onChangeStop?: () => void
@@ -68,10 +66,6 @@ interface ScaleProps {
   onChangeShift: (feature?: string, state?: string, value?: number) => void
   onChangeNamingConvention?: React.Dispatch<Partial<AppStates>>
   onChangeDistributionEasing?: React.Dispatch<Partial<AppStates>>
-  onCreatePalette?: () => void
-  onSyncLocalStyles?: () => void
-  onSyncLocalVariables?: () => void
-  onPublishPalette?: () => void
 }
 
 interface ScaleStates {
@@ -1350,10 +1344,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             {this.state.isTipsOpen && <this.KeyboardShortcuts />}
           </Feature>
         </div>
-        <Actions
-          {...this.props}
-          service="EDIT"
-        />
       </div>
     )
   }

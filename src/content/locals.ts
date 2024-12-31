@@ -284,6 +284,7 @@ export const locals: { [key: string]: any } = {
         title: 'Global',
         name: {
           label: 'Name',
+          default: 'Untitled',
         },
         description: {
           label: 'Description',

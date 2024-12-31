@@ -13,7 +13,6 @@ import features, {
   userConsentVersion,
 } from '../config'
 import { locals } from '../content/locals'
-import { $palette } from '../stores/palette'
 import {
   $canPaletteDeepSync,
   $canStylesDeepSync,
@@ -21,7 +20,6 @@ import {
   $isAPCADisplayed,
   $isWCAGDisplayed,
 } from '../stores/preferences'
-import { defaultPreset, presets } from '../stores/presets'
 import {
   Easing,
   EditorType,
@@ -62,6 +60,7 @@ import {
   trackTrialEnablementEvent,
   trackUserConsentEvent,
 } from '../utils/eventsTracker'
+import { defaultPreset, presets } from '../stores/presets'
 import { userConsent } from '../utils/userConsent'
 import Feature from './components/Feature'
 import PriorityContainer from './modules/PriorityContainer'
@@ -71,6 +70,7 @@ import EditPalette from './services/EditPalette'
 import TransferPalette from './services/TransferPalette'
 import './stylesheets/app-components.css'
 import './stylesheets/app.css'
+import { $palette } from '../stores/palette'
 
 export interface AppStates {
   service: Service
@@ -152,7 +152,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
       service: 'CREATE',
       sourceColors: [],
       id: '',
-      name: '',
+      name: locals['en-US'].settings.global.name.default,
       description: '',
       preset:
         presets.find((preset) => preset.id === 'MATERIAL') ?? defaultPreset,
@@ -415,7 +415,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
 
             this.setState({
               id: '',
-              name: '',
+              name: locals['en-US'].settings.global.name.default,
               description: '',
               preset: preset,
               scale: scale,
@@ -496,7 +496,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
 
             this.setState({
               id: '',
-              name: '',
+              name: locals['en-US'].settings.global.name.default,
               description: '',
               preset:
                 presets.find((preset) => preset.id === 'MATERIAL') ??

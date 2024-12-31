@@ -78,8 +78,8 @@ const loadUI = async () => {
 
         if (scaleX > 540) windowSize.w = scaleX
         else windowSize.w = 540
-        if (scaleY > 400) windowSize.h = scaleY
-        else windowSize.h = 400
+        if (scaleY > 432) windowSize.h = scaleY
+        else windowSize.h = 432
 
         await figma.clientStorage.setAsync('plugin_window_width', windowSize.w)
         await figma.clientStorage.setAsync('plugin_window_height', windowSize.h)

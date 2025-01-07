@@ -2,9 +2,10 @@ import { deepMap } from 'nanostores'
 import { PaletteConfiguration } from 'src/types/configurations'
 import { algorithmVersion } from '../config'
 import { presets } from './presets'
+import { lang, locals } from '../content/locals'
 
 export const $palette = deepMap<PaletteConfiguration>({
-  name: '',
+  name: locals[lang].settings.global.name.default,
   description: '',
   min: 0,
   max: 100,

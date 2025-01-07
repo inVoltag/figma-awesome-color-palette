@@ -12,7 +12,7 @@ import features, {
   trialTime,
   userConsentVersion,
 } from '../config'
-import { locals } from '../content/locals'
+import { lang, locals } from '../content/locals'
 import {
   $canPaletteDeepSync,
   $canStylesDeepSync,
@@ -152,7 +152,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
       service: 'CREATE',
       sourceColors: [],
       id: '',
-      name: locals['en-US'].settings.global.name.default,
+      name: locals[lang].settings.global.name.default,
       description: '',
       preset:
         presets.find((preset) => preset.id === 'MATERIAL') ?? defaultPreset,
@@ -202,7 +202,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
         creatorId: '',
       },
       priorityContainerContext: 'EMPTY',
-      lang: 'en-US',
+      lang: lang,
       userSession: {
         connectionStatus: 'UNCONNECTED',
         userFullName: '',
@@ -453,7 +453,10 @@ export default class App extends Component<Record<string, never>, AppStates> {
               })(),
               onGoingStep: 'selection empty',
             })
-            this.palette.setKey('name', '')
+            this.palette.setKey(
+              'name',
+              locals[this.state.lang].settings.global.name.default
+            )
             this.palette.setKey('description', '')
             this.palette.setKey('preset', defaultPreset)
             this.palette.setKey('scale', scale)
@@ -535,7 +538,10 @@ export default class App extends Component<Record<string, never>, AppStates> {
                 else return this.state.priorityContainerContext
               })(),
             })
-            this.palette.setKey('name', '')
+            this.palette.setKey(
+              'name',
+              locals[this.state.lang].settings.global.name.default
+            )
             this.palette.setKey('description', '')
             this.palette.setKey(
               'preset',

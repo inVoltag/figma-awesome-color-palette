@@ -67,6 +67,10 @@ figma.on('run', async ({ parameters }: RunEvent) => {
             selectedPreset?.max ?? 100,
             selectedPreset?.isDistributed ? true : false
           ),
+          shift: {
+            chroma: 100,
+          },
+          areSourceColorsLocked: false,
           colorSpace: parameters.space.toUpperCase().replace(' ', '_'),
           visionSimulationMode: 'NONE',
           view: parameters.view.toUpperCase().split(' ').join('_'),

@@ -134,7 +134,6 @@ export default class Palette {
       'areSourceColorsLocked',
       this.areSourceColorsLocked.toString()
     )
-    this.node.setPluginData('shift', JSON.stringify(this.shift))
     this.node.setPluginData('colorSpace', this.colorSpace)
     this.node.setPluginData('visionSimulationMode', this.visionSimulationMode)
     this.node.setPluginData('themes', JSON.stringify(this.themes))

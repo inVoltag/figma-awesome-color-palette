@@ -302,7 +302,7 @@ export const locals: { [key: string]: any } = {
           textLightColor: 'Text light color',
           textDarkColor: 'Text dark color',
           textThemeColorsDescription:
-            'The light and dark text colors serve as a reference to simulate contrast and obtain both WCAG and APCA scores',
+            'The light and dark text colors serve as a reference to simulate contrast and obtain both WCAG 2.1 and APCA scores',
         },
       },
       color: {
@@ -361,8 +361,8 @@ export const locals: { [key: string]: any } = {
     },
     preview: {
       score: {
-        wcag: 'Display WCAG 2 scores',
-        apca: 'Display WCAP 3 scores',
+        wcag: 'Display WCAG 2.1 scores',
+        apca: 'Display APCA scores',
       },
       lock: {
         tag: 'Locked',
@@ -481,7 +481,7 @@ export const locals: { [key: string]: any } = {
       closest: 'Closest to source',
       locked: 'Locked source color',
       base: 'Base',
-      wcag: 'WCAG scores',
+      wcag: 'WCAG 2.1 scores',
       apca: 'APCA scores',
       fontSize: 'Minimum font sizes',
       pass: 'Pass',

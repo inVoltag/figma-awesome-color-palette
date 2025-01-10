@@ -1,8 +1,8 @@
 import { doSpecificMode, featuresScheme } from './stores/features'
 
 // Limitations
-export const trialTime = 48
-export const oldTrialTime = 72
+export const trialTime = 24
+export const oldTrialTime = 48
 export const pageSize = 20
 
 // Versions
@@ -56,7 +56,15 @@ const prodMode = doSpecificMode([
   'PRESETS_ADS_NEUTRAL',
   'PRESETS_CARBON',
   'PRESETS_BASE',
-  'COLORS',
+  'SCALE_HELPER_DISTRIBUTION_SLOW_EASE_IN',
+  'SCALE_HELPER_DISTRIBUTION_SLOW_EASE_OUT',
+  'SCALE_HELPER_DISTRIBUTION_SLOW_EASE_IN_OUT',
+  'SCALE_HELPER_DISTRIBUTION_EASE_IN',
+  'SCALE_HELPER_DISTRIBUTION_EASE_OUT',
+  'SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT',
+  'SCALE_HELPER_DISTRIBUTION_FAST_EASE_IN',
+  'SCALE_HELPER_DISTRIBUTION_FAST_EASE_OUT',
+  'SCALE_HELPER_DISTRIBUTION_FAST_EASE_IN_OUT',
   'THEMES',
   'THEMES_NAME',
   'THEMES_PARAMS',

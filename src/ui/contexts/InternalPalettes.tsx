@@ -10,12 +10,9 @@ import React from 'react'
 
 import { locals } from '../../content/locals'
 import { Language } from '../../types/app'
-import {
-  ColorConfiguration,
-  ExtractOfPaletteConfiguration,
-  ThemeConfiguration,
-} from '../../types/configurations'
+import { ExtractOfPaletteConfiguration } from '../../types/configurations'
 import { ActionsList } from '../../types/models'
+import getPaletteMeta from '../../utils/setPaletteMeta'
 
 interface InternalPalettesProps {
   lang: Language
@@ -73,28 +70,6 @@ export default class InternalPalettes extends PureComponent<
       })
       return URL.createObjectURL(blob)
     } else return ''
-  }
-
-  getPaletteMeta = (
-    colors: Array<ColorConfiguration>,
-    themes: Array<ThemeConfiguration>
-  ) => {
-    const colorsNumber = colors.length,
-      themesNumber = themes.filter(
-        (theme) => theme.type === 'custom theme'
-      ).length
-
-    let colorLabel: string, themeLabel: string
-
-    if (colorsNumber > 1)
-      colorLabel = locals[this.props.lang].actions.sourceColorsNumber.several
-    else colorLabel = locals[this.props.lang].actions.sourceColorsNumber.single
-
-    if (themesNumber > 1)
-      themeLabel = locals[this.props.lang].actions.colorThemesNumber.several
-    else themeLabel = locals[this.props.lang].actions.colorThemesNumber.single
-
-    return `${colorsNumber} ${colorLabel}, ${themesNumber} ${themeLabel}`
   }
 
   onSelectPalette = (id: string) => {
@@ -156,10 +131,7 @@ export default class InternalPalettes extends PureComponent<
                     : undefined
                 }
                 description={palette.preset}
-                subdescription={this.getPaletteMeta(
-                  palette.colors,
-                  palette.themes
-                )}
+                subdescription={getPaletteMeta(palette.colors, palette.themes)}
                 actionsSlot={
                   <Button
                     type="icon"

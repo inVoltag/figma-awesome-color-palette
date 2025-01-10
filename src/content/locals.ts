@@ -414,8 +414,8 @@ export const locals: { [key: string]: any } = {
         several: '$1 source colors',
       },
       colorThemesNumber: {
-        single: 'color theme',
-        several: 'color themes',
+        single: '$1 color theme',
+        several: '$1 color themes',
       },
     },
     highlight: {

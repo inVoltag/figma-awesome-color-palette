@@ -23,13 +23,13 @@ import {
   MetaConfiguration,
   PaletteConfiguration,
   SourceColorConfiguration,
-  ThemeConfiguration,
   UserConfiguration,
 } from '../../types/configurations'
 import { ExternalPalettes } from '../../types/data'
 import { ActionsList } from '../../types/models'
 import { UserSession } from '../../types/user'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
+import getPaletteMeta from '../../utils/setPaletteMeta'
 
 interface SelfPalettesProps {
   context: Context
@@ -180,28 +180,6 @@ export default class SelfPalettes extends PureComponent<
         isLoadMoreActionLoading: false,
       })
     } else this.props.onChangeStatus('ERROR')
-  }
-
-  getPaletteMeta = (
-    colors: Array<ColorConfiguration>,
-    themes: Array<ThemeConfiguration>
-  ) => {
-    const colorsNumber = colors.length,
-      themesNumber = themes.filter(
-        (theme) => theme.type === 'custom theme'
-      ).length
-
-    let colorLabel: string, themeLabel: string
-
-    if (colorsNumber > 1)
-      colorLabel = locals[this.props.lang].actions.sourceColorsNumber.several
-    else colorLabel = locals[this.props.lang].actions.sourceColorsNumber.single
-
-    if (themesNumber > 1)
-      themeLabel = locals[this.props.lang].actions.colorThemesNumber.several
-    else themeLabel = locals[this.props.lang].actions.colorThemesNumber.single
-
-    return `${colorsNumber} ${colorLabel}, ${themesNumber} ${themeLabel}`
   }
 
   onSelectPalette = async (id: string) => {
@@ -375,7 +353,7 @@ export default class SelfPalettes extends PureComponent<
               src={palette.screenshot}
               name={palette.name}
               description={palette.preset?.name}
-              subdescription={this.getPaletteMeta(
+              subdescription={getPaletteMeta(
                 palette.colors ?? [],
                 palette.themes ?? []
               )}

@@ -20,6 +20,7 @@ import { locals } from '../../content/locals'
 import { Language } from '../../types/app'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
+import getPaletteMeta from '../../utils/setPaletteMeta'
 
 interface PublicationProps {
   rawData: AppStates
@@ -216,25 +217,6 @@ export default class Publication extends PureComponent<
           {locals[this.props.lang].publication.statusWaiting}
         </Chip>
       )
-  }
-
-  getPaletteMeta = () => {
-    const colorsNumber = this.props.rawData.colors.length,
-      themesNumber = this.props.rawData.themes.filter(
-        (theme) => theme.type === 'custom theme'
-      ).length
-
-    let colorLabel: string, themeLabel: string
-
-    if (colorsNumber > 1)
-      colorLabel = locals[this.props.lang].actions.sourceColorsNumber.several
-    else colorLabel = locals[this.props.lang].actions.sourceColorsNumber.single
-
-    if (themesNumber > 1)
-      themeLabel = locals[this.props.lang].actions.colorThemesNumber.several
-    else themeLabel = locals[this.props.lang].actions.colorThemesNumber.single
-
-    return `${colorsNumber} ${colorLabel}, ${themesNumber} ${themeLabel}`
   }
 
   publicationActions = (
@@ -896,7 +878,10 @@ export default class Publication extends PureComponent<
                   marginTop: '2px',
                 }}
               >
-                {this.getPaletteMeta()}
+                {getPaletteMeta(
+                  this.props.rawData.colors,
+                  this.props.rawData.themes
+                )}
               </div>
             </div>
             {(this.state.publicationStatus === 'UP_TO_DATE' ||

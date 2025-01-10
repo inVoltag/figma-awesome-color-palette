@@ -15,7 +15,12 @@ import { uid } from 'uid'
 import features from '../../config'
 import { locals } from '../../content/locals'
 import { $canPaletteDeepSync } from '../../stores/preferences'
-import { EditorType, Language, PlanStatus } from '../../types/app'
+import {
+  EditorType,
+  Language,
+  PlanStatus,
+  PriorityContext,
+} from '../../types/app'
 import {
   PresetConfiguration,
   ScaleConfiguration,
@@ -40,6 +45,7 @@ interface ThemesProps {
   editorType: EditorType
   lang: Language
   onChangeThemes: React.Dispatch<Partial<AppStates>>
+  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
 interface ThemesStates {
@@ -407,15 +413,30 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
                 message={locals[this.props.lang].themes.callout.message}
                 orientation="VERTICAL"
                 actionsSlot={
-                  <Button
-                    type="primary"
-                    feature="ADD_THEME"
-                    label={locals[this.props.lang].themes.callout.cta}
-                    isBlocked={Themes.features(
+                  <>
+                    {Themes.features(
                       this.props.planStatus
-                    ).THEMES.isBlocked()}
-                    action={this.themesHandler}
-                  />
+                    ).THEMES.isBlocked() && (
+                      <Button
+                        type="secondary"
+                        label={locals[this.props.lang].plan.tryPro}
+                        action={() =>
+                          this.props.onGetProPlan({
+                            priorityContainerContext: 'TRY',
+                          })
+                        }
+                      />
+                    )}
+                    <Button
+                      type="primary"
+                      feature="ADD_THEME"
+                      label={locals[this.props.lang].themes.callout.cta}
+                      isBlocked={Themes.features(
+                        this.props.planStatus
+                      ).THEMES.isBlocked()}
+                      action={this.themesHandler}
+                    />
+                  </>
                 }
               />
             </div>

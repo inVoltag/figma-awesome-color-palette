@@ -203,6 +203,7 @@ export default class CreatePalette extends PureComponent<
       {
         feature: 'CREATE_PALETTE',
         colors: this.props.sourceColors.length,
+        stops: this.props.preset.scale.length,
       }
     )
   }

@@ -106,4 +106,5 @@ export interface SettingEvent {
 export interface ActionEvent {
   feature: 'CREATE_PALETTE' | 'SYNC_STYLES' | 'SYNC_VARIABLES'
   colors?: number
+  stops?: number
 }

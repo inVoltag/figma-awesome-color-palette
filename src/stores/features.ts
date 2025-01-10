@@ -3,7 +3,8 @@ import { Feature } from '@a_ng_d/figmug-utils'
 export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   {
     name: 'CREATE',
-    description: 'Palette creation service when several colors are selected',
+    description:
+      'Service for creating a palette when multiple colors are selected',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -12,7 +13,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EDIT',
-    description: 'Palette configuration service when the palette is selected',
+    description: 'Service for configuring a palette when it is selected',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -21,7 +22,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'TRANSFER',
-    description: 'Palette transfer service when the dev mode is selected',
+    description: 'Service for transferring a palette when dev mode is selected',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -30,7 +31,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'PROPERTIES',
-    description: 'Shades information and WCAG scores',
+    description: 'Provides shades information and WCAG scores',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -39,7 +40,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'CREATE_PALETTE',
-    description: 'Generate a palette',
+    description: 'Generates a palette',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -48,7 +49,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SYNC_LOCAL_STYLES',
-    description: 'Styles local sychronization',
+    description: 'Synchronizes local styles',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -57,7 +58,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SYNC_LOCAL_VARIABLES',
-    description: 'Variable local sychronization',
+    description: 'Synchronizes local variables',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -66,7 +67,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'PUBLISH_PALETTE',
-    description: 'Publish palette to the community and self',
+    description: 'Publishes the palette to the community and self',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -75,7 +76,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'PALETTES',
-    description: 'Palettes that can be reused',
+    description: 'Reusable palettes',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -93,7 +94,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'PALETTES_COMMUNITY',
-    description: 'Community palettes',
+    description: 'Community-created palettes',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -102,7 +103,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'PALETTES_DEV',
-    description: 'Dev mode palettes',
+    description: 'Palettes for dev mode',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -121,7 +122,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SOURCE_OVERVIEW',
-    description: 'Source colors overview and import',
+    description: 'Overview and import of source colors',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -292,7 +293,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SCALE_CHROMA',
-    description: '',
+    description: 'Chroma scale configuration',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -301,7 +302,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SCALE_HELPER',
-    description: 'Tips and tools to help configurate the scaling',
+    description: 'Tips and tools to help configure the scaling',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -319,7 +320,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_LINEAR',
-    description: '',
+    description: 'Linear distribution mode',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -328,7 +329,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_SLOW_EASE_IN',
-    description: '',
+    description: 'Slow ease-in distribution mode',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -337,7 +338,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_SLOW_EASE_OUT',
-    description: '',
+    description: 'Slow ease-out distribution mode',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -346,7 +347,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_SLOW_EASE_IN_OUT',
-    description: '',
+    description: 'Slow ease-in-out distribution mode',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -355,7 +356,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_EASE_IN',
-    description: '',
+    description: 'Ease-in distribution mode',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -364,7 +365,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_EASE_OUT',
-    description: '',
+    description: 'Ease-out distribution mode',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -373,7 +374,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT',
-    description: '',
+    description: 'Ease-in-out distribution mode',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -382,7 +383,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_FAST_EASE_IN',
-    description: '',
+    description: 'Fast ease-in distribution mode',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -391,7 +392,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_FAST_EASE_OUT',
-    description: '',
+    description: 'Fast ease-out distribution mode',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -400,7 +401,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_FAST_EASE_IN_OUT',
-    description: '',
+    description: 'Fast ease-in-out distribution mode',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -409,7 +410,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SCALE_HELPER_TIPS',
-    description: 'Keyboard shortcuts',
+    description: 'Keyboard shortcuts for scaling',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -418,7 +419,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'COLORS',
-    description: 'Source colors configuration',
+    description: 'Configuration of source colors',
     isActive: true,
     isPro: true,
     isNew: false,
@@ -428,7 +429,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'COLORS_NAME',
-    description: 'Source color name',
+    description: 'Name of the source color',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -437,7 +438,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'COLORS_PARAMS',
-    description: 'Source color parameters (hex and lch)',
+    description: 'Parameters of the source color (hex and lch)',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -446,7 +447,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'COLORS_HUE_SHIFTING',
-    description: 'Source color hue shifting number',
+    description: 'Hue shifting value for the source color',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -455,7 +456,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'COLORS_CHROMA_SHIFTING',
-    description: 'Source color chroma shifting number',
+    description: 'Chroma shifting value for the source color',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -464,7 +465,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'COLORS_DESCRIPTION',
-    description: 'Source color description of the purpose',
+    description: 'Description of the source color purpose',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -473,7 +474,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'THEMES',
-    description: 'Color themes configuration',
+    description: 'Configuration of color themes',
     isActive: true,
     isPro: true,
     isNew: false,
@@ -482,7 +483,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'THEMES_NAME',
-    description: 'Color theme name',
+    description: 'Name of the color theme',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -500,7 +501,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'THEMES_DESCRIPTION',
-    description: 'Color theme description of the purpose',
+    description: 'Description of the color theme purpose',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -509,7 +510,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EXPORT',
-    description: 'Palette export options',
+    description: 'Options for exporting the palette',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -518,7 +519,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EXPORT_TOKENS',
-    description: 'Palette export to a tokens file',
+    description: 'Export the palette to a tokens file',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -527,7 +528,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EXPORT_TOKENS_JSON',
-    description: 'Palette export to JSON',
+    description: 'Export the palette to JSON format',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -536,7 +537,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY',
-    description: 'Palette export for the Amazon Style Dictionary',
+    description: 'Export the palette for Amazon Style Dictionary',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -545,7 +546,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EXPORT_TOKENS_JSON_TOKENS_STUDIO',
-    description: 'Palette export to the Tokens Studio plugin',
+    description: 'Export the palette to Tokens Studio plugin',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -554,7 +555,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EXPORT_CSS',
-    description: 'Palette export to CSS',
+    description: 'Export the palette to CSS',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -563,7 +564,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EXPORT_CSS_RGB',
-    description: 'Palette export to CSS (RGB)',
+    description: 'Export the palette to CSS (RGB)',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -572,7 +573,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EXPORT_CSS_HEX',
-    description: 'Palette export to CSS (Hex)',
+    description: 'Export the palette to CSS (Hex)',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -581,7 +582,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EXPORT_CSS_HSL',
-    description: 'Palette export to CSS (HSL)',
+    description: 'Export the palette to CSS (HSL)',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -590,7 +591,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EXPORT_CSS_LCH',
-    description: 'Palette export to CSS (LCH)',
+    description: 'Export the palette to CSS (LCH)',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -599,7 +600,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EXPORT_CSS_P3',
-    description: 'Palette export to CSS (P3)',
+    description: 'Export the palette to CSS (P3)',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -608,7 +609,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EXPORT_TAILWIND',
-    description: 'Palette export to Tailwind',
+    description: 'Export the palette to Tailwind',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -617,7 +618,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EXPORT_APPLE',
-    description: 'Palette export for Apple projects',
+    description: 'Export the palette for Apple projects',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -626,7 +627,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EXPORT_APPLE_SWIFTUI',
-    description: 'Palette export to SwiftUI (Apple)',
+    description: 'Export the palette to SwiftUI (Apple)',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -635,7 +636,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EXPORT_APPLE_UIKIT',
-    description: 'Palette export to UIkit (Apple)',
+    description: 'Export the palette to UIkit (Apple)',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -644,7 +645,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EXPORT_ANDROID',
-    description: 'Palette export for Android projects',
+    description: 'Export the palette for Android projects',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -653,7 +654,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EXPORT_ANDROID_COMPOSE',
-    description: 'Palette export to Compose (Android)',
+    description: 'Export the palette to Compose (Android)',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -662,7 +663,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EXPORT_ANDROID_XML',
-    description: 'Palette export to XML (Android)',
+    description: 'Export the palette to XML (Android)',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -671,7 +672,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'EXPORT_CSV',
-    description: 'Palette LCH values export to CSV',
+    description: 'Export the palette LCH values to CSV',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -680,7 +681,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS',
-    description: 'General configuration',
+    description: 'General configuration settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -689,7 +690,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_PALETTE',
-    description: 'Palette configuration',
+    description: 'Palette configuration settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -698,7 +699,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_PREFERENCES',
-    description: 'User preferences',
+    description: 'User preferences settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -707,7 +708,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_GLOBAL',
-    description: 'Palette global configuration',
+    description: 'Global configuration settings for the palette',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -716,7 +717,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_NAME',
-    description: 'Palette name',
+    description: 'Palette name settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -725,7 +726,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_DESCRIPTION',
-    description: 'Palette description',
+    description: 'Palette description settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -734,7 +735,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'VIEWS',
-    description: 'Palette views configuration',
+    description: 'Configuration of palette views',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -743,7 +744,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'VIEWS_PALETTE',
-    description: 'Simple palette view',
+    description: 'Simple view of the palette',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -752,7 +753,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'VIEWS_PALETTE_WITH_PROPERTIES',
-    description: 'Detailed palette view',
+    description: 'Detailed view of the palette with properties',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -761,7 +762,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'VIEWS_SHEET',
-    description: 'Detailed color sheet view',
+    description: 'Detailed view of the color sheet',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -770,7 +771,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_COLOR_MANAGEMENT',
-    description: 'Palette color management configuration',
+    description: 'Configuration for palette color management',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -779,7 +780,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_COLOR_SPACE',
-    description: 'Palette global color space',
+    description: 'Global color space configuration for the palette',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -788,7 +789,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_COLOR_SPACE_LCH',
-    description: 'LCH color space',
+    description: 'LCH color space settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -797,7 +798,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_COLOR_SPACE_OKLCH',
-    description: 'OKLCH color space',
+    description: 'OKLCH color space settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -806,7 +807,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_COLOR_SPACE_LAB',
-    description: 'CIELAB color space',
+    description: 'CIELAB color space settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -815,7 +816,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_COLOR_SPACE_OKLAB',
-    description: 'OKLAB color space',
+    description: 'OKLAB color space settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -824,7 +825,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_COLOR_SPACE_HSL',
-    description: 'HSL color space',
+    description: 'HSL color space settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -833,7 +834,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_COLOR_SPACE_HSLUV',
-    description: 'HSLUV color space',
+    description: 'HSLUV color space settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -842,7 +843,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE',
-    description: 'Color blind simulation mode',
+    description: 'Configuration for color blind simulation mode',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -851,7 +852,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_NONE',
-    description: 'No vision simulation mode',
+    description: 'No vision simulation mode settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -860,7 +861,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
-    description: 'Protanomaly vision simulation mode',
+    description: 'Protanomaly vision simulation mode settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -869,7 +870,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
-    description: 'Protanopia vision simulation mode',
+    description: 'Protanopia vision simulation mode settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -878,7 +879,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
-    description: 'Deuteranomaly vision simulation mode',
+    description: 'Deuteranomaly vision simulation mode settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -887,7 +888,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
-    description: 'Deuteranopia vision simulation mode',
+    description: 'Deuteranopia vision simulation mode settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -896,7 +897,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
-    description: 'Tritanomaly vision simulation mode',
+    description: 'Tritanomaly vision simulation mode settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -905,7 +906,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
-    description: 'Tritanopia vision simulation mode',
+    description: 'Tritanopia vision simulation mode settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -914,7 +915,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
-    description: 'Achromatomaly vision simulation mode',
+    description: 'Achromatomaly vision simulation mode settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -923,7 +924,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
-    description: 'Achromatopsia vision simulation mode',
+    description: 'Achromatopsia vision simulation mode settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -932,7 +933,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_ALGORITHM',
-    description: 'Color shades generation algorithm',
+    description: 'Color shades generation algorithm settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -941,7 +942,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_ALGORITHM_V1',
-    description: '',
+    description: 'First version of the color shades generation algorithm settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -950,7 +951,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_ALGORITHM_V2',
-    description: '',
+    description: 'Second version of the color shades generation algorithm settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -959,7 +960,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_ALGORITHM_V3',
-    description: '',
+    description: 'Third version of the color shades generation algorithm settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -968,7 +969,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_CONTRAST_MANAGEMENT',
-    description: 'Palette contrast management configuration',
+    description: 'Configuration for palette contrast management',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -977,7 +978,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_TEXT_COLORS_THEME',
-    description: 'Text colors customization',
+    description: 'Text colors customization settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -986,7 +987,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_SYNC',
-    description: '',
+    description: 'Synchronize settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -995,7 +996,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_SYNC_VARIABLES_COLLECTIONS',
-    description: '',
+    description: 'Synchronizes variables collections',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -1004,7 +1005,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_SYNC_DEEP_PALETTE',
-    description: '',
+    description: 'Deep synchronization of the palette',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -1013,7 +1014,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_SYNC_DEEP_VARIABLES',
-    description: '',
+    description: 'Deep synchronization of variables',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -1022,7 +1023,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_SYNC_DEEP_STYLES',
-    description: '',
+    description: 'Deep synchronization of styles',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -1031,7 +1032,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'PREVIEW',
-    description: 'Take a quick glance at the palette',
+    description: 'Quick glance at the palette',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -1040,7 +1041,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'PREVIEW_SCORES',
-    description: '',
+    description: 'Displays palette preview scores',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -1049,7 +1050,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'PREVIEW_SCORES_WCAG',
-    description: '',
+    description: 'Displays WCAG scores for preview',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -1058,7 +1059,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'PREVIEW_SCORES_APCA',
-    description: '',
+    description: 'Displays APCA scores for preview',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -1067,7 +1068,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'PREVIEW_LOCK_SOURCE_COLORS',
-    description: '',
+    description: 'Locks source colors in preview',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -1130,7 +1131,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SHORTCUTS_FEEDBACK',
-    description: 'NPS and feedback form to get NPS',
+    description: 'NPS and feedback form',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -1175,7 +1176,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SHORTCUTS_AUTHOR',
-    description: '',
+    description: 'Author page',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -1211,7 +1212,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'REPORT',
-    description: 'Bugs reportung form',
+    description: 'Bug reporting form',
     isActive: true,
     isPro: false,
     isNew: false,

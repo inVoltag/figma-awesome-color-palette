@@ -36,13 +36,13 @@ export const locals: { [key: string]: any } = {
     },
     shortcuts: {
       documentation: 'Read the documentation',
-      feedback: 'Give feedback',
-      email: 'Contact support',
       news: "What's new",
       repository: 'Repository',
-      discuss: 'Start a discussion',
-      request: 'Post a feature request',
-      follow: 'Follow us',
+      request: 'Share your ideas',
+      feedback: 'Submit feedback',
+      email: 'Contact support',
+      follow: 'Support us',
+      author: 'Support the author',
     },
     publication: {
       titlePublish: 'Publish palette',

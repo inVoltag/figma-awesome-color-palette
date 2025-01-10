@@ -11,9 +11,9 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { signIn, signOut } from '../../bridges/publication/authentication'
 import features, {
+  authorUrl,
   documentationUrl,
   feedbackUrl,
-  networkUrl,
   repositoryUrl,
   requestsUrl,
   supportEmail,
@@ -98,9 +98,9 @@ export default class Shortcuts extends PureComponent<
       featureName: 'SHORTCUTS_ABOUT',
       planStatus: planStatus,
     }),
-    SHORTCUTS_NETWORKING: new FeatureStatus({
+    SHORTCUTS_AUTHOR: new FeatureStatus({
       features: features,
-      featureName: 'SHORTCUTS_NETWORKING',
+      featureName: 'SHORTCUTS_AUTHOR',
       planStatus: planStatus,
     }),
     SHORTCUTS_DOCUMENTATION: new FeatureStatus({
@@ -347,7 +347,7 @@ export default class Shortcuts extends PureComponent<
                 </Feature>
                 <Menu
                   id="shortcuts-menu"
-                  icon="info"
+                  icon="ellipses"
                   options={[
                     {
                       label: locals[this.props.lang].shortcuts.news,
@@ -392,6 +392,29 @@ export default class Shortcuts extends PureComponent<
                       type: 'SEPARATOR',
                     },
                     {
+                      label: locals[this.props.lang].shortcuts.request,
+                      type: 'OPTION',
+                      isActive: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_REQUESTS.isActive(),
+                      isBlocked: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_REQUESTS.isBlocked(),
+                      isNew: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_REQUESTS.isNew(),
+                      action: () =>
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'OPEN_IN_BROWSER',
+                              url: requestsUrl,
+                            },
+                          },
+                          '*'
+                        ),
+                    },
+                    {
                       label: locals[this.props.lang].shortcuts.feedback,
                       type: 'OPTION',
                       isActive: Shortcuts.features(
@@ -414,29 +437,6 @@ export default class Shortcuts extends PureComponent<
                           '*'
                         )
                       },
-                    },
-                    {
-                      label: locals[this.props.lang].shortcuts.request,
-                      type: 'OPTION',
-                      isActive: Shortcuts.features(
-                        this.props.planStatus
-                      ).SHORTCUTS_REQUESTS.isActive(),
-                      isBlocked: Shortcuts.features(
-                        this.props.planStatus
-                      ).SHORTCUTS_REQUESTS.isBlocked(),
-                      isNew: Shortcuts.features(
-                        this.props.planStatus
-                      ).SHORTCUTS_REQUESTS.isNew(),
-                      action: () =>
-                        parent.postMessage(
-                          {
-                            pluginMessage: {
-                              type: 'OPEN_IN_BROWSER',
-                              url: requestsUrl,
-                            },
-                          },
-                          '*'
-                        ),
                     },
                     {
                       label: locals[this.props.lang].report.title,
@@ -493,23 +493,23 @@ export default class Shortcuts extends PureComponent<
                       action: this.props.onReOpenAbout,
                     },
                     {
-                      label: locals[this.props.lang].shortcuts.follow,
+                      label: locals[this.props.lang].shortcuts.author,
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus
-                      ).SHORTCUTS_NETWORKING.isActive(),
+                      ).SHORTCUTS_AUTHOR.isActive(),
                       isBlocked: Shortcuts.features(
                         this.props.planStatus
-                      ).SHORTCUTS_NETWORKING.isBlocked(),
+                      ).SHORTCUTS_AUTHOR.isBlocked(),
                       isNew: Shortcuts.features(
                         this.props.planStatus
-                      ).SHORTCUTS_NETWORKING.isNew(),
+                      ).SHORTCUTS_AUTHOR.isNew(),
                       action: () =>
                         parent.postMessage(
                           {
                             pluginMessage: {
                               type: 'OPEN_IN_BROWSER',
-                              url: networkUrl,
+                              url: authorUrl,
                             },
                           },
                           '*'

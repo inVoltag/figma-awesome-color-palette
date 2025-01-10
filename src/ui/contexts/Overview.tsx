@@ -328,7 +328,7 @@ export default class Overview extends PureComponent<
           <div className="section-controls__right-part"></div>
         </div>
         {Overview.features(this.props.planStatus).SOURCE.isReached(
-          this.props.sourceColors.length
+          this.props.sourceColors.length - 1
         ) && (
           <div
             style={{
@@ -346,11 +346,12 @@ export default class Overview extends PureComponent<
               actionsSlot={
                 <Button
                   type="secondary"
-                  label={locals[this.props.lang].plan.tryPro}
+                  label={locals[this.props.lang].plan.getPro}
                   action={() =>
-                    this.props.onGetProPlan({
-                      priorityContainerContext: 'TRY',
-                    })
+                    parent.postMessage(
+                      { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                      '*'
+                    )
                   }
                 />
               }

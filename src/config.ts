@@ -1,8 +1,9 @@
 import { doSpecificMode, featuresScheme } from './stores/features'
 
 // Limitations
-export const trialTime = 24
-export const oldTrialTime = 48
+export const isTrialEnabled = false
+export const trialTime = 48
+export const oldTrialTime = 72
 export const pageSize = 20
 
 // Versions
@@ -56,11 +57,11 @@ const prodMode = doSpecificMode([
   'PRESETS_ADS_NEUTRAL',
   'PRESETS_CARBON',
   'PRESETS_BASE',
+  'SCALE_CHROMA',
   'SCALE_HELPER_DISTRIBUTION_SLOW_EASE_IN',
   'SCALE_HELPER_DISTRIBUTION_SLOW_EASE_OUT',
   'SCALE_HELPER_DISTRIBUTION_SLOW_EASE_IN_OUT',
   'SCALE_HELPER_DISTRIBUTION_EASE_IN',
-  'SCALE_HELPER_DISTRIBUTION_EASE_OUT',
   'SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT',
   'SCALE_HELPER_DISTRIBUTION_FAST_EASE_IN',
   'SCALE_HELPER_DISTRIBUTION_FAST_EASE_OUT',
@@ -80,7 +81,6 @@ const prodMode = doSpecificMode([
   'EXPORT_ANDROID_XML',
   'EXPORT_CSV',
   'VIEWS_SHEET',
-  'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
   'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
   'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
   'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',

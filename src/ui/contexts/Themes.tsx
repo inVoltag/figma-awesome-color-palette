@@ -419,11 +419,12 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
                     ).THEMES.isBlocked() && (
                       <Button
                         type="secondary"
-                        label={locals[this.props.lang].plan.tryPro}
+                        label={locals[this.props.lang].plan.getPro}
                         action={() =>
-                          this.props.onGetProPlan({
-                            priorityContainerContext: 'TRY',
-                          })
+                          parent.postMessage(
+                            { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                            '*'
+                          )
                         }
                       />
                     )}
@@ -454,11 +455,12 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
                     actionsSlot={
                       <Button
                         type="secondary"
-                        label={locals[this.props.lang].plan.tryPro}
+                        label={locals[this.props.lang].plan.getPro}
                         action={() =>
-                          this.props.onGetProPlan({
-                            priorityContainerContext: 'TRY',
-                          })
+                          parent.postMessage(
+                            { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                            '*'
+                          )
                         }
                       />
                     }

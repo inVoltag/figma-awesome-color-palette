@@ -595,11 +595,12 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                 actionsSlot={
                   <Button
                     type="secondary"
-                    label={locals[this.props.lang].plan.tryPro}
+                    label={locals[this.props.lang].plan.getPro}
                     action={() =>
-                      this.props.onGetProPlan({
-                        priorityContainerContext: 'TRY',
-                      })
+                      parent.postMessage(
+                        { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                        '*'
+                      )
                     }
                   />
                 }

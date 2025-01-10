@@ -12,6 +12,7 @@
     "vscode"
   ],
   "relaunchButtons": [
+    { "command": "open", "name": "Open UI Color Palette" },
     { "command": "create", "name": "Create a UI Color Palette", "multipleSelection": true },
     { "command": "edit", "name": "Edit the UI Color Palette" }
   ],

@@ -67,6 +67,10 @@ export const locals: { [key: string]: any } = {
       signIn: 'Sign in to publish',
     },
     relaunch: {
+      open: {
+        label: `Open ${glossary.name}`,
+        description: glossary.tagline,
+      },
       create: {
         label: `Create a ${glossary.name}`,
         description: 'Scale the selected colors',

@@ -4,6 +4,7 @@ import loadParameters from './bridges/loadParameters'
 import loadUI from './bridges/loadUI'
 import processSelection from './bridges/processSelection'
 import { algorithmVersion } from './config'
+import { lang, locals } from './content/locals'
 import { presets } from './stores/presets'
 import { PaletteConfiguration } from './types/configurations'
 import doLightnessScale from './utils/doLightnessScale'
@@ -106,4 +107,9 @@ figma.on('currentpagechange', async () => {
     .forEach((palette) => {
       setPaletteMigration(palette)
     })
+})
+
+// Relaunch
+figma.root.setRelaunchData({
+  open: locals[lang].relaunch.open.description,
 })

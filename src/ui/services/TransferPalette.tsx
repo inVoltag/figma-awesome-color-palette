@@ -13,6 +13,10 @@ import {
 } from '../../types/configurations'
 import Export from '../contexts/Export'
 import InternalPalettes from '../contexts/InternalPalettes'
+import { Button, SemanticMessage } from '@a_ng_d/figmug-ui'
+import Feature from '../components/Feature'
+import { vsCodeFigmaPluginUrl } from '../../config'
+import { $isVsCodeMessageDisplayed } from '../../stores/preferences'
 
 interface TransferPaletteProps {
   name: string
@@ -25,7 +29,34 @@ interface TransferPaletteProps {
   lang: Language
 }
 
-export default class TransferPalette extends PureComponent<TransferPaletteProps> {
+interface TransferPaletteStates {
+  isVsCodeMessageDisplayed: boolean
+}
+
+export default class TransferPalette extends PureComponent<
+  TransferPaletteProps,
+  TransferPaletteStates
+> {
+  private unsubscribe: (() => void) | undefined
+
+  constructor(props: TransferPaletteProps) {
+    super(props)
+    this.state = {
+      isVsCodeMessageDisplayed: true,
+    }
+  }
+
+  // Lifecycle
+  componentDidMount() {
+    this.unsubscribe = $isVsCodeMessageDisplayed.subscribe((value) => {
+      this.setState({ isVsCodeMessageDisplayed: value })
+    })
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscribe) this.unsubscribe()
+  }
+
   // Direct actions
   onExport = () => {
     const blob = new Blob([this.props.export.data], {
@@ -99,6 +130,68 @@ export default class TransferPalette extends PureComponent<TransferPaletteProps>
       <>
         <section className="controller">
           <div className="controls">
+            <Feature
+              isActive={
+                this.props.editorType !== 'dev_vscode' &&
+                $isVsCodeMessageDisplayed.get()
+              }
+            >
+              <div
+                style={{
+                  padding: '0 var(--size-xsmall)',
+                }}
+              >
+                <SemanticMessage
+                  type="INFO"
+                  message={
+                    locals[this.props.lang].palettes.devMode.vscode.message
+                  }
+                  actionsSlot={
+                    <>
+                      <Button
+                        type="secondary"
+                        label={
+                          locals[this.props.lang].palettes.devMode.vscode.cta
+                        }
+                        action={() =>
+                          parent.postMessage(
+                            {
+                              pluginMessage: {
+                                type: 'OPEN_IN_BROWSER',
+                                url: vsCodeFigmaPluginUrl,
+                              },
+                            },
+                            '*'
+                          )
+                        }
+                      />
+                      {}
+                      <Button
+                        type="icon"
+                        icon="close"
+                        action={() => {
+                          $isVsCodeMessageDisplayed.set(false)
+                          parent.postMessage(
+                            {
+                              pluginMessage: {
+                                type: 'SET_ITEMS',
+                                items: [
+                                  {
+                                    key: 'is_vs_code_displayed',
+                                    value: false,
+                                  },
+                                ],
+                              },
+                            },
+                            '*'
+                          )
+                        }}
+                      />
+                    </>
+                  }
+                />
+              </div>
+            </Feature>
             {this.props.service === 'CREATE' &&
             this.props.editorType === 'dev' ? (
               <InternalPalettes {...this.props} />

@@ -40,6 +40,8 @@ export const feedbackUrl = 'https://uicp.link/feedback'
 export const trialFeedbackUrl = 'https://uicp.link/trial-feedback'
 export const requestsUrl = 'https://uicp.link/request-feature'
 export const networkUrl = 'https://uicp.link/network'
+export const vsCodeFigmaPluginUrl =
+  'https://marketplace.visualstudio.com/items?itemName=figma.figma-vscode-extension'
 
 // Features modes
 const devMode = featuresScheme

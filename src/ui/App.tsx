@@ -18,6 +18,7 @@ import {
   $canStylesDeepSync,
   $canVariablesDeepSync,
   $isAPCADisplayed,
+  $isVsCodeMessageDisplayed,
   $isWCAGDisplayed,
 } from '../stores/preferences'
 import {
@@ -361,6 +362,9 @@ export default class App extends Component<Record<string, never>, AppStates> {
             e.data.pluginMessage.data.canDeepSyncVariables
           )
           $canStylesDeepSync.set(e.data.pluginMessage.data.canDeepSyncStyles)
+          $isVsCodeMessageDisplayed.set(
+            e.data.pluginMessage.data.isVsCodeMessageDisplayed
+          )
         }
 
         const checkEditorType = () => {

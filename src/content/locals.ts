@@ -105,6 +105,10 @@ export const locals: { [key: string]: any } = {
       devMode: {
         title: `${glossary.name}s on this page`,
         readyForDev: 'Ready for development',
+        vscode: {
+          message: `${glossary.name} is also available for Visual Studio Code`,
+          cta: 'Try it out',
+        },
       },
     },
     source: {

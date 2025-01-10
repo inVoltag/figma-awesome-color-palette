@@ -1,4 +1,3 @@
-import chroma from 'chroma-js'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 
@@ -8,7 +7,6 @@ import {
   ConsentConfiguration,
   Dropdown,
   HexModel,
-  Icon,
   layouts,
   Menu,
   Select,
@@ -33,10 +31,10 @@ import {
 } from '../../types/configurations'
 import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
 import Color from '../../utils/Color'
-import Contrast from '../../utils/Contrast'
 import { trackPreviewManagementEvent } from '../../utils/eventsTracker'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
+import Shade from '../components/Shade'
 
 interface PreviewProps {
   service: Service
@@ -64,10 +62,7 @@ interface PreviewStates {
   drawerHeight: string
 }
 
-export default class Preview extends PureComponent<
-  PreviewProps,
-  PreviewStates
-> {
+export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
   private drawerRef: React.RefObject<HTMLDivElement>
   private unsubscribeWCAG: (() => void) | undefined
   private unsubscribeAPCA: (() => void) | undefined
@@ -426,53 +421,6 @@ export default class Preview extends PureComponent<
     <div className="preview__tag">
       <span className={`preview__tag__score type ${texts['type--truncated']}`}>
         {stop}
-      </span>
-    </div>
-  )
-
-  wcagScoreTag = ({ color, score }: { color: HexModel; score: number }) => (
-    <div className="preview__tag">
-      <div
-        className="preview__tag__color"
-        style={{
-          backgroundColor: color,
-        }}
-      />
-      <span className={`preview__tag__score type ${texts['type--truncated']}`}>
-        {`${score.toFixed(2)} : 1`}
-      </span>
-      <span className={'preview__tag__obs type'}>
-        {score <= 4.5 ? '✘' : '✔'}
-      </span>
-    </div>
-  )
-
-  apcaScoreTag = ({ color, score }: { color: HexModel; score: number }) => (
-    <div className="preview__tag">
-      <div
-        className="preview__tag__color"
-        style={{
-          backgroundColor: color,
-        }}
-      />
-      <span
-        className={`preview__tag__score type ${texts['type--truncated']}`}
-      >{`Lc ${score.toFixed(1)}`}</span>
-      <span className={'preview__tag__obs type'}>
-        {score <= 45 ? '✘' : '✔'}
-      </span>
-    </div>
-  )
-
-  lockColorTag = () => (
-    <div className="preview__tag">
-      <Icon
-        type="PICTO"
-        iconName="lock-on"
-        iconColor="var(--black)"
-      />
-      <span className={`preview__tag__score type ${texts['type--truncated']}`}>
-        {locals[this.props.lang].preview.lock.tag}
       </span>
     </div>
   )
@@ -983,95 +931,17 @@ export default class Preview extends PureComponent<
                       key={index}
                     >
                       {Object.values(scaledColors).map((scaledColor, index) => {
-                        const sourceColor = chroma([
-                          color.rgb.r * 255,
-                          color.rgb.g * 255,
-                          color.rgb.b * 255,
-                        ]).hex()
-                        const distances = scaledColors.map((scaledColor) =>
-                          chroma.distance(sourceColor, scaledColor, 'rgb')
-                        )
-                        const minDistanceIndex = distances.indexOf(
-                          Math.min(...distances)
-                        )
-                        const background: HexModel =
-                          index === minDistanceIndex &&
-                          this.props.areSourceColorsLocked
-                            ? new Color({
-                                visionSimulationMode:
-                                  this.props.visionSimulationMode,
-                              }).simulateColorBlindHex(
-                                chroma(sourceColor).rgb()
-                              )
-                            : scaledColor
-                        const darkText = new Color({
-                          visionSimulationMode: this.props.visionSimulationMode,
-                        }).simulateColorBlindHex(
-                          chroma(this.props.textColorsTheme.darkColor).rgb(
-                            false
-                          )
-                        )
-                        const lightText = new Color({
-                          visionSimulationMode: this.props.visionSimulationMode,
-                        }).simulateColorBlindHex(
-                          chroma(this.props.textColorsTheme.lightColor).rgb(
-                            false
-                          )
-                        )
-
                         return (
-                          <div
-                            className="preview__cell"
+                          <Shade
                             key={index}
-                            style={{
-                              backgroundColor: background,
-                            }}
-                          >
-                            {this.state.isWCAGDisplayed && (
-                              <this.wcagScoreTag
-                                color={lightText}
-                                score={new Contrast({
-                                  backgroundColor:
-                                    chroma(background).rgb(false),
-                                  textColor: lightText,
-                                }).getWCAGContrast()}
-                              />
-                            )}
-                            {this.state.isAPCADisplayed && (
-                              <this.apcaScoreTag
-                                color={lightText}
-                                score={new Contrast({
-                                  backgroundColor:
-                                    chroma(background).rgb(false),
-                                  textColor: lightText,
-                                }).getAPCAContrast()}
-                              />
-                            )}
-                            {this.state.isWCAGDisplayed && (
-                              <this.wcagScoreTag
-                                color={darkText}
-                                score={new Contrast({
-                                  backgroundColor:
-                                    chroma(background).rgb(false),
-                                  textColor: darkText,
-                                }).getWCAGContrast()}
-                              />
-                            )}
-                            {this.state.isAPCADisplayed && (
-                              <this.apcaScoreTag
-                                color={darkText}
-                                score={new Contrast({
-                                  backgroundColor:
-                                    chroma(background).rgb(false),
-                                  textColor: darkText,
-                                }).getAPCAContrast()}
-                              />
-                            )}
-                            {index === minDistanceIndex &&
-                              this.props.areSourceColorsLocked && (
-                                <this.lockColorTag />
-                              )}
-                          </div>
+                            index={index}
+                            color={scaledColor}
+                            sourceColor={color}
+                            scaledColors={scaledColors}
+                            isWCAGDisplayed={this.state.isWCAGDisplayed}
+                            isAPCADisplayed={this.state.isAPCADisplayed}
+                            {...this.props}
+                          />
                         )
                       })}
                     </div>

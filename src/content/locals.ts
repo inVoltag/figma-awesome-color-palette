@@ -455,14 +455,14 @@ export const locals: { [key: string]: any } = {
       welcome: {
         title: `Welcome to ${glossary.name} Pro!`,
         message:
-          'This upgrade will unlock a range of tools that enable you to convert your color palette into a color system. We hope you will enjoy the benefits.',
-        trial: `This upgrade will unlock a range of tools that enable you to convert your color palette into a color system. We hope you will enjoy the benefits for the next ${trialTime} hours.`,
+          'This upgrade will unlock a range of tools that enable you to deploy and transfer your color palette. We hope you will enjoy the benefits.',
+        trial: `This upgrade will unlock a range of tools that enable you to deploy and transfer your color palette. We hope you will enjoy the benefits for the next ${trialTime} hours.`,
         cta: "Let's build",
       },
       trial: {
         title: `Would you like to upgrade to the Pro plan within the next ${trialTime} hours?`,
         message:
-          'Explore the potential of synchronizing your color palette with variables, exporting it as design tokens, app resources, or for Tokens Studio and simulating a vision impairment.',
+          'Explore the potential of simulating a vision impairment, synchronizing your color palette with variables and styles, exporting design tokens, and more.',
         cta: `Enable the ${trialTime}-hour trial`,
         option: 'Purchase',
       },

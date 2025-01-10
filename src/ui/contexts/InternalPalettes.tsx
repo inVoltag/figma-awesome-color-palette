@@ -9,12 +9,13 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 
 import { locals } from '../../content/locals'
-import { Language } from '../../types/app'
+import { EditorType, Language } from '../../types/app'
 import { ExtractOfPaletteConfiguration } from '../../types/configurations'
 import { ActionsList } from '../../types/models'
 import getPaletteMeta from '../../utils/setPaletteMeta'
 
 interface InternalPalettesProps {
+  editorType: EditorType
   lang: Language
 }
 
@@ -105,12 +106,14 @@ export default class InternalPalettes extends PureComponent<
         )}
         {this.state.paletteListsStatus === 'LOADED' && (
           <>
-            <div
-              className={`${texts.type} ${texts['type--secondary']} type rich-list__title`}
-              style={{ padding: '0 var(--size-small)' }}
-            >
-              {locals[this.props.lang].palettes.devMode.title}
-            </div>
+            {this.props.editorType === 'dev' && (
+              <div
+                className={`${texts.type} ${texts['type--secondary']} type rich-list__title`}
+                style={{ padding: '0 var(--size-small)' }}
+              >
+                {locals[this.props.lang].palettes.devMode.title}
+              </div>
+            )}
             {this.state.paletteLists.map((palette, index) => (
               <ActionsItem
                 id={palette.id}

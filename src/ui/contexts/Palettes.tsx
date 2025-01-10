@@ -9,6 +9,7 @@ import {
 import {
   Context,
   ContextItem,
+  EditorType,
   FetchStatus,
   Language,
   PlanStatus,
@@ -25,6 +26,7 @@ interface PalettesProps {
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   palettesList: Array<ExtractOfPaletteConfiguration>
+  editorType: EditorType
   planStatus: PlanStatus
   lang: Language
   onConfigureExternalSourceColors: (

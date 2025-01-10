@@ -11,6 +11,7 @@ import {
   Context,
   ContextItem,
   Easing,
+  EditorType,
   Language,
   NamingConvention,
   PlanStatus,
@@ -59,6 +60,7 @@ interface CreatePaletteProps {
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   palettesList: Array<ExtractOfPaletteConfiguration>
+  editorType: EditorType
   planStatus: PlanStatus
   lang: Language
   onChangeColorsFromImport: React.Dispatch<Partial<AppStates>>

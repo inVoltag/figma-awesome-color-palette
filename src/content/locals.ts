@@ -103,7 +103,7 @@ export const locals: { [key: string]: any } = {
         completeList: 'The palettes list is complete',
       },
       devMode: {
-        title: `${glossary.name}s on the page`,
+        title: `${glossary.name}s on this page`,
         readyForDev: 'Ready for development',
       },
     },

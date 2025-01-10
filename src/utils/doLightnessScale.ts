@@ -18,6 +18,7 @@ const doLightnessScale = (
       ? parseFloat(doMap(applyEase(mode, x), 0, 1, min, max).toFixed(1))
       : index
     x -= 1 / (stops.length - 1)
+    x < 0.01 ? (x = 0) : x
   })
 
   return scale

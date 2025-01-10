@@ -313,7 +313,7 @@ export default class Preview extends PureComponent<
       )
     }
 
-    const updateColorBlidMode = () => {
+    const updateColorBlindMode = () => {
       const target = e.target as HTMLLIElement
       this.palette.setKey(
         'visionSimulationMode',
@@ -354,7 +354,7 @@ export default class Preview extends PureComponent<
     const actions: ActionsList = {
       LOCK_SOURCE_COLORS: () => lockSourceColors(),
       UPDATE_COLOR_SPACE: () => updateColorSpace(),
-      UPDATE_COLOR_BLIND_MODE: () => updateColorBlidMode(),
+      UPDATE_COLOR_BLIND_MODE: () => updateColorBlindMode(),
       DEFAULT: () => null,
     }
 

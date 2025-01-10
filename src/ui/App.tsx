@@ -980,6 +980,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
               onCustomPreset={(e) => this.setState({ ...e })}
               onChangeSettings={(e) => this.setState({ ...e })}
               onConfigureExternalSourceColors={(e) => this.setState({ ...e })}
+              onGetProPlan={(e) => this.setState({ ...e })}
             />
           </Feature>
           <Feature

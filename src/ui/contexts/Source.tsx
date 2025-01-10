@@ -11,6 +11,7 @@ import {
   FilterOptions,
   Language,
   PlanStatus,
+  PriorityContext,
   ThirdParty,
 } from '../../types/app'
 import {
@@ -33,6 +34,7 @@ interface SourceProps {
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
     source: ThirdParty
   ) => void
+  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
 interface SourceStates {

@@ -1,4 +1,12 @@
-import { Button, DropdownOption, Input, Menu, texts } from '@a_ng_d/figmug-ui'
+import {
+  Button,
+  DropdownOption,
+  Icon,
+  Input,
+  Menu,
+  texts,
+  Tooltip,
+} from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
@@ -43,7 +51,11 @@ interface ActionsProps {
   onChangeSettings?: React.Dispatch<Partial<AppStates>>
 }
 
-export default class Actions extends PureComponent<ActionsProps> {
+interface ActionsStates {
+  isTooltipVisible: boolean
+}
+
+export default class Actions extends PureComponent<ActionsProps, ActionsStates> {
   private palette: typeof $palette
 
   static defaultProps = {
@@ -54,6 +66,11 @@ export default class Actions extends PureComponent<ActionsProps> {
     GET_PRO_PLAN: new FeatureStatus({
       features: features,
       featureName: 'GET_PRO_PLAN',
+      planStatus: planStatus,
+    }),
+    SOURCE: new FeatureStatus({
+      features: features,
+      featureName: 'SOURCE',
       planStatus: planStatus,
     }),
     CREATE_PALETTE: new FeatureStatus({
@@ -86,6 +103,9 @@ export default class Actions extends PureComponent<ActionsProps> {
   constructor(props: ActionsProps) {
     super(props)
     this.palette = $palette
+    this.state = {
+      isTooltipVisible: false,
+    }
   }
 
   // Handlers
@@ -158,14 +178,17 @@ export default class Actions extends PureComponent<ActionsProps> {
         <div className="actions__right">
           <Feature
             isActive={Actions.features(
-              this.props.planStatus ?? 'UNPAID'
+              this.props.planStatus
             ).CREATE_PALETTE.isActive()}
           >
             <Button
               type="primary"
               label={locals[this.props.lang].actions.createPalette}
               feature="CREATE_PALETTE"
-              isDisabled={this.props.sourceColors.length > 0 ? false : true}
+              isDisabled={this.props.sourceColors.length === 0}
+              isBlocked={Actions.features(
+                this.props.planStatus
+              ).SOURCE.isReached(this.props.sourceColors.length - 1)}
               isLoading={this.props.isPrimaryLoading}
               action={this.props.onCreatePalette}
             />
@@ -207,6 +230,38 @@ export default class Actions extends PureComponent<ActionsProps> {
                   this.props.sourceColors.length
                 )}
           </div>
+          {Actions.features(this.props.planStatus).SOURCE.isReached(
+            this.props.sourceColors.length - 1
+          ) && (
+            <div
+              style={{
+                position: 'relative',
+              }}
+              onMouseEnter={() =>
+                this.setState({
+                  isTooltipVisible: true,
+                })
+              }
+              onMouseLeave={() =>
+                this.setState({
+                  isTooltipVisible: false,
+                })
+              }
+            >
+              <Icon
+                type="PICTO"
+                iconName="warning"
+              />
+              {this.state.isTooltipVisible && (
+                <Tooltip>
+                  {locals[this.props.lang].info.maxNumberOfSourceColors.replace(
+                    '$1',
+                    Actions.features(this.props.planStatus).SOURCE.result.limit
+                  )}
+                </Tooltip>
+              )}
+            </div>
+          )}
         </div>
       </div>
     )

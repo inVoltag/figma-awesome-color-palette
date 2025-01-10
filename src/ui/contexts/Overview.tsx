@@ -1,11 +1,13 @@
 import {
   Accordion,
+  Button,
   ColorItem,
   ConsentConfiguration,
   FormItem,
   Input,
   Message,
   SectionTitle,
+  SemanticMessage,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import chroma from 'chroma-js'
@@ -15,7 +17,13 @@ import { uid } from 'uid'
 
 import features from '../../config'
 import { locals } from '../../content/locals'
-import { ImportUrl, Language, PlanStatus, ThirdParty } from '../../types/app'
+import {
+  ImportUrl,
+  Language,
+  PlanStatus,
+  PriorityContext,
+  ThirdParty,
+} from '../../types/app'
 import {
   SourceColorConfiguration,
   UserConfiguration,
@@ -34,6 +42,7 @@ interface OverviewProps {
     source: ThirdParty
   ) => void
   onChangeContexts: () => void
+  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
 interface OverviewStates {
@@ -49,6 +58,11 @@ export default class Overview extends PureComponent<
   OverviewStates
 > {
   static features = (planStatus: PlanStatus) => ({
+    SOURCE: new FeatureStatus({
+      features: features,
+      featureName: 'SOURCE',
+      planStatus: planStatus,
+    }),
     SOURCE_CANVAS: new FeatureStatus({
       features: features,
       featureName: 'SOURCE_CANVAS',
@@ -313,6 +327,36 @@ export default class Overview extends PureComponent<
           </div>
           <div className="section-controls__right-part"></div>
         </div>
+        {Overview.features(this.props.planStatus).SOURCE.isReached(
+          this.props.sourceColors.length
+        ) && (
+          <div
+            style={{
+              padding: '0 var(--size-xsmall)',
+            }}
+          >
+            <SemanticMessage
+              type="INFO"
+              message={locals[
+                this.props.lang
+              ].info.maxNumberOfSourceColors.replace(
+                '$1',
+                Overview.features(this.props.planStatus).SOURCE.result.limit
+              )}
+              actionsSlot={
+                <Button
+                  type="secondary"
+                  label={locals[this.props.lang].plan.tryPro}
+                  action={() =>
+                    this.props.onGetProPlan({
+                      priorityContainerContext: 'TRY',
+                    })
+                  }
+                />
+              }
+            />
+          </div>
+        )}
         {this.props.sourceColors.filter(
           (sourceColor) => sourceColor.source === 'CANVAS'
         ).length > 0 ? (

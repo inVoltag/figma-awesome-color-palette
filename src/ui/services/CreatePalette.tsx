@@ -15,6 +15,7 @@ import {
   Language,
   NamingConvention,
   PlanStatus,
+  PriorityContext,
   ThirdParty,
 } from '../../types/app'
 import {
@@ -72,6 +73,7 @@ interface CreatePaletteProps {
   onConfigureExternalSourceColors: React.Dispatch<Partial<AppStates>>
   onResetSourceColors: React.Dispatch<Partial<AppStates>>
   onLockSourceColors: React.Dispatch<Partial<AppStates>>
+  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
 interface CreatePaletteStates {

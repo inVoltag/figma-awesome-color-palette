@@ -117,6 +117,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
     isNew: false,
     type: 'CONTEXT',
     service: ['CREATE'],
+    limit: 5,
   },
   {
     name: 'SOURCE_OVERVIEW',

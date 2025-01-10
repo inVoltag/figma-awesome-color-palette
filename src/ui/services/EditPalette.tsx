@@ -16,6 +16,7 @@ import {
   EditorType,
   Language,
   PlanStatus,
+  PriorityContext,
 } from '../../types/app'
 import {
   AlgorithmVersionConfiguration,
@@ -83,6 +84,7 @@ interface EditPaletteProps {
   onChangeSettings: React.Dispatch<Partial<AppStates>>
   onPublishPalette: () => void
   onLockSourceColors: React.Dispatch<Partial<AppStates>>
+  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
 interface EditPaletteStates {

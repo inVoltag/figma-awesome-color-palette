@@ -19,7 +19,12 @@ import { uid } from 'uid'
 import features from '../../config'
 import { locals } from '../../content/locals'
 import { $canPaletteDeepSync } from '../../stores/preferences'
-import { EditorType, Language, PlanStatus } from '../../types/app'
+import {
+  EditorType,
+  Language,
+  PlanStatus,
+  PriorityContext,
+} from '../../types/app'
 import {
   ColorConfiguration,
   ShiftConfiguration,
@@ -41,6 +46,7 @@ interface ColorsProps {
   planStatus: PlanStatus
   lang: Language
   onChangeColors: React.Dispatch<Partial<AppStates>>
+  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
 
 interface ColorsStates {
@@ -53,6 +59,11 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
   private unsubscribe: (() => void) | null = null
 
   static features = (planStatus: PlanStatus) => ({
+    COLORS: new FeatureStatus({
+      features: features,
+      featureName: 'COLORS',
+      planStatus: planStatus,
+    }),
     COLORS_NAME: new FeatureStatus({
       features: features,
       featureName: 'COLORS_NAME',
@@ -559,10 +570,43 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                 type="icon"
                 icon="plus"
                 feature="ADD_COLOR"
+                isBlocked={Colors.features(
+                  this.props.planStatus
+                ).COLORS.isReached(this.props.colors.length)}
                 action={(e: Event) => this.colorsHandler(e)}
               />
             </div>
           </div>
+          {Colors.features(this.props.planStatus).COLORS.isReached(
+            this.props.colors.length
+          ) && (
+            <div
+              style={{
+                padding: '0 var(--size-xsmall)',
+              }}
+            >
+              <SemanticMessage
+                type="INFO"
+                message={locals[
+                  this.props.lang
+                ].info.maxNumberOfSourceColors.replace(
+                  '$1',
+                  Colors.features(this.props.planStatus).COLORS.result.limit
+                )}
+                actionsSlot={
+                  <Button
+                    type="secondary"
+                    label={locals[this.props.lang].plan.tryPro}
+                    action={() =>
+                      this.props.onGetProPlan({
+                        priorityContainerContext: 'TRY',
+                      })
+                    }
+                  />
+                }
+              />
+            </div>
+          )}
           {this.props.colors.length === 0 ? (
             <div className="callout--centered">
               <SemanticMessage

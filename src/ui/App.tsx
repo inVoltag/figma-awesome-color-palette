@@ -1002,6 +1002,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
                 this.setState({ priorityContainerContext: 'PUBLICATION' })
               }
               onLockSourceColors={(e) => this.setState({ ...e })}
+              onGetProPlan={(e) => this.setState({ ...e })}
             />
           </Feature>
           <Feature

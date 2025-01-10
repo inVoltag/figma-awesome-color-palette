@@ -424,6 +424,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
     isNew: false,
     type: 'CONTEXT',
     service: ['EDIT'],
+    limit: 5,
   },
   {
     name: 'COLORS_NAME',

@@ -789,9 +789,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               value: 'SLOW_EASE_OUT',
               feature: 'UPDATE_DISTRIBUTION_EASING',
               type: 'OPTION',
-              isActive: true,
-              isBlocked: false,
-              isNew: false,
+              isActive: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_SLOW_EASE_OUT.isActive(),
+              isBlocked: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_SLOW_EASE_OUT.isBlocked(),
+              isNew: Scale.features(
+                this.props.planStatus
+              ).SCALE_HELPER_DISTRIBUTION_SLOW_EASE_OUT.isNew(),
               action: this.customHandler,
             },
             {

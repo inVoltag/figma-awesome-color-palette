@@ -65,7 +65,7 @@ figma.on('run', async ({ parameters }: RunEvent) => {
             selectedPreset?.scale ?? [1, 2],
             selectedPreset?.min ?? 0,
             selectedPreset?.max ?? 100,
-            selectedPreset?.isDistributed ? true : false
+            selectedPreset?.isDistributed
           ),
           shift: {
             chroma: 100,

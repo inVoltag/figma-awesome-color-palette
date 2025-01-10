@@ -411,7 +411,7 @@ export default class Preview extends PureComponent<
 
     this.setState({
       drawerHeight: `${delta}px`,
-      isDrawerCollapsed: delta <= 40 ? true : false,
+      isDrawerCollapsed: delta <= 40,
     })
 
     document.body.style.cursor = 'ns-resize'

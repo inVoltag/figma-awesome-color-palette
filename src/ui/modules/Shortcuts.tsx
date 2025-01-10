@@ -182,6 +182,7 @@ export default class Shortcuts extends PureComponent<
           }
         />
       )
+
     return (
       <>
         <Bar

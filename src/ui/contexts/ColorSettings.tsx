@@ -486,7 +486,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
     )
   }
 
-  NewAlgorithm = () => {
+  ChromaVelocity = () => {
     return (
       <Feature
         isActive={ColorSettings.features(
@@ -589,7 +589,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
             node: <this.VisionSimulationMode />,
           },
           {
-            node: <this.NewAlgorithm />,
+            node: <this.ChromaVelocity />,
           },
         ]}
         border={!this.props.isLast ? ['BOTTOM'] : undefined}

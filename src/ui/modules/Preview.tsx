@@ -547,6 +547,12 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                   type="SWITCH_BUTTON"
                   feature="LOCK_SOURCE_COLORS"
                   isChecked={this.props.areSourceColorsLocked}
+                  isBlocked={Preview.features(
+                    this.props.planStatus
+                  ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked()}
+                  isNew={Preview.features(
+                    this.props.planStatus
+                  ).PREVIEW_LOCK_SOURCE_COLORS.isNew()}
                   action={this.colorSettingsHandler}
                 />
               </Feature>

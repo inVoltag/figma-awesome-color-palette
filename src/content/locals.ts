@@ -342,7 +342,7 @@ export const locals: { [key: string]: any } = {
           achromatopsia: 'Achromatopsia (total color-blind)',
         },
         algorithmVersion: {
-          label: 'Chroma adjustment',
+          label: 'Chroma velocity',
           v1: 'Linear',
           v2: 'Sinusoidal',
           v3: 'Sinusoidal and hyperbolic',

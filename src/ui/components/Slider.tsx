@@ -435,7 +435,7 @@ export default class Slider extends Component<SliderProps, SliderStates> {
               }
               helper={
                 index === 0 || index === original.length - 1
-                  ? 'Press ⇧ to distribute'
+                  ? locals[this.props.lang].scale.tips.distributeAsTooltip
                   : undefined
               }
               canBeTyped={true}

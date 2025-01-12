@@ -589,8 +589,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
             node: <this.VisionSimulationMode />,
           },
           {
-            node: (() =>
-              this.props.service === 'EDIT' && <this.NewAlgorithm />)(),
+            node: <this.NewAlgorithm />,
           },
         ]}
         border={!this.props.isLast ? ['BOTTOM'] : undefined}

@@ -16,21 +16,32 @@ const getPalettesOnCurrentPage = async () => {
   if (palettes.length !== 0) {
     const palettesList = async () => {
       const palettePromises = palettes.map(async (palette) => {
+        const name = palette.getPluginData('name')
+        const preset = palette.getPluginData('preset')
+        const colors = palette.getPluginData('colors')
+        const themes = palette.getPluginData('themes')
+
+        if (preset === '' || colors === '' || themes === '') return null
+        
+
         const bytes = await palette.exportAsync({
           format: 'PNG',
           constraint: { type: 'SCALE', value: 0.25 },
         })
         return {
           id: palette.id,
-          name: palette.getPluginData('name'),
-          preset: JSON.parse(palette.getPluginData('preset')).name,
-          colors: JSON.parse(palette.getPluginData('colors')),
-          themes: JSON.parse(palette.getPluginData('themes')),
+          name: name,
+          preset: JSON.parse(preset).name,
+          colors: JSON.parse(colors),
+          themes: JSON.parse(themes),
           screenshot: bytes,
           devStatus: palette.devStatus !== null && palette.devStatus.type,
         }
       })
-      return Promise.all(palettePromises)
+      const filteredPalettes = (await Promise.all(palettePromises)).filter(
+        (palette) => palette !== null
+      )
+      return filteredPalettes
     }
 
     figma.ui.postMessage({

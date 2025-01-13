@@ -131,20 +131,21 @@ export default class Highlight extends PureComponent<
               : undefined
           }
           onClose={(e: MouseEvent) => {
-            parent.postMessage(
-              {
-                pluginMessage: {
-                  type: 'SET_ITEMS',
-                  items: [
-                    {
-                      key: 'highlight_version',
-                      value: this.props.highlight.version,
-                    },
-                  ],
+            if (this.props.highlight.version !== undefined)
+              parent.postMessage(
+                {
+                  pluginMessage: {
+                    type: 'SET_ITEMS',
+                    items: [
+                      {
+                        key: 'highlight_version',
+                        value: this.props.highlight.version,
+                      },
+                    ],
+                  },
                 },
-              },
-              '*'
-            )
+                '*'
+              )
             this.props.onCloseHighlight(e)
           }}
         >

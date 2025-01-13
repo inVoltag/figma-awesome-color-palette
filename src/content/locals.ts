@@ -6,7 +6,7 @@ const glossary: {
   [key: string]: string
 } = {
   name: 'UI Color Palette',
-  tagline: 'Create, Manage, Deploy & Publish WCAG-compliant color palettes.',
+  tagline: 'WCAG-Compliant Color Palette Suite',
   url: 'www.ui-color-palette.com',
   author: 'Aurélien Grimaud',
   license: 'MIT',

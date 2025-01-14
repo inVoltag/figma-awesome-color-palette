@@ -270,8 +270,10 @@ export default class EditPalette extends PureComponent<
 
     const onUpdatingStop = () => {
       setData()
-      this.colorsMessage.isEditedInRealTime = true
-      if (this.state.canPaletteDeepSync) this.dispatch.colors.on.status = true
+      if (this.state.canPaletteDeepSync) {
+        this.colorsMessage.isEditedInRealTime = true
+        this.dispatch.colors.on.status = true
+      } 
     }
 
     const setData = () => {

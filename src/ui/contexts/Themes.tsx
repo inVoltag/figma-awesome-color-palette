@@ -229,9 +229,9 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
             feature: 'UPDATE_BACKGROUND',
           }
         )
-      } else {
+      } else if (this.state.canPaletteDeepSync) {
         this.themesMessage.isEditedInRealTime = true
-        if (this.state.canPaletteDeepSync) this.dispatch.themes.on.status = true
+        this.dispatch.themes.on.status = true
       }
     }
 

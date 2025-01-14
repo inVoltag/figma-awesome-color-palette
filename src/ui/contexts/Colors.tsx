@@ -248,9 +248,9 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
             feature: 'UPDATE_HEX',
           }
         )
-      } else {
+      } else if (this.state.canPaletteDeepSync) {
         this.colorsMessage.isEditedInRealTime = true
-        if (this.state.canPaletteDeepSync) this.dispatch.colors.on.status = true
+        this.dispatch.colors.on.status = true
       }
     }
 

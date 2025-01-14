@@ -177,18 +177,17 @@ export default class Settings extends PureComponent<
       if (
         (e.type === 'focusout' || (e as KeyboardEvent).key === 'Enter') &&
         this.props.service === 'EDIT'
-      ) {
+      )
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
 
-        trackSettingsManagementEvent(
-          this.props.userIdentity.id,
-          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: 'RENAME_PALETTE',
-          }
-        )
-      }
+      trackSettingsManagementEvent(
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'RENAME_PALETTE',
+        }
+      )
     }
 
     const updateDescription = () => {
@@ -208,18 +207,17 @@ export default class Settings extends PureComponent<
         onGoingStep: 'settings changed',
       })
 
-      if (e.type === 'focusout' && this.props.service === 'EDIT') {
+      if (e.type === 'focusout' && this.props.service === 'EDIT')
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
 
-        trackSettingsManagementEvent(
-          this.props.userIdentity.id,
-          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: 'DESCRIBE_PALETTE',
-          }
-        )
-      }
+      trackSettingsManagementEvent(
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'DESCRIBE_PALETTE',
+        }
+      )
     }
 
     const updateView = () => {
@@ -231,7 +229,7 @@ export default class Settings extends PureComponent<
           onGoingStep: 'view changed',
         })
 
-        if (this.props.service === 'EDIT') {
+        if (this.props.service === 'EDIT')
           parent.postMessage(
             {
               pluginMessage: { type: 'UPDATE_VIEW', data: this.palette.value },
@@ -239,15 +237,14 @@ export default class Settings extends PureComponent<
             '*'
           )
 
-          trackSettingsManagementEvent(
-            this.props.userIdentity.id,
-            this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-              ?.isConsented ?? false,
-            {
-              feature: 'UPDATE_VIEW',
-            }
-          )
-        }
+        trackSettingsManagementEvent(
+          this.props.userIdentity.id,
+          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+            ?.isConsented ?? false,
+          {
+            feature: 'UPDATE_VIEW',
+          }
+        )
       }
     }
 
@@ -272,18 +269,17 @@ export default class Settings extends PureComponent<
         onGoingStep: 'settings changed',
       })
 
-      if (this.props.service === 'EDIT') {
+      if (this.props.service === 'EDIT')
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
 
-        trackSettingsManagementEvent(
-          this.props.userIdentity.id,
-          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: 'UPDATE_COLOR_SPACE',
-          }
-        )
-      }
+      trackSettingsManagementEvent(
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'UPDATE_COLOR_SPACE',
+        }
+      )
     }
 
     const updatevisionSimulationMode = () => {
@@ -306,18 +302,17 @@ export default class Settings extends PureComponent<
         onGoingStep: 'settings changed',
       })
 
-      if (this.props.service === 'EDIT') {
+      if (this.props.service === 'EDIT')
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
 
-        trackSettingsManagementEvent(
-          this.props.userIdentity.id,
-          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: 'UPDATE_VISION_SIMULATION_MODE',
-          }
-        )
-      }
+      trackSettingsManagementEvent(
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'UPDATE_VISION_SIMULATION_MODE',
+        }
+      )
     }
 
     const updateAlgorithmVersion = () => {
@@ -340,7 +335,8 @@ export default class Settings extends PureComponent<
         onGoingStep: 'settings changed',
       })
 
-      parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
+      if (this.props.service === 'EDIT')
+        parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
         this.props.userIdentity.id,
@@ -377,9 +373,11 @@ export default class Settings extends PureComponent<
 
       if (e.type === 'focusout' && this.props.service === 'EDIT') {
         this.dispatch.textColorsTheme.on.status = false
-
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
+      } else if (this.props.service === 'EDIT' && this.state.canPaletteDeepSync)
+        this.dispatch.textColorsTheme.on.status = true
 
+      if (e.type === 'focusout')
         trackSettingsManagementEvent(
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -388,9 +386,6 @@ export default class Settings extends PureComponent<
             feature: 'UPDATE_TEXT_COLORS_THEME',
           }
         )
-      } else if (this.props.service === 'EDIT')
-        if (this.state.canPaletteDeepSync)
-          this.dispatch.textColorsTheme.on.status = true
     }
 
     const updateTextDarkColor = () => {
@@ -418,9 +413,11 @@ export default class Settings extends PureComponent<
 
       if (e.type === 'focusout' && this.props.service === 'EDIT') {
         this.dispatch.textColorsTheme.on.status = false
-
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
+      } else if (this.props.service === 'EDIT' && this.state.canPaletteDeepSync)
+        this.dispatch.textColorsTheme.on.status = true
 
+      if (e.type === 'focusout')
         trackSettingsManagementEvent(
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
@@ -429,9 +426,6 @@ export default class Settings extends PureComponent<
             feature: 'UPDATE_TEXT_COLORS_THEME',
           }
         )
-      } else if (this.props.service === 'EDIT')
-        if (this.state.canPaletteDeepSync)
-          this.dispatch.textColorsTheme.on.status = true
     }
 
     const updatePaletteDeepSync = () =>

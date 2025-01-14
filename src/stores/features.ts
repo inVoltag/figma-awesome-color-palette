@@ -114,7 +114,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
     name: 'SOURCE',
     description: 'Raw source colors',
     isActive: true,
-    isPro: true,
+    isPro: false,
     isNew: false,
     type: 'CONTEXT',
     service: ['CREATE'],
@@ -421,7 +421,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
     name: 'COLORS',
     description: 'Configuration of source colors',
     isActive: true,
-    isPro: true,
+    isPro: false,
     isNew: false,
     type: 'CONTEXT',
     service: ['EDIT'],
@@ -476,7 +476,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
     name: 'THEMES',
     description: 'Configuration of color themes',
     isActive: true,
-    isPro: true,
+    isPro: false,
     isNew: false,
     type: 'CONTEXT',
     service: ['EDIT'],
@@ -942,7 +942,8 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_ALGORITHM_V1',
-    description: 'First version of the color shades generation algorithm settings',
+    description:
+      'First version of the color shades generation algorithm settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -951,7 +952,8 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_ALGORITHM_V2',
-    description: 'Second version of the color shades generation algorithm settings',
+    description:
+      'Second version of the color shades generation algorithm settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -960,7 +962,8 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   },
   {
     name: 'SETTINGS_ALGORITHM_V3',
-    description: 'Third version of the color shades generation algorithm settings',
+    description:
+      'Third version of the color shades generation algorithm settings',
     isActive: true,
     isPro: false,
     isNew: false,

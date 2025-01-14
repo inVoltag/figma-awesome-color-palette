@@ -1,4 +1,9 @@
-import { oldTrialTime, trialTime, trialVersion } from '../../config'
+import {
+  isProEnabled,
+  oldTrialTime,
+  trialTime,
+  trialVersion,
+} from '../../config'
 
 const checkPlanStatus = async (context = 'UI' as 'UI' | 'PARAMETERS') => {
   // figma.clientStorage.deleteAsync('trial_start_date')
@@ -33,7 +38,9 @@ const checkPlanStatus = async (context = 'UI' as 'UI' | 'PARAMETERS') => {
       type: 'CHECK_PLAN_STATUS',
       data: {
         planStatus:
-          trialStatus === 'PENDING' ? 'PAID' : figma.payments?.status.type,
+          trialStatus === 'PENDING' || !isProEnabled
+            ? 'PAID'
+            : figma.payments?.status.type,
         trialStatus: trialStatus,
         trialRemainingTime: Math.ceil(
           currentTrialVersion !== trialVersion
@@ -43,7 +50,9 @@ const checkPlanStatus = async (context = 'UI' as 'UI' | 'PARAMETERS') => {
       },
     })
 
-  return trialStatus === 'PENDING' ? 'PAID' : figma.payments?.status.type
+  return trialStatus === 'PENDING' || !isProEnabled
+    ? 'PAID'
+    : figma.payments?.status.type
 }
 
 export default checkPlanStatus

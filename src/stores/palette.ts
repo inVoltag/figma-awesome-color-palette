@@ -18,9 +18,9 @@ export const $palette = deepMap<PaletteConfiguration>({
   colorSpace: 'LCH',
   visionSimulationMode: 'NONE',
   view: 'PALETTE_WITH_PROPERTIES',
+  algorithmVersion: algorithmVersion,
   textColorsTheme: {
     lightColor: '#FFFFFF',
     darkColor: '#000000',
   },
-  algorithmVersion: algorithmVersion,
 })

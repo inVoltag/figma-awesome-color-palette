@@ -201,10 +201,10 @@ const setPaletteMigration = async (palette: BaseNode) => {
         ) as VisionSimulationModeConfiguration,
         themes: JSON.parse(palette.getPluginData('themes')),
         view: 'SHEET',
-        textColorsTheme: JSON.parse(palette.getPluginData('textColorsTheme')),
         algorithmVersion: palette.getPluginData(
           'algorithmVersion'
         ) as AlgorithmVersionConfiguration,
+        textColorsTheme: JSON.parse(palette.getPluginData('textColorsTheme')),
         creatorFullName: creatorFullName,
         creatorAvatarImg: creatorAvatarImg,
       },

@@ -75,11 +75,11 @@ figma.on('run', async ({ parameters }: RunEvent) => {
           colorSpace: parameters.space.toUpperCase().replace(' ', '_'),
           visionSimulationMode: 'NONE',
           view: parameters.view.toUpperCase().split(' ').join('_'),
+          algorithmVersion: algorithmVersion,
           textColorsTheme: {
             lightColor: '#FFFFFF',
             darkColor: '#000000',
           },
-          algorithmVersion: algorithmVersion,
         } as PaletteConfiguration,
       },
     })

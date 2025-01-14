@@ -68,8 +68,8 @@ interface EditPaletteProps {
   visionSimulationMode: VisionSimulationModeConfiguration
   themes: Array<ThemeConfiguration>
   view: ViewConfiguration
-  textColorsTheme: TextColorsThemeHexModel
   algorithmVersion: AlgorithmVersionConfiguration
+  textColorsTheme: TextColorsThemeHexModel
   export: ExportConfiguration
   userIdentity: UserConfiguration
   userConsent: Array<ConsentConfiguration>

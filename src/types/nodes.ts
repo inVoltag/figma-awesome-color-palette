@@ -23,8 +23,8 @@ export interface PaletteNode {
   visionSimulationMode: VisionSimulationModeConfiguration
   themes: Array<ThemeConfiguration>
   view: ViewConfiguration
-  textColorsTheme: TextColorsThemeHexModel
   algorithmVersion: AlgorithmVersionConfiguration
+  textColorsTheme: TextColorsThemeHexModel
   creatorFullName?: string
   creatorAvatar?: string
   creatorAvatarImg?: Image | null

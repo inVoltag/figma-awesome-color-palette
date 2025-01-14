@@ -90,8 +90,8 @@ export interface AppStates {
   visionSimulationMode: VisionSimulationModeConfiguration
   themes: Array<ThemeConfiguration>
   view: ViewConfiguration
-  textColorsTheme: TextColorsThemeHexModel
   algorithmVersion: AlgorithmVersionConfiguration
+  textColorsTheme: TextColorsThemeHexModel
   screenshot: Uint8Array | null
   dates: DatesConfiguration
   export: ExportConfiguration
@@ -169,11 +169,11 @@ export default class App extends Component<Record<string, never>, AppStates> {
       visionSimulationMode: 'NONE',
       themes: [],
       view: 'PALETTE_WITH_PROPERTIES',
+      algorithmVersion: algorithmVersion,
       textColorsTheme: {
         lightColor: '#FFFFFF',
         darkColor: '#000000',
       },
-      algorithmVersion: algorithmVersion,
       screenshot: null,
       dates: {
         createdAt: '',
@@ -430,11 +430,11 @@ export default class App extends Component<Record<string, never>, AppStates> {
               colorSpace: 'LCH',
               visionSimulationMode: 'NONE',
               view: 'PALETTE_WITH_PROPERTIES',
+              algorithmVersion: algorithmVersion,
               textColorsTheme: {
                 lightColor: '#FFFFFF',
                 darkColor: '#000000',
               },
-              algorithmVersion: algorithmVersion,
               screenshot: null,
               dates: {
                 createdAt: '',
@@ -516,11 +516,11 @@ export default class App extends Component<Record<string, never>, AppStates> {
               colorSpace: 'LCH',
               visionSimulationMode: 'NONE',
               view: 'PALETTE_WITH_PROPERTIES',
+              algorithmVersion: algorithmVersion,
               textColorsTheme: {
                 lightColor: '#FFFFFF',
                 darkColor: '#000000',
               },
-              algorithmVersion: algorithmVersion,
               screenshot: null,
               dates: {
                 createdAt: '',
@@ -622,8 +622,8 @@ export default class App extends Component<Record<string, never>, AppStates> {
               e.data.pluginMessage.data.visionSimulationMode,
             themes: e.data.pluginMessage.data.themes,
             view: e.data.pluginMessage.data.view,
-            textColorsTheme: e.data.pluginMessage.data.textColorsTheme,
             algorithmVersion: e.data.pluginMessage.data.algorithmVersion,
+            textColorsTheme: e.data.pluginMessage.data.textColorsTheme,
             screenshot: e.data.pluginMessage.data.screenshot,
             dates: {
               createdAt: e.data.pluginMessage.data.createdAt,

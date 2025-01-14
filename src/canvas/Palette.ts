@@ -35,8 +35,8 @@ export default class Palette {
   themes: Array<ThemeConfiguration>
   preset: PresetConfiguration
   view: ViewConfiguration
-  textColorsTheme: TextColorsThemeHexModel
   algorithmVersion: AlgorithmVersionConfiguration
+  textColorsTheme: TextColorsThemeHexModel
   isRemote: boolean | undefined
   meta: MetaConfiguration | undefined
   creatorFullName: string | undefined

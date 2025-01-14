@@ -35,8 +35,8 @@ export interface PaletteConfiguration {
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   view: ViewConfiguration
-  textColorsTheme: TextColorsThemeHexModel
   algorithmVersion: AlgorithmVersionConfiguration
+  textColorsTheme: TextColorsThemeHexModel
 }
 
 export interface ExtractOfPaletteConfiguration {

@@ -109,11 +109,11 @@ export default class Settings extends PureComponent<
         description: '',
         colorSpace: 'LCH',
         visionSimulationMode: 'NONE',
+        algorithmVersion: algorithmVersion,
         textColorsTheme: {
           lightColor: '#FFFFFF',
           darkColor: '#000000',
         },
-        algorithmVersion: algorithmVersion,
       },
       isEditedInRealTime: false,
     }

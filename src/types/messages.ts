@@ -40,8 +40,8 @@ export interface SettingsMessage {
     description: string
     colorSpace: ColorSpaceConfiguration
     visionSimulationMode: VisionSimulationModeConfiguration
-    textColorsTheme: TextColorsThemeHexModel
     algorithmVersion: AlgorithmVersionConfiguration
+    textColorsTheme: TextColorsThemeHexModel
   }
   isEditedInRealTime: boolean
 }

@@ -50,10 +50,10 @@ const processSelection = () => {
             visionSimulationMode: palette.getPluginData('visionSimulationMode'),
             themes: JSON.parse(palette.getPluginData('themes')),
             view: palette.getPluginData('view'),
+            algorithmVersion: palette.getPluginData('algorithmVersion'),
             textColorsTheme: JSON.parse(
               palette.getPluginData('textColorsTheme')
             ),
-            algorithmVersion: palette.getPluginData('algorithmVersion'),
             isPublished: palette.getPluginData('isPublished') === 'true',
             isShared: palette.getPluginData('isShared') === 'true',
             creatorFullName: palette.getPluginData('creatorFullName'),

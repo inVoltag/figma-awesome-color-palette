@@ -5,7 +5,7 @@ import React from 'react'
 import { uid } from 'uid'
 
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import features, { algorithmVersion } from '../../config'
+import features from '../../config'
 import { $palette } from '../../stores/palette'
 import {
   Context,
@@ -19,6 +19,7 @@ import {
   ThirdParty,
 } from '../../types/app'
 import {
+  AlgorithmVersionConfiguration,
   ColorSpaceConfiguration,
   ExtractOfPaletteConfiguration,
   LockedSourceColorsConfiguration,
@@ -56,6 +57,7 @@ interface CreatePaletteProps {
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   view: ViewConfiguration
+  algorithmVersion: AlgorithmVersionConfiguration
   textColorsTheme: TextColorsThemeHexModel
   userIdentity: UserConfiguration
   userSession: UserSession
@@ -188,7 +190,6 @@ export default class CreatePalette extends PureComponent<
             sourceColors: this.props.sourceColors,
             palette: {
               ...this.palette.value,
-              algoritmVersion: algorithmVersion,
             },
           },
         },
@@ -317,7 +318,6 @@ export default class CreatePalette extends PureComponent<
             {...this.props}
             service="CREATE"
             colors={this.props.sourceColors}
-            algorithmVersion={algorithmVersion}
             onResetSourceColors={this.resetSourceColorsHandler}
           />
         </Feature>

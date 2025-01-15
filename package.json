@@ -1,6 +1,6 @@
 {
   "name": "figma-ui-color-palette",
-  "version": "4.1.5",
+  "version": "4.2.0",
   "description": "Create, Manage, Deploy & Publish WCAG-compliant color palettes",
   "main": "code.js",
   "scripts": {

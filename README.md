@@ -5,17 +5,18 @@ UI Color Palette is a Figma and FigJam plugin that creates consistent and access
 The idea to make this Figma plugin comes from the article: [Accessible Palette: stop using HSL for color systems](https://wildbit.com/blog/accessible-palette-stop-using-hsl-for-color-systems).
 
 This plugin will allow you to:
-- Create a complete palette from any existing color to help you build a color system.
-- Adjust the color palette in real-time to control the contrast.
-- Deploy the color palette by publishing it as local styles and variables or exporting it as code for several platforms.
+- Create a complete palette from any existing color to help you build a color scaling (or Primitive colors).
+- Manage the color palette in real-time to control the contrast.
+- Sync the color shades with local styles, variables, and third-party plugins.
+- Generate code in various languages.
+- Publish the palette for reuse across multiple documents or add shared palettes from the community.
 
 ## Documentation
 The full documentation can be consulted on [docs.ui-color-palette.com](https://uicp.link/docs).
 
 ## Contribution
 ### Community
-Ask questions, submit your ideas or requests, discuss your usage, debate the evolution, etc.
-Submit your ideas on [Canny](https://uicp.link/feature-requests).
+Ask questions, submit your ideas or requests on [Canny](https://uicp.link/feature-requests).
 
 ### Issues
 Have you encountered a bug? Could a feature be improved?
@@ -43,4 +44,4 @@ Go to the [Issues](https://uicp.link/report) section and browse the existing tic
 
 ## Support
 - [Follow the plugin LinkedIn page](https://uicp.link/network).
-- [Connect to my LinkedIn](https://uicp.link/author).
+- [Connect to my Figma resources page](https://uicp.link/author).

@@ -52,7 +52,7 @@ const prodMode = doSpecificMode(
   [
     'SYNC_LOCAL_STYLES',
     'SYNC_LOCAL_VARIABLES',
-    'SOURCES',
+    'SOURCE',
     'PRESETS_MATERIAL_3',
     'PRESETS_TAILWIND',
     'PRESETS_ADS',
@@ -72,6 +72,7 @@ const prodMode = doSpecificMode(
     'THEMES_NAME',
     'THEMES_PARAMS',
     'THEMES_DESCRIPTION',
+    'COLORS',
     'COLORS_HUE_SHIFTING',
     'COLORS_CHROMA_SHIFTING',
     'EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY',

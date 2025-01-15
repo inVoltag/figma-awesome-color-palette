@@ -411,8 +411,8 @@ export default class PriorityContainer extends PureComponent<
               label: locals[this.props.lang].report.cta,
               state: (() => {
                 if (this.state.userMessage === '') return 'DISABLED'
-
                 if (this.state.isPrimaryActionLoading) return 'LOADING'
+
                 return 'DEFAULT'
               })(),
               action: this.reportHandler,
@@ -429,6 +429,7 @@ export default class PriorityContainer extends PureComponent<
               >
                 <Input
                   type="TEXT"
+                  id="type-fullname"
                   value={this.state.userFullName}
                   isAutoFocus={true}
                   placeholder={
@@ -450,6 +451,7 @@ export default class PriorityContainer extends PureComponent<
               >
                 <Input
                   type="TEXT"
+                  id="type-email"
                   value={this.state.userEmail}
                   placeholder={locals[this.props.lang].report.email.placeholder}
                   onChange={(e) =>
@@ -468,6 +470,7 @@ export default class PriorityContainer extends PureComponent<
               >
                 <Input
                   type="LONG_TEXT"
+                  id="type-message"
                   placeholder={
                     locals[this.props.lang].report.message.placeholder
                   }

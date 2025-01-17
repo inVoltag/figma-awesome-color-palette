@@ -242,6 +242,11 @@ const loadUI = async () => {
     })
     setTimeout(() => getPalettesOnCurrentPage(), 1000)
   })
+
+  // Relaunch
+  figma.root.setRelaunchData({
+    open: locals[lang].relaunch.open.description,
+  })
 }
 
 export default loadUI

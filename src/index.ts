@@ -108,8 +108,3 @@ figma.on('currentpagechange', async () => {
       setPaletteMigration(palette)
     })
 })
-
-// Relaunch
-figma.root.setRelaunchData({
-  open: locals[lang].relaunch.open.description,
-})

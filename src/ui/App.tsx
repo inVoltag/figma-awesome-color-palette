@@ -1,7 +1,7 @@
 import { Consent, ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import 'figma-plugin-ds/dist/figma-plugin-ds.css'
-import { Component } from 'preact/compat'
+import { Component, createPortal } from 'preact/compat'
 import React from 'react'
 
 import checkConnectionStatus from '../bridges/checks/checkConnectionStatus'
@@ -1018,21 +1018,26 @@ export default class App extends Component<Record<string, never>, AppStates> {
             <TransferPalette {...this.state} />
           </Feature>
           <Feature isActive={this.state.priorityContainerContext !== 'EMPTY'}>
-            <PriorityContainer
-              context={this.state.priorityContainerContext}
-              rawData={this.state}
-              {...this.state}
-              onChangePublication={(e) => this.setState({ ...e })}
-              onClose={() =>
-                this.setState({
-                  priorityContainerContext: 'EMPTY',
-                  highlight: {
-                    version: this.state.highlight.version,
-                    status: 'NO_HIGHLIGHT',
-                  },
-                })
-              }
-            />
+            {document.getElementById('modal') &&
+              createPortal(
+                <PriorityContainer
+                  context={this.state.priorityContainerContext}
+                  rawData={this.state}
+                  {...this.state}
+                  onChangePublication={(e) => this.setState({ ...e })}
+                  onClose={() =>
+                    this.setState({
+                      priorityContainerContext: 'EMPTY',
+                      highlight: {
+                        version: this.state.highlight.version,
+                        status: 'NO_HIGHLIGHT',
+                      },
+                    })
+                  }
+                />,
+                document.getElementById('modal') ??
+                  document.createElement('app')
+              )}
           </Feature>
           <Feature
             isActive={

@@ -12,7 +12,7 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { PureComponent } from 'preact/compat'
+import { createPortal, PureComponent } from 'preact/compat'
 import React from 'react'
 
 import features from '../../config'
@@ -960,7 +960,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       }
     )
 
-    return (
+    return createPortal(
       <Dialog
         title={locals[this.props.lang].scale.tips.title}
         actions={{}}
@@ -1037,7 +1037,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             </div>
           )}
         </div>
-      </Dialog>
+      </Dialog>,
+      document.getElementById('modal') ?? document.createElement('app')
     )
   }
 

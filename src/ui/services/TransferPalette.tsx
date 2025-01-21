@@ -138,7 +138,7 @@ export default class TransferPalette extends PureComponent<
             >
               <div
                 style={{
-                  padding: '0 var(--size-xsmall)',
+                  padding: 'var(--size-xxxsmall) var(--size-xsmall)',
                 }}
               >
                 <SemanticMessage

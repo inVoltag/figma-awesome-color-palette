@@ -272,7 +272,10 @@ export default class PriorityContainer extends PureComponent<
         <Highlight
           {...this.props}
           onCloseHighlight={() => {
-            if (this.props.highlight.version !== undefined)
+            if (
+              this.props.highlight.version !== undefined ||
+              this.props.highlight.version !== ''
+            )
               parent.postMessage(
                 {
                   pluginMessage: {

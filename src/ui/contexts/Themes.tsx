@@ -573,6 +573,9 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
                 isScrollable={true}
                 onChangeSortableList={this.onChangeOrder}
                 onRemoveItem={this.themesHandler}
+                isBlocked={Themes.features(
+                  this.props.planStatus
+                ).THEMES.isBlocked()}
               />
             </>
           )}

@@ -15,7 +15,7 @@ const publishPalette = async (
   let imageUrl = null
   const now = new Date().toISOString(),
     name =
-      rawData.name === ''
+      rawData.name === '' || rawData.name === 'Untitled'
         ? `${rawData.userSession.userFullName}'s UI COLOR PALETTE`
         : rawData.name,
     id = uid()

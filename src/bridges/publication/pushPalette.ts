@@ -8,7 +8,7 @@ const pushPalette = async (
 ): Promise<Partial<AppStates>> => {
   const now = new Date().toISOString()
   const name =
-    rawData.name === ''
+    rawData.name === '' || rawData.name === 'Untitled'
       ? `${rawData.userSession.userFullName}'s UI COLOR PALETTE`
       : rawData.name
 

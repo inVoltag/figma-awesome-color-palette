@@ -151,7 +151,7 @@ export default class InternalPalettes extends PureComponent<
           <div className="callout--centered">
             <SemanticMessage
               type="NEUTRAL"
-              message={locals[this.props.lang].warning.noPaletteOnCurrrentPage}
+              message={`${locals[this.props.lang].warning.noPaletteOnCurrrentPage}${this.props.editorType === 'dev' ? ' ' + locals[this.props.lang].warning.noPaletteOnCurrentPageOnDevMode : ''}`}
             />
           </div>
         )}

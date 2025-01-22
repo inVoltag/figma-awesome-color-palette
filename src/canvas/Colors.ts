@@ -167,8 +167,9 @@ export default class Colors {
                 color.rgb.b * 255,
               ],
               lightness: lightness[1],
-              hueShifting: color.hue.shift ?? 0,
-              chromaShifting: color.chroma.shift ?? 100,
+              hueShifting: color.hue.shift !== undefined ? color.hue.shift : 0,
+              chromaShifting:
+                color.chroma.shift !== undefined ? color.chroma.shift : 100,
               algorithmVersion: this.parent.algorithmVersion,
               visionSimulationMode: this.parent.visionSimulationMode,
             })

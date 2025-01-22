@@ -129,6 +129,17 @@ const setPaletteMigration = async (palette: BaseNode) => {
       })
       palette.setPluginData('colors', JSON.stringify(colorsObject))
     }
+
+    if (!Object.prototype.hasOwnProperty.call(colorsObject[0], 'chroma')) {
+      colorsObject.map((color) => {
+        color.chroma = {
+          shift: 100,
+          isLocked: false,
+        }
+        return color
+      })
+      palette.setPluginData('colors', JSON.stringify(colorsObject))
+    }
   }
 
   if (colorSpace === '') palette.setPluginData('colorSpace', 'LCH')

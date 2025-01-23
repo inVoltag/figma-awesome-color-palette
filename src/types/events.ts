@@ -38,6 +38,7 @@ export interface ScaleEvent {
     | 'SWITCH_ADS_NEUTRAL'
     | 'SWITCH_CARBON'
     | 'SWITCH_BASE'
+    | 'SWITCH_POLARIS'
     | 'SWITCH_CUSTOM'
     | 'OPEN_KEYBOARD_SHORTCUTS'
     | NamingConvention

@@ -274,6 +274,15 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
     service: ['CREATE'],
   },
   {
+    name: 'PRESETS_POLARIS',
+    description: 'Shopify Polaris color system',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    service: ['CREATE'],
+  },
+  {
     name: 'PRESETS_CUSTOM',
     description: 'Customized color system',
     isActive: true,

@@ -73,6 +73,16 @@ export const presets: Array<PresetConfiguration> = [
     id: 'BASE',
   },
   {
+    name: 'Polaris, 1-16 (Shopify)',
+    scale: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+    min: 16,
+    max: 100,
+    easing: 'EASE_OUT',
+    family: locals[lang].scale.presets.more,
+    id: 'POLARIS',
+  },
+
+  {
     name: 'Custom',
     scale: [1, 2],
     min: 10,

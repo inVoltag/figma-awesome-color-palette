@@ -279,8 +279,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
         preset.scale ?? [],
         preset.min ?? 0,
         preset.max ?? 100,
-        preset.isDistributed ?? true,
-        this.props.distributionEasing
+        preset.easing
       )
 
     const setMaterialDesignPreset = () => {
@@ -483,6 +482,29 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       )
     }
 
+    const setPolarisPreset = () => {
+      const preset =
+        presets.find((preset) => preset.id === 'POLARIS') ?? defaultPreset
+
+      this.palette.setKey('preset', preset)
+      this.palette.setKey('scale', scale(preset))
+
+      this.props.onChangePreset?.({
+        preset: preset,
+        scale: scale(preset),
+        onGoingStep: 'preset changed',
+      })
+
+      trackScaleManagementEvent(
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'SWITCH_POLARIS',
+        }
+      )
+    }
+
     const setCustomPreset = () => {
       const preset =
         presets.find((preset) => preset.id === 'CUSTOM') ?? defaultPreset
@@ -524,6 +546,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       ADS_NEUTRAL: () => setAdsNeutralPreset(),
       CARBON: () => setCarbonPreset(),
       BASE: () => setBasePreset(),
+      POLARIS: () => setPolarisPreset(),
       CUSTOM: () => setCustomPreset(),
       DEFAULT: () => null,
     }
@@ -607,7 +630,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
         stps,
         this.palette.get().min ?? 0,
         this.palette.get().max ?? 100,
-        true,
         this.props.distributionEasing
       )
 

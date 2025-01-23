@@ -235,8 +235,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
         this.state.preset.scale,
         this.state.preset.min,
         this.state.preset.max,
-        this.state.preset.isDistributed,
-        this.props.distributionEasing
+        this.state.preset.easing
       ),
     })
     this.palette.setKey(
@@ -245,8 +244,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
         this.state.preset.scale,
         this.state.preset.min,
         this.state.preset.max,
-        this.state.preset.isDistributed,
-        this.props.distributionEasing
+        this.state.preset.easing
       )
     )
     fetch(
@@ -413,8 +411,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
               preset.scale,
               preset.min,
               preset.max,
-              preset.isDistributed,
-              this.props.distributionEasing
+              preset.easing
             )
 
             this.setState({
@@ -497,8 +494,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
               preset.scale,
               preset.min,
               preset.max,
-              preset.isDistributed,
-              this.props.distributionEasing
+              preset.easing
             )
 
             this.setState({

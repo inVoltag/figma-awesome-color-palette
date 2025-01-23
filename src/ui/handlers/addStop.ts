@@ -42,7 +42,7 @@ const addStop = (
     scale: newScale.map((scale, index) => (index + 1) * factor),
     min: presetMin,
     max: presetMax,
-    isDistributed: false,
+    easing: 'NONE',
     id: 'CUSTOM',
   })
 }

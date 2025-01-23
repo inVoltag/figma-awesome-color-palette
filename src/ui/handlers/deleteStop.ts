@@ -31,7 +31,7 @@ const deleteStop = (
     ),
     min: presetMin,
     max: presetMax,
-    isDistributed: false,
+    easing: 'NONE',
     id: 'CUSTOM',
   })
 }

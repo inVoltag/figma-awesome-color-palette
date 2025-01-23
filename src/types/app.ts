@@ -73,6 +73,7 @@ export type ThirdParty = 'COOLORS' | 'REALTIME_COLORS' | 'COLOUR_LOVERS'
 export type NamingConvention = 'ONES' | 'TENS' | 'HUNDREDS'
 
 export type Easing =
+  | 'NONE'
   | 'LINEAR'
   | 'EASE_IN'
   | 'EASE_OUT'

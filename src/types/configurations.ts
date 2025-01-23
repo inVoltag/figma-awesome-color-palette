@@ -1,6 +1,6 @@
 import { HexModel, RgbModel } from '@a_ng_d/figmug-ui'
 
-import { ThirdParty } from './app'
+import { Easing, ThirdParty } from './app'
 import { TextColorsThemeHexModel } from './models'
 
 export interface SourceColorConfiguration {
@@ -54,7 +54,7 @@ export interface PresetConfiguration {
   scale: Array<number>
   min: number
   max: number
-  isDistributed: boolean
+  easing: Easing
   family?: string
   id: string
 }

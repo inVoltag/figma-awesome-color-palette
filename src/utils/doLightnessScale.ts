@@ -7,16 +7,16 @@ const doLightnessScale = (
   stops: Array<number>,
   min: number,
   max: number,
-  isDistributed = true,
   mode: Easing = 'LINEAR'
 ) => {
   let x = 1
   const scale: ScaleConfiguration = {}
 
   stops.map((index) => {
-    scale[`lightness-${index}`] = isDistributed
-      ? parseFloat(doMap(applyEase(mode, x), 0, 1, min, max).toFixed(1))
-      : index
+    scale[`lightness-${index}`] =
+      mode !== 'NONE'
+        ? parseFloat(doMap(applyEase(mode, x), 0, 1, min, max).toFixed(1))
+        : index
     x -= 1 / (stops.length - 1)
     x < 0.01 ? (x = 0) : x
   })

@@ -294,7 +294,6 @@ export default class Slider extends Component<SliderProps, SliderStates> {
         this.props.stops,
         this.palette.get().min ?? 0,
         this.palette.get().max ?? 100,
-        true,
         this.props.distributionEasing
       )
     )

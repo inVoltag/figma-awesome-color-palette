@@ -2,6 +2,7 @@ import { doMap } from '@a_ng_d/figmug-utils'
 import { Component } from 'preact/compat'
 import React from 'react'
 
+import { Knob } from '@a_ng_d/figmug-ui'
 import { locals } from '../../content/locals'
 import { $palette } from '../../stores/palette'
 import { Easing, Language } from '../../types/app'
@@ -11,7 +12,6 @@ import addStop from './../handlers/addStop'
 import deleteStop from './../handlers/deleteStop'
 import shiftLeftStop from './../handlers/shiftLeftStop'
 import shiftRightStop from './../handlers/shiftRightStop'
-import { Knob } from '@a_ng_d/figmug-ui'
 
 interface SliderProps {
   stops: Array<number>

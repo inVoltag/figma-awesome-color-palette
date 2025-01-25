@@ -13,6 +13,7 @@ import features, {
   userConsentVersion,
 } from '../config'
 import { lang, locals } from '../content/locals'
+import { $palette } from '../stores/palette'
 import {
   $canPaletteDeepSync,
   $canStylesDeepSync,
@@ -21,6 +22,7 @@ import {
   $isVsCodeMessageDisplayed,
   $isWCAGDisplayed,
 } from '../stores/preferences'
+import { defaultPreset, presets } from '../stores/presets'
 import {
   Easing,
   EditorType,
@@ -61,7 +63,6 @@ import {
   trackTrialEnablementEvent,
   trackUserConsentEvent,
 } from '../utils/eventsTracker'
-import { defaultPreset, presets } from '../stores/presets'
 import { userConsent } from '../utils/userConsent'
 import Feature from './components/Feature'
 import PriorityContainer from './modules/PriorityContainer'
@@ -71,7 +72,6 @@ import EditPalette from './services/EditPalette'
 import TransferPalette from './services/TransferPalette'
 import './stylesheets/app-components.css'
 import './stylesheets/app.css'
-import { $palette } from '../stores/palette'
 
 export interface AppStates {
   service: Service

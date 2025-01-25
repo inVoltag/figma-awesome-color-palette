@@ -3,20 +3,20 @@ import JSZip from 'jszip'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 
+import { Button, SemanticMessage } from '@a_ng_d/figmug-ui'
 import { Case } from '@a_ng_d/figmug-utils'
+import { vsCodeFigmaPluginUrl } from '../../config'
 import { locals } from '../../content/locals'
+import { $isVsCodeMessageDisplayed } from '../../stores/preferences'
 import { EditorType, Language, PlanStatus, Service } from '../../types/app'
 import {
   ColorConfiguration,
   ExportConfiguration,
   ThemeConfiguration,
 } from '../../types/configurations'
+import Feature from '../components/Feature'
 import Export from '../contexts/Export'
 import InternalPalettes from '../contexts/InternalPalettes'
-import { Button, SemanticMessage } from '@a_ng_d/figmug-ui'
-import Feature from '../components/Feature'
-import { vsCodeFigmaPluginUrl } from '../../config'
-import { $isVsCodeMessageDisplayed } from '../../stores/preferences'
 
 interface TransferPaletteProps {
   name: string

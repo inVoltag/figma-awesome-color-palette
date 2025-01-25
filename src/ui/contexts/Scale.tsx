@@ -1,14 +1,14 @@
 import {
   Button,
-  SimpleSlider,
   ConsentConfiguration,
   Dialog,
   Dropdown,
   DropdownOption,
   FormItem,
   KeyboardShortcutItem,
-  SectionTitle,
   layouts,
+  SectionTitle,
+  SimpleSlider,
   texts,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'

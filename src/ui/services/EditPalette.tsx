@@ -52,9 +52,9 @@ import Export from '../contexts/Export'
 import Scale from '../contexts/Scale'
 import Settings from '../contexts/Settings'
 import Themes from '../contexts/Themes'
+import Actions from '../modules/Actions'
 import Dispatcher from '../modules/Dispatcher'
 import Preview from '../modules/Preview'
-import Actions from '../modules/Actions'
 
 interface EditPaletteProps {
   name: string
@@ -273,7 +273,7 @@ export default class EditPalette extends PureComponent<
       if (this.state.canPaletteDeepSync) {
         this.colorsMessage.isEditedInRealTime = true
         this.dispatch.colors.on.status = true
-      } 
+      }
     }
 
     const setData = () => {

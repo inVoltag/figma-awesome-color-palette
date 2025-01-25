@@ -22,7 +22,6 @@ const getPalettesOnCurrentPage = async () => {
         const themes = palette.getPluginData('themes')
 
         if (preset === '' || colors === '' || themes === '') return null
-        
 
         const bytes = await palette.exportAsync({
           format: 'PNG',

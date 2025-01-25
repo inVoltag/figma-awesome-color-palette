@@ -55,7 +55,10 @@ interface ActionsStates {
   isTooltipVisible: boolean
 }
 
-export default class Actions extends PureComponent<ActionsProps, ActionsStates> {
+export default class Actions extends PureComponent<
+  ActionsProps,
+  ActionsStates
+> {
   private palette: typeof $palette
 
   static defaultProps = {

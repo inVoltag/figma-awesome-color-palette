@@ -19,8 +19,8 @@ import { palettesDbTableName } from '../../config'
 import { locals } from '../../content/locals'
 import { Language } from '../../types/app'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
-import type { AppStates } from '../App'
 import getPaletteMeta from '../../utils/setPaletteMeta'
+import type { AppStates } from '../App'
 
 interface PublicationProps {
   rawData: AppStates

@@ -109,7 +109,7 @@ export default class CommunityPalettes extends PureComponent<
     return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
   }
 
-  // Direct actions
+  // Direct Actions
   updateStatus = (
     batch: Array<ExternalPalettes>,
     currentPage: number,

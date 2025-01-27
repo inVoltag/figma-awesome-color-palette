@@ -25,10 +25,7 @@ interface SimpleSliderStates {
   isTooltipDisplay: boolean
 }
 
-export default class SimpleSlider extends Component<
-  SimpleSliderProps,
-  SimpleSliderStates
-> {
+export default class SimpleSlider extends Component<SimpleSliderProps, SimpleSliderStates> {
   private value: number
 
   static defaultProps = {
@@ -69,7 +66,7 @@ export default class SimpleSlider extends Component<
         )
   }
 
-  // Direct actions
+  // Direct Actions
   onGrab = (e: React.MouseEvent<HTMLElement>) => {
     const stop = e.currentTarget as HTMLElement,
       range = stop.parentElement as HTMLElement,

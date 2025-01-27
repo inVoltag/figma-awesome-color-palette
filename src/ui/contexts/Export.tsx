@@ -452,7 +452,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
     return actions[(e.target as HTMLElement).dataset.value ?? 'DEFAULT']?.()
   }
 
-  // Direct actions
+  // Direct Actions
   setFirstPreview = () => {
     this.counter === 0 &&
       parent.postMessage(

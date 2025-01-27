@@ -57,7 +57,7 @@ export default class TransferPalette extends PureComponent<
     if (this.unsubscribe) this.unsubscribe()
   }
 
-  // Direct actions
+  // Direct Actions
   onExport = () => {
     const blob = new Blob([this.props.export.data], {
       type: this.props.export.mimeType,

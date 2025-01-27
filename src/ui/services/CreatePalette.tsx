@@ -176,7 +176,7 @@ export default class CreatePalette extends PureComponent<
       onGoingStep: 'shift changed',
     })
 
-  // Direct actions
+  // Direct Actions
   onCreatePalette = () => {
     this.setState({
       isPrimaryLoading: true,

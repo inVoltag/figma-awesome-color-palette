@@ -528,7 +528,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
     return actions[currentElement.dataset.feature ?? 'DEFAULT']?.()
   }
 
-  // Direct actions
+  // Direct Actions
   onChangeOrder = (colors: Array<ColorConfiguration>) => {
     this.colorsMessage.data = colors
 

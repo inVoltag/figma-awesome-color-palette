@@ -55,10 +55,7 @@ interface ActionsStates {
   isTooltipVisible: boolean
 }
 
-export default class Actions extends PureComponent<
-  ActionsProps,
-  ActionsStates
-> {
+export default class Actions extends PureComponent<ActionsProps, ActionsStates> {
   private palette: typeof $palette
 
   static defaultProps = {
@@ -124,7 +121,7 @@ export default class Actions extends PureComponent<
       })
   }
 
-  // Direct actions
+  // Direct Actions
   publicationAction = (): Partial<DropdownOption> => {
     if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
       return {

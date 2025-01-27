@@ -62,10 +62,7 @@ interface PreviewStates {
   drawerHeight: string
 }
 
-export default class Preview extends PureComponent<
-  PreviewProps,
-  PreviewStates
-> {
+export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
   private drawerRef: React.RefObject<HTMLDivElement>
   private unsubscribeWCAG: (() => void) | undefined
   private unsubscribeAPCA: (() => void) | undefined
@@ -359,7 +356,7 @@ export default class Preview extends PureComponent<
     actions[(e.target as HTMLElement).dataset.feature ?? 'DEFAULT']()
   }
 
-  // Direct actions
+  // Direct Actions
   setColor = (
     color: ColorConfiguration | SourceColorConfiguration,
     scale: number

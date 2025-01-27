@@ -54,10 +54,7 @@ interface ExploreStates {
   isLoadMoreActionLoading: boolean
 }
 
-export default class Explore extends PureComponent<
-  ExploreProps,
-  ExploreStates
-> {
+export default class Explore extends PureComponent<ExploreProps, ExploreStates> {
   private filters: Array<FilterOptions>
 
   constructor(props: ExploreProps) {
@@ -105,7 +102,7 @@ export default class Explore extends PureComponent<
     }
   }
 
-  // Direct actions
+  // Direct Actions
   callUICPAgent = async () => {
     return fetch(
       'https://corsproxy.io/?' +

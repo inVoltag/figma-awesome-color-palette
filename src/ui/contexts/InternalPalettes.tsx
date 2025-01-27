@@ -63,7 +63,7 @@ export default class InternalPalettes extends PureComponent<
     return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
   }
 
-  // Direct actions
+  // Direct Actions
   getImageSrc = (screenshot: Uint8Array | null) => {
     if (screenshot !== null) {
       const blob = new Blob([screenshot], {

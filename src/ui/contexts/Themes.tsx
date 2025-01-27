@@ -308,7 +308,7 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
     return actions[currentElement.dataset.feature ?? 'DEFAULT']?.()
   }
 
-  // Direct actions
+  // Direct Actions
   onAddTheme = () => {
     const hasAlreadyNewUITheme = this.props.themes.filter((color) =>
       color.name.includes(locals[this.props.lang].themes.new)

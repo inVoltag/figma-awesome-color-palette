@@ -61,7 +61,6 @@ export default class Highlight extends PureComponent<HighlightProps, HighlightSt
       return (
         <Dialog
           title={locals[this.props.lang].pending.announcements}
-          actions={{}}
           onClose={this.props.onCloseHighlight}
         >
           <div className="callout--centered">
@@ -76,7 +75,6 @@ export default class Highlight extends PureComponent<HighlightProps, HighlightSt
       return (
         <Dialog
           title={locals[this.props.lang].error.generic}
-          actions={{}}
           onClose={this.props.onCloseHighlight}
         >
           <div className="callout--centered">

@@ -985,7 +985,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     return createPortal(
       <Dialog
         title={locals[this.props.lang].scale.tips.title}
-        actions={{}}
         onClose={() =>
           this.setState({
             isTipsOpen: false,

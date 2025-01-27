@@ -306,7 +306,6 @@ export default class PriorityContainer extends PureComponent<
       >
         <Dialog
           title={locals[this.props.lang].about.title}
-          actions={{}}
           onClose={this.props.onClose}
         >
           <About

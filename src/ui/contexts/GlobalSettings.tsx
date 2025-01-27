@@ -216,6 +216,7 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
     )
   }
 
+  // Render
   render() {
     return (
       <Section

@@ -186,6 +186,7 @@ export default class SyncPreferences extends PureComponent<
     )
   }
 
+  // Render
   render() {
     return (
       <Section

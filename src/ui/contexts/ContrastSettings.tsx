@@ -110,6 +110,7 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
     )
   }
 
+  // Render
   render() {
     return (
       <Section

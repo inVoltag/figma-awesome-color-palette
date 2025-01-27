@@ -12,7 +12,6 @@ export default class Feature extends PureComponent<FeatureProps> {
     isPro: false,
   }
 
-  // Render
   render() {
     return <>{this.props.isActive && this.props.children}</>
   }

@@ -568,6 +568,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
     )
   }
 
+  // Render
   render() {
     return (
       <Section

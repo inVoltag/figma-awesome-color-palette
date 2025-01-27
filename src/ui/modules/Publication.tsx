@@ -831,6 +831,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
     return actions[publicationStatus]
   }
 
+  // Render
   render() {
     this.uploadPaletteScreenshot()
     // console.log(this.state.publicationStatus)

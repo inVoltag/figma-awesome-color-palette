@@ -61,10 +61,7 @@ interface SettingsStates {
   canPaletteDeepSync: boolean
 }
 
-export default class Settings extends PureComponent<
-  SettingsProps,
-  SettingsStates
-> {
+export default class Settings extends PureComponent<SettingsProps, SettingsStates> {
   private settingsMessage: SettingsMessage
   private dispatch: { [key: string]: DispatchProcess }
   private contexts: Array<ContextItem>
@@ -548,6 +545,7 @@ export default class Settings extends PureComponent<
     )
   }
 
+  // Render
   render() {
     return (
       <>

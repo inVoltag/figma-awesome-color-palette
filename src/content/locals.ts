@@ -536,17 +536,17 @@ export const locals: { [key: string]: any } = {
     info: {
       createdLocalStyles: {
         none: 'No style created',
-        single: 'style created',
+        single: '1 style created',
         plural: 'styles created',
       },
       updatedLocalStyles: {
         none: 'No style updated',
-        single: 'style updated',
+        single: '1 style updated',
         plural: 'styles updated',
       },
       removedLocalStyles: {
         none: 'No style removed',
-        single: 'style removed',
+        single: '1 style removed',
         plural: 'styles removed',
       },
       createdVariablesAndModes: {

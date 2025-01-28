@@ -50,7 +50,7 @@ const createLocalStyles = async (palette: FrameNode) => {
 
         if (i > 1) return `${i} ${locals[lang].info.createdLocalStyles.plural}`
         else if (i === 1)
-          return `${i} ${locals[lang].info.createdLocalStyle.single}`
+          return locals[lang].info.createdLocalStyle.single
         else return locals[lang].info.createdLocalStyles.none
       })
       .catch(() => locals[lang].error.generic)

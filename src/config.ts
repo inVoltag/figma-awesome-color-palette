@@ -31,7 +31,7 @@ export const palettesDbTableName =
   process.env.NODE_ENV === 'development' ? 'sandbox.palettes' : 'palettes'
 export const palettesStorageName =
   process.env.NODE_ENV === 'development'
-    ? 'Palette screenshots'
+    ? 'sandbox.palette.screenshots'
     : 'palette.screenshots'
 
 // External URLs
@@ -43,6 +43,7 @@ export const trialFeedbackUrl = 'https://uicp.link/trial-feedback'
 export const requestsUrl = 'https://uicp.link/request-feature'
 export const networkUrl = 'https://uicp.link/network'
 export const authorUrl = 'https://uicp.link/author'
+export const licenseUrl = 'https://uicp.link/license'
 export const vsCodeFigmaPluginUrl =
   'https://marketplace.visualstudio.com/items?itemName=figma.figma-vscode-extension'
 

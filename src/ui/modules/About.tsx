@@ -2,7 +2,12 @@ import { texts } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
-import features from '../../config'
+import features, {
+  authorUrl,
+  isProEnabled,
+  licenseUrl,
+  repositoryUrl,
+} from '../../config'
 import { locals } from '../../content/locals'
 import { Language, PlanStatus, TrialStatus } from '../../types/app'
 import Feature from '../components/Feature'
@@ -39,9 +44,11 @@ export default class About extends PureComponent<AboutProps> {
                   className={`type ${texts.type}`}
                 >{`Version ${package_json.version}`}</p>
                 <Feature
-                  isActive={About.features(
-                    this.props.planStatus
-                  ).GET_PRO_PLAN.isActive()}
+                  isActive={
+                    About.features(
+                      this.props.planStatus
+                    ).GET_PRO_PLAN.isActive() && isProEnabled
+                  }
                 >
                   <span>・</span>
                   <p className={`type ${texts.type}`}>
@@ -60,7 +67,7 @@ export default class About extends PureComponent<AboutProps> {
             <p className={`type ${texts.type}`}>
               {locals[this.props.lang].about.createdBy}
               <a
-                href="https://uicp.link/author"
+                href={authorUrl}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -69,7 +76,7 @@ export default class About extends PureComponent<AboutProps> {
             </p>
             <p className={`type ${texts.type}`}>
               <a
-                href="https://uicp.link/repository"
+                href={repositoryUrl}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -77,7 +84,7 @@ export default class About extends PureComponent<AboutProps> {
               </a>
               {locals[this.props.lang].about.isLicensed}
               <a
-                href="https://uicp.link/license"
+                href={licenseUrl}
                 target="_blank"
                 rel="noreferrer"
               >

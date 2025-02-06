@@ -1180,7 +1180,7 @@ export const featuresScheme: Array<Feature<'CREATE' | 'EDIT' | 'TRANSFER'>> = [
   {
     name: 'SHORTCUTS_NETWORKING',
     description: 'LinkedIn page',
-    isActive: true,
+    isActive: false,
     isPro: false,
     isNew: false,
     type: 'ACTION',

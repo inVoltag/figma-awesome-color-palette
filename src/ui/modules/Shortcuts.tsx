@@ -15,6 +15,7 @@ import features, {
   documentationUrl,
   feedbackUrl,
   isTrialEnabled,
+  networkUrl,
   repositoryUrl,
   requestsUrl,
   supportEmail,
@@ -54,7 +55,10 @@ interface ShortcutsStates {
   isUserMenuLoading: boolean
 }
 
-export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsStates> {
+export default class Shortcuts extends PureComponent<
+  ShortcutsProps,
+  ShortcutsStates
+> {
   static features = (planStatus: PlanStatus) => ({
     SHORTCUTS_HIGHLIGHT: new FeatureStatus({
       features: features,
@@ -94,6 +98,11 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
     SHORTCUTS_ABOUT: new FeatureStatus({
       features: features,
       featureName: 'SHORTCUTS_ABOUT',
+      planStatus: planStatus,
+    }),
+    SHORTCUTS_NETWORKING: new FeatureStatus({
+      features: features,
+      featureName: 'SHORTCUTS_NETWORKING',
       planStatus: planStatus,
     }),
     SHORTCUTS_AUTHOR: new FeatureStatus({
@@ -508,6 +517,29 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                         this.props.planStatus
                       ).SHORTCUTS_ABOUT.isNew(),
                       action: this.props.onReOpenAbout,
+                    },
+                    {
+                      label: locals[this.props.lang].shortcuts.follow,
+                      type: 'OPTION',
+                      isActive: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_NETWORKING.isActive(),
+                      isBlocked: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_NETWORKING.isBlocked(),
+                      isNew: Shortcuts.features(
+                        this.props.planStatus
+                      ).SHORTCUTS_NETWORKING.isNew(),
+                      action: () =>
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'OPEN_IN_BROWSER',
+                              url: networkUrl,
+                            },
+                          },
+                          '*'
+                        ),
                     },
                     {
                       label: locals[this.props.lang].shortcuts.author,

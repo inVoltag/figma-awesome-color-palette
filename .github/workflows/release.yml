@@ -1,4 +1,4 @@
-name: Release for Figma
+name: Release for Figma/FigJam/Dev mode
 
 on:
   pull_request:

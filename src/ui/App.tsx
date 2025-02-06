@@ -229,7 +229,6 @@ export default class App extends Component<Record<string, never>, AppStates> {
   }
 
   componentDidMount = async () => {
-    setTimeout(() => this.setState({ isLoaded: true }), 1000)
     this.setState({
       scale: doLightnessScale(
         this.state.preset.scale,
@@ -355,6 +354,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
           })
 
         const checkUserPreferences = () => {
+          setTimeout(() => this.setState({ isLoaded: true }), 1000)
           $isWCAGDisplayed.set(e.data.pluginMessage.data.isWCAGDisplayed)
           $isAPCADisplayed.set(e.data.pluginMessage.data.isAPCADisplayed)
           $canPaletteDeepSync.set(e.data.pluginMessage.data.canDeepSyncPalette)

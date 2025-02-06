@@ -277,28 +277,32 @@ export default class SelfPalettes extends PureComponent<
 
     if (this.props.status === 'LOADED')
       fragment = (
-        <Button
-          type="secondary"
-          label={locals[this.props.lang].palettes.lazyLoad.loadMore}
-          isLoading={this.state.isLoadMoreActionLoading}
-          action={() => {
-            this.props.onChangeCurrentPage(this.props.currentPage + 1)
-            this.callUICPAgent(
-              this.props.currentPage + 1,
-              this.props.searchQuery
-            )
-            this.setState({
-              isLoadMoreActionLoading: true,
-            })
-          }}
-        />
+        <div className="list-control">
+          <Button
+            type="secondary"
+            label={locals[this.props.lang].palettes.lazyLoad.loadMore}
+            isLoading={this.state.isLoadMoreActionLoading}
+            action={() => {
+              this.props.onChangeCurrentPage(this.props.currentPage + 1)
+              this.callUICPAgent(
+                this.props.currentPage + 1,
+                this.props.searchQuery
+              )
+              this.setState({
+                isLoadMoreActionLoading: true,
+              })
+            }}
+          />
+        </div>
       )
     else if (this.props.status === 'COMPLETE')
       fragment = (
-        <Message
-          icon="check"
-          messages={[locals[this.props.lang].palettes.lazyLoad.completeList]}
-        />
+        <div className="list-control">
+          <Message
+            icon="check"
+            messages={[locals[this.props.lang].palettes.lazyLoad.completeList]}
+          />
+        </div>
       )
 
     return (
@@ -568,7 +572,7 @@ export default class SelfPalettes extends PureComponent<
               }
             />
           ))}
-        <div className="list-control">{fragment}</div>
+        {fragment}
       </ul>
     )
   }

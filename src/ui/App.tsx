@@ -252,21 +252,23 @@ export default class App extends Component<Record<string, never>, AppStates> {
     )
       .then((response) => response.json())
       .then((data) => {
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'CHECK_HIGHLIGHT_STATUS',
-              version: data.version,
+        if (data.message !== 'The database is not found') {
+          parent.postMessage(
+            {
+              pluginMessage: {
+                type: 'CHECK_HIGHLIGHT_STATUS',
+                version: data.version,
+              },
             },
-          },
-          '*'
-        )
-        this.setState({
-          highlight: {
-            version: data.version,
-            status: 'NO_HIGHLIGHT',
-          },
-        })
+            '*'
+          )
+          this.setState({
+            highlight: {
+              version: data.version,
+              status: 'NO_HIGHLIGHT',
+            },
+          })
+        }
       })
       .catch((error) => console.error(error))
     supabase.auth.onAuthStateChange((event, session) => {

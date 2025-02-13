@@ -201,5 +201,6 @@ export const trackActionEvent = (
     ...eventsRecurringProperties,
     Feature: options.feature,
     Colors: options.colors === undefined ? 0 : options.colors,
+    Stops: options.stops === undefined ? 0 : options.stops,
   })
 }

@@ -574,14 +574,15 @@ export default class Shortcuts extends PureComponent<
                   }
                 />
               </div>
-              {this.props.editorType !== 'dev' && (
-                <div
-                  className={`box-resizer-grip`}
-                  onMouseDown={this.onHold.bind(this)}
-                >
-                  <div className={`${icons['icon--resize-grip']} icon-box`} />
-                </div>
-              )}
+              {this.props.editorType !== 'dev' &&
+                this.props.editorType !== 'dev_vscode' && (
+                  <div
+                    className={`box-resizer-grip`}
+                    onMouseDown={this.onHold.bind(this)}
+                  >
+                    <div className={`${icons['icon--resize-grip']} icon-box`} />
+                  </div>
+                )}
             </>
           }
           leftPartSlot={

@@ -1,6 +1,6 @@
 {
   "name": "figma-ui-color-palette",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "description": "UI Color Palette・WCAG-Compliant Color Palette Suite",
   "main": "code.js",
   "scripts": {

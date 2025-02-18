@@ -968,6 +968,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
             isActive={
               App.features(this.props.planStatus).CREATE.isActive() &&
               this.state.editorType !== 'dev' &&
+              this.state.editorType !== 'dev_vscode' &&
               this.state.service === 'CREATE'
             }
           >
@@ -989,6 +990,7 @@ export default class App extends Component<Record<string, never>, AppStates> {
             isActive={
               App.features(this.props.planStatus).EDIT.isActive() &&
               this.state.editorType !== 'dev' &&
+              this.state.editorType !== 'dev_vscode' &&
               this.state.service === 'EDIT'
             }
           >
@@ -1010,7 +1012,8 @@ export default class App extends Component<Record<string, never>, AppStates> {
           <Feature
             isActive={
               App.features(this.props.planStatus).TRANSFER.isActive() &&
-              this.state.editorType === 'dev'
+              (this.state.editorType === 'dev' ||
+                this.state.editorType === 'dev_vscode')
             }
           >
             <TransferPalette {...this.state} />

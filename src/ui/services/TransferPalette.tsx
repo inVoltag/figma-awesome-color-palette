@@ -192,8 +192,7 @@ export default class TransferPalette extends PureComponent<
                 />
               </div>
             </Feature>
-            {this.props.service === 'CREATE' &&
-            this.props.editorType === 'dev' ? (
+            {this.props.service === 'CREATE' ? (
               <InternalPalettes {...this.props} />
             ) : (
               <Export

@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Chip,
   ConsentConfiguration,
   Dialog,
@@ -68,7 +69,10 @@ interface PublicationActions {
   secondary: PublicationAction | undefined
 }
 
-export default class Publication extends PureComponent<PublicationProps, PublicationStates> {
+export default class Publication extends PureComponent<
+  PublicationProps,
+  PublicationStates
+> {
   private counter: number
 
   constructor(props: PublicationProps) {
@@ -884,16 +888,10 @@ export default class Publication extends PureComponent<PublicationProps, Publica
             {(this.state.publicationStatus === 'UP_TO_DATE' ||
               this.state.publicationStatus === 'MAY_BE_PULLED' ||
               this.state.publicationStatus === 'CAN_BE_REVERTED') && (
-              <div className="user">
-                <div className="user__avatar">
-                  <img src={this.props.rawData.creatorIdentity.creatorAvatar} />
-                </div>
-                <div
-                  className={`${texts.type} ${texts['type--secondary']} type`}
-                >
-                  {this.props.rawData.creatorIdentity.creatorFullName}
-                </div>
-              </div>
+              <Avatar
+                avatar={this.props.rawData.creatorIdentity.creatorAvatar}
+                fullName={this.props.rawData.creatorIdentity.creatorFullName}
+              />
             )}
           </div>
           <div

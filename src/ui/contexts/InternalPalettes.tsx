@@ -1,7 +1,7 @@
 import {
   ActionsItem,
   Button,
-  Icon,
+  List,
   SemanticMessage,
   texts,
 } from '@a_ng_d/figmug-ui'
@@ -88,22 +88,10 @@ export default class InternalPalettes extends PureComponent<
   // Templates
   InternalPalettesList = () => {
     return (
-      <ul
-        className={[
-          'rich-list',
-          this.state.paletteListsStatus === 'LOADING' && 'rich-list--loading',
-          this.state.paletteListsStatus === 'EMPTY' && 'rich-list--message',
-        ]
-          .filter((n) => n)
-          .join(' ')}
+      <List
+        isLoading={this.state.paletteListsStatus === 'LOADING'}
+        isMessage={this.state.paletteListsStatus === 'EMPTY'}
       >
-        {this.state.paletteListsStatus === 'LOADING' && (
-          <Icon
-            type="PICTO"
-            iconName="spinner"
-            customClassName="control__block__loader"
-          />
-        )}
         {this.state.paletteListsStatus === 'LOADED' && (
           <>
             {this.props.editorType === 'dev' && (
@@ -148,14 +136,12 @@ export default class InternalPalettes extends PureComponent<
           </>
         )}
         {this.state.paletteListsStatus === 'EMPTY' && (
-          <div className="callout--centered">
-            <SemanticMessage
-              type="NEUTRAL"
-              message={`${locals[this.props.lang].warning.noPaletteOnCurrrentPage}${this.props.editorType === 'dev' ? ' ' + locals[this.props.lang].warning.noPaletteOnCurrentPageOnDevMode : ''}`}
-            />
-          </div>
+          <SemanticMessage
+            type="NEUTRAL"
+            message={`${locals[this.props.lang].warning.noPaletteOnCurrrentPage}${this.props.editorType === 'dev' ? ' ' + locals[this.props.lang].warning.noPaletteOnCurrentPageOnDevMode : ''}`}
+          />
         )}
-      </ul>
+      </List>
     )
   }
 

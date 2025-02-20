@@ -7,6 +7,7 @@ import {
   FormItem,
   KeyboardShortcutItem,
   layouts,
+  List,
   SectionTitle,
   SimpleSlider,
   texts,
@@ -993,7 +994,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       >
         <div className="controls__control controls__control--horizontal">
           <div className="control__block control__block--no-padding">
-            <ul className="list">
+            <List>
               <KeyboardShortcutItem
                 label={locals[this.props.lang].scale.tips.move}
                 shortcuts={[[isMacOrWinKeyboard, 'drag']]}
@@ -1033,7 +1034,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 shortcuts={[['→'], [isMacOrWinKeyboard, '→']]}
                 separator="or"
               />
-            </ul>
+            </List>
           </div>
           {!this.props.hasPreset && (
             <div className="control__block control__block--list">
@@ -1045,7 +1046,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 </div>
                 <div className="section-controls__right-part"></div>
               </div>
-              <ul className="list">
+              <List>
                 <KeyboardShortcutItem
                   label={locals[this.props.lang].scale.tips.add}
                   shortcuts={[['click']]}
@@ -1054,7 +1055,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                   label={locals[this.props.lang].scale.tips.remove}
                   shortcuts={[['⌫']]}
                 />
-              </ul>
+              </List>
             </div>
           )}
         </div>

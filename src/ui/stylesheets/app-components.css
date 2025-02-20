@@ -19,26 +19,6 @@
 }
 
 /* List */
-ul.list,
-ul.rich-list {
-  padding: 1px 0;
-  overflow-y: auto;
-}
-
-ul.list--loading,
-ul.rich-list--loading {
-  display: flex;
-  height: 100%;
-}
-
-ul.list--message,
-ul.rich-list--message {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-
 div.list-control {
   display: flex;
   justify-content: center;

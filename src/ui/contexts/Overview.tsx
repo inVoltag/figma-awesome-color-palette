@@ -5,6 +5,7 @@ import {
   ConsentConfiguration,
   FormItem,
   Input,
+  List,
   Message,
   SectionTitle,
   SemanticMessage,
@@ -344,7 +345,7 @@ export default class Overview extends PureComponent<
         {this.props.sourceColors.filter(
           (sourceColor) => sourceColor.source === 'CANVAS'
         ).length > 0 ? (
-          <ul className="list">
+          <List>
             {this.props.sourceColors
               .filter((sourceColor) => sourceColor.source === 'CANVAS')
               .sort((a, b) => {
@@ -369,7 +370,7 @@ export default class Overview extends PureComponent<
                   />
                 )
               })}
-          </ul>
+          </List>
         ) : (
           <Message
             icon="info"
@@ -434,7 +435,7 @@ export default class Overview extends PureComponent<
               />
             </FormItem>
           </div>
-          <ul className="list">
+          <List>
             {this.props.sourceColors
               .filter((sourceColor) => sourceColor.source === 'COOLORS')
               .map((sourceColor) => {
@@ -453,7 +454,7 @@ export default class Overview extends PureComponent<
                   />
                 )
               })}
-          </ul>
+          </List>
         </Accordion>
       </>
     )
@@ -513,7 +514,7 @@ export default class Overview extends PureComponent<
               />
             </FormItem>
           </div>
-          <ul className="list">
+          <List>
             {this.props.sourceColors
               .filter((sourceColor) => sourceColor.source === 'REALTIME_COLORS')
               .map((sourceColor) => {
@@ -532,7 +533,7 @@ export default class Overview extends PureComponent<
                   />
                 )
               })}
-          </ul>
+          </List>
         </Accordion>
       </>
     )
@@ -563,7 +564,7 @@ export default class Overview extends PureComponent<
             })
           }}
         >
-          <ul className="list">
+          <List>
             {this.props.sourceColors
               .filter((sourceColor) => sourceColor.source === 'COLOUR_LOVERS')
               .map((sourceColor) => {
@@ -582,7 +583,7 @@ export default class Overview extends PureComponent<
                   />
                 )
               })}
-          </ul>
+          </List>
         </Accordion>
       </>
     )

@@ -3,8 +3,8 @@ import {
   Bar,
   Button,
   ConsentConfiguration,
-  Icon,
   Input,
+  List,
   Menu,
   Message,
   SemanticMessage,
@@ -306,48 +306,31 @@ export default class SelfPalettes extends PureComponent<
       )
 
     return (
-      <ul
-        className={[
-          'rich-list',
-          this.props.status === 'LOADING' && 'rich-list--loading',
-          (this.props.status === 'ERROR' ||
-            this.props.status === 'EMPTY' ||
-            this.props.status === 'NO_RESULT') &&
-            'rich-list--message',
-        ]
-          .filter((n) => n)
-          .join(' ')}
+      <List
+        isLoading={this.props.status === 'LOADING'}
+        isMessage={
+          this.props.status === 'ERROR' ||
+          this.props.status === 'EMPTY' ||
+          this.props.status === 'NO_RESULT'
+        }
       >
-        {this.props.status === 'LOADING' && (
-          <Icon
-            type="PICTO"
-            iconName="spinner"
-            customClassName="control__block__loader"
+        {this.props.status === 'ERROR' && (
+          <SemanticMessage
+            type="WARNING"
+            message={locals[this.props.lang].error.fetchPalette}
           />
         )}
-        {this.props.status === 'ERROR' && (
-          <div className="callout--centered">
-            <SemanticMessage
-              type="WARNING"
-              message={locals[this.props.lang].error.fetchPalette}
-            />
-          </div>
-        )}
         {this.props.status === 'EMPTY' && (
-          <div className="callout--centered">
-            <SemanticMessage
-              type="NEUTRAL"
-              message={locals[this.props.lang].warning.noSelfPaletteOnRemote}
-            />
-          </div>
+          <SemanticMessage
+            type="NEUTRAL"
+            message={locals[this.props.lang].warning.noSelfPaletteOnRemote}
+          />
         )}
         {this.props.status === 'NO_RESULT' && (
-          <div className="callout--centered">
-            <SemanticMessage
-              type="NEUTRAL"
-              message={locals[this.props.lang].info.noResult}
-            />
-          </div>
+          <SemanticMessage
+            type="NEUTRAL"
+            message={locals[this.props.lang].info.noResult}
+          />
         )}
         {(this.props.status === 'LOADED' || this.props.status === 'COMPLETE') &&
           this.props.palettesList.map((palette, index: number) => (
@@ -573,7 +556,7 @@ export default class SelfPalettes extends PureComponent<
             />
           ))}
         {fragment}
-      </ul>
+      </List>
     )
   }
 
@@ -585,41 +568,39 @@ export default class SelfPalettes extends PureComponent<
       fragment = <this.ExternalPalettesList />
     else
       fragment = (
-        <div className="callout--centered">
-          <SemanticMessage
-            type="NEUTRAL"
-            message={locals[this.props.lang].palettes.signInFirst.message}
-            orientation="VERTICAL"
-            actionsSlot={
-              <Button
-                type="primary"
-                label={locals[this.props.lang].palettes.signInFirst.signIn}
-                isLoading={this.state.isSignInActionLoading}
-                action={async () => {
-                  this.setState({ isSignInActionLoading: true })
-                  signIn(this.props.userIdentity.id)
-                    .finally(() => {
-                      this.setState({ isSignInActionLoading: false })
-                    })
-                    .catch((error) => {
-                      parent.postMessage(
-                        {
-                          pluginMessage: {
-                            type: 'SEND_MESSAGE',
-                            message:
-                              error.message === 'Authentication timeout'
-                                ? locals[this.props.lang].error.timeout
-                                : locals[this.props.lang].error.authentication,
-                          },
+        <SemanticMessage
+          type="NEUTRAL"
+          message={locals[this.props.lang].palettes.signInFirst.message}
+          orientation="VERTICAL"
+          actionsSlot={
+            <Button
+              type="primary"
+              label={locals[this.props.lang].palettes.signInFirst.signIn}
+              isLoading={this.state.isSignInActionLoading}
+              action={async () => {
+                this.setState({ isSignInActionLoading: true })
+                signIn(this.props.userIdentity.id)
+                  .finally(() => {
+                    this.setState({ isSignInActionLoading: false })
+                  })
+                  .catch((error) => {
+                    parent.postMessage(
+                      {
+                        pluginMessage: {
+                          type: 'SEND_MESSAGE',
+                          message:
+                            error.message === 'Authentication timeout'
+                              ? locals[this.props.lang].error.timeout
+                              : locals[this.props.lang].error.authentication,
                         },
-                        '*'
-                      )
-                    })
-                }}
-              />
-            }
-          />
-        </div>
+                      },
+                      '*'
+                    )
+                  })
+              }}
+            />
+          }
+        />
       )
 
     return (

@@ -3,8 +3,8 @@ import {
   Bar,
   Button,
   ConsentConfiguration,
-  Icon,
   Input,
+  List,
   Message,
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
@@ -291,50 +291,31 @@ export default class CommunityPalettes extends PureComponent<
       )
 
     return (
-      <ul
-        className={[
-          'rich-list',
-          this.props.status === 'LOADING' && 'rich-list--loading',
-          (this.props.status === 'ERROR' ||
-            this.props.status === 'EMPTY' ||
-            this.props.status === 'NO_RESULT') &&
-            'rich-list--message',
-        ]
-          .filter((n) => n)
-          .join(' ')}
+      <List
+        isLoading={this.props.status === 'LOADING'}
+        isMessage={
+          this.props.status === 'ERROR' ||
+          this.props.status === 'EMPTY' ||
+          this.props.status === 'NO_RESULT'
+        }
       >
-        {this.props.status === 'LOADING' && (
-          <Icon
-            type="PICTO"
-            iconName="spinner"
-            customClassName="control__block__loader"
+        {this.props.status === 'ERROR' && (
+          <SemanticMessage
+            type="WARNING"
+            message={locals[this.props.lang].error.fetchPalette}
           />
         )}
-        {this.props.status === 'ERROR' && (
-          <div className="callout--centered">
-            <SemanticMessage
-              type="WARNING"
-              message={locals[this.props.lang].error.fetchPalette}
-            />
-          </div>
-        )}
         {this.props.status === 'EMPTY' && (
-          <div className="callout--centered">
-            <SemanticMessage
-              type="NEUTRAL"
-              message={
-                locals[this.props.lang].warning.noCommunityPaletteOnRemote
-              }
-            />
-          </div>
+          <SemanticMessage
+            type="NEUTRAL"
+            message={locals[this.props.lang].warning.noCommunityPaletteOnRemote}
+          />
         )}
         {this.props.status === 'NO_RESULT' && (
-          <div className="callout--centered">
-            <SemanticMessage
-              type="NEUTRAL"
-              message={locals[this.props.lang].info.noResult}
-            />
-          </div>
+          <SemanticMessage
+            type="NEUTRAL"
+            message={locals[this.props.lang].info.noResult}
+          />
         )}
         {(this.props.status === 'LOADED' || this.props.status === 'COMPLETE') &&
           this.props.palettesList.map((palette, index: number) => (
@@ -387,7 +368,7 @@ export default class CommunityPalettes extends PureComponent<
             />
           ))}
         {fragment}
-      </ul>
+      </List>
     )
   }
 

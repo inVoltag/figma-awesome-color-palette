@@ -6,7 +6,7 @@ import {
   Dropdown,
   DropdownOption,
   FormItem,
-  Icon,
+  List,
   SemanticMessage,
   texts,
 } from '@a_ng_d/figmug-ui'
@@ -54,7 +54,10 @@ interface ExploreStates {
   isLoadMoreActionLoading: boolean
 }
 
-export default class Explore extends PureComponent<ExploreProps, ExploreStates> {
+export default class Explore extends PureComponent<
+  ExploreProps,
+  ExploreStates
+> {
   private filters: Array<FilterOptions>
 
   constructor(props: ExploreProps) {
@@ -271,35 +274,18 @@ export default class Explore extends PureComponent<ExploreProps, ExploreStates> 
       )
     else if (this.state.colourLoversPalettesListStatus === 'ERROR')
       fragment = (
-        <div className="callout--centered">
-          <SemanticMessage
-            type="WARNING"
-            message={locals[this.props.lang].error.fetchPalette}
-          />
-        </div>
-      )
-    else if (this.state.colourLoversPalettesListStatus === 'LOADING')
-      fragment = (
-        <Icon
-          type="PICTO"
-          iconName="spinner"
-          customClassName="control__block__loader"
+        <SemanticMessage
+          type="WARNING"
+          message={locals[this.props.lang].error.fetchPalette}
         />
       )
     return (
-      <ul
-        className={[
-          'rich-list',
-          this.state.colourLoversPalettesListStatus === 'LOADING' &&
-            'rich-list--loading',
-          this.state.colourLoversPalettesListStatus === 'ERROR' &&
-            'rich-list--message',
-        ]
-          .filter((n) => n)
-          .join(' ')}
+      <List
+        isLoading={this.state.colourLoversPalettesListStatus === 'LOADING'}
+        isMessage={this.state.colourLoversPalettesListStatus === 'ERROR'}
       >
         {fragment}
-      </ul>
+      </List>
     )
   }
 

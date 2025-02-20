@@ -1,7 +1,6 @@
 import { doMap } from '@a_ng_d/figmug-utils'
 import { Component } from 'preact/compat'
 import React from 'react'
-
 import { Knob } from '@a_ng_d/figmug-ui'
 import { locals } from '../../content/locals'
 import { $palette } from '../../stores/palette'

@@ -2,8 +2,8 @@ import {
   Bar,
   Button,
   ConsentConfiguration,
+  Icon,
   Menu,
-  icons,
   layouts,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
@@ -580,7 +580,10 @@ export default class Shortcuts extends PureComponent<
                     className={`box-resizer-grip`}
                     onMouseDown={this.onHold.bind(this)}
                   >
-                    <div className={`${icons['icon--resize-grip']} icon-box`} />
+                    <Icon
+                      type="PICTO"
+                      iconName="resize-grip"
+                    />
                   </div>
                 )}
             </>

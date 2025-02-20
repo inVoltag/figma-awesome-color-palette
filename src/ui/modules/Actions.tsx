@@ -256,7 +256,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                 <Tooltip>
                   {locals[this.props.lang].info.maxNumberOfSourceColors.replace(
                     '$1',
-                    Actions.features(this.props.planStatus).SOURCE.result.limit
+                    Actions.features(this.props.planStatus).SOURCE.limit
                   )}
                 </Tooltip>
               )}

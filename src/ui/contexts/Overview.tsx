@@ -324,7 +324,7 @@ export default class Overview extends PureComponent<
                 this.props.lang
               ].info.maxNumberOfSourceColors.replace(
                 '$1',
-                Overview.features(this.props.planStatus).SOURCE.result.limit
+                Overview.features(this.props.planStatus).SOURCE.limit
               )}
               actionsSlot={
                 <Button

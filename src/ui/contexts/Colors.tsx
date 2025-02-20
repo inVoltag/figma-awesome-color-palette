@@ -590,7 +590,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                   this.props.lang
                 ].info.maxNumberOfSourceColors.replace(
                   '$1',
-                  Colors.features(this.props.planStatus).COLORS.result.limit
+                  Colors.features(this.props.planStatus).COLORS.limit
                 )}
                 actionsSlot={
                   <Button

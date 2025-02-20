@@ -1,4 +1,4 @@
-import { Dialog, Icon, SemanticMessage, texts } from '@a_ng_d/figmug-ui'
+import { Dialog, SemanticMessage, texts } from '@a_ng_d/figmug-ui'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { announcementsWorkerUrl } from '../../config'
@@ -18,7 +18,10 @@ interface HighlightStates {
   status: 'LOADING' | 'LOADED' | 'ERROR'
 }
 
-export default class Highlight extends PureComponent<HighlightProps, HighlightStates> {
+export default class Highlight extends PureComponent<
+  HighlightProps,
+  HighlightStates
+> {
   constructor(props: HighlightProps) {
     super(props)
     this.state = {
@@ -61,28 +64,21 @@ export default class Highlight extends PureComponent<HighlightProps, HighlightSt
       return (
         <Dialog
           title={locals[this.props.lang].pending.announcements}
+          isLoading={true}
           onClose={this.props.onCloseHighlight}
-        >
-          <div className="callout--centered">
-            <Icon
-              type="PICTO"
-              iconName="spinner"
-            />
-          </div>
-        </Dialog>
+        />
       )
     else if (this.state.status === 'ERROR')
       return (
         <Dialog
           title={locals[this.props.lang].error.generic}
+          isMessage={true}
           onClose={this.props.onCloseHighlight}
         >
-          <div className="callout--centered">
-            <SemanticMessage
-              type="WARNING"
-              message={locals[this.props.lang].error.announcements}
-            />
-          </div>
+          <SemanticMessage
+            type="WARNING"
+            message={locals[this.props.lang].error.announcements}
+          />
         </Dialog>
       )
     else

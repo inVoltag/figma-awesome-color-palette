@@ -11,13 +11,6 @@
   height: 20px;
 }
 
-.box-resizer-grip .icon-box {
-  background: var(--figma-color-icon);
-  width: var(--size-xsmall);
-  height: var(--size-xsmall);
-  pointer-events: none;
-}
-
 /* List */
 div.list-control {
   display: flex;
@@ -27,12 +20,6 @@ div.list-control {
 }
 
 /* Callout */
-div.callout {
-  display: flex;
-  flex-direction: column;
-  gap: var(--size-xxxsmall);
-}
-
 div.callout--centered {
   margin: auto;
 }
@@ -60,25 +47,6 @@ div.slider .slider__range--add {
 
 div.slider .slider__range--not-allowed {
   cursor: not-allowed;
-}
-
-/* User */
-div.user {
-  display: flex;
-  align-items: center;
-  gap: var(--size-xxsmall);
-}
-
-div.user__avatar {
-  border-radius: var(--size-small);
-  width: var(--size-small);
-  height: var(--size-small);
-  overflow: hidden;
-}
-
-div.user__avatar img {
-  width: 100%;
-  height: 100%;
 }
 
 /* Tag */

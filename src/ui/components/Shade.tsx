@@ -2,7 +2,7 @@ import chroma from 'chroma-js'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 
-import { HexModel, Icon, texts } from '@a_ng_d/figmug-ui'
+import { Chip, ColorChip, HexModel, Icon } from '@a_ng_d/figmug-ui'
 import { locals } from '../../content/locals'
 import { Language } from '../../types/app'
 import {
@@ -52,20 +52,20 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
     friendlyScore: string
     isCompact: boolean
   }) => (
-    <div className="preview__tag">
-      <div
-        className="preview__tag__color"
-        style={{
-          backgroundColor: color,
-        }}
-      />
-      <span className={`preview__tag__score type ${texts['type--truncated']}`}>
-        {!isCompact ? `${score.toFixed(2)} : 1` : friendlyScore}
-      </span>
-      <span className={'preview__tag__obs type'}>
-        {score <= 4.5 ? '✘' : '✔'}
-      </span>
-    </div>
+    <Chip
+      state="ON_BACKGROUND"
+      leftSlot={
+        <ColorChip
+          color={color}
+          w="var(--size-xxsmall)"
+          h="var(--size-xxsmall)"
+          isRounded
+        />
+      }
+      rightSlot={<span className={'type'}>{score <= 4.5 ? '✘' : '✔'}</span>}
+    >
+      {!isCompact ? `${score.toFixed(2)} : 1` : friendlyScore}
+    </Chip>
   )
 
   apcaScoreTag = ({
@@ -79,33 +79,35 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
     friendlyScore: string
     isCompact: boolean
   }) => (
-    <div className="preview__tag">
-      <div
-        className="preview__tag__color"
-        style={{
-          backgroundColor: color,
-        }}
-      />
-      <span className={`preview__tag__score type ${texts['type--truncated']}`}>
-        {!isCompact ? `Lc ${score.toFixed(1)}` : friendlyScore}
-      </span>
-      <span className={'preview__tag__obs type'}>
-        {score <= 45 ? '✘' : '✔'}
-      </span>
-    </div>
+    <Chip
+      state="ON_BACKGROUND"
+      leftSlot={
+        <ColorChip
+          color={color}
+          w="var(--size-xxsmall)"
+          h="var(--size-xxsmall)"
+          isRounded
+        />
+      }
+      rightSlot={<span className={'type'}>{score <= 45 ? '✘' : '✔'}</span>}
+    >
+      {!isCompact ? `Lc ${score.toFixed(1)}` : friendlyScore}
+    </Chip>
   )
 
   lockColorTag = () => (
-    <div className="preview__tag">
-      <Icon
-        type="PICTO"
-        iconName="lock-on"
-        iconColor="var(--black)"
-      />
-      <span className={`preview__tag__score type ${texts['type--truncated']}`}>
-        {locals[this.props.lang].preview.lock.tag}
-      </span>
-    </div>
+    <Chip
+      state="ON_BACKGROUND"
+      rightSlot={
+        <Icon
+          type="PICTO"
+          iconName="lock-on"
+          iconColor="var(--black)"
+        />
+      }
+    >
+      {locals[this.props.lang].preview.lock.tag}
+    </Chip>
   )
 
   // Render

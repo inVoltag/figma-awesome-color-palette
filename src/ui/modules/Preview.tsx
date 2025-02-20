@@ -4,6 +4,7 @@ import React from 'react'
 import {
   Bar,
   Button,
+  Chip,
   ConsentConfiguration,
   Dropdown,
   HexModel,
@@ -418,11 +419,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
 
   // Templates
   stopTag = ({ stop }: { stop: string }) => (
-    <div className="preview__tag">
-      <span className={`preview__tag__score type ${texts['type--truncated']}`}>
-        {stop}
-      </span>
-    </div>
+    <Chip state="ON_BACKGROUND">{stop}</Chip>
   )
 
   // Render

@@ -48,29 +48,3 @@ div.slider .slider__range--add {
 div.slider .slider__range--not-allowed {
   cursor: not-allowed;
 }
-
-/* Tag */
-.preview__tag {
-  display: flex;
-  align-items: center;
-  gap: var(--size-xxxsmall);
-  border-radius: var(--border-radius-small);
-  background: var(--white4);
-  padding: 0 var(--size-xxxsmall);
-  max-width: 100%;
-  max-height: var(--size-xsmall);
-  overflow: hidden;
-}
-
-.preview__tag .icon-box {
-  width: var(--size-xsmall);
-}
-
-.preview__tag__color {
-  flex: 0 0 var(--size-xxsmall);
-  outline: 1px solid var(--black1);
-  outline-offset: -1px;
-  border-radius: var(--size-small);
-  width: var(--size-xxsmall);
-  height: var(--size-xxsmall);
-}

@@ -17,7 +17,8 @@
     "typecheck:watch": "npx tsc --noEmit --watch",
     "lint": "npx eslint ./src/** --fix --ext .ts,.tsx .",
     "lint:watch": "esw ./src/** --fix --watch --ext .ts,.tsx .",
-    "format": "npx prettier './src' --write"
+    "format": "npx prettier './src' --write",
+    "update:figmug": "npm i @a_ng_d/figmug-ui@latest @a_ng_d/figmug-utils@latest"
   },
   "keywords": [
     "color",
@@ -67,7 +68,7 @@
   },
   "dependencies": {
     "@a_ng_d/figmug-ui": "^0.123.0",
-    "@a_ng_d/figmug-utils": "^0.1.5",
+    "@a_ng_d/figmug-utils": "^0.1.6",
     "@nanostores/preact": "^0.5.2",
     "@sentry/react": "^8.8.0",
     "@sentry/webpack-plugin": "^2.22.6",

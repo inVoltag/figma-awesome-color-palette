@@ -297,7 +297,7 @@ export default class CreatePalette extends PureComponent<
           border={['BOTTOM']}
           isOnlyText={true}
         />
-        <section className="controller">{fragment}</section>
+        <section className="context">{fragment}</section>
         <Feature isActive={this.state.context !== 'PALETTES'}>
           <Actions
             {...this.props}

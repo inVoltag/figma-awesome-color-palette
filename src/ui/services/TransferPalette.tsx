@@ -128,7 +128,7 @@ export default class TransferPalette extends PureComponent<
   render() {
     return (
       <>
-        <section className="controller">
+        <section className="context">
           <div className="controls">
             <Feature
               isActive={

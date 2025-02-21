@@ -68,7 +68,7 @@ div.actions__left {
 }
 
 /* Layout */
-section.controller {
+section.context {
   display: flex;
   flex: 1;
   flex-direction: column;

@@ -1,4 +1,4 @@
-import { Consent, ConsentConfiguration } from '@a_ng_d/figmug-ui'
+import { Consent, ConsentConfiguration, Icon, layouts } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import 'figma-plugin-ds/dist/figma-plugin-ds.css'
 import { Component, createPortal } from 'preact/compat'
@@ -1117,6 +1117,17 @@ export default class App extends Component<Record<string, never>, AppStates> {
               onUpdateConsent={() => this.setState({ mustUserConsent: true })}
             />
           </Feature>
+        </main>
+      )
+    else
+      return (
+        <main className="ui">
+          <div className={layouts.centered}>
+            <Icon
+              type="PICTO"
+              iconName="spinner"
+            />
+          </div>
         </main>
       )
   }

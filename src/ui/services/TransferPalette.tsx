@@ -129,84 +129,82 @@ export default class TransferPalette extends PureComponent<
     return (
       <>
         <section className="context">
-          <div className="controls">
-            <Feature
-              isActive={
-                this.props.editorType !== 'dev_vscode' &&
-                $isVsCodeMessageDisplayed.get()
-              }
+          <Feature
+            isActive={
+              this.props.editorType !== 'dev_vscode' &&
+              $isVsCodeMessageDisplayed.get()
+            }
+          >
+            <div
+              style={{
+                padding: 'var(--size-xxxsmall) var(--size-xsmall)',
+              }}
             >
-              <div
-                style={{
-                  padding: 'var(--size-xxxsmall) var(--size-xsmall)',
-                }}
-              >
-                <SemanticMessage
-                  type="INFO"
-                  message={
-                    locals[this.props.lang].palettes.devMode.vscode.message
-                  }
-                  actionsSlot={
-                    <>
-                      <Button
-                        type="secondary"
-                        label={
-                          locals[this.props.lang].palettes.devMode.vscode.cta
-                        }
-                        action={() =>
-                          parent.postMessage(
-                            {
-                              pluginMessage: {
-                                type: 'OPEN_IN_BROWSER',
-                                url: vsCodeFigmaPluginUrl,
-                              },
-                            },
-                            '*'
-                          )
-                        }
-                      />
-                      {}
-                      <Button
-                        type="icon"
-                        icon="close"
-                        action={() => {
-                          $isVsCodeMessageDisplayed.set(false)
-                          parent.postMessage(
-                            {
-                              pluginMessage: {
-                                type: 'SET_ITEMS',
-                                items: [
-                                  {
-                                    key: 'is_vs_code_displayed',
-                                    value: false,
-                                  },
-                                ],
-                              },
-                            },
-                            '*'
-                          )
-                        }}
-                      />
-                    </>
-                  }
-                />
-              </div>
-            </Feature>
-            {this.props.service === 'CREATE' ? (
-              <InternalPalettes {...this.props} />
-            ) : (
-              <Export
-                {...this.props}
-                exportPreview={
-                  this.props.export.format === 'CSV'
-                    ? this.props.export.data[0].colors[0].csv
-                    : this.props.export.data
+              <SemanticMessage
+                type="INFO"
+                message={
+                  locals[this.props.lang].palettes.devMode.vscode.message
                 }
-                exportType={this.props.export.label}
-                onExportPalette={this.onExport}
+                actionsSlot={
+                  <>
+                    <Button
+                      type="secondary"
+                      label={
+                        locals[this.props.lang].palettes.devMode.vscode.cta
+                      }
+                      action={() =>
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'OPEN_IN_BROWSER',
+                              url: vsCodeFigmaPluginUrl,
+                            },
+                          },
+                          '*'
+                        )
+                      }
+                    />
+                    {}
+                    <Button
+                      type="icon"
+                      icon="close"
+                      action={() => {
+                        $isVsCodeMessageDisplayed.set(false)
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'SET_ITEMS',
+                              items: [
+                                {
+                                  key: 'is_vs_code_displayed',
+                                  value: false,
+                                },
+                              ],
+                            },
+                          },
+                          '*'
+                        )
+                      }}
+                    />
+                  </>
+                }
               />
-            )}
-          </div>
+            </div>
+          </Feature>
+          {this.props.service === 'CREATE' ? (
+            <InternalPalettes {...this.props} />
+          ) : (
+            <Export
+              {...this.props}
+              exportPreview={
+                this.props.export.format === 'CSV'
+                  ? this.props.export.data[0].colors[0].csv
+                  : this.props.export.data
+              }
+              exportType={this.props.export.label}
+              onExportPalette={this.onExport}
+            />
+          )}
         </section>
       </>
     )

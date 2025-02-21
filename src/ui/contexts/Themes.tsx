@@ -5,6 +5,7 @@ import {
   HexModel,
   Input,
   Layout,
+  layouts,
   SectionTitle,
   SemanticMessage,
   SortableList,
@@ -409,7 +410,7 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
                   </div>
                 </div>
                 {customThemes.length === 0 ? (
-                  <div className="callout--centered">
+                  <div className={layouts.centered}>
                     <SemanticMessage
                       type="NEUTRAL"
                       message={locals[this.props.lang].themes.callout.message}

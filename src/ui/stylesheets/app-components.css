@@ -20,11 +20,6 @@ div.list-control {
   padding: var(--size-xsmall);
 }
 
-/* Callout */
-div.callout--centered {
-  margin: auto;
-}
-
 /* Slider */
 div.slider {
   display: flex;

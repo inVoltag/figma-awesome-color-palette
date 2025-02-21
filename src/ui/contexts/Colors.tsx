@@ -610,7 +610,7 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                   </div>
                 )}
                 {this.props.colors.length === 0 ? (
-                  <div className="callout--centered">
+                  <div className={layouts.centered}>
                     <SemanticMessage
                       type="NEUTRAL"
                       message={locals[this.props.lang].colors.callout.message}

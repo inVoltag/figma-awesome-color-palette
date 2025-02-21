@@ -545,9 +545,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
           border={['BOTTOM']}
           isOnlyText={true}
         />
-        <section className="context">
-          <div className="controls">{fragment}</div>
-        </section>
+        <section className="context">{fragment}</section>
         <Feature isActive={this.state.context !== 'EXPORT'}>
           <Actions
             {...this.props}

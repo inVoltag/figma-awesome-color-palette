@@ -634,6 +634,7 @@ export default class Overview extends PureComponent<
                 </Feature>
               </>
             ),
+            typeModifier: 'BLANK',
           },
         ]}
         isFullHeight

@@ -252,25 +252,28 @@ export default class Explore extends PureComponent<
               }
             />
           ))}
-          <div className="list-control">
-            {this.state.colourLoversPalettesListStatus === 'LOADED' ? (
-              <Button
-                type="secondary"
-                label={locals[this.props.lang].palettes.lazyLoad.loadMore}
-                isLoading={this.state.isLoadMoreActionLoading}
-                action={() =>
-                  this.setState({
-                    isLoadMoreActionLoading: true,
-                    currentPage: this.state.currentPage + pageSize,
-                  })
-                }
-              />
-            ) : (
-              <div className={`${texts['type--secondary']} type`}>
-                {locals[this.props.lang].palettes.lazyLoad.completeList}
-              </div>
-            )}
-          </div>
+          <Bar
+            soloPartSlot={
+              this.state.colourLoversPalettesListStatus === 'LOADED' ? (
+                <Button
+                  type="secondary"
+                  label={locals[this.props.lang].palettes.lazyLoad.loadMore}
+                  isLoading={this.state.isLoadMoreActionLoading}
+                  action={() =>
+                    this.setState({
+                      isLoadMoreActionLoading: true,
+                      currentPage: this.state.currentPage + pageSize,
+                    })
+                  }
+                />
+              ) : (
+                <div className={`${texts['type--secondary']} type`}>
+                  {locals[this.props.lang].palettes.lazyLoad.completeList}
+                </div>
+              )
+            }
+            padding="var(--size-xxsmall) var(--size-xsmall)"
+          />
         </>
       )
     else if (this.state.colourLoversPalettesListStatus === 'ERROR')

@@ -277,32 +277,40 @@ export default class SelfPalettes extends PureComponent<
 
     if (this.props.status === 'LOADED')
       fragment = (
-        <div className="list-control">
-          <Button
-            type="secondary"
-            label={locals[this.props.lang].palettes.lazyLoad.loadMore}
-            isLoading={this.state.isLoadMoreActionLoading}
-            action={() => {
-              this.props.onChangeCurrentPage(this.props.currentPage + 1)
-              this.callUICPAgent(
-                this.props.currentPage + 1,
-                this.props.searchQuery
-              )
-              this.setState({
-                isLoadMoreActionLoading: true,
-              })
-            }}
-          />
-        </div>
+        <Bar
+          soloPartSlot={
+            <Button
+              type="secondary"
+              label={locals[this.props.lang].palettes.lazyLoad.loadMore}
+              isLoading={this.state.isLoadMoreActionLoading}
+              action={() => {
+                this.props.onChangeCurrentPage(this.props.currentPage + 1)
+                this.callUICPAgent(
+                  this.props.currentPage + 1,
+                  this.props.searchQuery
+                )
+                this.setState({
+                  isLoadMoreActionLoading: true,
+                })
+              }}
+            />
+          }
+          padding="var(--size-xxsmall) var(--size-xsmall)"
+        />
       )
     else if (this.props.status === 'COMPLETE')
       fragment = (
-        <div className="list-control">
-          <Message
-            icon="check"
-            messages={[locals[this.props.lang].palettes.lazyLoad.completeList]}
-          />
-        </div>
+        <Bar
+          soloPartSlot={
+            <Message
+              icon="check"
+              messages={[
+                locals[this.props.lang].palettes.lazyLoad.completeList,
+              ]}
+            />
+          }
+          padding="var(--size-xxsmall) var(--size-xsmall)"
+        />
       )
 
     return (
@@ -638,6 +646,7 @@ export default class SelfPalettes extends PureComponent<
                 />
               }
               border={['BOTTOM']}
+              isFullWidth
             />
           )}
         {fragment}

@@ -12,14 +12,6 @@
   padding: var(--size-xxxsmall);
 }
 
-/* List */
-div.list-control {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: var(--size-xsmall);
-}
-
 /* Slider */
 div.slider {
   display: flex;

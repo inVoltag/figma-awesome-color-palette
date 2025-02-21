@@ -6,6 +6,7 @@ import {
   DropdownOption,
   FormItem,
   KeyboardShortcutItem,
+  Layout,
   layouts,
   List,
   SectionTitle,
@@ -1066,314 +1067,334 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
 
   Create = () => {
     return (
-      <div className="controls__control">
-        <div
-          id="scale"
-          className="control__block control__block--distributed"
-        >
-          <div className="section-controls">
-            <div className="section-controls__left-part">
-              <SectionTitle label={locals[this.props.lang].scale.title} />
-            </div>
-            <div className="section-controls__right-part">
-              <Feature
-                isActive={Scale.features(
-                  this.props.planStatus
-                ).SCALE_PRESETS.isActive()}
-              >
-                <Dropdown
-                  id="presets"
-                  options={this.presetsOptions()}
-                  selected={this.props.preset.id}
-                  alignment="RIGHT"
-                  pin="TOP"
-                />
-              </Feature>
-              <Feature
-                isActive={Scale.features(
-                  this.props.planStatus
-                ).SCALE_PRESETS.isActive()}
-              >
-                {this.props.preset.name === 'Custom' && (
-                  <>
+      <Layout
+        id="scale"
+        column={[
+          {
+            node: (
+              <>
+                <div className="section-controls">
+                  <div className="section-controls__left-part">
+                    <SectionTitle label={locals[this.props.lang].scale.title} />
+                  </div>
+                  <div className="section-controls__right-part">
                     <Feature
                       isActive={Scale.features(
                         this.props.planStatus
-                      ).SCALE_PRESETS_NAMING_CONVENTION.isActive()}
+                      ).SCALE_PRESETS.isActive()}
                     >
-                      <this.NamingConvention />
-                    </Feature>
-                    {this.props.preset.scale.length > 2 && (
-                      <Button
-                        type="icon"
-                        icon="minus"
-                        feature="REMOVE_STOP"
-                        action={this.customHandler}
+                      <Dropdown
+                        id="presets"
+                        options={this.presetsOptions()}
+                        selected={this.props.preset.id}
+                        alignment="RIGHT"
+                        pin="TOP"
                       />
-                    )}
-                    <Button
-                      type="icon"
-                      icon="plus"
-                      isDisabled={this.props.preset.scale.length === 24}
-                      feature="ADD_STOP"
-                      action={
-                        this.props.preset.scale.length >= 24
-                          ? () => null
-                          : this.customHandler
-                      }
-                    />
-                  </>
-                )}
-              </Feature>
-            </div>
-          </div>
-          <Feature
-            isActive={Scale.features(
-              this.props.planStatus
-            ).SCALE_CONFIGURATION.isActive()}
-          >
-            <Slider
-              {...this.props}
-              type="EDIT"
-              presetName={this.props.preset.name}
-              stops={this.props.preset.scale}
-              min={this.palette.get().min}
-              max={this.palette.get().max}
-              colors={{
-                min: 'var(--black)',
-                max: 'var(--white)',
-              }}
-              onChange={this.slideHandler}
-            />
-          </Feature>
-          <Feature
-            isActive={Scale.features(
-              this.props.planStatus
-            ).SCALE_CHROMA.isActive()}
-          >
-            <SimpleSlider
-              id="update-chroma"
-              label={locals[this.props.lang].scale.shift.chroma}
-              value={this.props.shift.chroma}
-              min={0}
-              max={200}
-              colors={{
-                min: 'hsl(187, 0%, 75%)',
-                max: 'hsl(187, 100%, 75%)',
-              }}
-              feature="SHIFT_CHROMA"
-              isBlocked={Scale.features(
-                this.props.planStatus
-              ).SCALE_CHROMA.isBlocked()}
-              isNew={Scale.features(this.props.planStatus).SCALE_CHROMA.isNew()}
-              onChange={(feature, state, value) => {
-                this.palette.setKey('shift.chroma', value)
-                this.props.onChangeShift()
-              }}
-            />
-          </Feature>
-          <Feature
-            isActive={Scale.features(
-              this.props.planStatus
-            ).SCALE_HELPER.isActive()}
-          >
-            <div className="section-controls">
-              <div className="section-controls__left-part">
-                <Feature
-                  isActive={Scale.features(
-                    this.props.planStatus
-                  ).SCALE_HELPER_DISTRIBUTION.isActive()}
-                >
-                  <this.DistributionEasing />
-                </Feature>
-              </div>
-              <div className="section-controls__right-part">
-                <Feature
-                  isActive={Scale.features(
-                    this.props.planStatus
-                  ).SCALE_HELPER_TIPS.isActive()}
-                >
-                  <div className={layouts['snackbar--tight']}>
-                    <Button
-                      type="tertiary"
-                      label={locals[this.props.lang].scale.howTo}
-                      action={() =>
-                        parent.postMessage(
-                          {
-                            pluginMessage: {
-                              type: 'OPEN_IN_BROWSER',
-                              url: 'https://uicp.link/how-to-adjust',
-                            },
-                          },
-                          '*'
-                        )
-                      }
-                    />
-                    <span
-                      className={`type ${texts.type} ${texts['type--secondary']}`}
+                    </Feature>
+                    <Feature
+                      isActive={Scale.features(
+                        this.props.planStatus
+                      ).SCALE_PRESETS.isActive()}
                     >
-                      ・
-                    </span>
-                    <Button
-                      type="tertiary"
-                      label={locals[this.props.lang].scale.keyboardShortcuts}
-                      action={() =>
-                        this.setState({
-                          isTipsOpen: true,
-                        })
-                      }
-                    />
+                      {this.props.preset.name === 'Custom' && (
+                        <>
+                          <Feature
+                            isActive={Scale.features(
+                              this.props.planStatus
+                            ).SCALE_PRESETS_NAMING_CONVENTION.isActive()}
+                          >
+                            <this.NamingConvention />
+                          </Feature>
+                          {this.props.preset.scale.length > 2 && (
+                            <Button
+                              type="icon"
+                              icon="minus"
+                              feature="REMOVE_STOP"
+                              action={this.customHandler}
+                            />
+                          )}
+                          <Button
+                            type="icon"
+                            icon="plus"
+                            isDisabled={this.props.preset.scale.length === 24}
+                            feature="ADD_STOP"
+                            action={
+                              this.props.preset.scale.length >= 24
+                                ? () => null
+                                : this.customHandler
+                            }
+                          />
+                        </>
+                      )}
+                    </Feature>
                   </div>
+                </div>
+                <Feature
+                  isActive={Scale.features(
+                    this.props.planStatus
+                  ).SCALE_CONFIGURATION.isActive()}
+                >
+                  <Slider
+                    {...this.props}
+                    type="EDIT"
+                    presetName={this.props.preset.name}
+                    stops={this.props.preset.scale}
+                    min={this.palette.get().min}
+                    max={this.palette.get().max}
+                    colors={{
+                      min: 'var(--black)',
+                      max: 'var(--white)',
+                    }}
+                    onChange={this.slideHandler}
+                  />
                 </Feature>
-              </div>
-            </div>
-            {this.state.isTipsOpen && <this.KeyboardShortcuts />}
-          </Feature>
-        </div>
-      </div>
+                <Feature
+                  isActive={Scale.features(
+                    this.props.planStatus
+                  ).SCALE_CHROMA.isActive()}
+                >
+                  <SimpleSlider
+                    id="update-chroma"
+                    label={locals[this.props.lang].scale.shift.chroma}
+                    value={this.props.shift.chroma}
+                    min={0}
+                    max={200}
+                    colors={{
+                      min: 'hsl(187, 0%, 75%)',
+                      max: 'hsl(187, 100%, 75%)',
+                    }}
+                    feature="SHIFT_CHROMA"
+                    isBlocked={Scale.features(
+                      this.props.planStatus
+                    ).SCALE_CHROMA.isBlocked()}
+                    isNew={Scale.features(
+                      this.props.planStatus
+                    ).SCALE_CHROMA.isNew()}
+                    onChange={(feature, state, value) => {
+                      this.palette.setKey('shift.chroma', value)
+                      this.props.onChangeShift()
+                    }}
+                  />
+                </Feature>
+                <Feature
+                  isActive={Scale.features(
+                    this.props.planStatus
+                  ).SCALE_HELPER.isActive()}
+                >
+                  <div className="section-controls">
+                    <div className="section-controls__left-part">
+                      <Feature
+                        isActive={Scale.features(
+                          this.props.planStatus
+                        ).SCALE_HELPER_DISTRIBUTION.isActive()}
+                      >
+                        <this.DistributionEasing />
+                      </Feature>
+                    </div>
+                    <div className="section-controls__right-part">
+                      <Feature
+                        isActive={Scale.features(
+                          this.props.planStatus
+                        ).SCALE_HELPER_TIPS.isActive()}
+                      >
+                        <div className={layouts['snackbar--tight']}>
+                          <Button
+                            type="tertiary"
+                            label={locals[this.props.lang].scale.howTo}
+                            action={() =>
+                              parent.postMessage(
+                                {
+                                  pluginMessage: {
+                                    type: 'OPEN_IN_BROWSER',
+                                    url: 'https://uicp.link/how-to-adjust',
+                                  },
+                                },
+                                '*'
+                              )
+                            }
+                          />
+                          <span
+                            className={`type ${texts.type} ${texts['type--secondary']}`}
+                          >
+                            ・
+                          </span>
+                          <Button
+                            type="tertiary"
+                            label={
+                              locals[this.props.lang].scale.keyboardShortcuts
+                            }
+                            action={() =>
+                              this.setState({
+                                isTipsOpen: true,
+                              })
+                            }
+                          />
+                        </div>
+                      </Feature>
+                    </div>
+                  </div>
+                  {this.state.isTipsOpen && <this.KeyboardShortcuts />}
+                </Feature>
+              </>
+            ),
+            typeModifier: 'DISTRIBUTED',
+          },
+        ]}
+        isFullHeight
+      />
     )
   }
 
   Edit = () => {
     this.palette.setKey('scale', {})
     return (
-      <div className="controls__control">
-        <div
-          id="scale"
-          className="control__block control__block--distributed"
-        >
-          <div className="section-controls">
-            <div className="section-controls__left-part">
-              <SectionTitle
-                label={locals[this.props.lang].scale.title}
-                indicator={Object.entries(
-                  this.props.scale ?? {}
-                ).length.toString()}
-              />
-            </div>
-            <div className="section-controls__right-part">
-              <div className={`label ${texts.label}`}>
-                {this.props.preset.name}
-              </div>
-            </div>
-          </div>
-          <Feature
-            isActive={Scale.features(
-              this.props.planStatus
-            ).SCALE_CONFIGURATION.isActive()}
-          >
-            {this.props.preset.id === 'CUSTOM' ? (
-              <Slider
-                {...this.props}
-                type="FULLY_EDIT"
-                presetName={this.props.preset.name}
-                stops={this.props.preset.scale}
-                colors={{
-                  min: 'var(--black)',
-                  max: 'var(--white)',
-                }}
-                onChange={this.slideHandler}
-              />
-            ) : (
-              <Slider
-                type="EDIT"
-                {...this.props}
-                presetName={this.props.preset.name}
-                stops={this.props.preset.scale}
-                colors={{
-                  min: 'var(--black)',
-                  max: 'var(--white)',
-                }}
-                onChange={this.slideHandler}
-              />
-            )}
-          </Feature>
-          <Feature
-            isActive={Scale.features(
-              this.props.planStatus
-            ).SCALE_CHROMA.isActive()}
-          >
-            <SimpleSlider
-              id="update-chroma"
-              label={locals[this.props.lang].scale.shift.chroma}
-              value={this.props.shift.chroma}
-              min={0}
-              max={200}
-              colors={{
-                min: 'hsl(187, 0%, 75%)',
-                max: 'hsl(187, 100%, 75%)',
-              }}
-              feature="SHIFT_CHROMA"
-              isBlocked={Scale.features(
-                this.props.planStatus
-              ).SCALE_CHROMA.isBlocked()}
-              isNew={Scale.features(this.props.planStatus).SCALE_CHROMA.isNew()}
-              onChange={(feature, state, value) => {
-                this.palette.setKey('shift.chroma', value)
-                this.props.onChangeShift(feature, state, value)
-                this.slideHandler(state)
-              }}
-            />
-          </Feature>
-          <Feature
-            isActive={Scale.features(
-              this.props.planStatus
-            ).SCALE_HELPER.isActive()}
-          >
-            <div className="section-controls">
-              <div className="section-controls__left-part">
-                <Feature
-                  isActive={Scale.features(
-                    this.props.planStatus
-                  ).SCALE_HELPER_DISTRIBUTION.isActive()}
-                >
-                  <this.DistributionEasing />
-                </Feature>
-              </div>
-              <div className="section-controls__right-part">
-                <Feature
-                  isActive={Scale.features(
-                    this.props.planStatus
-                  ).SCALE_HELPER_TIPS.isActive()}
-                >
-                  <div className={layouts['snackbar--tight']}>
-                    <Button
-                      type="tertiary"
-                      label={locals[this.props.lang].scale.howTo}
-                      action={() =>
-                        parent.postMessage(
-                          {
-                            pluginMessage: {
-                              type: 'OPEN_IN_BROWSER',
-                              url: 'https://uicp.link/how-to-adjust',
-                            },
-                          },
-                          '*'
-                        )
-                      }
-                    />
-                    <span
-                      className={`type ${texts.type} ${texts['type--secondary']}`}
-                    >
-                      ・
-                    </span>
-                    <Button
-                      type="tertiary"
-                      label={locals[this.props.lang].scale.keyboardShortcuts}
-                      action={() =>
-                        this.setState({
-                          isTipsOpen: true,
-                        })
-                      }
+      <Layout
+        id="scale"
+        column={[
+          {
+            node: (
+              <>
+                <div className="section-controls">
+                  <div className="section-controls__left-part">
+                    <SectionTitle
+                      label={locals[this.props.lang].scale.title}
+                      indicator={Object.entries(
+                        this.props.scale ?? {}
+                      ).length.toString()}
                     />
                   </div>
+                  <div className="section-controls__right-part">
+                    <div className={`label ${texts.label}`}>
+                      {this.props.preset.name}
+                    </div>
+                  </div>
+                </div>
+                <Feature
+                  isActive={Scale.features(
+                    this.props.planStatus
+                  ).SCALE_CONFIGURATION.isActive()}
+                >
+                  {this.props.preset.id === 'CUSTOM' ? (
+                    <Slider
+                      {...this.props}
+                      type="FULLY_EDIT"
+                      presetName={this.props.preset.name}
+                      stops={this.props.preset.scale}
+                      colors={{
+                        min: 'var(--black)',
+                        max: 'var(--white)',
+                      }}
+                      onChange={this.slideHandler}
+                    />
+                  ) : (
+                    <Slider
+                      type="EDIT"
+                      {...this.props}
+                      presetName={this.props.preset.name}
+                      stops={this.props.preset.scale}
+                      colors={{
+                        min: 'var(--black)',
+                        max: 'var(--white)',
+                      }}
+                      onChange={this.slideHandler}
+                    />
+                  )}
                 </Feature>
-              </div>
-            </div>
-            {this.state.isTipsOpen && <this.KeyboardShortcuts />}
-          </Feature>
-        </div>
-      </div>
+                <Feature
+                  isActive={Scale.features(
+                    this.props.planStatus
+                  ).SCALE_CHROMA.isActive()}
+                >
+                  <SimpleSlider
+                    id="update-chroma"
+                    label={locals[this.props.lang].scale.shift.chroma}
+                    value={this.props.shift.chroma}
+                    min={0}
+                    max={200}
+                    colors={{
+                      min: 'hsl(187, 0%, 75%)',
+                      max: 'hsl(187, 100%, 75%)',
+                    }}
+                    feature="SHIFT_CHROMA"
+                    isBlocked={Scale.features(
+                      this.props.planStatus
+                    ).SCALE_CHROMA.isBlocked()}
+                    isNew={Scale.features(
+                      this.props.planStatus
+                    ).SCALE_CHROMA.isNew()}
+                    onChange={(feature, state, value) => {
+                      this.palette.setKey('shift.chroma', value)
+                      this.props.onChangeShift(feature, state, value)
+                      this.slideHandler(state)
+                    }}
+                  />
+                </Feature>
+                <Feature
+                  isActive={Scale.features(
+                    this.props.planStatus
+                  ).SCALE_HELPER.isActive()}
+                >
+                  <div className="section-controls">
+                    <div className="section-controls__left-part">
+                      <Feature
+                        isActive={Scale.features(
+                          this.props.planStatus
+                        ).SCALE_HELPER_DISTRIBUTION.isActive()}
+                      >
+                        <this.DistributionEasing />
+                      </Feature>
+                    </div>
+                    <div className="section-controls__right-part">
+                      <Feature
+                        isActive={Scale.features(
+                          this.props.planStatus
+                        ).SCALE_HELPER_TIPS.isActive()}
+                      >
+                        <div className={layouts['snackbar--tight']}>
+                          <Button
+                            type="tertiary"
+                            label={locals[this.props.lang].scale.howTo}
+                            action={() =>
+                              parent.postMessage(
+                                {
+                                  pluginMessage: {
+                                    type: 'OPEN_IN_BROWSER',
+                                    url: 'https://uicp.link/how-to-adjust',
+                                  },
+                                },
+                                '*'
+                              )
+                            }
+                          />
+                          <span
+                            className={`type ${texts.type} ${texts['type--secondary']}`}
+                          >
+                            ・
+                          </span>
+                          <Button
+                            type="tertiary"
+                            label={
+                              locals[this.props.lang].scale.keyboardShortcuts
+                            }
+                            action={() =>
+                              this.setState({
+                                isTipsOpen: true,
+                              })
+                            }
+                          />
+                        </div>
+                      </Feature>
+                    </div>
+                  </div>
+                  {this.state.isTipsOpen && <this.KeyboardShortcuts />}
+                </Feature>
+              </>
+            ),
+            typeModifier: 'DISTRIBUTED',
+          },
+        ]}
+        isFullHeight
+      />
     )
   }
 

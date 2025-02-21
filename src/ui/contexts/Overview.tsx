@@ -5,6 +5,7 @@ import {
   ConsentConfiguration,
   FormItem,
   Input,
+  Layout,
   List,
   Message,
   SectionTitle,
@@ -592,43 +593,51 @@ export default class Overview extends PureComponent<
   // Render
   render() {
     return (
-      <div
+      <Layout
         id="overview"
-        className="controls__control controls__control--horizontal"
-      >
-        <div className="control__block control__block--list">
-          <Feature
-            isActive={Overview.features(
-              this.props.planStatus
-            ).SOURCE_CANVAS.isActive()}
-          >
-            <this.SelectedColors />
-          </Feature>
-        </div>
-        <div className="control__block control__block--no-padding">
-          <Feature
-            isActive={Overview.features(
-              this.props.planStatus
-            ).SOURCE_COOLORS.isActive()}
-          >
-            <this.CoolorsColors />
-          </Feature>
-          <Feature
-            isActive={Overview.features(
-              this.props.planStatus
-            ).SOURCE_REALTIME_COLORS.isActive()}
-          >
-            <this.RealtimeColorsColors />
-          </Feature>
-          <Feature
-            isActive={Overview.features(
-              this.props.planStatus
-            ).SOURCE_COLOUR_LOVERS.isActive()}
-          >
-            <this.ColourLoversColors />
-          </Feature>
-        </div>
-      </div>
+        column={[
+          {
+            node: (
+              <Feature
+                isActive={Overview.features(
+                  this.props.planStatus
+                ).SOURCE_CANVAS.isActive()}
+              >
+                <this.SelectedColors />
+              </Feature>
+            ),
+            typeModifier: 'LIST',
+          },
+          {
+            node: (
+              <>
+                <Feature
+                  isActive={Overview.features(
+                    this.props.planStatus
+                  ).SOURCE_COOLORS.isActive()}
+                >
+                  <this.CoolorsColors />
+                </Feature>
+                <Feature
+                  isActive={Overview.features(
+                    this.props.planStatus
+                  ).SOURCE_REALTIME_COLORS.isActive()}
+                >
+                  <this.RealtimeColorsColors />
+                </Feature>
+                <Feature
+                  isActive={Overview.features(
+                    this.props.planStatus
+                  ).SOURCE_COLOUR_LOVERS.isActive()}
+                >
+                  <this.ColourLoversColors />
+                </Feature>
+              </>
+            ),
+          },
+        ]}
+        isFullHeight
+      />
     )
   }
 }

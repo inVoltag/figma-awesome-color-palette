@@ -44,29 +44,6 @@ main {
   height: inherit;
 }
 
-/* Actions */
-div.actions {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-between;
-  gap: var(--size-xxsmall);
-  border-top: 1px solid var(--figma-color-border);
-  padding: var(--size-xsmall);
-  width: 100%;
-  height: var(--size-xxlarge);
-}
-
-div.actions__right {
-  display: flex;
-  gap: var(--size-xxsmall);
-}
-
-div.actions__left {
-  display: flex;
-  align-items: center;
-  gap: var(--size-xxsmall);
-}
-
 /* Layout */
 section.context {
   display: flex;
@@ -85,14 +62,6 @@ div.export-palette__preview {
 div.export-palette__preview textarea {
   margin: 0;
   height: 100% !important;
-}
-
-@media (max-width: 460px) {
-  .ui > .bar.recharged {
-    flex-direction: column;
-    padding-top: var(--size-xxxsmall) !important;
-    padding-bottom: var(--size-xxxsmall) !important;
-  }
 }
 
 /* Preview */

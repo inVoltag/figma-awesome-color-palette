@@ -1,8 +1,10 @@
 import {
+  Bar,
   Button,
   DropdownOption,
   Icon,
   Input,
+  layouts,
   Menu,
   texts,
   Tooltip,
@@ -55,7 +57,10 @@ interface ActionsStates {
   isTooltipVisible: boolean
 }
 
-export default class Actions extends PureComponent<ActionsProps, ActionsStates> {
+export default class Actions extends PureComponent<
+  ActionsProps,
+  ActionsStates
+> {
   private palette: typeof $palette
 
   static defaultProps = {
@@ -174,8 +179,83 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
   // Templates
   Create = () => {
     return (
-      <div className="actions">
-        <div className="actions__right">
+      <Bar
+        leftPartSlot={
+          <div className={layouts['snackbar--medium']}>
+            <Input
+              id="update-palette-name"
+              type="TEXT"
+              placeholder={locals[this.props.lang].name}
+              value={this.props.name !== '' ? this.props.name : ''}
+              charactersLimit={64}
+              isBlocked={Actions.features(
+                this.props.planStatus
+              ).SETTINGS_NAME.isBlocked()}
+              isNew={Actions.features(
+                this.props.planStatus
+              ).SETTINGS_NAME.isNew()}
+              feature="RENAME_PALETTE"
+              onChange={this.nameHandler}
+              onFocus={this.nameHandler}
+              onBlur={this.nameHandler}
+            />
+            <span
+              className={`type ${texts['type']} ${texts['type--secondary']}`}
+            >
+              ・
+            </span>
+            <div className={`type ${texts.type}`}>
+              {this.props.sourceColors.length > 1
+                ? locals[
+                    this.props.lang
+                  ].actions.sourceColorsNumber.several.replace(
+                    '$1',
+                    this.props.sourceColors.length
+                  )
+                : locals[
+                    this.props.lang
+                  ].actions.sourceColorsNumber.single.replace(
+                    '$1',
+                    this.props.sourceColors.length
+                  )}
+            </div>
+            {Actions.features(this.props.planStatus).SOURCE.isReached(
+              this.props.sourceColors.length - 1
+            ) && (
+              <div
+                style={{
+                  position: 'relative',
+                }}
+                onMouseEnter={() =>
+                  this.setState({
+                    isTooltipVisible: true,
+                  })
+                }
+                onMouseLeave={() =>
+                  this.setState({
+                    isTooltipVisible: false,
+                  })
+                }
+              >
+                <Icon
+                  type="PICTO"
+                  iconName="warning"
+                />
+                {this.state.isTooltipVisible && (
+                  <Tooltip>
+                    {locals[
+                      this.props.lang
+                    ].info.maxNumberOfSourceColors.replace(
+                      '$1',
+                      Actions.features(this.props.planStatus).SOURCE.limit
+                    )}
+                  </Tooltip>
+                )}
+              </div>
+            )}
+          </div>
+        }
+        rightPartSlot={
           <Feature
             isActive={Actions.features(
               this.props.planStatus
@@ -193,86 +273,19 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
               action={this.props.onCreatePalette}
             />
           </Feature>
-        </div>
-        <div className="actions__left">
-          <Input
-            id="update-palette-name"
-            type="TEXT"
-            placeholder={locals[this.props.lang].name}
-            value={this.props.name !== '' ? this.props.name : ''}
-            charactersLimit={64}
-            isBlocked={Actions.features(
-              this.props.planStatus
-            ).SETTINGS_NAME.isBlocked()}
-            isNew={Actions.features(
-              this.props.planStatus
-            ).SETTINGS_NAME.isNew()}
-            feature="RENAME_PALETTE"
-            onChange={this.nameHandler}
-            onFocus={this.nameHandler}
-            onBlur={this.nameHandler}
-          />
-          <span className={`type ${texts['type']} ${texts['type--secondary']}`}>
-            ・
-          </span>
-          <div className={`type ${texts.type}`}>
-            {this.props.sourceColors.length > 1
-              ? locals[
-                  this.props.lang
-                ].actions.sourceColorsNumber.several.replace(
-                  '$1',
-                  this.props.sourceColors.length
-                )
-              : locals[
-                  this.props.lang
-                ].actions.sourceColorsNumber.single.replace(
-                  '$1',
-                  this.props.sourceColors.length
-                )}
-          </div>
-          {Actions.features(this.props.planStatus).SOURCE.isReached(
-            this.props.sourceColors.length - 1
-          ) && (
-            <div
-              style={{
-                position: 'relative',
-              }}
-              onMouseEnter={() =>
-                this.setState({
-                  isTooltipVisible: true,
-                })
-              }
-              onMouseLeave={() =>
-                this.setState({
-                  isTooltipVisible: false,
-                })
-              }
-            >
-              <Icon
-                type="PICTO"
-                iconName="warning"
-              />
-              {this.state.isTooltipVisible && (
-                <Tooltip>
-                  {locals[this.props.lang].info.maxNumberOfSourceColors.replace(
-                    '$1',
-                    Actions.features(this.props.planStatus).SOURCE.limit
-                  )}
-                </Tooltip>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
+        }
+        border={['TOP']}
+        padding="var(--size-xxsmall) var(--size-xsmall)"
+      />
     )
   }
 
   Deploy = () => {
     return (
-      <div className="actions">
-        <div className="actions__right">
-          {this.props.editorType === 'figma' ? (
-            <>
+      <Bar
+        rightPartSlot={
+          this.props.editorType === 'figma' ? (
+            <div className={layouts['snackbar--medium']}>
               <Feature
                 isActive={Actions.features(
                   this.props.planStatus ?? 'UNPAID'
@@ -332,7 +345,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                 alignment="TOP_RIGHT"
                 state={this.props.isPrimaryLoading ? 'LOADING' : 'DEFAULT'}
               />
-            </>
+            </div>
           ) : (
             <Feature
               isActive={Actions.features(
@@ -352,17 +365,18 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                 action={this.props.onPublishPalette}
               />
             </Feature>
-          )}
-        </div>
-        <div className="actions__left"></div>
-      </div>
+          )
+        }
+        border={['TOP']}
+        padding="var(--size-xxsmall) var(--size-xsmall)"
+      />
     )
   }
 
   Export = () => {
     return (
-      <div className="actions">
-        <div className="buttons">
+      <Bar
+        rightPartSlot={
           <Button
             type="primary"
             label={this.props.exportType}
@@ -371,8 +385,10 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
           >
             <a></a>
           </Button>
-        </div>
-      </div>
+        }
+        border={['TOP']}
+        padding="var(--size-xxsmall) var(--size-xsmall)"
+      />
     )
   }
 

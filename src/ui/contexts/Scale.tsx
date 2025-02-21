@@ -10,6 +10,7 @@ import {
   layouts,
   List,
   SectionTitle,
+  SimpleItem,
   SimpleSlider,
   texts,
 } from '@a_ng_d/figmug-ui'
@@ -1045,14 +1046,14 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             {
               node: !this.props.hasPreset ? (
                 <>
-                  <div className="section-controls">
-                    <div className="section-controls__left-part">
+                  <SimpleItem
+                    id="watch-custom-keyboard-shortcuts"
+                    leftPartSlot={
                       <SectionTitle
                         label={locals[this.props.lang].scale.tips.custom}
                       />
-                    </div>
-                    <div className="section-controls__right-part"></div>
-                  </div>
+                    }
+                  />
                   <List>
                     <KeyboardShortcutItem
                       label={locals[this.props.lang].scale.tips.add}
@@ -1083,62 +1084,66 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           {
             node: (
               <>
-                <div className="section-controls">
-                  <div className="section-controls__left-part">
+                <SimpleItem
+                  id="update-preset"
+                  leftPartSlot={
                     <SectionTitle label={locals[this.props.lang].scale.title} />
-                  </div>
-                  <div className="section-controls__right-part">
-                    <Feature
-                      isActive={Scale.features(
-                        this.props.planStatus
-                      ).SCALE_PRESETS.isActive()}
-                    >
-                      <Dropdown
-                        id="presets"
-                        options={this.presetsOptions()}
-                        selected={this.props.preset.id}
-                        alignment="RIGHT"
-                        pin="TOP"
-                      />
-                    </Feature>
-                    <Feature
-                      isActive={Scale.features(
-                        this.props.planStatus
-                      ).SCALE_PRESETS.isActive()}
-                    >
-                      {this.props.preset.name === 'Custom' && (
-                        <>
-                          <Feature
-                            isActive={Scale.features(
-                              this.props.planStatus
-                            ).SCALE_PRESETS_NAMING_CONVENTION.isActive()}
-                          >
-                            <this.NamingConvention />
-                          </Feature>
-                          {this.props.preset.scale.length > 2 && (
+                  }
+                  rightPartSlot={
+                    <>
+                      <Feature
+                        isActive={Scale.features(
+                          this.props.planStatus
+                        ).SCALE_PRESETS.isActive()}
+                      >
+                        <Dropdown
+                          id="presets"
+                          options={this.presetsOptions()}
+                          selected={this.props.preset.id}
+                          alignment="RIGHT"
+                          pin="TOP"
+                        />
+                      </Feature>
+                      <Feature
+                        isActive={Scale.features(
+                          this.props.planStatus
+                        ).SCALE_PRESETS.isActive()}
+                      >
+                        {this.props.preset.name === 'Custom' && (
+                          <>
+                            <Feature
+                              isActive={Scale.features(
+                                this.props.planStatus
+                              ).SCALE_PRESETS_NAMING_CONVENTION.isActive()}
+                            >
+                              <this.NamingConvention />
+                            </Feature>
+                            {this.props.preset.scale.length > 2 && (
+                              <Button
+                                type="icon"
+                                icon="minus"
+                                feature="REMOVE_STOP"
+                                action={this.customHandler}
+                              />
+                            )}
                             <Button
                               type="icon"
-                              icon="minus"
-                              feature="REMOVE_STOP"
-                              action={this.customHandler}
+                              icon="plus"
+                              isDisabled={this.props.preset.scale.length === 24}
+                              feature="ADD_STOP"
+                              action={
+                                this.props.preset.scale.length >= 24
+                                  ? () => null
+                                  : this.customHandler
+                              }
                             />
-                          )}
-                          <Button
-                            type="icon"
-                            icon="plus"
-                            isDisabled={this.props.preset.scale.length === 24}
-                            feature="ADD_STOP"
-                            action={
-                              this.props.preset.scale.length >= 24
-                                ? () => null
-                                : this.customHandler
-                            }
-                          />
-                        </>
-                      )}
-                    </Feature>
-                  </div>
-                </div>
+                          </>
+                        )}
+                      </Feature>
+                    </>
+                  }
+                />
+
                 <Feature
                   isActive={Scale.features(
                     this.props.planStatus
@@ -1191,8 +1196,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                     this.props.planStatus
                   ).SCALE_HELPER.isActive()}
                 >
-                  <div className="section-controls">
-                    <div className="section-controls__left-part">
+                  <SimpleItem
+                    id="update-easing"
+                    leftPartSlot={
                       <Feature
                         isActive={Scale.features(
                           this.props.planStatus
@@ -1200,8 +1206,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                       >
                         <this.DistributionEasing />
                       </Feature>
-                    </div>
-                    <div className="section-controls__right-part">
+                    }
+                    rightPartSlot={
                       <Feature
                         isActive={Scale.features(
                           this.props.planStatus
@@ -1241,8 +1247,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                           />
                         </div>
                       </Feature>
-                    </div>
-                  </div>
+                    }
+                  />
                   {this.state.isTipsOpen && <this.KeyboardShortcuts />}
                 </Feature>
               </>
@@ -1264,21 +1270,22 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           {
             node: (
               <>
-                <div className="section-controls">
-                  <div className="section-controls__left-part">
+                <SimpleItem
+                  id="watch-preset"
+                  leftPartSlot={
                     <SectionTitle
                       label={locals[this.props.lang].scale.title}
                       indicator={Object.entries(
                         this.props.scale ?? {}
                       ).length.toString()}
                     />
-                  </div>
-                  <div className="section-controls__right-part">
+                  }
+                  rightPartSlot={
                     <div className={`label ${texts.label}`}>
                       {this.props.preset.name}
                     </div>
-                  </div>
-                </div>
+                  }
+                />
                 <Feature
                   isActive={Scale.features(
                     this.props.planStatus
@@ -1344,8 +1351,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                     this.props.planStatus
                   ).SCALE_HELPER.isActive()}
                 >
-                  <div className="section-controls">
-                    <div className="section-controls__left-part">
+                  <SimpleItem
+                    id="update-easing"
+                    leftPartSlot={
                       <Feature
                         isActive={Scale.features(
                           this.props.planStatus
@@ -1353,8 +1361,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                       >
                         <this.DistributionEasing />
                       </Feature>
-                    </div>
-                    <div className="section-controls__right-part">
+                    }
+                    rightPartSlot={
                       <Feature
                         isActive={Scale.features(
                           this.props.planStatus
@@ -1394,8 +1402,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                           />
                         </div>
                       </Feature>
-                    </div>
-                  </div>
+                    }
+                  />
                   {this.state.isTipsOpen && <this.KeyboardShortcuts />}
                 </Feature>
               </>

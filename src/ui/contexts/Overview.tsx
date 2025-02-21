@@ -10,6 +10,7 @@ import {
   Message,
   SectionTitle,
   SemanticMessage,
+  SimpleItem,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import chroma from 'chroma-js'
@@ -299,8 +300,9 @@ export default class Overview extends PureComponent<
   SelectedColors = () => {
     return (
       <>
-        <div className="section-controls">
-          <div className="section-controls__left-part">
+        <SimpleItem
+          id="watch-swatchs"
+          leftPartSlot={
             <SectionTitle
               label={locals[this.props.lang].source.canvas.title}
               indicator={
@@ -309,9 +311,8 @@ export default class Overview extends PureComponent<
                 ).length
               }
             />
-          </div>
-          <div className="section-controls__right-part"></div>
-        </div>
+          }
+        />
         {Overview.features(this.props.planStatus).SOURCE.isReached(
           this.props.sourceColors.length - 1
         ) && (

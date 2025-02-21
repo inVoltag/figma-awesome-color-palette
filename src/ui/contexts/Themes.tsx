@@ -8,6 +8,7 @@ import {
   layouts,
   SectionTitle,
   SemanticMessage,
+  SimpleItem,
   SortableList,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
@@ -390,14 +391,15 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
           {
             node: (
               <>
-                <div className="section-controls">
-                  <div className="section-controls__left-part">
+                <SimpleItem
+                  id="add-theme"
+                  leftPartSlot={
                     <SectionTitle
                       label={locals[this.props.lang].themes.title}
                       indicator={customThemes.length.toString()}
                     />
-                  </div>
-                  <div className="section-controls__right-part">
+                  }
+                  rightPartSlot={
                     <Button
                       type="icon"
                       icon="plus"
@@ -407,8 +409,8 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
                       feature="ADD_THEME"
                       action={this.themesHandler}
                     />
-                  </div>
-                </div>
+                  }
+                />
                 {customThemes.length === 0 ? (
                   <div className={layouts.centered}>
                     <SemanticMessage

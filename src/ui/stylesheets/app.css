@@ -75,28 +75,6 @@ section.context {
   overflow: hidden;
 }
 
-div.section-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 var(--size-xsmall);
-  height: var(--size-medium);
-}
-
-div.section-controls__left-part {
-  display: flex;
-  flex: 1;
-  align-items: baseline;
-}
-div.section-controls__right-part {
-  display: flex;
-}
-
-div.section-controls .section-title,
-div.section-controls .label {
-  width: auto;
-}
-
 /* Export */
 div.export-palette__preview {
   display: grid;

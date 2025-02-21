@@ -9,6 +9,7 @@ import {
   layouts,
   SectionTitle,
   SemanticMessage,
+  SimpleItem,
   SortableList,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
@@ -559,14 +560,15 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
           {
             node: (
               <>
-                <div className="section-controls">
-                  <div className="section-controls__left-part">
+                <SimpleItem
+                  id="add-color"
+                  leftPartSlot={
                     <SectionTitle
                       label={locals[this.props.lang].colors.title}
                       indicator={this.props.colors.length.toString()}
                     />
-                  </div>
-                  <div className="section-controls__right-part">
+                  }
+                  rightPartSlot={
                     <Button
                       type="icon"
                       icon="plus"
@@ -576,8 +578,8 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
                       ).COLORS.isReached(this.props.colors.length)}
                       action={(e: Event) => this.colorsHandler(e)}
                     />
-                  </div>
-                </div>
+                  }
+                />
                 {Colors.features(this.props.planStatus).COLORS.isReached(
                   this.props.colors.length
                 ) && (

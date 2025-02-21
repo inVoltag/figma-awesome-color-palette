@@ -4,6 +4,7 @@ import {
   FormItem,
   HexModel,
   Input,
+  Layout,
   SectionTitle,
   SemanticMessage,
   SortableList,
@@ -382,205 +383,214 @@ export default class Themes extends PureComponent<ThemesProps, ThemesStates> {
     )
 
     return (
-      <div className="controls__control">
-        <div
-          id="themes"
-          className="control__block control__block--list"
-        >
-          <div className="section-controls">
-            <div className="section-controls__left-part">
-              <SectionTitle
-                label={locals[this.props.lang].themes.title}
-                indicator={customThemes.length.toString()}
-              />
-            </div>
-            <div className="section-controls__right-part">
-              <Button
-                type="icon"
-                icon="plus"
-                isBlocked={Themes.features(
-                  this.props.planStatus
-                ).THEMES.isBlocked()}
-                feature="ADD_THEME"
-                action={this.themesHandler}
-              />
-            </div>
-          </div>
-          {customThemes.length === 0 ? (
-            <div className="callout--centered">
-              <SemanticMessage
-                type="NEUTRAL"
-                message={locals[this.props.lang].themes.callout.message}
-                orientation="VERTICAL"
-                actionsSlot={
+      <Layout
+        id="colors"
+        column={[
+          {
+            node: (
+              <>
+                <div className="section-controls">
+                  <div className="section-controls__left-part">
+                    <SectionTitle
+                      label={locals[this.props.lang].themes.title}
+                      indicator={customThemes.length.toString()}
+                    />
+                  </div>
+                  <div className="section-controls__right-part">
+                    <Button
+                      type="icon"
+                      icon="plus"
+                      isBlocked={Themes.features(
+                        this.props.planStatus
+                      ).THEMES.isBlocked()}
+                      feature="ADD_THEME"
+                      action={this.themesHandler}
+                    />
+                  </div>
+                </div>
+                {customThemes.length === 0 ? (
+                  <div className="callout--centered">
+                    <SemanticMessage
+                      type="NEUTRAL"
+                      message={locals[this.props.lang].themes.callout.message}
+                      orientation="VERTICAL"
+                      actionsSlot={
+                        <>
+                          {Themes.features(
+                            this.props.planStatus
+                          ).THEMES.isBlocked() && (
+                            <Button
+                              type="secondary"
+                              label={locals[this.props.lang].plan.getPro}
+                              action={() =>
+                                parent.postMessage(
+                                  { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                                  '*'
+                                )
+                              }
+                            />
+                          )}
+                          <Button
+                            type="primary"
+                            feature="ADD_THEME"
+                            label={locals[this.props.lang].themes.callout.cta}
+                            isBlocked={Themes.features(
+                              this.props.planStatus
+                            ).THEMES.isBlocked()}
+                            action={this.themesHandler}
+                          />
+                        </>
+                      }
+                    />
+                  </div>
+                ) : (
                   <>
                     {Themes.features(
                       this.props.planStatus
                     ).THEMES.isBlocked() && (
-                      <Button
-                        type="secondary"
-                        label={locals[this.props.lang].plan.getPro}
-                        action={() =>
-                          parent.postMessage(
-                            { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                            '*'
-                          )
-                        }
-                      />
+                      <div
+                        style={{
+                          padding: 'var(--size-xxxsmall) var(--size-xsmall)',
+                        }}
+                      >
+                        <SemanticMessage
+                          type="INFO"
+                          message={locals[this.props.lang].info.themesOnFree}
+                          actionsSlot={
+                            <Button
+                              type="secondary"
+                              label={locals[this.props.lang].plan.getPro}
+                              action={() =>
+                                parent.postMessage(
+                                  { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                                  '*'
+                                )
+                              }
+                            />
+                          }
+                        />
+                      </div>
                     )}
-                    <Button
-                      type="primary"
-                      feature="ADD_THEME"
-                      label={locals[this.props.lang].themes.callout.cta}
+                    <SortableList<ThemeConfiguration>
+                      data={customThemes}
+                      primarySlot={customThemes.map((theme) => {
+                        return (
+                          <>
+                            <Feature
+                              isActive={Themes.features(
+                                this.props.planStatus
+                              ).THEMES_NAME.isActive()}
+                            >
+                              <div className="draggable-item__param--compact">
+                                <Input
+                                  type="TEXT"
+                                  value={theme.name}
+                                  feature="RENAME_THEME"
+                                  charactersLimit={24}
+                                  isBlocked={Themes.features(
+                                    this.props.planStatus
+                                  ).THEMES_NAME.isBlocked()}
+                                  isNew={Themes.features(
+                                    this.props.planStatus
+                                  ).THEMES_NAME.isNew()}
+                                  onBlur={this.themesHandler}
+                                />
+                              </div>
+                            </Feature>
+                            <Feature
+                              isActive={Themes.features(
+                                this.props.planStatus
+                              ).THEMES_PARAMS.isActive()}
+                            >
+                              <div className="draggable-item__param">
+                                <FormItem
+                                  id="update-palette-background-color"
+                                  label={
+                                    locals[this.props.lang].themes
+                                      .paletteBackgroundColor.label
+                                  }
+                                  shouldFill={false}
+                                  isBlocked={Themes.features(
+                                    this.props.planStatus
+                                  ).THEMES_PARAMS.isBlocked()}
+                                >
+                                  <Input
+                                    id="update-palette-background-color"
+                                    type="COLOR"
+                                    value={theme.paletteBackground}
+                                    feature="UPDATE_PALETTE_BACKGROUND"
+                                    isBlocked={Themes.features(
+                                      this.props.planStatus
+                                    ).THEMES_PARAMS.isBlocked()}
+                                    isNew={Themes.features(
+                                      this.props.planStatus
+                                    ).THEMES_PARAMS.isNew()}
+                                    onChange={this.themesHandler}
+                                    onBlur={this.themesHandler}
+                                  />
+                                </FormItem>
+                              </div>
+                            </Feature>
+                          </>
+                        )
+                      })}
+                      secondarySlot={customThemes.map((theme) => (
+                        <>
+                          <Feature
+                            isActive={Themes.features(
+                              this.props.planStatus
+                            ).THEMES_DESCRIPTION.isActive()}
+                          >
+                            <div className="draggable-item__param">
+                              <FormItem
+                                id="update-theme-description"
+                                label={
+                                  locals[this.props.lang].global.description
+                                    .label
+                                }
+                                isBlocked={Themes.features(
+                                  this.props.planStatus
+                                ).THEMES_DESCRIPTION.isBlocked()}
+                              >
+                                <Input
+                                  id="update-theme-description"
+                                  type="LONG_TEXT"
+                                  value={theme.description}
+                                  placeholder={
+                                    locals[this.props.lang].global.description
+                                      .placeholder
+                                  }
+                                  feature="UPDATE_DESCRIPTION"
+                                  isBlocked={Themes.features(
+                                    this.props.planStatus
+                                  ).THEMES_DESCRIPTION.isBlocked()}
+                                  isNew={Themes.features(
+                                    this.props.planStatus
+                                  ).THEMES_DESCRIPTION.isNew()}
+                                  isGrowing={true}
+                                  onBlur={this.themesHandler}
+                                />
+                              </FormItem>
+                            </div>
+                          </Feature>
+                        </>
+                      ))}
+                      isScrollable={true}
+                      onChangeSortableList={this.onChangeOrder}
+                      onRemoveItem={this.themesHandler}
                       isBlocked={Themes.features(
                         this.props.planStatus
                       ).THEMES.isBlocked()}
-                      action={this.themesHandler}
                     />
                   </>
-                }
-              />
-            </div>
-          ) : (
-            <>
-              {Themes.features(this.props.planStatus).THEMES.isBlocked() && (
-                <div
-                  style={{
-                    padding: 'var(--size-xxxsmall) var(--size-xsmall)',
-                  }}
-                >
-                  <SemanticMessage
-                    type="INFO"
-                    message={locals[this.props.lang].info.themesOnFree}
-                    actionsSlot={
-                      <Button
-                        type="secondary"
-                        label={locals[this.props.lang].plan.getPro}
-                        action={() =>
-                          parent.postMessage(
-                            { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                            '*'
-                          )
-                        }
-                      />
-                    }
-                  />
-                </div>
-              )}
-              <SortableList<ThemeConfiguration>
-                data={customThemes}
-                primarySlot={customThemes.map((theme) => {
-                  return (
-                    <>
-                      <Feature
-                        isActive={Themes.features(
-                          this.props.planStatus
-                        ).THEMES_NAME.isActive()}
-                      >
-                        <div className="draggable-item__param--compact">
-                          <Input
-                            type="TEXT"
-                            value={theme.name}
-                            feature="RENAME_THEME"
-                            charactersLimit={24}
-                            isBlocked={Themes.features(
-                              this.props.planStatus
-                            ).THEMES_NAME.isBlocked()}
-                            isNew={Themes.features(
-                              this.props.planStatus
-                            ).THEMES_NAME.isNew()}
-                            onBlur={this.themesHandler}
-                          />
-                        </div>
-                      </Feature>
-                      <Feature
-                        isActive={Themes.features(
-                          this.props.planStatus
-                        ).THEMES_PARAMS.isActive()}
-                      >
-                        <div className="draggable-item__param">
-                          <FormItem
-                            id="update-palette-background-color"
-                            label={
-                              locals[this.props.lang].themes
-                                .paletteBackgroundColor.label
-                            }
-                            shouldFill={false}
-                            isBlocked={Themes.features(
-                              this.props.planStatus
-                            ).THEMES_PARAMS.isBlocked()}
-                          >
-                            <Input
-                              id="update-palette-background-color"
-                              type="COLOR"
-                              value={theme.paletteBackground}
-                              feature="UPDATE_PALETTE_BACKGROUND"
-                              isBlocked={Themes.features(
-                                this.props.planStatus
-                              ).THEMES_PARAMS.isBlocked()}
-                              isNew={Themes.features(
-                                this.props.planStatus
-                              ).THEMES_PARAMS.isNew()}
-                              onChange={this.themesHandler}
-                              onBlur={this.themesHandler}
-                            />
-                          </FormItem>
-                        </div>
-                      </Feature>
-                    </>
-                  )
-                })}
-                secondarySlot={customThemes.map((theme) => (
-                  <>
-                    <Feature
-                      isActive={Themes.features(
-                        this.props.planStatus
-                      ).THEMES_DESCRIPTION.isActive()}
-                    >
-                      <div className="draggable-item__param">
-                        <FormItem
-                          id="update-theme-description"
-                          label={
-                            locals[this.props.lang].global.description.label
-                          }
-                          isBlocked={Themes.features(
-                            this.props.planStatus
-                          ).THEMES_DESCRIPTION.isBlocked()}
-                        >
-                          <Input
-                            id="update-theme-description"
-                            type="LONG_TEXT"
-                            value={theme.description}
-                            placeholder={
-                              locals[this.props.lang].global.description
-                                .placeholder
-                            }
-                            feature="UPDATE_DESCRIPTION"
-                            isBlocked={Themes.features(
-                              this.props.planStatus
-                            ).THEMES_DESCRIPTION.isBlocked()}
-                            isNew={Themes.features(
-                              this.props.planStatus
-                            ).THEMES_DESCRIPTION.isNew()}
-                            isGrowing={true}
-                            onBlur={this.themesHandler}
-                          />
-                        </FormItem>
-                      </div>
-                    </Feature>
-                  </>
-                ))}
-                isScrollable={true}
-                onChangeSortableList={this.onChangeOrder}
-                onRemoveItem={this.themesHandler}
-                isBlocked={Themes.features(
-                  this.props.planStatus
-                ).THEMES.isBlocked()}
-              />
-            </>
-          )}
-        </div>
-      </div>
+                )}
+              </>
+            ),
+            typeModifier: 'LIST',
+          },
+        ]}
+        isFullHeight
+      />
     )
   }
 }

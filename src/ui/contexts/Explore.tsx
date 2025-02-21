@@ -6,6 +6,7 @@ import {
   Dropdown,
   DropdownOption,
   FormItem,
+  Layout,
   List,
   SemanticMessage,
   texts,
@@ -292,45 +293,51 @@ export default class Explore extends PureComponent<
   // Render
   render() {
     return (
-      <div
+      <Layout
         id="explore"
-        className="controls__control controls__control--horizontal"
-      >
-        <div className="controls__control">
-          <div className="control__block control__block--no-padding">
-            <Bar
-              leftPartSlot={
-                <FormItem
-                  id="explore-filters"
-                  label={
-                    locals[this.props.lang].source.colourLovers.filters.label
+        column={[
+          {
+            node: (
+              <>
+                <Bar
+                  leftPartSlot={
+                    <FormItem
+                      id="explore-filters"
+                      label={
+                        locals[this.props.lang].source.colourLovers.filters
+                          .label
+                      }
+                    >
+                      <Dropdown
+                        id="explore-filters"
+                        options={this.setFilters()}
+                        selected={
+                          this.props.activeFilters.includes('ANY') &&
+                          this.props.activeFilters.length > 1
+                            ? this.props.activeFilters
+                                .filter((filter) => filter !== 'ANY')
+                                .join(', ')
+                            : this.props.activeFilters.join(', ')
+                        }
+                        pin="TOP"
+                        isDisabled={
+                          this.state.colourLoversPalettesListStatus ===
+                            'LOADING' ||
+                          this.state.colourLoversPalettesListStatus === 'ERROR'
+                        }
+                      />
+                    </FormItem>
                   }
-                >
-                  <Dropdown
-                    id="explore-filters"
-                    options={this.setFilters()}
-                    selected={
-                      this.props.activeFilters.includes('ANY') &&
-                      this.props.activeFilters.length > 1
-                        ? this.props.activeFilters
-                            .filter((filter) => filter !== 'ANY')
-                            .join(', ')
-                        : this.props.activeFilters.join(', ')
-                    }
-                    pin="TOP"
-                    isDisabled={
-                      this.state.colourLoversPalettesListStatus === 'LOADING' ||
-                      this.state.colourLoversPalettesListStatus === 'ERROR'
-                    }
-                  />
-                </FormItem>
-              }
-              border={['BOTTOM']}
-            />
-            <this.ExternalSourceColorsList />
-          </div>
-        </div>
-      </div>
+                  border={['BOTTOM']}
+                />
+                <this.ExternalSourceColorsList />
+              </>
+            ),
+            typeModifier: 'BLANK',
+          },
+        ]}
+        isFullHeight
+      />
     )
   }
 }

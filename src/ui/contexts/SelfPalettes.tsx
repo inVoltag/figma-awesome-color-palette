@@ -604,54 +604,44 @@ export default class SelfPalettes extends PureComponent<
       )
 
     return (
-      <div className="controls__control">
-        <div
-          id="self"
-          className="control__block control__block--no-padding"
-        >
-          {this.props.status !== 'SIGN_IN_FIRST' &&
-            this.props.status !== 'EMPTY' && (
-              <Bar
-                soloPartSlot={
-                  <Input
-                    type="TEXT"
-                    icon={{
-                      type: 'PICTO',
-                      value: 'search',
-                    }}
-                    placeholder={
-                      locals[this.props.lang].palettes.lazyLoad.search
-                    }
-                    value={this.props.searchQuery}
-                    isClearable
-                    isFramed={false}
-                    onChange={(e) => {
-                      this.props.onChangeSearchQuery(
-                        (e.target as HTMLInputElement).value
-                      )
-                      this.props.onChangeStatus('LOADING')
-                      this.props.onChangeCurrentPage(1)
-                      this.props.onLoadPalettesList([])
-                      this.callUICPAgent(
-                        1,
-                        (e.target as HTMLInputElement).value
-                      )
-                    }}
-                    onClear={(e) => {
-                      this.props.onChangeSearchQuery(e)
-                      this.props.onChangeStatus('LOADING')
-                      this.props.onChangeCurrentPage(1)
-                      this.props.onLoadPalettesList([])
-                      this.callUICPAgent(1, e)
-                    }}
-                  />
-                }
-                border={['BOTTOM']}
-              />
-            )}
-          {fragment}
-        </div>
-      </div>
+      <>
+        {this.props.status !== 'SIGN_IN_FIRST' &&
+          this.props.status !== 'EMPTY' && (
+            <Bar
+              soloPartSlot={
+                <Input
+                  type="TEXT"
+                  icon={{
+                    type: 'PICTO',
+                    value: 'search',
+                  }}
+                  placeholder={locals[this.props.lang].palettes.lazyLoad.search}
+                  value={this.props.searchQuery}
+                  isClearable
+                  isFramed={false}
+                  onChange={(e) => {
+                    this.props.onChangeSearchQuery(
+                      (e.target as HTMLInputElement).value
+                    )
+                    this.props.onChangeStatus('LOADING')
+                    this.props.onChangeCurrentPage(1)
+                    this.props.onLoadPalettesList([])
+                    this.callUICPAgent(1, (e.target as HTMLInputElement).value)
+                  }}
+                  onClear={(e) => {
+                    this.props.onChangeSearchQuery(e)
+                    this.props.onChangeStatus('LOADING')
+                    this.props.onChangeCurrentPage(1)
+                    this.props.onLoadPalettesList([])
+                    this.callUICPAgent(1, e)
+                  }}
+                />
+              }
+              border={['BOTTOM']}
+            />
+          )}
+        {fragment}
+      </>
     )
   }
 }

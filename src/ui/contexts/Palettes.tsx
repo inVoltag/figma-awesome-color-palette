@@ -1,4 +1,10 @@
-import { Bar, ConsentConfiguration, HexModel, Tabs } from '@a_ng_d/figmug-ui'
+import {
+  Bar,
+  ConsentConfiguration,
+  HexModel,
+  Layout,
+  Tabs,
+} from '@a_ng_d/figmug-ui'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 
@@ -92,7 +98,7 @@ export default class Palettes extends PureComponent<
 
   // Render
   render() {
-    let fragment
+    let fragment: React.ReactElement = <div />
 
     switch (this.state.context) {
       case 'PALETTES_PAGE': {
@@ -155,7 +161,7 @@ export default class Palettes extends PureComponent<
       }
     }
     return (
-      <div className="controls__control">
+      <>
         <Bar
           leftPartSlot={
             <Tabs
@@ -167,10 +173,17 @@ export default class Palettes extends PureComponent<
           border={['BOTTOM']}
           isOnlyText={true}
         />
-        <div className="control__block control__block--no-padding">
-          {fragment}
-        </div>
-      </div>
+        <Layout
+          id="palettes"
+          column={[
+            {
+              node: fragment,
+              typeModifier: 'BLANK',
+            },
+          ]}
+          isFullHeight
+        />
+      </>
     )
   }
 }

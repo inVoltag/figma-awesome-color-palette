@@ -5,6 +5,7 @@ import {
   HexModel,
   Input,
   InputsBar,
+  Layout,
   layouts,
   SectionTitle,
   SemanticMessage,
@@ -552,335 +553,346 @@ export default class Colors extends PureComponent<ColorsProps, ColorsStates> {
   // Render
   render() {
     return (
-      <div className="controls__control">
-        <div
-          id="colors"
-          className="control__block control__block--list"
-        >
-          <div className="section-controls">
-            <div className="section-controls__left-part">
-              <SectionTitle
-                label={locals[this.props.lang].colors.title}
-                indicator={this.props.colors.length.toString()}
-              />
-            </div>
-            <div className="section-controls__right-part">
-              <Button
-                type="icon"
-                icon="plus"
-                feature="ADD_COLOR"
-                isBlocked={Colors.features(
-                  this.props.planStatus
-                ).COLORS.isReached(this.props.colors.length)}
-                action={(e: Event) => this.colorsHandler(e)}
-              />
-            </div>
-          </div>
-          {Colors.features(this.props.planStatus).COLORS.isReached(
-            this.props.colors.length
-          ) && (
-            <div
-              style={{
-                padding: 'var(--size-xxxsmall) var(--size-xsmall)',
-              }}
-            >
-              <SemanticMessage
-                type="INFO"
-                message={locals[
-                  this.props.lang
-                ].info.maxNumberOfSourceColors.replace(
-                  '$1',
-                  Colors.features(this.props.planStatus).COLORS.limit
-                )}
-                actionsSlot={
-                  <Button
-                    type="secondary"
-                    label={locals[this.props.lang].plan.getPro}
-                    action={() =>
-                      parent.postMessage(
-                        { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                        '*'
-                      )
-                    }
-                  />
-                }
-              />
-            </div>
-          )}
-          {this.props.colors.length === 0 ? (
-            <div className="callout--centered">
-              <SemanticMessage
-                type="NEUTRAL"
-                message={locals[this.props.lang].colors.callout.message}
-                orientation="VERTICAL"
-                actionsSlot={
-                  <Button
-                    type="primary"
-                    feature="ADD_COLOR"
-                    label={locals[this.props.lang].colors.callout.cta}
-                    action={(e: Event) => this.colorsHandler(e)}
-                  />
-                }
-              />
-            </div>
-          ) : (
-            <SortableList<ColorConfiguration>
-              data={this.props.colors}
-              primarySlot={this.props.colors.map((color) => {
-                const hex = chroma([
-                    color.rgb.r * 255,
-                    color.rgb.g * 255,
-                    color.rgb.b * 255,
-                  ]).hex(),
-                  lch = chroma([
-                    color.rgb.r * 255,
-                    color.rgb.g * 255,
-                    color.rgb.b * 255,
-                  ]).lch()
-
-                return (
-                  <>
-                    <Feature
-                      isActive={Colors.features(
+      <Layout
+        id="colors"
+        column={[
+          {
+            node: (
+              <>
+                <div className="section-controls">
+                  <div className="section-controls__left-part">
+                    <SectionTitle
+                      label={locals[this.props.lang].colors.title}
+                      indicator={this.props.colors.length.toString()}
+                    />
+                  </div>
+                  <div className="section-controls__right-part">
+                    <Button
+                      type="icon"
+                      icon="plus"
+                      feature="ADD_COLOR"
+                      isBlocked={Colors.features(
                         this.props.planStatus
-                      ).COLORS_NAME.isActive()}
-                    >
-                      <div className="draggable-item__param--compact">
-                        <Input
-                          type="TEXT"
-                          value={color.name}
-                          charactersLimit={24}
-                          feature="RENAME_COLOR"
-                          isBlocked={Colors.features(
-                            this.props.planStatus
-                          ).COLORS_NAME.isBlocked()}
-                          isNew={Colors.features(
-                            this.props.planStatus
-                          ).COLORS_NAME.isNew()}
-                          onBlur={this.colorsHandler}
-                        />
-                      </div>
-                    </Feature>
-                    <Feature
-                      isActive={Colors.features(
-                        this.props.planStatus
-                      ).COLORS_PARAMS.isActive()}
-                    >
-                      <>
-                        <div className="draggable-item__param--compact">
-                          <Input
-                            type="COLOR"
-                            value={hex}
-                            feature="UPDATE_HEX"
-                            isBlocked={Colors.features(
-                              this.props.planStatus
-                            ).COLORS_PARAMS.isBlocked()}
-                            isNew={Colors.features(
-                              this.props.planStatus
-                            ).COLORS_PARAMS.isNew()}
-                            onChange={this.colorsHandler}
-                            onBlur={this.colorsHandler}
-                          />
-                        </div>
-                        <InputsBar
-                          label={locals[this.props.lang].colors.lch.label}
-                          customClassName="draggable-item__param"
-                        >
-                          <Input
-                            type="NUMBER"
-                            value={lch[0].toFixed(0)}
-                            min="0"
-                            max="100"
-                            isBlocked={Colors.features(
-                              this.props.planStatus
-                            ).COLORS_PARAMS.isBlocked()}
-                            feature="UPDATE_LIGHTNESS"
-                            onBlur={this.colorsHandler}
-                            onShift={this.colorsHandler}
-                          />
-                          <Input
-                            type="NUMBER"
-                            value={lch[1].toFixed(0)}
-                            min="0"
-                            max="100"
-                            isBlocked={Colors.features(
-                              this.props.planStatus
-                            ).COLORS_PARAMS.isBlocked()}
-                            feature="UPDATE_CHROMA"
-                            onBlur={this.colorsHandler}
-                            onShift={this.colorsHandler}
-                          />
-                          <Input
-                            type="NUMBER"
-                            value={
-                              lch[2].toFixed(0) === 'NaN'
-                                ? '0'
-                                : lch[2].toFixed(0)
-                            }
-                            min="0"
-                            max="360"
-                            isBlocked={Colors.features(
-                              this.props.planStatus
-                            ).COLORS_PARAMS.isBlocked()}
-                            feature="UPDATE_HUE"
-                            onBlur={this.colorsHandler}
-                            onShift={this.colorsHandler}
-                          />
-                        </InputsBar>
-                      </>
-                    </Feature>
-                  </>
-                )
-              })}
-              secondarySlot={this.props.colors.map((color) => (
-                <>
-                  <Feature
-                    isActive={Colors.features(
-                      this.props.planStatus
-                    ).COLORS_HUE_SHIFTING.isActive()}
+                      ).COLORS.isReached(this.props.colors.length)}
+                      action={(e: Event) => this.colorsHandler(e)}
+                    />
+                  </div>
+                </div>
+                {Colors.features(this.props.planStatus).COLORS.isReached(
+                  this.props.colors.length
+                ) && (
+                  <div
+                    style={{
+                      padding: 'var(--size-xxxsmall) var(--size-xsmall)',
+                    }}
                   >
-                    <div className="draggable-item__param">
-                      <FormItem
-                        id="shift-hue"
-                        label={locals[this.props.lang].colors.hueShifting.label}
-                        isBlocked={Colors.features(
-                          this.props.planStatus
-                        ).COLORS_HUE_SHIFTING.isBlocked()}
-                      >
-                        <div className={layouts['snackbar--tight']}>
-                          <Input
-                            id="shift-hue"
-                            type="NUMBER"
-                            icon={{ type: 'LETTER', value: 'H' }}
-                            unit="°"
-                            value={
-                              color.hue.shift !== undefined
-                                ? color.hue.shift.toString()
-                                : '100'
-                            }
-                            min="-180"
-                            max="180"
-                            feature="SHIFT_HUE"
-                            isBlocked={Colors.features(
-                              this.props.planStatus
-                            ).COLORS_HUE_SHIFTING.isBlocked()}
-                            isNew={Colors.features(
-                              this.props.planStatus
-                            ).COLORS_HUE_SHIFTING.isNew()}
-                            onBlur={this.colorsHandler}
-                            onShift={this.colorsHandler}
-                          />
-                          {!Colors.features(
-                            this.props.planStatus
-                          ).COLORS_HUE_SHIFTING.isBlocked() && (
-                            <Button
-                              type="icon"
-                              icon="reset"
-                              feature="RESET_HUE"
-                              isDisabled={!color.hue.isLocked}
-                              action={this.colorsHandler}
-                            />
-                          )}
-                        </div>
-                      </FormItem>
-                    </div>
-                  </Feature>
-                  <Feature
-                    isActive={Colors.features(
-                      this.props.planStatus
-                    ).COLORS_CHROMA_SHIFTING.isActive()}
-                  >
-                    <div className="draggable-item__param">
-                      <FormItem
-                        id="shift-chroma"
-                        label={
-                          locals[this.props.lang].colors.chromaShifting.label
-                        }
-                        isBlocked={Colors.features(
-                          this.props.planStatus
-                        ).COLORS_CHROMA_SHIFTING.isBlocked()}
-                      >
-                        <div className={layouts['snackbar--tight']}>
-                          <Input
-                            id="shift-chroma"
-                            type="NUMBER"
-                            icon={{ type: 'LETTER', value: 'C' }}
-                            unit="%"
-                            value={
-                              color.chroma.shift !== undefined
-                                ? color.chroma.shift.toString()
-                                : '100'
-                            }
-                            min="0"
-                            max="200"
-                            feature="SHIFT_CHROMA"
-                            isBlocked={Colors.features(
-                              this.props.planStatus
-                            ).COLORS_CHROMA_SHIFTING.isBlocked()}
-                            isNew={Colors.features(
-                              this.props.planStatus
-                            ).COLORS_CHROMA_SHIFTING.isNew()}
-                            onBlur={this.colorsHandler}
-                            onShift={this.colorsHandler}
-                          />
-                          {!Colors.features(
-                            this.props.planStatus
-                          ).COLORS_CHROMA_SHIFTING.isBlocked() && (
-                            <Button
-                              type="icon"
-                              icon="reset"
-                              feature="RESET_CHROMA"
-                              isDisabled={!color.chroma.isLocked}
-                              action={this.colorsHandler}
-                            />
-                          )}
-                        </div>
-                      </FormItem>
-                    </div>
-                  </Feature>
-                  <Feature
-                    isActive={Colors.features(
-                      this.props.planStatus
-                    ).COLORS_DESCRIPTION.isActive()}
-                  >
-                    <div className="draggable-item__param">
-                      <FormItem
-                        id="update-color-description"
-                        label={locals[this.props.lang].global.description.label}
-                        isBlocked={Colors.features(
-                          this.props.planStatus
-                        ).COLORS_DESCRIPTION.isBlocked()}
-                      >
-                        <Input
-                          id="update-color-description"
-                          type="LONG_TEXT"
-                          value={color.description}
-                          placeholder={
-                            locals[this.props.lang].global.description
-                              .placeholder
+                    <SemanticMessage
+                      type="INFO"
+                      message={locals[
+                        this.props.lang
+                      ].info.maxNumberOfSourceColors.replace(
+                        '$1',
+                        Colors.features(this.props.planStatus).COLORS.limit
+                      )}
+                      actionsSlot={
+                        <Button
+                          type="secondary"
+                          label={locals[this.props.lang].plan.getPro}
+                          action={() =>
+                            parent.postMessage(
+                              { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                              '*'
+                            )
                           }
-                          feature="UPDATE_DESCRIPTION"
-                          isBlocked={Colors.features(
-                            this.props.planStatus
-                          ).COLORS_DESCRIPTION.isBlocked()}
-                          isNew={Colors.features(
-                            this.props.planStatus
-                          ).COLORS_DESCRIPTION.isNew()}
-                          isGrowing={true}
-                          onBlur={this.colorsHandler}
                         />
-                      </FormItem>
-                    </div>
-                  </Feature>
-                </>
-              ))}
-              isScrollable={true}
-              onChangeSortableList={this.onChangeOrder}
-              onRemoveItem={this.colorsHandler}
-            />
-          )}
-        </div>
-      </div>
+                      }
+                    />
+                  </div>
+                )}
+                {this.props.colors.length === 0 ? (
+                  <div className="callout--centered">
+                    <SemanticMessage
+                      type="NEUTRAL"
+                      message={locals[this.props.lang].colors.callout.message}
+                      orientation="VERTICAL"
+                      actionsSlot={
+                        <Button
+                          type="primary"
+                          feature="ADD_COLOR"
+                          label={locals[this.props.lang].colors.callout.cta}
+                          action={(e: Event) => this.colorsHandler(e)}
+                        />
+                      }
+                    />
+                  </div>
+                ) : (
+                  <SortableList<ColorConfiguration>
+                    data={this.props.colors}
+                    primarySlot={this.props.colors.map((color) => {
+                      const hex = chroma([
+                          color.rgb.r * 255,
+                          color.rgb.g * 255,
+                          color.rgb.b * 255,
+                        ]).hex(),
+                        lch = chroma([
+                          color.rgb.r * 255,
+                          color.rgb.g * 255,
+                          color.rgb.b * 255,
+                        ]).lch()
+
+                      return (
+                        <>
+                          <Feature
+                            isActive={Colors.features(
+                              this.props.planStatus
+                            ).COLORS_NAME.isActive()}
+                          >
+                            <div className="draggable-item__param--compact">
+                              <Input
+                                type="TEXT"
+                                value={color.name}
+                                charactersLimit={24}
+                                feature="RENAME_COLOR"
+                                isBlocked={Colors.features(
+                                  this.props.planStatus
+                                ).COLORS_NAME.isBlocked()}
+                                isNew={Colors.features(
+                                  this.props.planStatus
+                                ).COLORS_NAME.isNew()}
+                                onBlur={this.colorsHandler}
+                              />
+                            </div>
+                          </Feature>
+                          <Feature
+                            isActive={Colors.features(
+                              this.props.planStatus
+                            ).COLORS_PARAMS.isActive()}
+                          >
+                            <>
+                              <div className="draggable-item__param--compact">
+                                <Input
+                                  type="COLOR"
+                                  value={hex}
+                                  feature="UPDATE_HEX"
+                                  isBlocked={Colors.features(
+                                    this.props.planStatus
+                                  ).COLORS_PARAMS.isBlocked()}
+                                  isNew={Colors.features(
+                                    this.props.planStatus
+                                  ).COLORS_PARAMS.isNew()}
+                                  onChange={this.colorsHandler}
+                                  onBlur={this.colorsHandler}
+                                />
+                              </div>
+                              <InputsBar
+                                label={locals[this.props.lang].colors.lch.label}
+                                customClassName="draggable-item__param"
+                              >
+                                <Input
+                                  type="NUMBER"
+                                  value={lch[0].toFixed(0)}
+                                  min="0"
+                                  max="100"
+                                  isBlocked={Colors.features(
+                                    this.props.planStatus
+                                  ).COLORS_PARAMS.isBlocked()}
+                                  feature="UPDATE_LIGHTNESS"
+                                  onBlur={this.colorsHandler}
+                                  onShift={this.colorsHandler}
+                                />
+                                <Input
+                                  type="NUMBER"
+                                  value={lch[1].toFixed(0)}
+                                  min="0"
+                                  max="100"
+                                  isBlocked={Colors.features(
+                                    this.props.planStatus
+                                  ).COLORS_PARAMS.isBlocked()}
+                                  feature="UPDATE_CHROMA"
+                                  onBlur={this.colorsHandler}
+                                  onShift={this.colorsHandler}
+                                />
+                                <Input
+                                  type="NUMBER"
+                                  value={
+                                    lch[2].toFixed(0) === 'NaN'
+                                      ? '0'
+                                      : lch[2].toFixed(0)
+                                  }
+                                  min="0"
+                                  max="360"
+                                  isBlocked={Colors.features(
+                                    this.props.planStatus
+                                  ).COLORS_PARAMS.isBlocked()}
+                                  feature="UPDATE_HUE"
+                                  onBlur={this.colorsHandler}
+                                  onShift={this.colorsHandler}
+                                />
+                              </InputsBar>
+                            </>
+                          </Feature>
+                        </>
+                      )
+                    })}
+                    secondarySlot={this.props.colors.map((color) => (
+                      <>
+                        <Feature
+                          isActive={Colors.features(
+                            this.props.planStatus
+                          ).COLORS_HUE_SHIFTING.isActive()}
+                        >
+                          <div className="draggable-item__param">
+                            <FormItem
+                              id="shift-hue"
+                              label={
+                                locals[this.props.lang].colors.hueShifting.label
+                              }
+                              isBlocked={Colors.features(
+                                this.props.planStatus
+                              ).COLORS_HUE_SHIFTING.isBlocked()}
+                            >
+                              <div className={layouts['snackbar--tight']}>
+                                <Input
+                                  id="shift-hue"
+                                  type="NUMBER"
+                                  icon={{ type: 'LETTER', value: 'H' }}
+                                  unit="°"
+                                  value={
+                                    color.hue.shift !== undefined
+                                      ? color.hue.shift.toString()
+                                      : '100'
+                                  }
+                                  min="-180"
+                                  max="180"
+                                  feature="SHIFT_HUE"
+                                  isBlocked={Colors.features(
+                                    this.props.planStatus
+                                  ).COLORS_HUE_SHIFTING.isBlocked()}
+                                  isNew={Colors.features(
+                                    this.props.planStatus
+                                  ).COLORS_HUE_SHIFTING.isNew()}
+                                  onBlur={this.colorsHandler}
+                                  onShift={this.colorsHandler}
+                                />
+                                {!Colors.features(
+                                  this.props.planStatus
+                                ).COLORS_HUE_SHIFTING.isBlocked() && (
+                                  <Button
+                                    type="icon"
+                                    icon="reset"
+                                    feature="RESET_HUE"
+                                    isDisabled={!color.hue.isLocked}
+                                    action={this.colorsHandler}
+                                  />
+                                )}
+                              </div>
+                            </FormItem>
+                          </div>
+                        </Feature>
+                        <Feature
+                          isActive={Colors.features(
+                            this.props.planStatus
+                          ).COLORS_CHROMA_SHIFTING.isActive()}
+                        >
+                          <div className="draggable-item__param">
+                            <FormItem
+                              id="shift-chroma"
+                              label={
+                                locals[this.props.lang].colors.chromaShifting
+                                  .label
+                              }
+                              isBlocked={Colors.features(
+                                this.props.planStatus
+                              ).COLORS_CHROMA_SHIFTING.isBlocked()}
+                            >
+                              <div className={layouts['snackbar--tight']}>
+                                <Input
+                                  id="shift-chroma"
+                                  type="NUMBER"
+                                  icon={{ type: 'LETTER', value: 'C' }}
+                                  unit="%"
+                                  value={
+                                    color.chroma.shift !== undefined
+                                      ? color.chroma.shift.toString()
+                                      : '100'
+                                  }
+                                  min="0"
+                                  max="200"
+                                  feature="SHIFT_CHROMA"
+                                  isBlocked={Colors.features(
+                                    this.props.planStatus
+                                  ).COLORS_CHROMA_SHIFTING.isBlocked()}
+                                  isNew={Colors.features(
+                                    this.props.planStatus
+                                  ).COLORS_CHROMA_SHIFTING.isNew()}
+                                  onBlur={this.colorsHandler}
+                                  onShift={this.colorsHandler}
+                                />
+                                {!Colors.features(
+                                  this.props.planStatus
+                                ).COLORS_CHROMA_SHIFTING.isBlocked() && (
+                                  <Button
+                                    type="icon"
+                                    icon="reset"
+                                    feature="RESET_CHROMA"
+                                    isDisabled={!color.chroma.isLocked}
+                                    action={this.colorsHandler}
+                                  />
+                                )}
+                              </div>
+                            </FormItem>
+                          </div>
+                        </Feature>
+                        <Feature
+                          isActive={Colors.features(
+                            this.props.planStatus
+                          ).COLORS_DESCRIPTION.isActive()}
+                        >
+                          <div className="draggable-item__param">
+                            <FormItem
+                              id="update-color-description"
+                              label={
+                                locals[this.props.lang].global.description.label
+                              }
+                              isBlocked={Colors.features(
+                                this.props.planStatus
+                              ).COLORS_DESCRIPTION.isBlocked()}
+                            >
+                              <Input
+                                id="update-color-description"
+                                type="LONG_TEXT"
+                                value={color.description}
+                                placeholder={
+                                  locals[this.props.lang].global.description
+                                    .placeholder
+                                }
+                                feature="UPDATE_DESCRIPTION"
+                                isBlocked={Colors.features(
+                                  this.props.planStatus
+                                ).COLORS_DESCRIPTION.isBlocked()}
+                                isNew={Colors.features(
+                                  this.props.planStatus
+                                ).COLORS_DESCRIPTION.isNew()}
+                                isGrowing={true}
+                                onBlur={this.colorsHandler}
+                              />
+                            </FormItem>
+                          </div>
+                        </Feature>
+                      </>
+                    ))}
+                    isScrollable={true}
+                    onChangeSortableList={this.onChangeOrder}
+                    onRemoveItem={this.colorsHandler}
+                  />
+                )}
+              </>
+            ),
+            typeModifier: 'LIST',
+          },
+        ]}
+        isFullHeight
+      />
     )
   }
 }

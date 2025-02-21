@@ -75,60 +75,6 @@ section.controller {
   overflow: hidden;
 }
 
-div.controls {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-div.controls__control {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: flex-start;
-  overflow: hidden;
-}
-
-div.controls__control--horizontal {
-  flex-direction: row;
-}
-
-div.control__block {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: var(--size-xxsmall) 0;
-  overflow-y: auto;
-}
-
-div.control__block--list {
-  padding: var(--size-xxsmall) 0 0 0;
-}
-
-div.control__block--no-padding {
-  padding: 0;
-}
-
-div.control__block--distributed {
-  justify-content: space-between;
-  gap: var(--size-small);
-  overflow-y: hidden;
-}
-
-div.controls__control--horizontal div.control__block {
-  align-self: stretch;
-}
-
-div.controls__control--horizontal .control__block + .control__block {
-  border-left: 1px solid var(--figma-color-border-disabled);
-}
-
-div.control__block__loader {
-  margin: auto;
-}
-
 div.section-controls {
   display: flex;
   justify-content: space-between;
@@ -161,42 +107,6 @@ div.export-palette__preview {
 div.export-palette__preview textarea {
   margin: 0;
   height: 100% !important;
-}
-
-/* About */
-div.about {
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: var(--size-xsmall) var(--size-small);
-}
-
-div.about > div {
-  display: flex;
-  flex-direction: column;
-  gap: var(--size-xxsmall);
-}
-
-div.about p {
-  margin: 0;
-}
-
-div.about__basic {
-  display: flex;
-  align-items: center;
-  gap: var(--size-xsmall);
-}
-
-div.about__info {
-  display: flex;
-  align-items: center;
-  color: var(--figma-color-text);
-}
-
-div.about__links {
-  display: flex;
-  align-items: center;
-  color: var(--figma-color-text);
 }
 
 @media (max-width: 460px) {

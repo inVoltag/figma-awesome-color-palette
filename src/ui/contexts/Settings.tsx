@@ -1,4 +1,10 @@
-import { Bar, ConsentConfiguration, HexModel, Tabs } from '@a_ng_d/figmug-ui'
+import {
+  Bar,
+  ConsentConfiguration,
+  HexModel,
+  Layout,
+  Tabs,
+} from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
@@ -61,7 +67,10 @@ interface SettingsStates {
   canPaletteDeepSync: boolean
 }
 
-export default class Settings extends PureComponent<SettingsProps, SettingsStates> {
+export default class Settings extends PureComponent<
+  SettingsProps,
+  SettingsStates
+> {
   private settingsMessage: SettingsMessage
   private dispatch: { [key: string]: DispatchProcess }
   private contexts: Array<ContextItem>
@@ -562,17 +571,25 @@ export default class Settings extends PureComponent<SettingsProps, SettingsState
             isOnlyText={true}
           />
         )}
-        <div className="controls__control">
-          <div
-            id="settings"
-            className="control__block control__block--no-padding"
-          >
-            {this.state.context === 'SETTINGS_PALETTE' && <this.Palette />}
-            {this.state.context === 'SETTINGS_PREFERENCES' && (
-              <this.Preferences />
-            )}
-          </div>
-        </div>
+        <Layout
+          id="settings"
+          column={[
+            {
+              node: (
+                <>
+                  {this.state.context === 'SETTINGS_PALETTE' && (
+                    <this.Palette />
+                  )}
+                  {this.state.context === 'SETTINGS_PREFERENCES' && (
+                    <this.Preferences />
+                  )}
+                </>
+              ),
+              typeModifier: 'BLANK',
+            },
+          ]}
+          isFullHeight
+        />
       </>
     )
   }

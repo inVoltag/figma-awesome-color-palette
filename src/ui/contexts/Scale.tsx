@@ -993,73 +993,83 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           })
         }
       >
-        <div className="controls__control controls__control--horizontal">
-          <div className="control__block control__block--no-padding">
-            <List>
-              <KeyboardShortcutItem
-                label={locals[this.props.lang].scale.tips.move}
-                shortcuts={[[isMacOrWinKeyboard, 'drag']]}
-              />
-              <KeyboardShortcutItem
-                label={locals[this.props.lang].scale.tips.distribute}
-                shortcuts={[['⇧', 'drag']]}
-              />
-              <KeyboardShortcutItem
-                label={locals[this.props.lang].scale.tips.select}
-                shortcuts={[['click']]}
-              />
-              <KeyboardShortcutItem
-                label={locals[this.props.lang].scale.tips.unselect}
-                shortcuts={[['⎋ Esc']]}
-              />
-              <KeyboardShortcutItem
-                label={locals[this.props.lang].scale.tips.navPrevious}
-                shortcuts={[['⇧', '⇥ Tab']]}
-              />
-              <KeyboardShortcutItem
-                label={locals[this.props.lang].scale.tips.navNext}
-                shortcuts={[['⇥ Tab']]}
-              />
-              <KeyboardShortcutItem
-                label={locals[this.props.lang].scale.tips.type}
-                shortcuts={[['db click'], ['↩︎ Enter']]}
-                separator="or"
-              />
-              <KeyboardShortcutItem
-                label={locals[this.props.lang].scale.tips.shiftLeft}
-                shortcuts={[['←'], [isMacOrWinKeyboard, '←']]}
-                separator="or"
-              />
-              <KeyboardShortcutItem
-                label={locals[this.props.lang].scale.tips.shiftRight}
-                shortcuts={[['→'], [isMacOrWinKeyboard, '→']]}
-                separator="or"
-              />
-            </List>
-          </div>
-          {!this.props.hasPreset && (
-            <div className="control__block control__block--list">
-              <div className="section-controls">
-                <div className="section-controls__left-part">
-                  <SectionTitle
-                    label={locals[this.props.lang].scale.tips.custom}
+        <Layout
+          id="keyboard-shortcuts"
+          column={[
+            {
+              node: (
+                <List>
+                  <KeyboardShortcutItem
+                    label={locals[this.props.lang].scale.tips.move}
+                    shortcuts={[[isMacOrWinKeyboard, 'drag']]}
                   />
-                </div>
-                <div className="section-controls__right-part"></div>
-              </div>
-              <List>
-                <KeyboardShortcutItem
-                  label={locals[this.props.lang].scale.tips.add}
-                  shortcuts={[['click']]}
-                />
-                <KeyboardShortcutItem
-                  label={locals[this.props.lang].scale.tips.remove}
-                  shortcuts={[['⌫']]}
-                />
-              </List>
-            </div>
-          )}
-        </div>
+                  <KeyboardShortcutItem
+                    label={locals[this.props.lang].scale.tips.distribute}
+                    shortcuts={[['⇧', 'drag']]}
+                  />
+                  <KeyboardShortcutItem
+                    label={locals[this.props.lang].scale.tips.select}
+                    shortcuts={[['click']]}
+                  />
+                  <KeyboardShortcutItem
+                    label={locals[this.props.lang].scale.tips.unselect}
+                    shortcuts={[['⎋ Esc']]}
+                  />
+                  <KeyboardShortcutItem
+                    label={locals[this.props.lang].scale.tips.navPrevious}
+                    shortcuts={[['⇧', '⇥ Tab']]}
+                  />
+                  <KeyboardShortcutItem
+                    label={locals[this.props.lang].scale.tips.navNext}
+                    shortcuts={[['⇥ Tab']]}
+                  />
+                  <KeyboardShortcutItem
+                    label={locals[this.props.lang].scale.tips.type}
+                    shortcuts={[['db click'], ['↩︎ Enter']]}
+                    separator="or"
+                  />
+                  <KeyboardShortcutItem
+                    label={locals[this.props.lang].scale.tips.shiftLeft}
+                    shortcuts={[['←'], [isMacOrWinKeyboard, '←']]}
+                    separator="or"
+                  />
+                  <KeyboardShortcutItem
+                    label={locals[this.props.lang].scale.tips.shiftRight}
+                    shortcuts={[['→'], [isMacOrWinKeyboard, '→']]}
+                    separator="or"
+                  />
+                </List>
+              ),
+              typeModifier: 'BLANK',
+            },
+            {
+              node: !this.props.hasPreset ? (
+                <>
+                  <div className="section-controls">
+                    <div className="section-controls__left-part">
+                      <SectionTitle
+                        label={locals[this.props.lang].scale.tips.custom}
+                      />
+                    </div>
+                    <div className="section-controls__right-part"></div>
+                  </div>
+                  <List>
+                    <KeyboardShortcutItem
+                      label={locals[this.props.lang].scale.tips.add}
+                      shortcuts={[['click']]}
+                    />
+                    <KeyboardShortcutItem
+                      label={locals[this.props.lang].scale.tips.remove}
+                      shortcuts={[['⌫']]}
+                    />
+                  </List>
+                </>
+              ) : undefined,
+              typeModifier: 'LIST',
+            },
+          ]}
+          isFullWidth
+        />
       </Dialog>,
       document.getElementById('modal') ?? document.createElement('app')
     )

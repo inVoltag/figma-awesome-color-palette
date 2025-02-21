@@ -4,11 +4,12 @@
   position: absolute;
   right: 0;
   bottom: 0;
-  justify-content: center;
-  align-items: center;
+  justify-content: end;
+  align-items: end;
   cursor: nwse-resize;
-  width: 20px;
-  height: 20px;
+  width: var(--size-small);
+  height: 100%;
+  padding: var(--size-xxxsmall);
 }
 
 /* List */
